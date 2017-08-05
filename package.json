@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "build": "electron-packager . halo"
   },
   "repository": "https://github.com/owlaford/electron-halo",
   "keywords": [
@@ -19,6 +20,8 @@
   "author": "OwlAford",
   "license": "MIT",
   "devDependencies": {
-    "electron": "~1.6.2"
+    "electron": "~1.6.2",
+    "electron-builder": "^19.19.1",
+    "electron-packager": "^8.7.2"
   }
 }
