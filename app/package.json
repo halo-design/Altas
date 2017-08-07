@@ -2,7 +2,7 @@
   "name": "electron-halo",
   "version": "1.0.0",
   "description": "A Electron application",
-  "main": "app/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron ./app",
     "pack": "electron-packager ./app halo",
