@@ -1,1 +1,16 @@
-node_modules
+.idea
+.DS_Store
+node_modules/
+sample/
+dist/
+mirror/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+selenium-debug.log
+
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

@@ -1,21 +1,26 @@
 {
-  "name": "electron-halo",
+  "name": "electron-altas",
   "version": "1.0.0",
   "description": "A Electron application",
-  "main": "app/main.js",
+  "main": "main.js",
   "scripts": {
-    "start": "electron ./app",
-    "pack": "electron-packager ./app halo",
-    "build": "electron-packager ./app halo --all --out ./HaloApp --version 1.0.0 --overwrite --icon=./app/favicon.ico"
+    "start": "electron .",
+    "pack": "electron-packager . Altas",
+    "build": "electron-packager . Altas --platform=darwin --arch=x64 --out ./dist --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
+    "dmg": "electron-installer-dmg ./dist/Altas-darwin-x64/Altas.app Altas --out=mirror --icon=./app/favicon.icns --overwrite"
   },
-  "repository": "https://github.com/owlaford/electron-halo",
+  "repository": "https://github.com/owlaford/Altas",
   "keywords": [
     "Electron"
   ],
   "author": "OwlAford",
   "license": "MIT",
+  "engines": {
+    "node": ">=8"
+  },
   "devDependencies": {
-    "electron": "~1.6.2",
-    "electron-packager": "^8.7.2"
+    "electron": "^4.0.0",
+    "electron-installer-dmg": "^2.0.0",
+    "electron-packager": "^13.0.1"
   }
 }
