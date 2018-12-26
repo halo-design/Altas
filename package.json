@@ -4,6 +4,8 @@
   "description": "A Electron application",
   "main": "main.js",
   "scripts": {
+    "dev": "parcel app/es/entry.js --out-dir app/js --target electron",
+    "compile": "rm -rf app/js && parcel build app/es/entry.js --out-dir app/js --no-source-maps --target electron",
     "start": "electron .",
     "pack": "electron-packager . Altas",
     "build": "electron-packager . Altas --platform=darwin --arch=x64 --out ./dist --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
@@ -19,8 +21,17 @@
     "node": ">=8"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
     "electron": "^4.0.0",
     "electron-installer-dmg": "^2.0.0",
-    "electron-packager": "^13.0.1"
+    "electron-packager": "^13.0.1",
+    "node-sass": "^4.11.0",
+    "parcel-bundler": "^1.11.0"
+  },
+  "dependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   }
 }
