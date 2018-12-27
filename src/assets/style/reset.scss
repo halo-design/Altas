@@ -1,0 +1,17 @@
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  -webkit-app-region: drag;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+}
+
+button, a, input, textarea {
+  // https://electronjs.org/docs/api/frameless-window
+  -webkit-app-region: no-drag;
+}

@@ -5,8 +5,7 @@ node_modules/
 sample/
 dist/
 mirror/
-app/css/
-app/js/
+app/static/
 
 npm-debug.log*
 yarn-debug.log*

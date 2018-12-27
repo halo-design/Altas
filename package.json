@@ -1,14 +1,14 @@
 {
   "name": "electron-altas",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A Electron application",
   "main": "main.js",
   "scripts": {
     "dev": "parcel src/core/index.tsx --out-dir app/static --target electron",
-    "compile": "rm -rf app/js && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
+    "build": "rm -rf app/js && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
     "start": "electron .",
     "pack": "electron-packager . Altas",
-    "build": "electron-packager . Altas --platform=darwin --arch=x64 --out ./dist --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
+    "compile": "electron-packager . Altas --platform=darwin --arch=x64 --out ./dist --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
     "dmg": "electron-installer-dmg ./dist/Altas-darwin-x64/Altas.app Altas --out=mirror --icon=./app/favicon.icns --overwrite"
   },
   "repository": "https://github.com/owlaford/Altas",
@@ -32,6 +32,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "electron-window-state": "^5.0.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
   }
