@@ -58,6 +58,7 @@ function createWindow () {
     mainWindow = null
   })
 
+  // 检查更新
   ipcMain.on('check-update', (event, arg) => {
     isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.js'))
     if (!isTmpEmpty) {
@@ -77,6 +78,7 @@ function createWindow () {
     })
   })
 
+  // 获取更新
   ipcMain.on('get-update-cache', (event, arg) => {
     if (downloading) {
       return
@@ -94,6 +96,7 @@ function createWindow () {
     })
   })
 
+  // 重新加载页面以完成更新
   ipcMain.on('reload-window', (event, arg) => {
     mainWindow.destroy()
     fs.emptyDirSync(appDir)
@@ -102,6 +105,7 @@ function createWindow () {
     createWindow()
   })
 
+  // 查看更新日志
   ipcMain.on('read-changelog', (event, arg) => {
     event.sender.send('get-changelog', JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'))))
   })
