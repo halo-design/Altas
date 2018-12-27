@@ -12,7 +12,7 @@ const localVersion = require('./version.json')
 let remoteVersion = {}
 
 const tmpDir = path.join(__dirname, './tmp')
-const appDir = path.join(__dirname, './app')
+const appDir = path.join(__dirname, './app/static')
 let isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.html'))
 
 const remoteAppUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/app.zip'
@@ -83,7 +83,8 @@ function createWindow () {
     fs.emptyDirSync(tmpDir)
     downloading = true
     remote.downloadRepoZip(remoteAppUri, tmpDir).then(path => {
-      fs.writeFileSync(path.join(__dirname, './version.json'), JSON.stringify(remoteVersion, null, 2))
+      fs.writeFileSync('version.json', JSON.stringify(remoteVersion, null, 2), 'utf8')
+
       console.log('已下载好最新更新！')
       downloading = false
       event.sender.send('get-update-state', 'ready-to-reload')

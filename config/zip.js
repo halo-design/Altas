@@ -20,5 +20,5 @@ output.on('end', () => {
 
 archive.pipe(output)
 
-archive.directory(path.join(__dirname, '../app'), false)
+archive.directory(path.join(__dirname, '../app/static'), false)
 archive.finalize()

@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "dev": "parcel src/core/index.tsx --out-dir app/static --target electron",
-    "build": "rm -rf app/js && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
+    "build": "rm -rf app/static && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
     "start": "electron .",
     "pack": "electron-packager . Altas",
     "zip": "node ./config/zip",
