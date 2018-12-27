@@ -8,12 +8,11 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs-extra')
 
-const localVersion = require('./version.json')
 let remoteVersion = {}
 
 const tmpDir = path.join(__dirname, './tmp')
 const appDir = path.join(__dirname, './app/static')
-let isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.html'))
+let isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.js'))
 
 const remoteAppUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/app.zip'
 const remoteVersionUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/version.json'
@@ -60,7 +59,7 @@ function createWindow () {
   })
 
   ipcMain.on('check-update', (event, arg) => {
-    isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.html'))
+    isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.js'))
     if (!isTmpEmpty) {
       console.log('更新下载完成，重启以更新！')
       event.sender.send('get-update-state', 'ready-to-reload')
@@ -68,8 +67,10 @@ function createWindow () {
     }
     remote.getRemoteJson(remoteVersionUri).then(data => {
       remoteVersion = data
+      const localVersion = JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json')))
       const isNeedUpdate = semver.gt(remoteVersion.version, localVersion.version)
       if (isNeedUpdate) {
+        console.log(localVersion)
         console.log('检查到有最新更新！')
       }
       event.sender.send('get-update-state', isNeedUpdate ? 'need-to-download' : 'already-latest')
@@ -99,6 +100,10 @@ function createWindow () {
     fs.copySync(tmpDir, appDir)
     fs.emptyDirSync(tmpDir)
     createWindow()
+  })
+
+  ipcMain.on('read-changelog', (event, arg) => {
+    event.sender.send('get-changelog', JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'))))
   })
 }
 

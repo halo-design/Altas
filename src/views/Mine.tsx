@@ -15,6 +15,11 @@ class MineView extends React.Component {
     ipcRenderer.send('get-update-cache');
   };
 
+  public showChangelog = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    ipcRenderer.send('read-changelog');
+  };
+
   public reloadWindow = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     ipcRenderer.send('reload-window');
@@ -27,10 +32,15 @@ class MineView extends React.Component {
         updateStste: arg
       });
     });
+
+    ipcRenderer.on('get-changelog', (event: any, arg: object) => {
+      console.log(arg)
+    });
   };
 
   public componentWillUnmount () {
     ipcRenderer.removeListener('get-update-state', () => {})
+    ipcRenderer.removeListener('get-changelog', () => {})
   };
 
   public render() {
@@ -40,7 +50,8 @@ class MineView extends React.Component {
       { updateStste === 'need-to-download' && <button onClick={this.downloadUpdate}>点击升级</button> }
       { updateStste === 'ready-to-reload' && <button onClick={this.reloadWindow}>点击重启以更新</button> }
       { updateStste === 'already-latest' && <div>已是最新版本</div> }
-      </div>;
+      <button onClick={this.showChangelog}>点击查看更新日志</button>
+    </div>;
   };
 }
 

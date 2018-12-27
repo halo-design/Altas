@@ -1,4 +1,11 @@
 {
   "name": "altas",
-  "version": "0.0.2"
+  "version": "0.0.2",
+  "manifest": [{
+    "version": "0.0.1",
+    "details": ["发布第一个版本"]
+  }, {
+    "version": "0.0.2",
+    "details": ["修复了一些细节问题"]
+  }]
 }
