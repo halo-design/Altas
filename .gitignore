@@ -3,9 +3,9 @@
 .cache
 node_modules/
 sample/
-dist/
-mirror/
-app/static/
+bin/
+installer/
+tmp/
 
 npm-debug.log*
 yarn-debug.log*

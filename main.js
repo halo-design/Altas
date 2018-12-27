@@ -1,8 +1,12 @@
-const { app, BrowserWindow } = require('electron')
+const electron = require('electron')
+const { app, BrowserWindow } = electron
 const windowStateKeeper = require('electron-window-state')
+const download = require('download-git-repo')
 
 const path = require('path')
 const url = require('url')
+const localPkg = require('./package.json')
+const tmpDir = path.join(__dirname, './tmp')
 const appIcon = `${__dirname}/app/resource/dock.png`
 
 let mainWindow
@@ -37,14 +41,9 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   })
 }
@@ -52,18 +51,21 @@ function createWindow () {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
   }
 })
 
+download('halo-design/Altas', tmpDir, err => {
+  console.log(err ? 'Error' : 'Success')
+})
+
+download('direct:https://raw.githubusercontent.com/halo-design/Altas/master/app.zip', tmpDir, err => {
+  console.log(err ? 'Error' : 'Success')
+})

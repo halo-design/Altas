@@ -8,13 +8,16 @@
     "build": "rm -rf app/js && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
     "start": "electron .",
     "pack": "electron-packager . Altas",
-    "compile": "electron-packager . Altas --platform=darwin --arch=x64 --out ./dist --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
-    "dmg": "electron-installer-dmg ./dist/Altas-darwin-x64/Altas.app Altas --out=mirror --icon=./app/favicon.icns --overwrite"
+    "compile": "electron-packager . Altas --platform=darwin --arch=x64 --out ./bin --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
+    "dmg": "electron-installer-dmg ./bin/Altas-darwin-x64/Altas.app Altas --out=installer --icon=./app/favicon.icns --overwrite"
   },
-  "repository": "https://github.com/owlaford/Altas",
   "keywords": [
     "Electron"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owlaford/Altas.git"
+  },
   "author": "OwlAford",
   "license": "MIT",
   "engines": {
@@ -32,6 +35,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "download-git-repo": "^1.1.0",
     "electron-window-state": "^5.0.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
