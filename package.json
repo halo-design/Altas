@@ -4,8 +4,8 @@
   "description": "A Electron application",
   "main": "main.js",
   "scripts": {
-    "dev": "parcel app/es/entry.js --out-dir app/js --target electron",
-    "compile": "rm -rf app/js && parcel build app/es/entry.js --out-dir app/js --no-source-maps --target electron",
+    "dev": "parcel src/core/index.tsx --out-dir app/static --target electron",
+    "compile": "rm -rf app/js && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
     "start": "electron .",
     "pack": "electron-packager . Altas",
     "build": "electron-packager . Altas --platform=darwin --arch=x64 --out ./dist --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
@@ -28,7 +28,8 @@
     "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^13.0.1",
     "node-sass": "^4.11.0",
-    "parcel-bundler": "^1.11.0"
+    "parcel-bundler": "^1.11.0",
+    "typescript": "^3.2.2"
   },
   "dependencies": {
     "react": "^16.7.0",
