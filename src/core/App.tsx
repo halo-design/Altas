@@ -1,14 +1,24 @@
-import * as React from "react";
+import * as React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Sidebar from '../layouts/Sidebar';
+import Home from '../views/Home';
+import Mine from '../views/Mine';
 
-class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <div className="logo" />
-        <h1>Awesome Nail!</h1>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="app-core">
+    <Switch>
+      <Route
+        path="/home"
+        component={Home}
+      />
+      <Route
+        path="/mine"
+        component={Mine}
+      />
+      <Route component={() => <Redirect to="/home" />} />
+    </Switch>
+    <Sidebar />
+  </div>
+)
 
 export default App;

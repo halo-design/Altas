@@ -1,14 +1,26 @@
 const electron = require('electron')
-const { app, BrowserWindow } = electron
+const { app, BrowserWindow, ipcMain } = electron
 const windowStateKeeper = require('electron-window-state')
-const download = require('download-git-repo')
+const remote = require('./controller/remote')
+const semver = require('semver')
 
 const path = require('path')
 const url = require('url')
-const localPkg = require('./package.json')
+const fs = require('fs-extra')
+
+const localVersion = require('./version.json')
+let remoteVersion = {}
+
 const tmpDir = path.join(__dirname, './tmp')
+const appDir = path.join(__dirname, './app')
+let isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.html'))
+
+const remoteAppUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/app.zip'
+const remoteVersionUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/version.json'
+
 const appIcon = `${__dirname}/app/resource/dock.png`
 
+let downloading = false
 let mainWindow
 
 function createWindow () {
@@ -46,6 +58,47 @@ function createWindow () {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
+
+  ipcMain.on('check-update', (event, arg) => {
+    isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.html'))
+    if (!isTmpEmpty) {
+      console.log('更新下载完成，重启以更新！')
+      event.sender.send('get-update-state', 'ready-to-reload')
+      return
+    }
+    remote.getRemoteJson(remoteVersionUri).then(data => {
+      remoteVersion = data
+      const isNeedUpdate = semver.gt(remoteVersion.version, localVersion.version)
+      if (isNeedUpdate) {
+        console.log('检查到有最新更新！')
+      }
+      event.sender.send('get-update-state', isNeedUpdate ? 'need-to-download' : 'already-latest')
+    })
+  })
+
+  ipcMain.on('get-update-cache', (event, arg) => {
+    if (downloading) {
+      return
+    }
+    fs.emptyDirSync(tmpDir)
+    downloading = true
+    remote.downloadRepoZip(remoteAppUri, tmpDir).then(path => {
+      fs.writeFileSync(path.join(__dirname, './version.json'), JSON.stringify(remoteVersion, null, 2))
+      console.log('已下载好最新更新！')
+      downloading = false
+      event.sender.send('get-update-state', 'ready-to-reload')
+    }).catch(err => {
+      event.sender.send('get-update-state', 'need-to-download')
+    })
+  })
+
+  ipcMain.on('reload-window', (event, arg) => {
+    mainWindow.destroy()
+    fs.emptyDirSync(appDir)
+    fs.copySync(tmpDir, appDir)
+    fs.emptyDirSync(tmpDir)
+    createWindow()
+  })
 }
 
 app.on('ready', createWindow)
@@ -60,12 +113,4 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
-})
-
-download('halo-design/Altas', tmpDir, err => {
-  console.log(err ? 'Error' : 'Success')
-})
-
-download('direct:https://raw.githubusercontent.com/halo-design/Altas/master/app.zip', tmpDir, err => {
-  console.log(err ? 'Error' : 'Success')
 })

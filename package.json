@@ -1,6 +1,6 @@
 {
   "name": "electron-altas",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "A Electron application",
   "main": "main.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "build": "rm -rf app/js && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
     "start": "electron .",
     "pack": "electron-packager . Altas",
+    "zip": "node ./config/zip",
     "compile": "electron-packager . Altas --platform=darwin --arch=x64 --out ./bin --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
     "dmg": "electron-installer-dmg ./bin/Altas-darwin-x64/Altas.app Altas --out=installer --icon=./app/favicon.icns --overwrite"
   },
@@ -27,17 +28,28 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
+    "@types/node": "^10.12.18",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "@types/react-router": "^4.4.3",
+    "@types/react-router-dom": "^4.3.1",
+    "archiver": "^3.0.0",
     "electron": "^4.0.0",
     "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^13.0.1",
     "node-sass": "^4.11.0",
     "parcel-bundler": "^1.11.0",
+    "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   },
   "dependencies": {
     "download-git-repo": "^1.1.0",
     "electron-window-state": "^5.0.3",
+    "fs-extra": "^7.0.1",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "semver": "^5.6.0"
   }
 }
