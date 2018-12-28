@@ -3,6 +3,9 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Sidebar from '../layouts/Sidebar';
 import Home from '../views/Home';
 import Mine from '../views/Mine';
+import Sync from "../views/Sync";
+
+// const Sync = React.lazy(() => import('../views/Sync'));
 
 const App = () => (
   <div className="app-core">
@@ -14,6 +17,10 @@ const App = () => (
       <Route
         path="/mine"
         component={Mine}
+      />
+      <Route
+        path="/sync"
+        component={Sync}
       />
       <Route component={() => <Redirect to="/home" />} />
     </Switch>

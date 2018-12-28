@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 
 export interface MineState {
   updateStste: string;
@@ -12,45 +12,40 @@ class MineView extends React.Component {
 
   public downloadUpdate = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    ipcRenderer.send('get-update-cache');
+    // ipcRenderer.send('get-update-cache');
   };
 
   public showChangelog = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    ipcRenderer.send('read-changelog');
+    // ipcRenderer.send('read-changelog');
   };
 
   public reloadWindow = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    ipcRenderer.send('reload-window');
+    // ipcRenderer.send('reload-window');
   };
 
   public componentWillMount () {
-    ipcRenderer.send('check-update');
-    ipcRenderer.on('get-update-state', (event: any, arg: string) => {
-      this.setState({
-        updateStste: arg
-      });
-    });
+    // ipcRenderer.send('check-update');
+    // ipcRenderer.on('get-update-state', (event: any, arg: string) => {
+    //   this.setState({
+    //     updateStste: arg
+    //   });
+    // });
 
-    ipcRenderer.on('get-changelog', (event: any, arg: object) => {
-      console.log(arg)
-    });
+    // ipcRenderer.on('get-changelog', (event: any, arg: object) => {
+    //   console.log(arg)
+    // });
 
-    ipcRenderer.on('zip-downloading', () => {
-      console.log('zip正在下载')
-    });
-
-    ipcRenderer.on('zip-download-complete', () => {
-      console.log('zip下载完成')
-    });
+    // ipcRenderer.on('zip-download-progress', (event: any, arg: object) => {
+    //   console.log(`正在下载：${arg.percent * 100}%` )
+    // });
   };
 
   public componentWillUnmount () {
-    ipcRenderer.removeListener('get-update-state', () => {})
-    ipcRenderer.removeListener('get-changelog', () => {})
-    ipcRenderer.removeListener('zip-downloading', () => {})
-    ipcRenderer.removeListener('zip-download-complete', () => {})
+    // ipcRenderer.removeListener('get-update-state', () => {})
+    // ipcRenderer.removeListener('get-changelog', () => {})
+    // ipcRenderer.removeListener('zip-download-progress', () => {})
   };
 
   public render() {

@@ -11,7 +11,3 @@ ReactDOM.render(
   </Router>,
   document.getElementById("MOUNT_NODE") as HTMLElement
 );
-
-console.log(`We are using Node.js${process.versions.node}`);
-console.log(`Chromium${process.versions.chrome}`);
-console.log(`and Electron${process.versions.electron}`);

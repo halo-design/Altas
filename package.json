@@ -1,21 +1,23 @@
 {
   "name": "electron-altas",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Electron application",
   "main": "main.js",
   "scripts": {
-    "dev": "rm -rf app/web/static && parcel src/core/index.tsx --out-dir app/web/static --target electron",
-    "build": "rm -rf app/web/static && parcel build src/core/index.tsx --out-dir app/web/static --no-source-maps --target electron",
-    "zip": "node ./config/zip",
-    "pack": "rm -rf bin && electron-packager ./app Altas --platform=darwin --arch=x64 --out ./bin --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
-    "dmg": "electron-installer-dmg ./bin/Altas-darwin-x64/Altas.app Altas --out=installer --icon=./app/favicon.icns --debug --overwrite"
+    "update": "yarn upgrade-interactive --latest",
+    "start": "electron .",
+    "dev": "rm -rf app/static && parcel src/core/index.tsx --out-dir app/static --target electron",
+    "build": "rm -rf app/static && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
+    "pack": "build --mac --win",
+    "pack:mac": "build --mac",
+    "pack:win": "build --win"
   },
   "keywords": [
     "Electron"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/owlaford/Altas.git"
+    "url": "https://github.com/halo-design/Altas.git"
   },
   "author": "OwlAford",
   "license": "MIT",
@@ -31,19 +33,22 @@
     "@types/react-dom": "^16.0.11",
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
-    "archiver": "^3.0.0",
     "electron": "^4.0.0",
-    "electron-installer-dmg": "^2.0.0",
-    "electron-packager": "^13.0.1",
+    "electron-builder": "^20.38.4",
     "node-sass": "^4.11.0",
     "parcel-bundler": "^1.11.0",
+    "sass": "^1.15.2",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "electron-window-state": "^5.0.3",
+    "fs-extra": "^7.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "request": "^2.88.0",
+    "request-progress": "^3.0.0"
   }
 }
