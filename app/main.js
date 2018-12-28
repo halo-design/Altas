@@ -1,24 +1,14 @@
 const electron = require('electron')
 const { app, BrowserWindow, ipcMain } = electron
 const windowStateKeeper = require('electron-window-state')
-const remote = require('./controller/remote')
 const semver = require('semver')
-
-const path = require('path')
 const url = require('url')
-const fs = require('fs-extra')
+
+const remote = require('./utils/remote')
+const file = require('./utils/file')
+const URI = require('./constants/URI')
 
 let remoteVersion = {}
-
-const tmpDir = path.join(__dirname, './tmp')
-const appDir = path.join(__dirname, './app/static')
-let isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.js'))
-
-const remoteAppUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/app.zip'
-const remoteVersionUri = 'https://raw.githubusercontent.com/halo-design/Altas/master/version.json'
-
-const appIcon = `${__dirname}/app/resource/dock.png`
-
 let downloading = false
 let mainWindow
 
@@ -41,13 +31,13 @@ function createWindow () {
       scrollBounce: true
     },
     frame: process.platform !== 'win32',
-    appIcon
+    appIcon: file.path('resource/dock.png')
   })
 
   mainWindowState.manage(mainWindow)
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, './app/index.html'),
+    pathname: file.path('web/index.html'),
     protocol: 'file:',
     slashes: true
   }))
@@ -60,15 +50,15 @@ function createWindow () {
 
   // 检查更新
   ipcMain.on('check-update', (event, arg) => {
-    isTmpEmpty = !fs.existsSync(path.join(tmpDir, 'index.js'))
-    if (!isTmpEmpty) {
+    if (file.exist('tmp/app.zip')) {
       console.log('更新下载完成，重启以更新！')
       event.sender.send('get-update-state', 'ready-to-reload')
       return
     }
-    remote.getRemoteJson(remoteVersionUri).then(data => {
-      remoteVersion = data
-      const localVersion = JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json')))
+
+    remote.downloadFile(URI['version.json'], 'tmp/version.json').then(() => {
+      remoteVersion = file.file2JSON('tmp/version.json')
+      const localVersion = file.file2JSON('version.json')
       const isNeedUpdate = semver.gt(remoteVersion.version, localVersion.version)
       if (isNeedUpdate) {
         console.log(localVersion)
@@ -83,11 +73,11 @@ function createWindow () {
     if (downloading) {
       return
     }
-    fs.emptyDirSync(tmpDir)
     downloading = true
-    remote.downloadRepoZip(remoteAppUri, tmpDir).then(path => {
-      fs.writeFileSync('version.json', JSON.stringify(remoteVersion, null, 2), 'utf8')
-
+    event.sender.send('zip-downloading')
+    remote.downloadFile(URI['app.zip'], 'tmp/app.zip').then(() => {
+      file.JSON2File('version.json', remoteVersion)
+      event.sender.send('zip-download-complete')
       console.log('已下载好最新更新！')
       downloading = false
       event.sender.send('get-update-state', 'ready-to-reload')
@@ -99,15 +89,15 @@ function createWindow () {
   // 重新加载页面以完成更新
   ipcMain.on('reload-window', (event, arg) => {
     mainWindow.destroy()
-    fs.emptyDirSync(appDir)
-    fs.copySync(tmpDir, appDir)
-    fs.emptyDirSync(tmpDir)
+    // 此处应解压
+    file.del('tmp/app.zip')
     createWindow()
   })
 
   // 查看更新日志
   ipcMain.on('read-changelog', (event, arg) => {
-    event.sender.send('get-changelog', JSON.parse(fs.readFileSync(path.join(__dirname, 'version.json'))))
+    event.sender.send('get-changelog', file.file2JSON('version.json'))
+    event.sender.send('get-cahce-state', file.exist('tmp/app.zip'))
   })
 }
 

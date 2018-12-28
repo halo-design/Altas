@@ -36,11 +36,21 @@ class MineView extends React.Component {
     ipcRenderer.on('get-changelog', (event: any, arg: object) => {
       console.log(arg)
     });
+
+    ipcRenderer.on('zip-downloading', () => {
+      console.log('zip正在下载')
+    });
+
+    ipcRenderer.on('zip-download-complete', () => {
+      console.log('zip下载完成')
+    });
   };
 
   public componentWillUnmount () {
     ipcRenderer.removeListener('get-update-state', () => {})
     ipcRenderer.removeListener('get-changelog', () => {})
+    ipcRenderer.removeListener('zip-downloading', () => {})
+    ipcRenderer.removeListener('zip-download-complete', () => {})
   };
 
   public render() {

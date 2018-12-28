@@ -1,16 +1,14 @@
 {
   "name": "electron-altas",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Electron application",
   "main": "main.js",
   "scripts": {
-    "dev": "rm -rf app/static && parcel src/core/index.tsx --out-dir app/static --target electron",
-    "build": "rm -rf app/static && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
-    "start": "electron .",
-    "pack": "electron-packager . Altas",
+    "dev": "rm -rf app/web/static && parcel src/core/index.tsx --out-dir app/web/static --target electron",
+    "build": "rm -rf app/web/static && parcel build src/core/index.tsx --out-dir app/web/static --no-source-maps --target electron",
     "zip": "node ./config/zip",
-    "compile": "electron-packager . Altas --platform=darwin --arch=x64 --out ./bin --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
-    "dmg": "electron-installer-dmg ./bin/Altas-darwin-x64/Altas.app Altas --out=installer --icon=./app/favicon.icns --overwrite"
+    "pack": "rm -rf bin && electron-packager ./app Altas --platform=darwin --arch=x64 --out ./bin --app-version 0.0.1 --overwrite --icon=./app/favicon.icns",
+    "dmg": "electron-installer-dmg ./bin/Altas-darwin-x64/Altas.app Altas --out=installer --icon=./app/favicon.icns --debug --overwrite"
   },
   "keywords": [
     "Electron"
@@ -43,13 +41,9 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "download-git-repo": "^1.1.0",
-    "electron-window-state": "^5.0.3",
-    "fs-extra": "^7.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "semver": "^5.6.0"
+    "react-router-dom": "^4.3.1"
   }
 }

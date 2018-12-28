@@ -2,7 +2,7 @@ const fs = require('fs')
 const archiver = require('archiver')
 const path = require('path')
 
-const output = fs.createWriteStream(path.join(__dirname, '../app.zip'))
+const output = fs.createWriteStream(path.join(__dirname, '../.app'))
 const archive = archiver('zip')
 
 archive.on('error', err => {
@@ -20,5 +20,5 @@ output.on('end', () => {
 
 archive.pipe(output)
 
-archive.directory(path.join(__dirname, '../app/static'), false)
+archive.directory(path.join(__dirname, '../app/web/static'), false)
 archive.finalize()
