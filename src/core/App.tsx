@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Sidebar from '../layouts/Sidebar';
 import Home from '../views/Home';
 import Mine from '../views/Mine';

@@ -1,21 +1,25 @@
-import * as React from 'react';
 import { ipcRenderer } from 'electron';
+import * as React from 'react';
 // const { dialog } = require('electron').remote;
 
-export interface MineState {
+export interface State {
   filePath: string;
+  urlReg: RegExp;
 }
 
-class MineView extends React.Component {
-  state: MineState = {
-    filePath: ''
-  };
+class MineView extends React.Component<object, State> {
+  constructor (props: any) {
+    super(props);
+    this.state = {
+      filePath: '',
+      urlReg: /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig
+    };
 
-  private URLreg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
+  };
 
   public download = () => {
     const { filePath } = this.state;
-    if (this.URLreg.test(filePath)) {
+    if (this.state.urlReg.test(filePath)) {
       ipcRenderer.send('file-download', filePath);
     } else {
       this.setState({
@@ -44,7 +48,7 @@ class MineView extends React.Component {
         filePath: arg
       });
     });
-  }
+  };
 
   public componentWillMount () {
     ipcRenderer.send('ipc-start');
@@ -71,7 +75,7 @@ class MineView extends React.Component {
         defaultValue={this.state.filePath}
         onPaste={this.handlePaste}
         onClick={this.clickPaste}
-        readOnly
+        readOnly={true}
       />
       <button onClick={this.download}>点击下载文件</button>
     </div>;

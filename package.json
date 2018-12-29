@@ -11,7 +11,9 @@
     "build": "rm -rf app/static && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
     "pack": "npm run build && build --mac --win",
     "pack:mac": "npm run build && build --mac",
-    "pack:win": "npm run build && build --win"
+    "pack:win": "npm run build && build --win",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint:fix": "tslint -c tslint.json 'src/**/*.ts' --fix"
   },
   "keywords": [
     "Electron"
@@ -40,6 +42,8 @@
     "parcel-bundler": "^1.11.0",
     "sass": "^1.15.2",
     "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-react": "^3.6.0",
     "typescript": "^3.2.2"
   },
   "dependencies": {

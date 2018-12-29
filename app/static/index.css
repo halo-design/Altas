@@ -1,1 +1,32 @@
-html{height:100%;width:100%;-webkit-app-region:drag}body{margin:0;padding:0;font-family:Avenir,Tahoma,Arial,PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,"Microsoft Sans Serif",WenQuanYi Micro Hei,Helvetica,"sans-serif"}a,button,input,textarea{-webkit-app-region:no-drag}@font-face{font-family:halofont;src:url(halo.4b24173f.ttf) format("truetype")}body .logo{height:80px;width:80px;background:url(logo.496d7b78.png) no-repeat;background-size:100% auto;margin:30px auto}body h1{font-family:halofont!important;font-size:32px;line-height:2;text-align:center}.page-mine{padding-top:30px}
+html {
+  height: 100%;
+  width: 100%;
+  -webkit-app-region: drag; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif"; }
+
+button, a, input, textarea {
+  -webkit-app-region: no-drag; }
+
+@font-face {
+  font-family: 'halofont';
+  src: url("halo.d81157db.ttf") format("truetype"); }
+
+body .logo {
+  height: 80px;
+  width: 80px;
+  background: url(logo.bc646dd2.png) no-repeat;
+  background-size: 100% auto;
+  margin: 30px auto; }
+
+body h1 {
+  font-family: 'halofont' !important;
+  font-size: 32px;
+  line-height: 2;
+  text-align: center; }
+
+.page-mine {
+  padding-top: 30px; }

@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => (
   <footer>
-    <NavLink exact to="/home">home</NavLink>
-    <NavLink exact to="/mine">mine</NavLink>
-    <NavLink exact to="/sync">sync</NavLink>
+    <NavLink exact={true} to="/home">home</NavLink>
+    <NavLink exact={true} to="/mine">mine</NavLink>
+    <NavLink exact={true} to="/sync">sync</NavLink>
   </footer>
 )
 
