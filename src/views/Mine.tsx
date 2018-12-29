@@ -1,63 +1,64 @@
 import * as React from 'react';
-// import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
+// const { dialog } = require('electron').remote;
 
 export interface MineState {
-  updateStste: string;
+  filePath: string;
 }
 
 class MineView extends React.Component {
   state: MineState = {
-    updateStste: 'ready-to-check'
+    filePath: ''
   };
 
-  public downloadUpdate = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    // ipcRenderer.send('get-update-cache');
+  public download = () => {
+    const { filePath } = this.state;
+    const reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
+
+    if (filePath && reg.test(filePath)) {
+      ipcRenderer.send('file-download', filePath);
+    } else {
+      // dialog.showOpenDialog({
+      //   defaultPath: '../Desktop'
+      // })
+      ipcRenderer.send('on-dialog-message', {
+        buttons: ['确定'],
+        title: '提示',
+        message: '路径输入有误',
+        detail: '请填写正确文件下载路径！'
+      });
+    }
   };
 
-  public showChangelog = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    // ipcRenderer.send('read-changelog');
-  };
-
-  public reloadWindow = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    // ipcRenderer.send('reload-window');
+  public handleNameChange = (e: any) => {
+    this.setState({
+      filePath: e.target.value.trim()
+    });
   };
 
   public componentWillMount () {
-    // ipcRenderer.send('check-update');
-    // ipcRenderer.on('get-update-state', (event: any, arg: string) => {
-    //   this.setState({
-    //     updateStste: arg
-    //   });
-    // });
+    ipcRenderer.send('ipc-start');
 
-    // ipcRenderer.on('get-changelog', (event: any, arg: object) => {
-    //   console.log(arg)
-    // });
+    ipcRenderer.once('ipc-running', (event: any, arg: { appName: string, version: string }) => {
+      const { appName, version } = arg
+      console.log(`${appName} ${version}已经启动！`)
+    });
 
-    // ipcRenderer.on('zip-download-progress', (event: any, arg: object) => {
-    //   console.log(`正在下载：${arg.percent * 100}%` )
-    // });
+    ipcRenderer.on('on-download-state', (event: any, arg: object) => {
+      console.log(arg)
+    })
   };
 
   public componentWillUnmount () {
-    // ipcRenderer.removeListener('get-update-state', () => {})
-    // ipcRenderer.removeListener('get-changelog', () => {})
-    // ipcRenderer.removeListener('zip-download-progress', () => {})
+    ipcRenderer.removeAllListeners('on-download-state');
   };
 
   public render() {
-    const { updateStste } = this.state;
     return <div className="page-mine">
-      { updateStste === 'need-to-download' && <div>有新的版本更新</div> }
-      { updateStste === 'need-to-download' && <button onClick={this.downloadUpdate}>点击升级</button> }
-      { updateStste === 'ready-to-reload' && <button onClick={this.reloadWindow}>点击重启以更新</button> }
-      { updateStste === 'already-latest' && <div>已是最新版本</div> }
-      <button onClick={this.showChangelog}>点击查看更新日志</button>
+      <input type="text" name="remotePath" defaultValue={this.state.filePath} onChange={this.handleNameChange} />
+      <button onClick={this.download}>点击下载文件</button>
     </div>;
   };
 }
 
-export default MineView
+export default MineView;

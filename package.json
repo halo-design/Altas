@@ -1,5 +1,6 @@
 {
   "name": "electron-altas",
+  "appName": "Altas",
   "version": "0.0.2",
   "description": "A Electron application",
   "main": "main.js",
@@ -8,9 +9,9 @@
     "start": "electron .",
     "dev": "rm -rf app/static && parcel src/core/index.tsx --out-dir app/static --target electron",
     "build": "rm -rf app/static && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
-    "pack": "build --mac --win",
-    "pack:mac": "build --mac",
-    "pack:win": "build --win"
+    "pack": "npm run build && build --mac --win",
+    "pack:mac": "npm run build && build --mac",
+    "pack:win": "npm run build && build --win"
   },
   "keywords": [
     "Electron"
@@ -42,6 +43,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "electron-json-storage": "^4.1.5",
     "electron-window-state": "^5.0.3",
     "fs-extra": "^7.0.1",
     "react": "^16.7.0",
