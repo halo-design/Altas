@@ -1,5 +1,5 @@
 const electron = require('electron')
-const { app, BrowserWindow, ipcMain, dialog } = electron
+const { app, BrowserWindow, ipcMain, dialog, clipboard } = electron
 const windowStateKeeper = require('electron-window-state')
 const url = require('url')
 
@@ -121,17 +121,22 @@ function createWindow () {
 
     mainWindow.webContents.downloadURL(remoteFilePath)
   })
+
+  // 剪贴板监听
+  ipcMain.on('read-clipboard', (event, arg) => {
+    event.sender.send('get-clipboard-text', clipboard.readText())
+  })
 }
 
 app.on('ready', createWindow)
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-app.on('activate', function () {
+app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }

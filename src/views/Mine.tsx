@@ -11,30 +11,40 @@ class MineView extends React.Component {
     filePath: ''
   };
 
+  private URLreg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
+
   public download = () => {
     const { filePath } = this.state;
-    const reg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
-
-    if (filePath && reg.test(filePath)) {
+    if (this.URLreg.test(filePath)) {
       ipcRenderer.send('file-download', filePath);
     } else {
+      this.setState({
+        filePath: ''
+      });
       // dialog.showOpenDialog({
       //   defaultPath: '../Desktop'
       // })
-      ipcRenderer.send('on-dialog-message', {
-        buttons: ['确定'],
-        title: '提示',
-        message: '路径输入有误',
-        detail: '请填写正确文件下载路径！'
-      });
+      // ipcRenderer.send('on-dialog-message', {
+      //   buttons: ['确定'],
+      //   title: '提示',
+      //   message: '路径输入有误',
+      //   detail: '请填写正确文件下载路径！'
+      // });
     }
   };
 
-  public handleNameChange = (e: any) => {
-    this.setState({
-      filePath: e.target.value.trim()
-    });
+  public handlePaste = (event: React.ClipboardEvent<HTMLElement>) => {
+    event.preventDefault();
   };
+
+  public clickPaste = () => {
+    ipcRenderer.send('read-clipboard');
+    ipcRenderer.on('get-clipboard-text', (event : any, arg: string) => {
+      this.setState({
+        filePath: arg
+      });
+    });
+  }
 
   public componentWillMount () {
     ipcRenderer.send('ipc-start');
@@ -55,7 +65,14 @@ class MineView extends React.Component {
 
   public render() {
     return <div className="page-mine">
-      <input type="text" name="remotePath" defaultValue={this.state.filePath} onChange={this.handleNameChange} />
+      <input
+        type="text"
+        name="remotePath"
+        defaultValue={this.state.filePath}
+        onPaste={this.handlePaste}
+        onClick={this.clickPaste}
+        readOnly
+      />
       <button onClick={this.download}>点击下载文件</button>
     </div>;
   };
