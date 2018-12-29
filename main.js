@@ -7,8 +7,10 @@ const file = require('./utils/file')
 const pkg = require('./package.json')
 
 const { appName, version } = pkg
+const isWin = process.platform === 'win32'
 let mainWindow
 let isDownloading = false
+let isMessageBoxVisible = false
 
 function createWindow () {
   const mainWindowState = windowStateKeeper({
@@ -30,7 +32,7 @@ function createWindow () {
       nodeIntegration: true,
       scrollBounce: true
     },
-    frame: process.platform !== 'win32',
+    frame: isWin,
     appIcon: file.path('app/resource/dock.png')
   })
 
@@ -58,7 +60,13 @@ function createWindow () {
     //   message: 'message',
     //   detail: 'Details.'
     // }
-    dialog.showMessageBox({ type: 'info', ...arg })
+    if (isMessageBoxVisible) {
+      return
+    }
+    isMessageBoxVisible = true
+    dialog.showMessageBox({ type: 'info', ...arg }, () => {
+      isMessageBoxVisible = false
+    })
   })
 
   // 应用启动监听
