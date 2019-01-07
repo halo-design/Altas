@@ -64,7 +64,7 @@ function createWindow () {
       return
     }
     isMessageBoxVisible = true
-    dialog.showMessageBox({ type: 'info', ...arg }, () => {
+    dialog.showMessageBox(arg, () => {
       isMessageBoxVisible = false
     })
   })
@@ -75,50 +75,51 @@ function createWindow () {
     event.sender.send('ipc-running', { appName, version })
   })
 
-  // 文件下载监听
-  ipcMain.on('file-download', (ev, remoteFilePath) => {
-    if (isDownloading) {
-      return
-    }
-    mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
-      isDownloading = true
+  // 文件下载进度及状态监听
+  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
+    isDownloading = true
 
-      item.on('updated', (event, state) => {
-        if (state === 'interrupted') {
-          console.log('Download is interrupted but can be resumed')
-        } else if (state === 'progressing') {
-          if (item.isPaused()) {
-            console.log('Download is paused')
-          } else {
-            console.log(`Received bytes: ${item.getReceivedBytes()}`)
-          }
-        }
-        ev.sender.send('on-download-state', {
-          status: state,
-          totalBytes: item.getTotalBytes(),
-          recieveBytes: item.getReceivedBytes(),
-          state: item.getState()
-        })
-      })
-  
-      item.once('done', (event, state) => {
-        if (state === 'completed') {
-          console.log('Download successfully')
+    item.on('updated', (ev, state) => {
+      if (state === 'interrupted') {
+        console.log('Download is interrupted but can be resumed')
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          console.log('Download is paused')
         } else {
-          console.log(`Download failed: ${state}`)
+          console.log(`Received bytes: ${item.getReceivedBytes()}`)
         }
-
-        ev.sender.send('on-download-state', {
-          status: state,
-          totalBytes: item.getTotalBytes(),
-          recieveBytes: item.getReceivedBytes(),
-          state: item.getState()
-        })
-
-        isDownloading = false
+      }
+      mainWindow.webContents.send('on-download-state', {
+        status: state,
+        totalBytes: item.getTotalBytes(),
+        recieveBytes: item.getReceivedBytes(),
+        state: item.getState()
       })
     })
 
+    item.on('done', (ev, state) => {
+      if (state === 'completed') {
+        console.log('Download successfully')
+      } else {
+        console.log(`Download failed: ${state}`)
+      }
+
+      mainWindow.webContents.send('on-download-state', {
+        status: state,
+        totalBytes: item.getTotalBytes(),
+        recieveBytes: item.getReceivedBytes(),
+        state: item.getState()
+      })
+
+      isDownloading = false
+    })
+  })
+
+  // 文件下载监听
+  ipcMain.on('file-download', (event, remoteFilePath) => {
+    if (isDownloading) {
+      return
+    }
     mainWindow.webContents.downloadURL(remoteFilePath)
   })
 

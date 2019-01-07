@@ -1,70 +1,87 @@
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 import * as React from 'react';
-// const { dialog } = require('electron').remote;
+import IPC, { clipboard, download } from '../utils/bridge';
+// import { HtmlAttributes } from 'csstype';
 
-export interface State {
+export interface IState {
   filePath: string;
-  urlReg: RegExp;
 }
 
-class MineView extends React.Component<object, State> {
+class MineView extends React.Component<object, IState> {
   constructor (props: any) {
     super(props);
     this.state = {
-      filePath: '',
-      urlReg: /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig
+      filePath: ''
     };
-
   };
 
-  public download = () => {
-    const { filePath } = this.state;
-    if (this.state.urlReg.test(filePath)) {
-      ipcRenderer.send('file-download', filePath);
-    } else {
-      this.setState({
-        filePath: ''
-      });
-      // dialog.showOpenDialog({
-      //   defaultPath: '../Desktop'
-      // })
-      // ipcRenderer.send('on-dialog-message', {
-      //   buttons: ['确定'],
-      //   title: '提示',
-      //   message: '路径输入有误',
-      //   detail: '请填写正确文件下载路径！'
-      // });
-    }
+  public testPath = (path: string) => {
+    const urlReg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
+    return urlReg.test(path);
   };
 
-  public handlePaste = (event: React.ClipboardEvent<HTMLElement>) => {
-    event.preventDefault();
-  };
-
-  public clickPaste = () => {
-    ipcRenderer.send('read-clipboard');
-    ipcRenderer.on('get-clipboard-text', (event : any, arg: string) => {
-      this.setState({
-        filePath: arg
-      });
+  public clearPath = () => {
+    this.setState({
+      filePath: ''
     });
   };
 
-  public componentWillMount () {
-    ipcRenderer.send('ipc-start');
+  public setPath = (path: string) => {
+    this.setState({
+      filePath: path.trim()
+    });
+  }
 
-    ipcRenderer.once('ipc-running', (event: any, arg: { appName: string, version: string }) => {
+  public download = () => {
+    const { filePath } = this.state;
+    if (this.testPath(filePath)) {
+      console.log(filePath);
+      download.trigger(filePath);
+    } else {
+      this.clearPath();
+    }
+  };
+
+  public handleChange = (event: any) => {
+    this.setPath(event.target.value);
+  };
+
+  public handlePaste = (event: any) => {
+    event.preventDefault();
+    clipboard.trigger();
+  };
+
+  public componentWillMount () {
+    IPC.test();
+
+    IPC.detect((arg: { appName: string, version: string }) => {
       const { appName, version } = arg
       console.log(`${appName} ${version}已经启动！`)
     });
 
-    ipcRenderer.on('on-download-state', (event: any, arg: object) => {
+    clipboard.bind((arg: string) => {
+      this.setPath(arg);
+    });
+
+    download.bind((arg: { status: string }) => {
       console.log(arg)
-    })
+      if (arg.status === 'completed') {
+        this.clearPath();
+      }
+    });
   };
 
+  // public componentDidMount () {
+  //   selectFile({
+  //     properties: ['openDirectory']
+  //   }, args => {
+  //     console.log(args);
+  //   })
+  // };
+
   public componentWillUnmount () {
-    ipcRenderer.removeAllListeners('on-download-state');
+    download.unbind();
+    clipboard.unbind();
   };
 
   public render() {
@@ -72,12 +89,12 @@ class MineView extends React.Component<object, State> {
       <input
         type="text"
         name="remotePath"
-        defaultValue={this.state.filePath}
         onPaste={this.handlePaste}
-        onClick={this.clickPaste}
-        readOnly={true}
+        onChange={this.handleChange}
+        value={this.state.filePath}
       />
       <button onClick={this.download}>点击下载文件</button>
+      <button onClick={this.handlePaste}>粘贴剪切板链接</button>
     </div>;
   };
 }

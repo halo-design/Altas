@@ -1,4 +1,4 @@
-process.env.HMR_PORT=54767;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=62365;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -190,6 +190,73 @@ function (_React$Component) {
 
 var _default = HomeView;
 exports.default = _default;
+},{}],"../utils/bridge.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.selectFile = exports.messageBox = exports.download = exports.clipboard = exports.default = void 0;
+
+var _electron = require("electron");
+
+var dialog = _electron.remote.dialog;
+var _default = {
+  test: function test() {
+    _electron.ipcRenderer.send('ipc-start');
+  },
+  detect: function detect(cb) {
+    _electron.ipcRenderer.once('ipc-running', function (event, arg) {
+      cb(arg);
+    });
+  }
+};
+exports.default = _default;
+var clipboard = {
+  trigger: function trigger() {
+    _electron.ipcRenderer.send('read-clipboard');
+  },
+  bind: function bind(cb) {
+    _electron.ipcRenderer.on('get-clipboard-text', function (event, arg) {
+      cb(arg);
+    });
+  },
+  unbind: function unbind() {
+    _electron.ipcRenderer.removeAllListeners('get-clipboard-text');
+  }
+};
+exports.clipboard = clipboard;
+var download = {
+  trigger: function trigger(filePath) {
+    _electron.ipcRenderer.send('file-download', filePath);
+  },
+  bind: function bind(cb) {
+    _electron.ipcRenderer.on('on-download-state', function (event, arg) {
+      cb(arg);
+    });
+  },
+  unbind: function unbind() {
+    _electron.ipcRenderer.removeAllListeners('on-download-state');
+  }
+};
+exports.download = download;
+
+var messageBox = function messageBox(args) {
+  _electron.ipcRenderer.send('on-dialog-message', Object.assign({
+    type: 'info'
+  }, args));
+}; // https://electronjs.org/docs/api/dialog
+
+
+exports.messageBox = messageBox;
+
+var selectFile = function selectFile(args, cb) {
+  dialog.showOpenDialog(Object.assign({
+    defaultPath: '../Desktop'
+  }, args), cb);
+};
+
+exports.selectFile = selectFile;
 },{}],"../views/Mine.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -198,9 +265,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _electron = require("electron");
-
 var React = _interopRequireWildcard(require("react"));
+
+var _bridge = _interopRequireWildcard(require("../utils/bridge"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -234,44 +301,47 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MineView).call(this, props));
 
+    _this.testPath = function (path) {
+      var urlReg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
+      return urlReg.test(path);
+    };
+
+    _this.clearPath = function () {
+      _this.setState({
+        filePath: ''
+      });
+    };
+
+    _this.setPath = function (path) {
+      _this.setState({
+        filePath: path.trim()
+      });
+    };
+
     _this.download = function () {
       var filePath = _this.state.filePath;
 
-      if (_this.state.urlReg.test(filePath)) {
-        _electron.ipcRenderer.send('file-download', filePath);
-      } else {
-        _this.setState({
-          filePath: ''
-        }); // dialog.showOpenDialog({
-        //   defaultPath: '../Desktop'
-        // })
-        // ipcRenderer.send('on-dialog-message', {
-        //   buttons: ['确定'],
-        //   title: '提示',
-        //   message: '路径输入有误',
-        //   detail: '请填写正确文件下载路径！'
-        // });
+      if (_this.testPath(filePath)) {
+        console.log(filePath);
 
+        _bridge.download.trigger(filePath);
+      } else {
+        _this.clearPath();
       }
+    };
+
+    _this.handleChange = function (event) {
+      _this.setPath(event.target.value);
     };
 
     _this.handlePaste = function (event) {
       event.preventDefault();
-    };
 
-    _this.clickPaste = function () {
-      _electron.ipcRenderer.send('read-clipboard');
-
-      _electron.ipcRenderer.on('get-clipboard-text', function (event, arg) {
-        _this.setState({
-          filePath: arg
-        });
-      });
+      _bridge.clipboard.trigger();
     };
 
     _this.state = {
-      filePath: '',
-      urlReg: /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig
+      filePath: ''
     };
     return _this;
   }
@@ -279,22 +349,41 @@ function (_React$Component) {
   _createClass(MineView, [{
     key: "componentWillMount",
     value: function componentWillMount() {
-      _electron.ipcRenderer.send('ipc-start');
+      var _this2 = this;
 
-      _electron.ipcRenderer.once('ipc-running', function (event, arg) {
+      _bridge.default.test();
+
+      _bridge.default.detect(function (arg) {
         var appName = arg.appName,
             version = arg.version;
         console.log("".concat(appName, " ").concat(version, "\u5DF2\u7ECF\u542F\u52A8\uFF01"));
       });
 
-      _electron.ipcRenderer.on('on-download-state', function (event, arg) {
+      _bridge.clipboard.bind(function (arg) {
+        _this2.setPath(arg);
+      });
+
+      _bridge.download.bind(function (arg) {
         console.log(arg);
+
+        if (arg.status === 'completed') {
+          _this2.clearPath();
+        }
       });
     }
   }, {
     key: "componentWillUnmount",
+    // public componentDidMount () {
+    //   selectFile({
+    //     properties: ['openDirectory']
+    //   }, args => {
+    //     console.log(args);
+    //   })
+    // };
     value: function componentWillUnmount() {
-      _electron.ipcRenderer.removeAllListeners('on-download-state');
+      _bridge.download.unbind();
+
+      _bridge.clipboard.unbind();
     }
   }, {
     key: "render",
@@ -304,13 +393,14 @@ function (_React$Component) {
       }, React.createElement("input", {
         type: "text",
         name: "remotePath",
-        defaultValue: this.state.filePath,
         onPaste: this.handlePaste,
-        onClick: this.clickPaste,
-        readOnly: true
+        onChange: this.handleChange,
+        value: this.state.filePath
       }), React.createElement("button", {
         onClick: this.download
-      }, "\u70B9\u51FB\u4E0B\u8F7D\u6587\u4EF6"));
+      }, "\u70B9\u51FB\u4E0B\u8F7D\u6587\u4EF6"), React.createElement("button", {
+        onClick: this.handlePaste
+      }, "\u7C98\u8D34\u526A\u5207\u677F\u94FE\u63A5"));
     }
   }]);
 
@@ -319,7 +409,7 @@ function (_React$Component) {
 
 var _default = MineView;
 exports.default = _default;
-},{}],"../views/Sync.tsx":[function(require,module,exports) {
+},{"../utils/bridge":"../utils/bridge.ts"}],"../views/Sync.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
