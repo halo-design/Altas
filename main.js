@@ -1,16 +1,16 @@
 const electron = require('electron')
-const { app, BrowserWindow, ipcMain, dialog, clipboard } = electron
+const { app, BrowserWindow } = electron
 const windowStateKeeper = require('electron-window-state')
 const url = require('url')
 
 const file = require('./utils/file')
+const ipcBridge = require('./utils/bridge')
 const pkg = require('./package.json')
 
 const { appName, version } = pkg
 const isWin = process.platform === 'win32'
+const isDev = process.env.NODE_ENV === 'development'
 let mainWindow
-let isDownloading = false
-let isMessageBoxVisible = false
 
 function createWindow () {
   const mainWindowState = windowStateKeeper({
@@ -19,6 +19,7 @@ function createWindow () {
   })
 
   console.log(`${appName} ${version}已启动！`);
+
   mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -44,89 +45,13 @@ function createWindow () {
     slashes: true
   }))
 
-  mainWindow.webContents.openDevTools()
+  isDev && mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
     mainWindow = null
   })
 
-  // 监听应用弹窗
-  ipcMain.on('on-dialog-message', (event, arg) => {
-    // https://github.com/JakeH/electron-better-dialog
-    // {
-    //   type: 'info',
-    //   buttons: ['OK'],
-    //   title: 'Altas',
-    //   message: 'message',
-    //   detail: 'Details.'
-    // }
-    if (isMessageBoxVisible) {
-      return
-    }
-    isMessageBoxVisible = true
-    dialog.showMessageBox(arg, () => {
-      isMessageBoxVisible = false
-    })
-  })
-
-  // 应用启动监听
-  ipcMain.on('ipc-start', (event, arg) => {
-    console.log(`${appName} ${version}已经启动！`)
-    event.sender.send('ipc-running', { appName, version })
-  })
-
-  // 文件下载进度及状态监听
-  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
-    isDownloading = true
-
-    item.on('updated', (ev, state) => {
-      if (state === 'interrupted') {
-        console.log('Download is interrupted but can be resumed')
-      } else if (state === 'progressing') {
-        if (item.isPaused()) {
-          console.log('Download is paused')
-        } else {
-          console.log(`Received bytes: ${item.getReceivedBytes()}`)
-        }
-      }
-      mainWindow.webContents.send('on-download-state', {
-        status: state,
-        totalBytes: item.getTotalBytes(),
-        recieveBytes: item.getReceivedBytes(),
-        state: item.getState()
-      })
-    })
-
-    item.on('done', (ev, state) => {
-      if (state === 'completed') {
-        console.log('Download successfully')
-      } else {
-        console.log(`Download failed: ${state}`)
-      }
-
-      mainWindow.webContents.send('on-download-state', {
-        status: state,
-        totalBytes: item.getTotalBytes(),
-        recieveBytes: item.getReceivedBytes(),
-        state: item.getState()
-      })
-
-      isDownloading = false
-    })
-  })
-
-  // 文件下载监听
-  ipcMain.on('file-download', (event, remoteFilePath) => {
-    if (isDownloading) {
-      return
-    }
-    mainWindow.webContents.downloadURL(remoteFilePath)
-  })
-
-  // 剪贴板监听
-  ipcMain.on('read-clipboard', (event, arg) => {
-    event.sender.send('get-clipboard-text', clipboard.readText())
-  })
+  ipcBridge(mainWindow, pkg)
 }
 
 app.on('ready', createWindow)

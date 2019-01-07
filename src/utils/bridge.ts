@@ -45,8 +45,9 @@ export const download = {
   }
 };
 
-export const messageBox = (args: object): void => {
-  ipcRenderer.send('on-dialog-message', { type: 'info', ...args });
+// https://www.npmjs.com/package/electron-better-dialog
+export const messageBox = (args: object, cb: (res: object) => void): void => {
+  ipcRenderer.send('on-dialog-message', { type: 'info', ...args }, cb);
 }
 
 // https://electronjs.org/docs/api/dialog

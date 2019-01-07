@@ -1,6 +1,6 @@
 // import { ipcRenderer } from 'electron';
 import * as React from 'react';
-import IPC, { clipboard, download } from '../utils/bridge';
+import IPC, { clipboard, download, messageBox, selectFile } from '../utils/bridge';
 // import { HtmlAttributes } from 'csstype';
 
 export interface IState {
@@ -71,13 +71,36 @@ class MineView extends React.Component<object, IState> {
     });
   };
 
-  // public componentDidMount () {
-  //   selectFile({
-  //     properties: ['openDirectory']
-  //   }, args => {
-  //     console.log(args);
-  //   })
-  // };
+  public handleSelectPath () {
+    selectFile({
+      properties: ['openDirectory']
+    }, res => {
+      console.log(res);
+    })
+  };
+
+  public showMessageBox () {
+    messageBox({
+      betterButtons: [{
+        isDefault: true,
+        label: 'Default Button',
+      }, {
+        isCancel: true,
+        label: 'Cancel Button',
+      }, {
+        data: {
+          arbitrary: true
+        },
+        label: 'Action Button',
+        action () {
+          console.dir(`Button '${this.label}' clicked. Data: ${JSON.stringify(this.data)}`);
+        }
+      }],
+      message: 'Async',
+    }, res => {
+      console.log(res)
+    })
+  }
 
   public componentWillUnmount () {
     download.unbind();
@@ -95,6 +118,8 @@ class MineView extends React.Component<object, IState> {
       />
       <button onClick={this.download}>点击下载文件</button>
       <button onClick={this.handlePaste}>粘贴剪切板链接</button>
+      <button onClick={this.handleSelectPath}>选择路径</button>
+      <button onClick={this.showMessageBox}>弹出消息框</button>
     </div>;
   };
 }

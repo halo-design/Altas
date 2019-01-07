@@ -2358,6 +2358,11 @@ ejs@^2.6.1:
   resolved "https://registry.npmjs.org/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
+electron-better-dialog@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/electron-better-dialog/-/electron-better-dialog-1.0.6.tgz#49805fdb38146eaf7e39cf90cb9493ae12a67c58"
+  integrity sha512-CiiZneTqChk2S+7LPlyO5g6bgUGMtsqIOOvD16n5gw8krvnH0uxbqOX1RD4SwIWGVyNmAlv9fYHj3+5WRHpzqg==
+
 electron-builder@^20.38.4:
   version "20.38.4"
   resolved "https://registry.npmjs.org/electron-builder/-/electron-builder-20.38.4.tgz#67727529ffb87e7fdd78b3a84ea0d6c22bf04ec2"
