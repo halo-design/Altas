@@ -6,9 +6,9 @@ export default {
     ipcRenderer.send('ipc-start');
   },
 
-  detect: (cb: (arg: object) => void): void => {
-    ipcRenderer.once('ipc-running', (event: any, arg: object) => {
-      cb(arg);
+  detect: (cb: (args: object) => void): void => {
+    ipcRenderer.once('ipc-running', (event: any, args: object) => {
+      cb(args);
     });
   }
 };
@@ -18,9 +18,9 @@ export const clipboard = {
     ipcRenderer.send('read-clipboard');
   },
 
-  bind: (cb: (arg: string) => void): void => {
-    ipcRenderer.on('get-clipboard-text', (event : any, arg: string) => {
-      cb(arg);
+  bind: (cb: (args: string) => void): void => {
+    ipcRenderer.on('get-clipboard-text', (event : any, args: string) => {
+      cb(args);
     });
   },
 
@@ -30,13 +30,13 @@ export const clipboard = {
 };
 
 export const download = {
-  trigger: (filePath: string): void => {
-    ipcRenderer.send('file-download', filePath);
+  trigger: (url: string, args: object): void => {
+    ipcRenderer.send('file-download', url, args);
   },
 
-  bind: (cb: (arg: object) => void): void => {
-    ipcRenderer.on('on-download-state', (event: any, arg: object) => {
-      cb(arg);
+  bind: (cb: (args: object) => void): void => {
+    ipcRenderer.on('on-download-state', (event : any, args: object) => {
+      cb(args);
     });
   },
 
@@ -46,12 +46,12 @@ export const download = {
 };
 
 // https://www.npmjs.com/package/electron-better-dialog
-export const messageBox = (args: object, cb: (res: object) => void): void => {
-  ipcRenderer.send('on-dialog-message', { type: 'info', ...args }, cb);
+export const messageBox = (args: object): void => {
+  ipcRenderer.send('on-dialog-message', { type: 'info', ...args });
 }
 
 // https://electronjs.org/docs/api/dialog
-export const selectFile = (args: object, cb: (arg: object) => void): void => {
+export const selectFile = (args: object, cb: (args: object) => void): void => {
   dialog.showOpenDialog({
     defaultPath: '../Desktop',
     ...args

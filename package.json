@@ -1,7 +1,7 @@
 {
   "name": "electron-altas",
   "appName": "Altas",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An Electron Application",
   "main": "main.js",
   "scripts": {
@@ -17,7 +17,10 @@
     "lint:fix": "tslint -c tslint.json 'src/**/*.ts' --fix"
   },
   "keywords": [
-    "Electron"
+    "Electron",
+    "React",
+    "TypeScript",
+    "Parcel"
   ],
   "repository": {
     "type": "git",
@@ -26,7 +29,7 @@
   "author": "OwlAford",
   "license": "MIT",
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -49,14 +52,13 @@
   },
   "dependencies": {
     "electron-better-dialog": "^1.0.6",
+    "electron-dl": "^1.12.0",
     "electron-json-storage": "^4.1.5",
     "electron-window-state": "^5.0.3",
     "fs-extra": "^7.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "request": "^2.88.0",
-    "request-progress": "^3.0.0"
+    "react-router-dom": "^4.3.1"
   }
 }

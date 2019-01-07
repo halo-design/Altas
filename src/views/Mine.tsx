@@ -32,11 +32,14 @@ class MineView extends React.Component<object, IState> {
     });
   }
 
-  public download = () => {
+  public handleDownload = () => {
     const { filePath } = this.state;
     if (this.testPath(filePath)) {
       console.log(filePath);
-      download.trigger(filePath);
+      download.trigger(filePath, {
+        openFolderWhenDone: true,
+        saveAs: true,
+      });
     } else {
       this.clearPath();
     }
@@ -63,17 +66,14 @@ class MineView extends React.Component<object, IState> {
       this.setPath(arg);
     });
 
-    download.bind((arg: { status: string }) => {
+    download.bind((arg: object) => {
       console.log(arg)
-      if (arg.status === 'completed') {
-        this.clearPath();
-      }
     });
   };
 
   public handleSelectPath () {
     selectFile({
-      properties: ['openDirectory']
+      properties: ['openDirectory', 'openFile']
     }, res => {
       console.log(res);
     })
@@ -91,20 +91,15 @@ class MineView extends React.Component<object, IState> {
         data: {
           arbitrary: true
         },
-        label: 'Action Button',
-        action () {
-          console.dir(`Button '${this.label}' clicked. Data: ${JSON.stringify(this.data)}`);
-        }
+        label: 'Action Button'
       }],
       message: 'Async',
-    }, res => {
-      console.log(res)
     })
   }
 
   public componentWillUnmount () {
-    download.unbind();
     clipboard.unbind();
+    download.unbind();
   };
 
   public render() {
@@ -116,7 +111,7 @@ class MineView extends React.Component<object, IState> {
         onChange={this.handleChange}
         value={this.state.filePath}
       />
-      <button onClick={this.download}>点击下载文件</button>
+      <button onClick={this.handleDownload}>点击下载文件</button>
       <button onClick={this.handlePaste}>粘贴剪切板链接</button>
       <button onClick={this.handleSelectPath}>选择路径</button>
       <button onClick={this.showMessageBox}>弹出消息框</button>
