@@ -1,4 +1,5 @@
 import { action, computed, observable } from 'mobx';
+import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
 
 export default class UploadModel {
@@ -7,10 +8,6 @@ export default class UploadModel {
   @observable public uploadListStatus: object = {};
   @observable public remoteImageArray: any[] = [];
   
-  private uploadAPI = 'https://sm.ms/api/upload?inajax=1&ssl=1';
-  private uploadHistoryAPI = 'https://sm.ms/api/list';
-  private clearuploadHistoryAPI = 'https://sm.ms/api/clear';
-
   @action
   public getFileList = (node: HTMLInputElement) => {
     if (!this.isXhrQueueEmpty) {
@@ -54,14 +51,14 @@ export default class UploadModel {
   }
 
   public getUploadHistory () {
-    getData(this.uploadHistoryAPI)
+    getData(API.upload)
       .then((param) => {
         console.log(param)
       })
   }
 
   public clearUploadHistory () {
-    getData(this.clearuploadHistoryAPI)
+    getData(API.clearUploadHistory)
       .then((param) => {
         console.log(param)
       })
@@ -102,7 +99,7 @@ export default class UploadModel {
     this.postFiles.forEach((file: any, index: number) => {
       const uid = file.uid;
       this.xhrQueue[uid] = upload({
-        action: this.uploadAPI,
+        action: API.upload,
         file,
         filename: 'smfile',
         onError: () => {

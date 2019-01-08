@@ -2,11 +2,7 @@
 .DS_Store
 .cache
 node_modules/
-app/node_modules/
-sample/
-bin/
-installer/
-tmp/
+packages/
 app/static/
 
 npm-debug.log*

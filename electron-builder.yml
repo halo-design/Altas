@@ -49,4 +49,4 @@ nsis:
 
 directories:
   buildResources: resources
-  output: installer
+  output: packages
