@@ -1,7 +1,6 @@
-// import { ipcRenderer } from 'electron';
 import * as React from 'react';
+import * as Reg from '../constants/Reg';
 import IPC, { download, messageBox, readClipboard, selectFile } from '../utils/bridge';
-// import { HtmlAttributes } from 'csstype';
 
 export interface IState {
   filePath: string;
@@ -16,8 +15,7 @@ class MineView extends React.Component<object, IState> {
   }
 
   public testPath = (path: string) => {
-    const urlReg = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ig;
-    return urlReg.test(path);
+    return Reg.url.test(path);
   }
 
   public clearPath = () => {

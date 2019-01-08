@@ -1,4 +1,11 @@
-@import "./reset.scss";
+@import './reset.scss';
+@import './mixin.scss';
+
+.app-container-wrap {
+  font-size: 14px;
+  @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
+}
+
 
 @font-face {
   font-family: 'halofont';
