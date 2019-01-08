@@ -47,4 +47,9 @@ module.exports = (mainWindow, pkg) => {
   ipcMain.on('read-clipboard', (event, args) => {
     event.sender.send('get-clipboard-text', clipboard.readText())
   })
+
+  // 写入剪切板监听
+  ipcMain.on('write-clipboard', (event, args) => {
+    clipboard.writeText(args)
+  })
 }

@@ -1,5 +1,6 @@
 import { inject, observer } from 'mobx-react'
 import * as React from 'react';
+import { writeClipboard } from '../utils/bridge';
 
 interface IProps {
   doUpload: () => void;
@@ -32,6 +33,11 @@ class UploadView extends React.Component<IProps> {
     if (this.fileIpt) {
       this.props.getFileList(this.fileIpt);
     }
+  }
+
+  public saveClipboard (txt: string) {
+    writeClipboard(txt);
+    console.log(txt + '已复制到剪切板！')
   }
 
   public render() {
@@ -83,7 +89,7 @@ class UploadView extends React.Component<IProps> {
                 name: {item.file.name} <br/>
                 status: {item.status} <br/>
                 progress: {item.progress ? item.progress.percent : 'error'} <br/>
-                link: {item.remote ? <a href='#'>{item.remote.url}</a> : 'null' }
+                link: {item.remote ? <button onClick={e => { this.saveClipboard(item.remote.url) }}>🔗点击复制链接</button> : 'null' }
                 <button onClick={e => { deleteUploadListStatusItem(uid) }}>删除</button>
               </div>
             )

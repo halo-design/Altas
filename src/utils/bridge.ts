@@ -13,7 +13,7 @@ export default {
   }
 };
 
-export const clipboard = {
+export const readClipboard = {
   trigger: (): void => {
     ipcRenderer.send('read-clipboard');
   },
@@ -28,6 +28,10 @@ export const clipboard = {
     ipcRenderer.removeAllListeners('get-clipboard-text');
   }
 };
+
+export const writeClipboard = (txt: string) => {
+  ipcRenderer.send('write-clipboard', txt);
+}
 
 export const download = {
   trigger: (url: string, args: object): void => {

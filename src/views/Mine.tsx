@@ -1,6 +1,6 @@
 // import { ipcRenderer } from 'electron';
 import * as React from 'react';
-import IPC, { clipboard, download, messageBox, selectFile } from '../utils/bridge';
+import IPC, { download, messageBox, readClipboard, selectFile } from '../utils/bridge';
 // import { HtmlAttributes } from 'csstype';
 
 export interface IState {
@@ -51,7 +51,7 @@ class MineView extends React.Component<object, IState> {
 
   public handlePaste = (event: any) => {
     event.preventDefault();
-    clipboard.trigger();
+    readClipboard.trigger();
   }
 
   public componentWillMount () {
@@ -62,7 +62,7 @@ class MineView extends React.Component<object, IState> {
       console.log(`${appName} ${version}已经启动！`)
     });
 
-    clipboard.bind((arg: string) => {
+    readClipboard.bind((arg: string) => {
       this.setPath(arg);
     });
 
@@ -98,7 +98,7 @@ class MineView extends React.Component<object, IState> {
   }
 
   public componentWillUnmount () {
-    clipboard.unbind();
+    readClipboard.unbind();
     download.unbind();
   }
 

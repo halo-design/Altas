@@ -15,7 +15,6 @@ export default class UploadModel {
     }
     const files = node.files;
     const rawFiles = Array.prototype.slice.call(files);
-    console.log(rawFiles);
     this.rawFiles = rawFiles;
   }
 
@@ -51,7 +50,7 @@ export default class UploadModel {
   }
 
   public getUploadHistory () {
-    getData(API.upload)
+    getData(API.uploadHistory)
       .then((param) => {
         console.log(param)
       })

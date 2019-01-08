@@ -6,10 +6,10 @@
   "main": "main.js",
   "scripts": {
     "update": "yarn upgrade-interactive --latest",
-    "start": "electron .",
-    "start:dev": "NODE_ENV=development electron .",
     "dev": "rm -rf app/static && parcel src/core/index.tsx --out-dir app/static --target electron",
     "build": "rm -rf app/static && parcel build src/core/index.tsx --out-dir app/static --no-source-maps --target electron",
+    "app": "electron .",
+    "app:dev": "NODE_ENV=development electron .",
     "pack": "npm run build && build --mac --win",
     "pack:mac": "npm run build && build --mac",
     "pack:win": "npm run build && build --win",
