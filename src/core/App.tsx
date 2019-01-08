@@ -4,6 +4,7 @@ import Sidebar from '../layouts/Sidebar';
 import Home from '../views/Home';
 import Mine from '../views/Mine';
 import Sync from "../views/Sync";
+import Upload from '../views/Upload';
 
 // const Sync = React.lazy(() => import('../views/Sync'));
 
@@ -13,6 +14,10 @@ const App = () => (
       <Route
         path="/home"
         component={Home}
+      />
+      <Route
+        path="/upload"
+        component={Upload}
       />
       <Route
         path="/mine"

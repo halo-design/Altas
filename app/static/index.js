@@ -1,4 +1,4 @@
-process.env.HMR_PORT=62365;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=50360;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -123,6 +123,9 @@ var Sidebar = function Sidebar() {
     exact: true,
     to: "/home"
   }, "home"), React.createElement(_reactRouterDom.NavLink, {
+    exact: true,
+    to: "/upload"
+  }, "upload"), React.createElement(_reactRouterDom.NavLink, {
     exact: true,
     to: "/mine"
   }, "mine"), React.createElement(_reactRouterDom.NavLink, {
@@ -508,7 +511,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return React.createElement("div", null, "sync");
+      return React.createElement("div", null, "SyncView");
     }
   }]);
 
@@ -517,7 +520,215 @@ function (_React$Component) {
 
 var _default = SyncView;
 exports.default = _default;
-},{}],"App.tsx":[function(require,module,exports) {
+},{}],"../utils/ajax.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var getError = function getError(action, xhr) {
+  var msg;
+
+  if (xhr.response) {
+    msg = "".concat(xhr.response.error || xhr.response);
+  } else if (xhr.responseText) {
+    msg = "".concat(xhr.responseText);
+  } else {
+    msg = "fail to post ".concat(action, " ").concat(xhr.status);
+  }
+
+  var err = new Error(msg);
+  err.status = xhr.status;
+  err.method = 'post';
+  err.url = action;
+  return err;
+};
+
+var getBody = function getBody(xhr) {
+  var text = xhr.responseText || xhr.response;
+
+  if (!text) {
+    return text;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    return text;
+  }
+};
+
+var upload = function upload(option) {
+  var xhr = new XMLHttpRequest();
+  var action = option.action;
+
+  if (xhr.upload) {
+    xhr.upload.onprogress = function (e) {
+      if (e.total > 0) {
+        e.percent = e.loaded / e.total * 100;
+      }
+
+      if (option.onProgress) {
+        option.onProgress(e);
+      }
+    };
+  }
+
+  var formData = new FormData();
+  formData.append(option.filename, option.file, option.file.name);
+
+  xhr.onerror = function (e) {
+    if (option.onError) {
+      option.onError(e);
+    }
+  };
+
+  xhr.onload = function () {
+    if ((xhr.status < 200 || xhr.status >= 300) && option.onError) {
+      return option.onError(getError(action, xhr));
+    } else if (option.onSuccess) {
+      option.onSuccess(getBody(xhr));
+      return null;
+    }
+  };
+
+  xhr.open('post', action, true);
+
+  if (option.withCredentials && 'withCredentials' in xhr) {
+    xhr.withCredentials = true;
+  }
+
+  var headers = option.headers || {};
+
+  for (var item in headers) {
+    if (headers.hasOwnProperty(item) && headers[item] !== null) {
+      xhr.setRequestHeader(item, headers[item]);
+    }
+  }
+
+  xhr.send(formData);
+  return xhr;
+};
+
+var _default = upload;
+exports.default = _default;
+},{}],"../views/Upload.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+var _ajax = _interopRequireDefault(require("../utils/ajax"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var UploadView =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(UploadView, _React$Component);
+
+  function UploadView() {
+    var _this;
+
+    _classCallCheck(this, UploadView);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(UploadView).apply(this, arguments));
+    _this.reqQueue = {};
+    _this.postFiles = [];
+
+    _this.handleList = function () {
+      var baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+      var files = _this.fileIpt ? _this.fileIpt.files : [];
+      var postFiles = Array.prototype.slice.call(files);
+      postFiles = postFiles.filter(function (rawFile, index) {
+        var fileType = rawFile.type.split('/')[1];
+
+        if (baseType.indexOf(fileType) > -1) {
+          var uid = "".concat(Date.now()).concat(index);
+          rawFile.uid = uid;
+          return true;
+        } else {
+          return false;
+        }
+      });
+      _this.postFiles = postFiles;
+      console.log(postFiles);
+    };
+
+    _this.handleUpload = function () {
+      _this.postFiles.forEach(function (rawFile, index) {
+        var uid = rawFile.uid;
+        _this.reqQueue[uid] = (0, _ajax.default)({
+          action: 'https://sm.ms/api/upload?inajax=1&ssl=1',
+          file: rawFile,
+          filename: 'smfile',
+          onProgress: function onProgress(e) {
+            console.log(e);
+          },
+          onSuccess: function onSuccess(e) {
+            console.log(e);
+            delete _this.reqQueue[uid];
+          }
+        });
+      });
+    };
+
+    return _this;
+  }
+
+  _createClass(UploadView, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return React.createElement("div", null, React.createElement("br", null), React.createElement("br", null), React.createElement("input", {
+        type: "file",
+        multiple: true,
+        accept: "image/*",
+        name: "smfile",
+        ref: function ref(node) {
+          _this2.fileIpt = node;
+        },
+        onChange: this.handleList,
+        onDrop: this.handleList
+      }), React.createElement("button", {
+        onClick: this.handleUpload
+      }, "\u56FE\u7247\u4E0A\u4F20"));
+    }
+  }]);
+
+  return UploadView;
+}(React.Component);
+
+var _default = UploadView;
+exports.default = _default;
+},{"../utils/ajax":"../utils/ajax.ts"}],"App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -537,6 +748,8 @@ var _Mine = _interopRequireDefault(require("../views/Mine"));
 
 var _Sync = _interopRequireDefault(require("../views/Sync"));
 
+var _Upload = _interopRequireDefault(require("../views/Upload"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -548,6 +761,9 @@ var App = function App() {
   }, React.createElement(_reactRouterDom.Switch, null, React.createElement(_reactRouterDom.Route, {
     path: "/home",
     component: _Home.default
+  }), React.createElement(_reactRouterDom.Route, {
+    path: "/upload",
+    component: _Upload.default
   }), React.createElement(_reactRouterDom.Route, {
     path: "/mine",
     component: _Mine.default
@@ -565,7 +781,7 @@ var App = function App() {
 
 var _default = App;
 exports.default = _default;
-},{"../layouts/Sidebar":"../layouts/Sidebar.tsx","../views/Home":"../views/Home.tsx","../views/Mine":"../views/Mine.tsx","../views/Sync":"../views/Sync.tsx"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"../layouts/Sidebar":"../layouts/Sidebar.tsx","../views/Home":"../views/Home.tsx","../views/Mine":"../views/Mine.tsx","../views/Sync":"../views/Sync.tsx","../views/Upload":"../views/Upload.tsx"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {

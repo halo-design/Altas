@@ -3,6 +3,7 @@ import * as React from 'react';
 const { Menu, MenuItem, getCurrentWindow } = remote;
 
 class SyncView extends React.Component {
+
   public componentDidMount () {
     // 右键菜单
     const menu = new Menu();
@@ -18,7 +19,9 @@ class SyncView extends React.Component {
 
   public render() {
     return (
-      <div>sync</div>
+      <div>
+        SyncView
+      </div>
     );
   }
 }
