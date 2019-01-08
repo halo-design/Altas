@@ -6,8 +6,6 @@ import Mine from '../views/Mine';
 import Sync from "../views/Sync";
 import Upload from '../views/Upload';
 
-// const Sync = React.lazy(() => import('../views/Sync'));
-
 const App = () => (
   <div className="app-core">
     <Switch>

@@ -39,7 +39,7 @@ export interface IUpload {
   headers?: object;
 }
 
-const upload = (option: IUpload): XMLHttpRequest => {
+export const upload = (option: IUpload): XMLHttpRequest => {
   const xhr = new XMLHttpRequest();
   const action = option.action;
 
@@ -91,5 +91,19 @@ const upload = (option: IUpload): XMLHttpRequest => {
   return xhr;
 }
 
-export default upload;
+export const getData = (url: string) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
 
+    xhr.onload = (): any => {
+      if (xhr.status < 200 || xhr.status >= 300) {
+        reject(getError(url, xhr));
+      } else {
+        resolve(getBody(xhr));
+      }
+    };
+
+    xhr.open('get', url, true);
+    xhr.send();
+  })
+}

@@ -1,4 +1,4 @@
-process.env.HMR_PORT=50360;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=53403;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -104,7 +104,324 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"../layouts/Sidebar.tsx":[function(require,module,exports) {
+})({"../utils/ajax.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getData = exports.upload = void 0;
+
+var getError = function getError(action, xhr) {
+  var msg;
+
+  if (xhr.response) {
+    msg = "".concat(xhr.response.error || xhr.response);
+  } else if (xhr.responseText) {
+    msg = "".concat(xhr.responseText);
+  } else {
+    msg = "fail to post ".concat(action, " ").concat(xhr.status);
+  }
+
+  var err = new Error(msg);
+  err.status = xhr.status;
+  err.method = 'post';
+  err.url = action;
+  return err;
+};
+
+var getBody = function getBody(xhr) {
+  var text = xhr.responseText || xhr.response;
+
+  if (!text) {
+    return text;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    return text;
+  }
+};
+
+var upload = function upload(option) {
+  var xhr = new XMLHttpRequest();
+  var action = option.action;
+
+  if (xhr.upload) {
+    xhr.upload.onprogress = function (e) {
+      if (e.total > 0) {
+        e.percent = e.loaded / e.total * 100;
+      }
+
+      if (option.onProgress) {
+        option.onProgress(e);
+      }
+    };
+  }
+
+  var formData = new FormData();
+  formData.append(option.filename, option.file, option.file.name);
+
+  xhr.onerror = function (e) {
+    if (option.onError) {
+      option.onError(e);
+    }
+  };
+
+  xhr.onload = function () {
+    if ((xhr.status < 200 || xhr.status >= 300) && option.onError) {
+      return option.onError(getError(action, xhr));
+    } else if (option.onSuccess) {
+      option.onSuccess(getBody(xhr));
+      return null;
+    }
+  };
+
+  xhr.open('post', action, true);
+
+  if (option.withCredentials && 'withCredentials' in xhr) {
+    xhr.withCredentials = true;
+  }
+
+  var headers = option.headers || {};
+
+  for (var item in headers) {
+    if (headers.hasOwnProperty(item) && headers[item] !== null) {
+      xhr.setRequestHeader(item, headers[item]);
+    }
+  }
+
+  xhr.send(formData);
+  return xhr;
+};
+
+exports.upload = upload;
+
+var getData = function getData(url) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+      if (xhr.status < 200 || xhr.status >= 300) {
+        reject(getError(url, xhr));
+      } else {
+        resolve(getBody(xhr));
+      }
+    };
+
+    xhr.open('get', url, true);
+    xhr.send();
+  });
+};
+
+exports.getData = getData;
+},{}],"../models/UploadModel.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var _mobx = require("mobx");
+
+var _ajax = require("../utils/ajax");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var UploadModel =
+/*#__PURE__*/
+function () {
+  function UploadModel() {
+    var _this = this;
+
+    _classCallCheck(this, UploadModel);
+
+    this.rawFiles = [];
+    this.xhrQueue = {};
+    this.uploadListStatus = {};
+    this.remoteImageArray = [];
+    this.uploadAPI = 'https://sm.ms/api/upload?inajax=1&ssl=1';
+    this.uploadHistoryAPI = 'https://sm.ms/api/list';
+    this.clearuploadHistoryAPI = 'https://sm.ms/api/clear';
+
+    this.getFileList = function (node) {
+      if (!_this.isXhrQueueEmpty) {
+        return;
+      }
+
+      var files = node.files;
+      var rawFiles = Array.prototype.slice.call(files);
+      console.log(rawFiles);
+      _this.rawFiles = rawFiles;
+    };
+
+    this.doUpload = function () {
+      if (!_this.isXhrQueueEmpty) {
+        return;
+      }
+
+      _this.postFiles.forEach(function (file, index) {
+        var uid = file.uid;
+        _this.xhrQueue[uid] = (0, _ajax.upload)({
+          action: _this.uploadAPI,
+          file: file,
+          filename: 'smfile',
+          onError: function onError() {
+            _this.uploadListStatus[uid].status = 'error';
+            delete _this.xhrQueue[uid];
+          },
+          onProgress: function onProgress(e) {
+            _this.uploadListStatus[uid].progress = e;
+            _this.uploadListStatus[uid].status = 'pending';
+          },
+          onSuccess: function onSuccess(e) {
+            _this.uploadListStatus[uid].status = 'done';
+            _this.uploadListStatus[uid].remote = e.data;
+
+            _this.remoteImageArray.push(e.data);
+
+            delete _this.xhrQueue[uid];
+
+            if (_this.isXhrQueueEmpty) {
+              _this.rawFiles = [];
+            }
+          }
+        });
+      });
+    };
+  }
+
+  _createClass(UploadModel, [{
+    key: "getUploadHistory",
+    value: function getUploadHistory() {
+      (0, _ajax.getData)(this.uploadHistoryAPI).then(function (param) {
+        console.log(param);
+      });
+    }
+  }, {
+    key: "clearUploadHistory",
+    value: function clearUploadHistory() {
+      (0, _ajax.getData)(this.clearuploadHistoryAPI).then(function (param) {
+        console.log(param);
+      });
+    }
+  }, {
+    key: "deleteUploadListStatusItem",
+    value: function deleteUploadListStatusItem(uid) {
+      delete this.uploadListStatus[uid];
+    }
+  }, {
+    key: "deleteRemoteImage",
+    value: function deleteRemoteImage(token, onSuccess, onError) {
+      (0, _ajax.getData)(token).then(function (param) {
+        onSuccess(param);
+      }).catch(function (e) {
+        onError(e);
+      });
+    }
+  }, {
+    key: "abort",
+    value: function abort(uid) {
+      var _this2 = this;
+
+      if (uid) {
+        this.xhrQueue[uid].abort();
+      } else {
+        Object.keys(this.xhrQueue).forEach(function (id) {
+          _this2.xhrQueue[id].abort();
+
+          delete _this2.xhrQueue[id];
+        });
+      }
+    }
+  }, {
+    key: "postFiles",
+    get: function get() {
+      var _this3 = this;
+
+      var baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+      return this.rawFiles.filter(function (file, index) {
+        var fileType = file.type.split('/')[1];
+
+        if (baseType.indexOf(fileType) > -1) {
+          var uid = "".concat(Date.now()).concat(index);
+          file.uid = uid;
+          _this3.uploadListStatus[uid] = {
+            file: file,
+            progress: null,
+            remote: null,
+            status: 'ready'
+          };
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+  }, {
+    key: "isXhrQueueEmpty",
+    get: function get() {
+      if (Object.keys(this.xhrQueue).length > 0) {
+        console.log('上传队列尚未完成！');
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }]);
+
+  return UploadModel;
+}();
+
+exports.default = UploadModel;
+
+tslib_1.__decorate([_mobx.observable], UploadModel.prototype, "rawFiles", void 0);
+
+tslib_1.__decorate([_mobx.observable], UploadModel.prototype, "xhrQueue", void 0);
+
+tslib_1.__decorate([_mobx.observable], UploadModel.prototype, "uploadListStatus", void 0);
+
+tslib_1.__decorate([_mobx.observable], UploadModel.prototype, "remoteImageArray", void 0);
+
+tslib_1.__decorate([_mobx.action], UploadModel.prototype, "getFileList", void 0);
+
+tslib_1.__decorate([_mobx.computed], UploadModel.prototype, "postFiles", null);
+
+tslib_1.__decorate([_mobx.computed], UploadModel.prototype, "isXhrQueueEmpty", null);
+
+tslib_1.__decorate([_mobx.action], UploadModel.prototype, "deleteUploadListStatusItem", null);
+
+tslib_1.__decorate([_mobx.action], UploadModel.prototype, "abort", null);
+
+tslib_1.__decorate([_mobx.action], UploadModel.prototype, "doUpload", void 0);
+},{"../utils/ajax":"../utils/ajax.ts"}],"../store/index.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _UploadModel = _interopRequireDefault(require("../models/UploadModel"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var stores = {
+  upload: new _UploadModel.default()
+};
+var _default = stores;
+exports.default = _default;
+},{"../models/UploadModel":"../models/UploadModel.ts"}],"../layouts/Sidebar.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -520,100 +837,6 @@ function (_React$Component) {
 
 var _default = SyncView;
 exports.default = _default;
-},{}],"../utils/ajax.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var getError = function getError(action, xhr) {
-  var msg;
-
-  if (xhr.response) {
-    msg = "".concat(xhr.response.error || xhr.response);
-  } else if (xhr.responseText) {
-    msg = "".concat(xhr.responseText);
-  } else {
-    msg = "fail to post ".concat(action, " ").concat(xhr.status);
-  }
-
-  var err = new Error(msg);
-  err.status = xhr.status;
-  err.method = 'post';
-  err.url = action;
-  return err;
-};
-
-var getBody = function getBody(xhr) {
-  var text = xhr.responseText || xhr.response;
-
-  if (!text) {
-    return text;
-  }
-
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    return text;
-  }
-};
-
-var upload = function upload(option) {
-  var xhr = new XMLHttpRequest();
-  var action = option.action;
-
-  if (xhr.upload) {
-    xhr.upload.onprogress = function (e) {
-      if (e.total > 0) {
-        e.percent = e.loaded / e.total * 100;
-      }
-
-      if (option.onProgress) {
-        option.onProgress(e);
-      }
-    };
-  }
-
-  var formData = new FormData();
-  formData.append(option.filename, option.file, option.file.name);
-
-  xhr.onerror = function (e) {
-    if (option.onError) {
-      option.onError(e);
-    }
-  };
-
-  xhr.onload = function () {
-    if ((xhr.status < 200 || xhr.status >= 300) && option.onError) {
-      return option.onError(getError(action, xhr));
-    } else if (option.onSuccess) {
-      option.onSuccess(getBody(xhr));
-      return null;
-    }
-  };
-
-  xhr.open('post', action, true);
-
-  if (option.withCredentials && 'withCredentials' in xhr) {
-    xhr.withCredentials = true;
-  }
-
-  var headers = option.headers || {};
-
-  for (var item in headers) {
-    if (headers.hasOwnProperty(item) && headers[item] !== null) {
-      xhr.setRequestHeader(item, headers[item]);
-    }
-  }
-
-  xhr.send(formData);
-  return xhr;
-};
-
-var _default = upload;
-exports.default = _default;
 },{}],"../views/Upload.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -622,11 +845,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var _mobxReact = require("mobx-react");
+
 var React = _interopRequireWildcard(require("react"));
-
-var _ajax = _interopRequireDefault(require("../utils/ajax"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -659,44 +882,11 @@ function (_React$Component) {
     _classCallCheck(this, UploadView);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UploadView).apply(this, arguments));
-    _this.reqQueue = {};
-    _this.postFiles = [];
 
     _this.handleList = function () {
-      var baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
-      var files = _this.fileIpt ? _this.fileIpt.files : [];
-      var postFiles = Array.prototype.slice.call(files);
-      postFiles = postFiles.filter(function (rawFile, index) {
-        var fileType = rawFile.type.split('/')[1];
-
-        if (baseType.indexOf(fileType) > -1) {
-          var uid = "".concat(Date.now()).concat(index);
-          rawFile.uid = uid;
-          return true;
-        } else {
-          return false;
-        }
-      });
-      _this.postFiles = postFiles;
-      console.log(postFiles);
-    };
-
-    _this.handleUpload = function () {
-      _this.postFiles.forEach(function (rawFile, index) {
-        var uid = rawFile.uid;
-        _this.reqQueue[uid] = (0, _ajax.default)({
-          action: 'https://sm.ms/api/upload?inajax=1&ssl=1',
-          file: rawFile,
-          filename: 'smfile',
-          onProgress: function onProgress(e) {
-            console.log(e);
-          },
-          onSuccess: function onSuccess(e) {
-            console.log(e);
-            delete _this.reqQueue[uid];
-          }
-        });
-      });
+      if (_this.fileIpt) {
+        _this.props.getFileList(_this.fileIpt);
+      }
     };
 
     return _this;
@@ -707,6 +897,14 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var _this$props = this.props,
+          clearUploadHistory = _this$props.clearUploadHistory,
+          deleteUploadListStatusItem = _this$props.deleteUploadListStatusItem,
+          doUpload = _this$props.doUpload,
+          getUploadHistory = _this$props.getUploadHistory,
+          uploadListStatus = _this$props.uploadListStatus,
+          postFiles = _this$props.postFiles;
+      var uids = Object.keys(uploadListStatus);
       return React.createElement("div", null, React.createElement("br", null), React.createElement("br", null), React.createElement("input", {
         type: "file",
         multiple: true,
@@ -718,17 +916,76 @@ function (_React$Component) {
         onChange: this.handleList,
         onDrop: this.handleList
       }), React.createElement("button", {
-        onClick: this.handleUpload
-      }, "\u56FE\u7247\u4E0A\u4F20"));
+        onClick: doUpload
+      }, "\u56FE\u7247\u4E0A\u4F20"), React.createElement("button", {
+        onClick: getUploadHistory
+      }, "\u83B7\u53D6\u4E0A\u4F20\u5386\u53F2"), React.createElement("button", {
+        onClick: clearUploadHistory
+      }, "\u6E05\u9664\u4E0A\u4F20\u5386\u53F2"), React.createElement("div", {
+        style: {
+          background: '#f4f4f4'
+        }
+      }, postFiles.map(function (item, i) {
+        return React.createElement("div", {
+          style: {
+            borderBottom: '1px solid #ccc',
+            fontSize: '10px'
+          },
+          key: i
+        }, "name: ", item.name, " ", React.createElement("br", null), "path: ", item.path, " ", React.createElement("br", null), "size: ", item.size, " ", React.createElement("br", null));
+      })), React.createElement("div", {
+        style: {
+          background: '#8aa7d2'
+        }
+      }, uids.length > 0 && uids.map(function (uid) {
+        var item = uploadListStatus[uid];
+        return React.createElement("div", {
+          style: {
+            borderBottom: '1px solid #51637d',
+            fontSize: '12px'
+          },
+          key: uid
+        }, "name: ", item.file.name, " ", React.createElement("br", null), "status: ", item.status, " ", React.createElement("br", null), "progress: ", item.progress ? item.progress.percent : 'error', " ", React.createElement("br", null), "link: ", item.remote ? React.createElement("a", {
+          href: '#'
+        }, item.remote.url) : 'null', React.createElement("button", {
+          onClick: function onClick(e) {
+            deleteUploadListStatusItem(uid);
+          }
+        }, "\u5220\u9664"));
+      })));
     }
   }]);
 
   return UploadView;
 }(React.Component);
 
+UploadView = tslib_1.__decorate([(0, _mobxReact.inject)(function (stores) {
+  var _stores$upload = stores.upload,
+      postFiles = _stores$upload.postFiles,
+      uploadListStatus = _stores$upload.uploadListStatus;
+  return {
+    clearUploadHistory: function clearUploadHistory() {
+      return stores.upload.clearUploadHistory();
+    },
+    deleteUploadListStatusItem: function deleteUploadListStatusItem(e) {
+      return stores.upload.deleteUploadListStatusItem(e);
+    },
+    doUpload: function doUpload() {
+      return stores.upload.doUpload();
+    },
+    getFileList: function getFileList(node) {
+      return stores.upload.getFileList(node);
+    },
+    getUploadHistory: function getUploadHistory() {
+      return stores.upload.getUploadHistory();
+    },
+    postFiles: postFiles,
+    uploadListStatus: uploadListStatus
+  };
+}), _mobxReact.observer], UploadView);
 var _default = UploadView;
 exports.default = _default;
-},{"../utils/ajax":"../utils/ajax.ts"}],"App.tsx":[function(require,module,exports) {
+},{}],"App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -754,7 +1011,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-// const Sync = React.lazy(() => import('../views/Sync'));
 var App = function App() {
   return React.createElement("div", {
     className: "app-core"
@@ -854,11 +1110,17 @@ module.hot.accept(reloadCSS);
 },{"./../font/halo.ttf":[["halo.d81157db.ttf","../assets/font/halo.ttf"],"../assets/font/halo.ttf"],"./../img/logo.png":[["logo.bc646dd2.png","../assets/img/logo.png"],"../assets/img/logo.png"],"_css_loader":"../../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
+var _mobxReact = require("mobx-react");
+
+var _mobxReactDevtools = require("mobx-react-devtools");
+
 var React = _interopRequireWildcard(require("react"));
 
 var ReactDOM = _interopRequireWildcard(require("react-dom"));
 
 var _reactRouterDom = require("react-router-dom");
+
+var _store = _interopRequireDefault(require("../store"));
 
 var _App = _interopRequireDefault(require("./App"));
 
@@ -868,10 +1130,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-ReactDOM.render(React.createElement(_reactRouterDom.HashRouter, {
+(0, _mobxReactDevtools.configureDevtool)({
+  graphEnabled: false,
+  logEnabled: true,
+  logFilter: function logFilter(change) {
+    return change.type === 'reaction';
+  },
+  updatesEnabled: false
+});
+ReactDOM.render(React.createElement(_mobxReact.Provider, Object.assign({}, _store.default), React.createElement(_reactRouterDom.HashRouter, {
   basename: "/"
-}, React.createElement(_App.default, null)), document.getElementById("MOUNT_NODE"));
-},{"./App":"App.tsx","../assets/style/app.scss":"../assets/style/app.scss"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+}, React.createElement("div", {
+  className: "app-container-wrap"
+}, React.createElement(_App.default, null)))), document.getElementById("MOUNT_NODE"));
+},{"../store":"../store/index.ts","./App":"App.tsx","../assets/style/app.scss":"../assets/style/app.scss"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var OVERLAY_ID = '__parcel__error__overlay__';
 
 var OldModule = module.bundle.Module;
