@@ -1,20 +1,26 @@
-import { remote } from 'electron';
 import * as React from 'react';
-const { Menu, MenuItem, getCurrentWindow } = remote;
+import { CreateContextMenu } from '../utils/bridge';
 
 class SyncView extends React.Component {
+  public contextMenu: any = null;
 
   public componentDidMount () {
     // 右键菜单
-    const menu = new Menu();
-    menu.append(new MenuItem({ label: 'MenuItem1', click: () => { console.log('item 1 clicked'); } }));
-    menu.append(new MenuItem({ type: 'separator' }));
-    menu.append(new MenuItem({ label: 'MenuItem2', type: 'checkbox', checked: true }));
+    this.contextMenu = new CreateContextMenu(window, [{
+      click: () => { console.log('点击第一个菜单'); },
+      label: '第一个菜单'
+    }, {
+      type: 'separator'
+    }, {
+      checked: true,
+      click: (e: any) => { console.log(e.checked ? '已选中' : '未选中'); },
+      label: '第二个菜单',
+      type: 'checkbox'
+    }]);
+  }
 
-    window.addEventListener('contextmenu', (e: any) => {
-      e.preventDefault();
-      menu.popup(getCurrentWindow());
-    }, false);
+  public componentWillUnmount () {
+    this.contextMenu.unbind();
   }
 
   public render() {

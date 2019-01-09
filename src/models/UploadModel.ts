@@ -3,7 +3,7 @@ import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
 
 export default class UploadModel {
-  @observable public rawFiles: any[] = [];
+  @observable public postFiles: any[] = [];
   @observable public xhrQueue: object = {};
   @observable public uploadListStatus: object = {};
   @observable public remoteImageArray: any[] = [];
@@ -15,30 +15,16 @@ export default class UploadModel {
     }
     const files = node.files;
     const rawFiles = Array.prototype.slice.call(files);
-    this.rawFiles = rawFiles;
-  }
 
-  @action
-  public deleteRawFileById (uid: string): void {
-    const tmpArr: any[] = [];
-    this.rawFiles.forEach((file, i) => {
-      if (file.uid !== uid) {
-        tmpArr.push(file)
-      }
-    })
-    this.rawFiles = tmpArr;
-  }
-
-  @computed
-  get postFiles (): any[] {
     const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
 
-    return this.rawFiles.filter((file: any, index: number): boolean => {
-      const uid = `${Date.now()}${index}`;
-      file.uid = uid;
-
+    this.postFiles = rawFiles.filter((file: any, index: number): boolean => {
       const fileType = file.type.split('/')[1];
       if (baseType.indexOf(fileType) > -1) {
+        const uid = `${Date.now()}${index}`;
+        file.uid = uid;
+        file.addIndex = index;
+
         this.uploadListStatus[uid] = {
           file,
           progress: null,
@@ -51,6 +37,11 @@ export default class UploadModel {
         return false;
       }
     });
+  }
+
+  @action
+  public deletePostFile (index: number): void {
+    delete this.postFiles[index];
   }
 
   @computed
@@ -78,16 +69,20 @@ export default class UploadModel {
   }
 
   @action
-  public deleteUploadListStatusItem (uid: string) {
+  public deleteUploadListStatusItem (uid: string, addIndex: number) {
     delete this.uploadListStatus[uid];
     if (this.xhrQueue[uid]) {
       this.xhrQueue[uid].abort();
       delete this.xhrQueue[uid];
-      this.deleteRawFileById(uid);
     }
+    this.deletePostFile(addIndex);
   }
 
-  public deleteRemoteImage (token: string, onSuccess: (e: object) => void, onError: (e: any) => void) {
+  public deleteRemoteImage (
+    token: string,
+    onSuccess: (e: object) => void,
+    onError: (e: any) => void
+  ) {
     getData(token)
       .then((param) => {
         onSuccess(param);
@@ -140,7 +135,7 @@ export default class UploadModel {
           this.remoteImageArray.push(e.data);
           delete this.xhrQueue[uid];
           if (this.isXhrQueueEmpty) {
-            this.rawFiles = [];
+            this.postFiles = [];
           }
         }
       });

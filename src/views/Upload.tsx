@@ -6,7 +6,7 @@ interface IProps {
   doUpload: () => void;
   getUploadHistory: () => void;
   clearUploadHistory: () => void;
-  deleteUploadListStatusItem: (e: string) => void;
+  deleteUploadListStatusItem: (e: string, i: number) => void;
   getFileList: (node: HTMLInputElement) => void;
   postFiles: any[];
   uploadListStatus: object;
@@ -16,7 +16,7 @@ interface IProps {
   const { upload: { postFiles, uploadListStatus } } = stores;
   return {
     clearUploadHistory: () => stores.upload.clearUploadHistory(),
-    deleteUploadListStatusItem: (e: string) => stores.upload.deleteUploadListStatusItem(e),
+    deleteUploadListStatusItem: (e: string, i: number) => stores.upload.deleteUploadListStatusItem(e, i),
     doUpload: () => stores.upload.doUpload(),
     getFileList: (node: HTMLInputElement) => stores.upload.getFileList(node),
     getUploadHistory: () => stores.upload.getUploadHistory(),
@@ -27,7 +27,7 @@ interface IProps {
 
 @observer
 class UploadView extends React.Component<IProps> {
-  private fileIpt: HTMLInputElement | null;
+  private fileIpt: HTMLInputElement | null = null;
 
   public handleList = () => {
     if (this.fileIpt) {
@@ -90,7 +90,7 @@ class UploadView extends React.Component<IProps> {
                 status: {item.status} <br/>
                 progress: {item.progress ? item.progress.percent : 'error'} <br/>
                 link: {item.remote ? <button onClick={e => { this.saveClipboard(item.remote.url) }}>🔗点击复制链接</button> : 'null' }
-                <button onClick={e => { deleteUploadListStatusItem(uid) }}>删除</button>
+                <button onClick={e => { deleteUploadListStatusItem(uid, item.file.addIndex) }}>删除</button>
               </div>
             )
           })

@@ -1,11 +1,46 @@
 @import './reset.scss';
 @import './mixin.scss';
 
-.app-container-wrap {
-  font-size: 14px;
+.app-menu-sidebar {
+  width: 60px;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #eef1f6;
+
+  .app-logo {
+    width: 42px;
+    height: 42px;
+    background: url(../img/logo.png) no-repeat;
+    background-size: 100%;
+    margin: 30px auto 20px;
+  }
+
+  .menu-button-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    a {
+      display: block;
+      text-align: center;
+    }
+  }
+}
+
+.app-content {
+  position: fixed;
+  left: 60px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
   @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
 }
 
+// ///////////////////////////////////////////////////////////////
 
 @font-face {
   font-family: 'halofont';
@@ -26,12 +61,6 @@ body {
     font-size: 32px;
     line-height: 2;
     text-align: center;
-  }
-}
-
-footer {
-  a {
-    margin: 20px;
   }
 }
 

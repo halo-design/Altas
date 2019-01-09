@@ -1,16 +1,18 @@
 const { app } = require('electron')
 const createWindow = require('./createWindow')
+const createMenu = require('./menu')
 
 const ipcBridge = require('../utils/bridge')
-const isDev = process.env.NODE_ENV === 'development'
+let mainWindow
 
 const init = () => {
-  createWindow({
+  createMenu()
+
+  mainWindow = createWindow({
     entry: 'app/index.html',
     width: 960,
     height: 620,
-    bridge: ipcBridge,
-    devtool: isDev
+    bridge: ipcBridge
   })
 }
 

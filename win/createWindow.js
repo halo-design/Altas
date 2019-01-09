@@ -6,6 +6,7 @@ const file = require('../utils/file')
 const pkg = require('../package.json')
 
 const isWin = process.platform === 'win32'
+const isDev = process.env.NODE_ENV === 'development'
 
 const createWindow = ({ entry, width, height, bridge, devtool }) => {
   const mainWindowState = windowStateKeeper({
@@ -18,10 +19,11 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    transparent: true,
-    titleBarStyle: 'hiddenInset',
-    backgroundColor: 'none',
-    resizable: false,
+    transparent: false,
+    backgroundColor: '#fff',
+    titleBarStyle: 'hidden',
+    resizable: isDev,
+    alwaysOnTop: !isDev,
     webPreferences: {
       nodeIntegration: true,
       scrollBounce: true
@@ -37,8 +39,6 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
     protocol: 'file:',
     slashes: true
   }))
-
-  devtool && mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', () => {
     mainWindow = null

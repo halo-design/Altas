@@ -15,15 +15,12 @@ configureDevtool({
   updatesEnabled: false,
 });
 
-const clinetHeight = document.documentElement.clientHeight;
 document.documentElement.classList.add(process.platform);
 
 ReactDOM.render(
   <Provider {...store}>
     <Router basename="/">
-      <div className="app-container-wrap" style={{ height: `${clinetHeight}px` }}>
-        <App />
-      </div>
+      <App />
     </Router>
   </Provider>,
   document.getElementById("MOUNT_NODE") as HTMLElement

@@ -1,13 +1,14 @@
 html {
   height: 100%;
   width: 100%;
-  // overflow: hidden;
+  overflow: hidden;
   -webkit-app-region: drag;
 }
 
 body {
   margin: 0;
   padding: 0;
+  font-size: 14px;
   font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
 }
 
