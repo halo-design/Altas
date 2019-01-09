@@ -16,6 +16,7 @@ configureDevtool({
 });
 
 const clinetHeight = document.documentElement.clientHeight;
+document.documentElement.classList.add(process.platform);
 
 ReactDOM.render(
   <Provider {...store}>

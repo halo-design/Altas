@@ -18,20 +18,34 @@ export default class UploadModel {
     this.rawFiles = rawFiles;
   }
 
+  @action
+  public deleteRawFileById (uid: string): void {
+    const tmpArr: any[] = [];
+    this.rawFiles.forEach((file, i) => {
+      if (file.uid !== uid) {
+        tmpArr.push(file)
+      }
+    })
+    this.rawFiles = tmpArr;
+  }
+
   @computed
   get postFiles (): any[] {
     const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+
     return this.rawFiles.filter((file: any, index: number): boolean => {
+      const uid = `${Date.now()}${index}`;
+      file.uid = uid;
+
       const fileType = file.type.split('/')[1];
       if (baseType.indexOf(fileType) > -1) {
-        const uid = `${Date.now()}${index}`;
-        file.uid = uid;
         this.uploadListStatus[uid] = {
           file,
           progress: null,
           remote: null,
           status: 'ready',
         };
+
         return true;
       } else {
         return false;
@@ -66,6 +80,11 @@ export default class UploadModel {
   @action
   public deleteUploadListStatusItem (uid: string) {
     delete this.uploadListStatus[uid];
+    if (this.xhrQueue[uid]) {
+      this.xhrQueue[uid].abort();
+      delete this.xhrQueue[uid];
+      this.deleteRawFileById(uid);
+    }
   }
 
   public deleteRemoteImage (token: string, onSuccess: (e: object) => void, onError: (e: any) => void) {
@@ -106,12 +125,18 @@ export default class UploadModel {
           delete this.xhrQueue[uid];
         },
         onProgress: (e) => {
-          this.uploadListStatus[uid].progress = e;
-          this.uploadListStatus[uid].status = 'pending';
+          const itemStatus = this.uploadListStatus[uid];
+          if (itemStatus) {
+            itemStatus.progress = e;
+            itemStatus.status = 'pending';
+          }
         },
         onSuccess: (e) => {
-          this.uploadListStatus[uid].status = 'done';
-          this.uploadListStatus[uid].remote = e.data;
+          const itemStatus = this.uploadListStatus[uid];
+          if (itemStatus) {
+            itemStatus.status = 'done';
+            itemStatus.remote = e.data;
+          }
           this.remoteImageArray.push(e.data);
           delete this.xhrQueue[uid];
           if (this.isXhrQueueEmpty) {
