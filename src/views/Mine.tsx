@@ -55,8 +55,8 @@ class MineView extends React.Component<object, IState> {
   public componentWillMount () {
     IPC.test();
 
-    IPC.detect((arg: { appName: string, version: string }) => {
-      const { appName, version } = arg
+    IPC.detect((args: any): void => {
+      const { appName, version } = args
       console.log(`${appName} ${version}已经启动！`)
     });
 

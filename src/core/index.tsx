@@ -8,12 +8,16 @@ import App from './App';
 
 import '../assets/style/app.scss';
 
-configureDevtool({
-  graphEnabled: false,
-  logEnabled: true,
-  logFilter: change => change.type === 'reaction',
-  updatesEnabled: false,
-});
+const isDev = process.env.NODE_ENV === 'development'
+
+if (isDev) {
+  configureDevtool({
+    graphEnabled: false,
+    logEnabled: true,
+    logFilter: (change: any) => change.type === 'reaction',
+    updatesEnabled: false,
+  });
+}
 
 document.documentElement.classList.add(process.platform);
 

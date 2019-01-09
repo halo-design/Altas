@@ -1,7 +1,8 @@
 const { Menu } = require('electron')
+const isDev = process.env.NODE_ENV === 'development'
 
 const createMenu = () => {
-  const template = [{
+  const editTpl = {
     label: '编辑',
     submenu: [{
       label: '撤销',
@@ -30,7 +31,9 @@ const createMenu = () => {
       accelerator: 'CmdOrCtrl+A',
       role: '全选'
     }]
-  }, {
+  }
+
+  const viewTpl = {
     label: '视图',
     submenu: [{
       label: '重载',
@@ -48,7 +51,11 @@ const createMenu = () => {
           focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
         }
       }
-    }, {
+    }]
+  }
+
+  if (isDev) {
+    viewTpl.submenu.push({
       label: '切换开发者工具',
       accelerator: process.platform == 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
       click: (item, focusedWindow) => {
@@ -56,8 +63,10 @@ const createMenu = () => {
           focusedWindow.toggleDevTools()
         }
       }
-    }]
-  }, {
+    })
+  }
+
+  const winTpl = {
     label: '窗口',
     role: '窗口',
     submenu: [{
@@ -69,7 +78,9 @@ const createMenu = () => {
       accelerator: 'CmdOrCtrl+W',
       role: '关闭'
     }]
-  }, {
+  }
+
+  const helpTpl = {
     label: '帮助',
     role: '帮助',
     submenu: [{
@@ -80,7 +91,9 @@ const createMenu = () => {
             .openExternal('http://106.14.138.86:7000/halo/')
       }
     }]
-  }]
+  }
+
+  const template = [editTpl, viewTpl, winTpl, helpTpl]
 
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
