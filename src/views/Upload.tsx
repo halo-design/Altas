@@ -89,7 +89,11 @@ class UploadView extends React.Component<IProps> {
                 name: {item.file.name} <br/>
                 status: {item.status} <br/>
                 progress: {item.progress ? item.progress.percent : '0'} <br/>
-                link: {item.remote ? <button onClick={e => { this.saveClipboard(item.remote.url) }}>🔗点击复制链接</button> : 'null' }
+                link: {
+                  item.remote
+                  ? <button onClick={e => { this.saveClipboard(item.remote.url) }}>🔗点击复制链接</button> 
+                  : 'null'
+                }
                 <button onClick={e => { deleteUploadListStatusItem(uid, item.file.addIndex) }}>删除</button>
               </div>
             )
