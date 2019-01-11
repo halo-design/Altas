@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import store from '../store';
+import createMenu from '../utils/menu';
 import App from './App';
 
 import '../assets/style/app.scss';
@@ -20,6 +21,7 @@ if (isDev) {
 }
 
 document.documentElement.classList.add(process.platform);
+createMenu();
 
 ReactDOM.render(
   <Provider {...store}>

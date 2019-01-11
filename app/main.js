@@ -1,15 +1,12 @@
 const { app } = require('electron')
 const createWindow = require('./createWindow')
-const createMenu = require('./menu')
 
-const ipcBridge = require('../utils/bridge')
+const ipcBridge = require('./utils/bridge')
 let mainWindow
 
 const init = () => {
-  createMenu()
-
   mainWindow = createWindow({
-    entry: 'app/index.html',
+    entry: 'browser/index.html',
     width: 960,
     height: 620,
     bridge: ipcBridge

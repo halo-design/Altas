@@ -8,6 +8,7 @@ const Sidebar = () => (
       <NavLink exact={true} to="/home">home</NavLink>
       <NavLink exact={true} to="/upload">upload</NavLink>
       <NavLink exact={true} to="/mine">mine</NavLink>
+      <NavLink exact={true} to="/device">device</NavLink>
       <NavLink exact={true} to="/sync">sync</NavLink>
     </div>
   </footer>

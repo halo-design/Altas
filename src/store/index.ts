@@ -1,7 +1,9 @@
+import DeviceModel from '../models/DeviceModel';
 import UploadModel from '../models/UploadModel';
 
 const stores = {
-  upload: new UploadModel()
+  device: new DeviceModel(),
+  upload: new UploadModel(),
 }
 
 export default stores;

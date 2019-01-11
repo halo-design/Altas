@@ -11,7 +11,7 @@ export default {
       cb(args);
     });
   }
-};
+}
 
 export const readClipboard = {
   trigger: (): void => {
@@ -27,7 +27,7 @@ export const readClipboard = {
   unbind: (): void => {
     ipcRenderer.removeAllListeners('get-clipboard-text');
   }
-};
+}
 
 export const writeClipboard = (txt: string) => {
   ipcRenderer.send('write-clipboard', txt);
@@ -47,7 +47,7 @@ export const download = {
   unbind: (): void => {
     ipcRenderer.removeAllListeners('on-download-state');
   }
-};
+}
 
 // https://www.npmjs.com/package/electron-better-dialog
 export const messageBox = (args: object): void => {
@@ -86,5 +86,4 @@ export class CreateContextMenu {
   public unbind () {
     this.target.removeEventListener('contextmenu', this.init);
   }
-  
 }

@@ -1,1 +1,1 @@
-# electron-altas
+# Altas

@@ -2,7 +2,7 @@ const { BrowserWindow } = require('electron')
 const windowStateKeeper = require('electron-window-state')
 const url = require('url')
 
-const file = require('../utils/file')
+const file = require('./utils/file')
 const pkg = require('../package.json')
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -30,8 +30,8 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
       scrollBounce: true
     },
     frame: false,
-    icon: file.path('win/resource/dock.ico'),
-    appIcon: file.path('win/resource/dock.png')
+    icon: file.path('app/resource/dock.ico'),
+    appIcon: file.path('app/resource/dock.png')
   }
 
   let mainWindow = new BrowserWindow(options)

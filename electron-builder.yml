@@ -2,10 +2,10 @@ productName: Altas
 appId: gh.halo-design.altas
 
 files: 
-  - app/
+  - browser/
   - node_modules/
   - utils/
-  - win/
+  - app/
   - package.json
 
 compression: maximum
@@ -22,10 +22,10 @@ dmg:
   title: Altas ${version}
 
 mac:
-  icon: win/resource/dock.icns
+  icon: app/resource/dock.icns
 
 linux:
-  icon: win/resource
+  icon: app/resource
   category: app.tools
   executableName: Altas
   target: 
@@ -35,13 +35,13 @@ linux:
 
 win:
   target: nsis
-  icon: win/resource/dock.ico
+  icon: app/resource/dock.ico
 
 nsis: 
   oneClick: false
-  installerIcon: win/resource/dock.ico
-  uninstallerIcon: win/resource/dock.ico
-  installerHeaderIcon: win/resource/dock.ico
+  installerIcon: app/resource/dock.ico
+  uninstallerIcon: app/resource/dock.ico
+  installerHeaderIcon: app/resource/dock.ico
   allowToChangeInstallationDirectory: true
   artifactName: ${productName}-${version}-${os}-${arch}-setup.${ext}
   deleteAppDataOnUninstall: true

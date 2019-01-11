@@ -3,7 +3,7 @@
 .cache
 node_modules/
 packages/
-app/static/
+browser/static/
 
 npm-debug.log*
 yarn-debug.log*
