@@ -15,11 +15,19 @@ interface IProps {
 @inject((stores: any) => {
   const { upload: { postFiles, uploadListStatus } } = stores;
   return {
-    clearUploadHistory: () => stores.upload.clearUploadHistory(),
-    deleteUploadListStatusItem: (e: string, i: number) => stores.upload.deleteUploadListStatusItem(e, i),
+    clearUploadHistory: () => {
+      stores.upload.clearUploadHistory()
+    },
+    deleteUploadListStatusItem: (e: string, i: number) => {
+      stores.upload.deleteUploadListStatusItem(e, i)
+    },
     doUpload: () => stores.upload.doUpload(),
-    getFileList: (node: HTMLInputElement) => stores.upload.getFileList(node),
-    getUploadHistory: () => stores.upload.getUploadHistory(),
+    getFileList: (node: HTMLInputElement) => {
+      stores.upload.getFileList(node)
+    },
+    getUploadHistory: () => {
+      stores.upload.getUploadHistory()
+    },
     postFiles,
     uploadListStatus,
   }
@@ -49,6 +57,7 @@ class UploadView extends React.Component<IProps> {
       uploadListStatus,
       postFiles,
     } = this.props;
+  
     const uids = Object.keys(uploadListStatus);
 
     return (

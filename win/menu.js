@@ -1,5 +1,6 @@
 const { Menu } = require('electron')
 const isDev = process.env.NODE_ENV === 'development'
+const isMac = process.platform === 'darwin'
 
 const createMenu = () => {
   const editTpl = {
@@ -43,7 +44,11 @@ const createMenu = () => {
           focusedWindow.reload()
         }
       }
-    }, {
+    }]
+  }
+
+  if (isMac) {
+    viewTpl.submenu.push({
       label: '切换全屏',
       accelerator: process.platform == 'darwin' ? 'Ctrl+Command+F' : 'F11',
       click: (item, focusedWindow) => {
@@ -51,7 +56,7 @@ const createMenu = () => {
           focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
         }
       }
-    }]
+    })
   }
 
   if (isDev) {

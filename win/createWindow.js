@@ -5,7 +5,6 @@ const url = require('url')
 const file = require('../utils/file')
 const pkg = require('../package.json')
 
-const isWin = process.platform === 'win32'
 const isDev = process.env.NODE_ENV === 'development'
 
 const createWindow = ({ entry, width, height, bridge, devtool }) => {
@@ -14,23 +13,28 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
     defaultHeight: height,
   })
 
-  let mainWindow = new BrowserWindow({
+  const options = {
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
+    center: true,
+    // fullscreenable: false,
     transparent: false,
     backgroundColor: '#fff',
     titleBarStyle: 'hidden',
     resizable: isDev,
-    alwaysOnTop: !isDev,
+    // alwaysOnTop: isDev,
     webPreferences: {
       nodeIntegration: true,
       scrollBounce: true
     },
-    frame: !isWin,
+    frame: false,
+    icon: file.path('win/resource/dock.ico'),
     appIcon: file.path('win/resource/dock.png')
-  })
+  }
+
+  let mainWindow = new BrowserWindow(options)
 
   mainWindowState.manage(mainWindow)
 

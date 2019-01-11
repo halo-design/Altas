@@ -13,6 +13,7 @@ export default class UploadModel {
     if (!this.isXhrQueueEmpty) {
       return
     }
+  
     const files = node.files;
     const rawFiles = Array.prototype.slice.call(files);
 
