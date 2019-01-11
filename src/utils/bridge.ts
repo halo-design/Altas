@@ -1,52 +1,39 @@
 import { ipcRenderer, remote } from 'electron';
 const { dialog, Menu, MenuItem, getCurrentWindow } = remote;
 
-export default {
-  test: (): void => {
-    ipcRenderer.send('ipc-start');
-  },
-
-  detect: (cb: (args: object) => void): void => {
-    ipcRenderer.once('ipc-running', (event: any, args: object) => {
-      cb(args);
-    });
-  }
+export const detect = (cb: (args: object) => void): void => {
+  ipcRenderer.send('ipc-start');
+  ipcRenderer.once('ipc-running', (event: any, args: object) => {
+    cb(args);
+  });
 }
 
-export const readClipboard = {
-  trigger: (): void => {
-    ipcRenderer.send('read-clipboard');
-  },
+export const readClipboard = (cb: (args: string) => void): void => {
+  ipcRenderer.send('read-clipboard');
+  ipcRenderer.once('get-clipboard-text', (event : any, args: string) => {
+    cb(args);
+  });
+}
 
-  bind: (cb: (args: string) => void): void => {
-    ipcRenderer.on('get-clipboard-text', (event : any, args: string) => {
-      cb(args);
-    });
-  },
-
-  unbind: (): void => {
-    ipcRenderer.removeAllListeners('get-clipboard-text');
-  }
+export const getIpAddress = (cb: (args: string) => void): void => {
+  ipcRenderer.send('get-ip-address');
+  ipcRenderer.once('ip-address', (event : any, args: string) => {
+    cb(args);
+  });
 }
 
 export const writeClipboard = (txt: string) => {
   ipcRenderer.send('write-clipboard', txt);
 }
 
-export const download = {
-  trigger: (url: string, args: object): void => {
-    ipcRenderer.send('file-download', url, args);
-  },
-
-  bind: (cb: (args: object) => void): void => {
-    ipcRenderer.on('on-download-state', (event : any, args: object) => {
-      cb(args);
-    });
-  },
-
-  unbind: (): void => {
-    ipcRenderer.removeAllListeners('on-download-state');
-  }
+export const download = (url: string, args: object, cb: (args: object) => void): void => {
+  ipcRenderer.send('file-download', url, args);
+  ipcRenderer.on('on-download-state', (event : any, params: any) => {
+    if (params.status === 'cancel' || params.status === 'finished' || params.status === 'error') {
+      ipcRenderer.removeAllListeners('on-download-state');
+    }
+    cb(params);
+  });
 }
 
 // https://www.npmjs.com/package/electron-better-dialog

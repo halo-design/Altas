@@ -11,6 +11,10 @@ const init = () => {
     height: 620,
     bridge: ipcBridge
   })
+
+  mainWindow.on('closed', function () {
+    mainWindow = null
+  })
 }
 
 app.on('ready', init)

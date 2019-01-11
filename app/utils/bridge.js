@@ -1,5 +1,6 @@
 const electron = require('electron')
 const { showBetterMessageBox } = require('electron-better-dialog')
+const ip = require('ip')
 const DL = require('electron-dl')
 const { ipcMain, clipboard } = electron
 
@@ -33,14 +34,25 @@ module.exports = (mainWindow, pkg) => {
       },
       onProgress: e => {
         mainWindow.webContents.send('on-download-state', {
-          status: e === 1 ? 'finished' : 'running',
+          status: 'running',
           progress: e
         })
       },
       ...args
     })
-      .then(dl => console.log(dl.getSavePath()))
-      .catch(console.error)
+      .then(dl => {
+        console.log(dl.getSavePath())
+        mainWindow.webContents.send('on-download-state', {
+          status: 'finished',
+          progress: 1
+        })
+      })
+      .catch(() => {
+        mainWindow.webContents.send('on-download-state', {
+          status: 'error',
+          progress: 0
+        })
+      })
   })
 
   // 剪贴板监听
@@ -51,5 +63,10 @@ module.exports = (mainWindow, pkg) => {
   // 写入剪切板监听
   ipcMain.on('write-clipboard', (event, args) => {
     clipboard.writeText(args)
+  })
+
+  // 获取本机IP
+  ipcMain.on('get-ip-address', (event, args) => {
+    event.sender.send('ip-address', ip.address())
   })
 }

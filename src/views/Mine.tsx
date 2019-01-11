@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
-import IPC, { download, messageBox, readClipboard, selectFile } from '../utils/bridge';
+import { detect, download, messageBox, readClipboard, selectFile } from '../utils/bridge';
 
 export interface IState {
   filePath: string;
@@ -34,9 +34,11 @@ class MineView extends React.Component<object, IState> {
     const { filePath } = this.state;
     if (this.testPath(filePath)) {
       console.log(filePath);
-      download.trigger(filePath, {
+      download(filePath, {
         openFolderWhenDone: true,
         saveAs: true,
+      }, (arg: object) => {
+        console.log(arg)
       });
     } else {
       this.clearPath();
@@ -49,23 +51,15 @@ class MineView extends React.Component<object, IState> {
 
   public handlePaste = (event: any) => {
     event.preventDefault();
-    readClipboard.trigger();
+    readClipboard((arg: string) => {
+      this.setPath(arg);
+    });
   }
 
   public componentWillMount () {
-    IPC.test();
-
-    IPC.detect((args: any): void => {
+    detect((args: any): void => {
       const { appName, version } = args
       console.log(`${appName} ${version}已经启动！`)
-    });
-
-    readClipboard.bind((arg: string) => {
-      this.setPath(arg);
-    });
-
-    download.bind((arg: object) => {
-      console.log(arg)
     });
   }
 
@@ -93,11 +87,6 @@ class MineView extends React.Component<object, IState> {
       }],
       message: 'Async',
     });
-  }
-
-  public componentWillUnmount () {
-    readClipboard.unbind();
-    download.unbind();
   }
 
   public render() {
