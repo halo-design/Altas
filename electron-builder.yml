@@ -2,10 +2,9 @@ productName: Altas
 appId: gh.halo-design.altas
 
 files: 
+  - app/
   - browser/
   - node_modules/
-  - utils/
-  - app/
   - package.json
 
 compression: maximum
@@ -19,7 +18,7 @@ dmg:
     y: 220
     type: link
     path: /Applications
-  title: Altas ${version}
+  title: Altas ${version} Install
 
 mac:
   icon: app/resource/dock.icns

@@ -1,10 +1,11 @@
 {
-  "name": "electron-altas",
+  "name": "altas",
   "appName": "Altas",
   "version": "0.0.4",
   "description": "An Electron Application",
   "main": "app/main.js",
   "scripts": {
+    "upgrade": "curl --compressed -o- -L https://yarnpkg.com/install.sh | bash",
     "update": "yarn upgrade-interactive --latest",
     "dev": "rm -rf browser/static && parcel src/core/index.tsx --out-dir browser/static --target electron",
     "build": "rm -rf browser/static && parcel build src/core/index.tsx --out-dir browser/static --no-source-maps --target electron",
@@ -43,8 +44,8 @@
     "electron-builder": "^20.38.4",
     "node-sass": "^4.11.0",
     "parcel-bundler": "^1.11.0",
-    "sass": "^1.15.3",
-    "tslint": "^5.12.0",
+    "sass": "^1.16.0",
+    "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.2.2"
