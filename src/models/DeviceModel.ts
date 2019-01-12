@@ -7,8 +7,9 @@ export default class DeviceModel {
   @observable public ipAddress: any = {};
 
   constructor () {
-    getIpAddress(addr => {
-      this.ipAddress.local = addr
+    getIpAddress((addr: any) => {
+      this.ipAddress.local = addr.ip;
+      this.ipAddress.mac = addr.mac;
     })
   }
 

@@ -65,8 +65,15 @@ module.exports = (mainWindow, pkg) => {
     clipboard.writeText(args)
   })
 
-  // 获取本机IP
+  // 获取本机IP、MAC地址
   ipcMain.on('get-ip-address', (event, args) => {
-    event.sender.send('ip-address', ip.address())
+    const network = {}
+    require('getmac').getMac((err, macAddress) => {
+      if (!err) {
+        network.mac = macAddress
+      }
+      network.ip = ip.address()
+      event.sender.send('ip-address', network)
+    })
   })
 }

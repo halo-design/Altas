@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
-import { detect, download, messageBox, readClipboard, selectFile } from '../utils/bridge';
+import { detect, download, messageBox, multiDownload, readClipboard, selectFile } from '../utils/bridge';
 
 export interface IState {
   filePath: string;
@@ -89,6 +89,22 @@ class MineView extends React.Component<object, IState> {
     });
   }
 
+  public multiDownloadHandle () {
+    const picArr = [
+      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-724790.jpg',
+      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-726345.jpg',
+      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-726299.jpg',
+      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-722952.jpg',
+      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-723212.jpg'
+    ];
+
+    multiDownload(picArr, (e) => {
+      console.log('ing', e)
+    }, (e) => {
+      console.log('done', e)
+    })
+  }
+
   public render() {
     return <div className="page-mine">
       <input
@@ -102,6 +118,8 @@ class MineView extends React.Component<object, IState> {
       <button onClick={this.handlePaste}>粘贴剪切板链接</button>
       <button onClick={this.handleSelectPath}>选择路径</button>
       <button onClick={this.showMessageBox}>弹出消息框</button>
+      <br />
+      <button onClick={this.multiDownloadHandle}>点击下载队列</button>
     </div>
   }
 }

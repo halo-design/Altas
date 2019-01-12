@@ -1,5 +1,5 @@
 import { ipcRenderer, remote } from 'electron';
-const { dialog, Menu, MenuItem, getCurrentWindow } = remote;
+const { app, dialog, Menu, MenuItem, getCurrentWindow } = remote;
 
 export const detect = (cb: (args: object) => void): void => {
   ipcRenderer.send('ipc-start');
@@ -29,10 +29,55 @@ export const writeClipboard = (txt: string) => {
 export const download = (url: string, args: object, cb: (args: object) => void): void => {
   ipcRenderer.send('file-download', url, args);
   ipcRenderer.on('on-download-state', (event : any, params: any) => {
-    if (params.status === 'cancel' || params.status === 'finished' || params.status === 'error') {
+    const { status } = params;
+    if (/(cancel|finished|error)/.test(status)) {
       ipcRenderer.removeAllListeners('on-download-state');
     }
     cb(params);
+  });
+}
+
+export const multiDownload = (
+  urls: string[],
+  onProgess: (e: object) => void,
+  callback: (e: object) => void
+) => {
+  selectFile({
+    multiSelections: false,
+    properties: ['openDirectory'],
+  },  (res: string[]): void => {
+    const outputPath = res[0];
+    let index = 0;
+    let isDone = false;
+
+    const singleDl = () => {
+      ipcRenderer.send('file-download', urls[index], {
+        directory: outputPath || app.getPath('downloads'),
+        saveAs: false,
+      })
+      ipcRenderer.on('on-download-state', (event : any, params: any) => {
+        const state = {
+          count: urls.length,
+          current: params,
+          finished: index + 1,
+          url: urls[index],
+        }
+        const { status } = params;
+        if (/(cancel|finished|error)/.test(status)) {
+          if (index < urls.length - 1) {
+            index++;
+            singleDl();
+          } else if (!isDone) {
+            callback(state);
+            ipcRenderer.removeAllListeners('on-download-state');
+            isDone = true;
+          }
+        } else {
+          onProgess(state);
+        }
+      })
+    }
+    singleDl();
   });
 }
 
@@ -42,7 +87,7 @@ export const messageBox = (args: object): void => {
 }
 
 // https://electronjs.org/docs/api/dialog
-export const selectFile = (args: object, cb: (args: object) => void): void => {
+export const selectFile = (args: object, cb: (e: string[]) => void): void => {
   dialog.showOpenDialog({
     defaultPath: '../Desktop',
     ...args
