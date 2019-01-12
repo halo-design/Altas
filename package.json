@@ -6,9 +6,10 @@
   "main": "app/main.js",
   "scripts": {
     "upgrade": "curl --compressed -o- -L https://yarnpkg.com/install.sh | bash",
+    "clear": "node ./bin/clear.js",
     "update": "yarn upgrade-interactive --latest",
-    "dev": "rm -rf browser/static && parcel src/core/index.tsx --out-dir browser/static --target electron",
-    "build": "rm -rf browser/static && parcel build src/core/index.tsx --out-dir browser/static --no-source-maps --target electron",
+    "dev": "npm run clear && parcel src/core/index.tsx --out-dir browser/static --target electron",
+    "build": "npm run clear && parcel build src/core/index.tsx --out-dir browser/static --no-source-maps --target electron",
     "start": "NODE_ENV=development electron ./app/main.js",
     "pack": "npm run build && build --mac --win",
     "pack:mac": "npm run build && build --mac",
