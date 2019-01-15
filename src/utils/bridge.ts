@@ -40,7 +40,8 @@ export const download = (url: string, args: object, cb: (args: object) => void):
 export const multiDownload = (
   urls: string[],
   onProgess: (e: object) => void,
-  callback: (e: object) => void
+  callback: (e: object) => void,
+  timeout?: number,
 ) => {
   selectFile({
     multiSelections: false,
@@ -51,32 +52,36 @@ export const multiDownload = (
     let isDone = false;
 
     const singleDl = () => {
-      ipcRenderer.send('file-download', urls[index], {
+      const url = urls[index];
+      ipcRenderer.send('file-download', url, {
         directory: outputPath || app.getPath('downloads'),
+        index,
         saveAs: false,
-      })
-      ipcRenderer.on('on-download-state', (event : any, params: any) => {
-        const state = {
-          count: urls.length,
-          current: params,
-          finished: index + 1,
-          url: urls[index],
-        }
-        const { status } = params;
-        if (/(cancel|finished|error)/.test(status)) {
-          if (index < urls.length - 1) {
-            index++;
-            singleDl();
-          } else if (!isDone) {
-            callback(state);
-            ipcRenderer.removeAllListeners('on-download-state');
-            isDone = true;
-          }
-        } else {
-          onProgess(state);
-        }
-      })
+        timeout
+      });
+      index++;
     }
+
+    ipcRenderer.on('on-download-state', (event : any, params: any) => {
+      const state = {
+        count: urls.length,
+        current: params,
+        finished: params.index + 1,
+      }
+      const { status } = params;
+      if (/(cancel|finished|error)/.test(status)) {
+        if (params.index < urls.length - 1) {
+          singleDl();
+        } else if (!isDone) {
+          callback(state);
+          ipcRenderer.removeAllListeners('on-download-state');
+          isDone = true;
+        }
+      } else {
+        onProgess(state);
+      }
+    });
+
     singleDl();
   });
 }
@@ -92,6 +97,16 @@ export const selectFile = (args: object, cb: (e: string[]) => void): void => {
     defaultPath: '../Desktop',
     ...args
   }, cb)
+}
+
+export const readTxtByLine = (filePath: string, readFn: (e: object) => void) => {
+  ipcRenderer.send('read-text', filePath);
+  ipcRenderer.on('get-text-line', (event : any, params: any) => {
+    readFn(params);
+    if (params.status === 'done') {
+      ipcRenderer.removeAllListeners('get-text-line');
+    }
+  });
 }
 
 export class CreateContextMenu {

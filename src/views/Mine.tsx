@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
-import { detect, download, messageBox, multiDownload, readClipboard, selectFile } from '../utils/bridge';
+import { detect, download, messageBox, multiDownload, readClipboard, readTxtByLine, selectFile } from '../utils/bridge';
 
 export interface IState {
   filePath: string;
@@ -63,6 +63,22 @@ class MineView extends React.Component<object, IState> {
     });
   }
 
+  public readLocalTxtByLine (cb: (data: string[]) => void) {
+    selectFile({
+      properties: ['openFile']
+    }, res => {
+      const list: string[] = [];
+      readTxtByLine(res[0], ({ index, line, status }: any): void => {
+        if (line && line.trim()) {
+          list.push(line.trim());
+        }
+        if (status === 'done') {
+          cb(list);
+        }
+      });
+    });
+  }
+
   public handleSelectPath () {
     selectFile({
       properties: ['openDirectory', 'openFile']
@@ -89,19 +105,17 @@ class MineView extends React.Component<object, IState> {
     });
   }
 
-  public multiDownloadHandle () {
-    const picArr = [
-      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-724790.jpg',
-      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-726345.jpg',
-      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-726299.jpg',
-      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-722952.jpg',
-      'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-723212.jpg'
-    ];
-
+  public multiDownloadHandle (picArr: string[]) {
     multiDownload(picArr, (e) => {
       console.log('ing', e)
     }, (e) => {
       console.log('done', e)
+    }, 10 * 1000)
+  }
+
+  public readLocalTxtDownload () {
+    this.readLocalTxtByLine((data) => {
+      this.multiDownloadHandle(data)
     })
   }
 
@@ -119,7 +133,7 @@ class MineView extends React.Component<object, IState> {
       <button onClick={this.handleSelectPath}>选择路径</button>
       <button onClick={this.showMessageBox}>弹出消息框</button>
       <br />
-      <button onClick={this.multiDownloadHandle}>点击下载队列</button>
+      <button onClick={e => { this.readLocalTxtDownload() }}>按行读取下载文件并执行下载</button>
     </div>
   }
 }
