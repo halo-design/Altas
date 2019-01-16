@@ -1,6 +1,30 @@
 import { ipcRenderer, remote } from 'electron';
 const { app, dialog, Menu, MenuItem, getCurrentWindow } = remote;
 
+interface IWin {
+  close: () => void;
+  isMax: () => boolean;
+  maximize: () => void;
+  unmaximize: () => void;
+  minimize: () => void;
+}
+
+export const win: IWin = {
+  close: () => {
+    app.quit();
+  },
+  isMax: () => getCurrentWindow().isMaximized(),
+  maximize: () => {
+    getCurrentWindow().maximize();
+  },
+  minimize: () => {
+    getCurrentWindow().minimize();
+  },
+  unmaximize: () => {
+    getCurrentWindow().unmaximize();
+  },
+}
+
 export const detect = (cb: (args: object) => void): void => {
   ipcRenderer.send('ipc-start');
   ipcRenderer.once('ipc-running', (event: any, args: object) => {

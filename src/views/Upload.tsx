@@ -63,7 +63,6 @@ class UploadView extends React.Component<IProps> {
     return (
       <div>
         <br/>
-        <br/>
         <input
           type="file"
           multiple={true}

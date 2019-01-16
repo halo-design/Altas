@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Sidebar from '../layouts/Sidebar';
+import WinControl from '../layouts/WinControl';
 import Device from '../views/Device';
 import Home from '../views/Home';
 import Mine from '../views/Mine';
@@ -8,6 +9,7 @@ import Sync from '../views/Sync';
 import Upload from '../views/Upload';
 
 const App = (): any => [
+  process.platform === 'win32' ? <WinControl key='app-win-control' /> : '',
     <div className="app-content" key="app-main-content">
       <Switch>
         <Route

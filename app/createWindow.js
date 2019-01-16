@@ -5,7 +5,8 @@ const url = require('url')
 const file = require('./utils/file')
 const pkg = require('../package.json')
 
-const isDev = process.env.NODE_ENV === 'development'
+// const isDev = process.env.NODE_ENV === 'development'
+const isMac = process.platform === 'darwin'
 
 const createWindow = ({ entry, width, height, bridge, devtool }) => {
   const mainWindowState = windowStateKeeper({
@@ -19,11 +20,10 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     center: true,
-    // fullscreenable: false,
+    fullscreenable: false,
     transparent: false,
-    backgroundColor: '#fff',
     titleBarStyle: 'hidden',
-    resizable: isDev,
+    // resizable: isDev,
     // alwaysOnTop: isDev,
     webPreferences: {
       nodeIntegration: true,
@@ -32,6 +32,12 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
     frame: false,
     icon: file.path('app/resource/dock.ico'),
     appIcon: file.path('app/resource/dock.png')
+  }
+
+  if (isMac) {
+    options.vibrancy = 'appearance-based'
+  } else {
+    options.backgroundColor = '#fff'
   }
 
   let mainWindow = new BrowserWindow(options)

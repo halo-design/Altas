@@ -2,23 +2,12 @@ import * as React from 'react';
 import { aesDecode, aesEncode, CreateContextMenu, readClipboard, writeClipboard } from '../utils/bridge';
 import createMenu from '../utils/menu';
 
-export interface IState {
-  cryptoStr: string;
-  cryptoPswd: string;
-  resultStr: string;
-}
-
-class SyncView extends React.Component<object, IState> {
+class SyncView extends React.Component {
   public contextMenu: any = null;
-
-  constructor (props: any) {
-    super(props);
-    this.state = {
-      cryptoPswd: 'qwertyuioplkjhgf',
-      cryptoStr: '',
-      resultStr: ''
-    };
-  }
+  public focusElement: any = null;
+  public cryptoStrEl: any = null;
+  public cryptoPswdrEl: any = null;
+  public cryptoRztEl: any = null;
 
   public componentDidMount () {
     createMenu((tpl: any[]): any[] => {
@@ -40,22 +29,34 @@ class SyncView extends React.Component<object, IState> {
           role: '剪切'
         }, {
           accelerator: 'CmdOrCtrl+C',
+          click: (e: any) => {
+            if (this.focusElement) {
+              writeClipboard(this.focusElement.value);
+              console.log('内容已复制');
+            }
+          },
           label: '复制',
           role: '复制'
         }, {
           accelerator: 'CmdOrCtrl+V',
           click: (e: any) => {
             readClipboard((arg: string) => {
-              this.setState({
-                cryptoStr: arg
-              })
-              console.log('内容已粘贴')
+              if (this.focusElement) {
+                this.focusElement.value = arg;
+                console.log('内容已粘贴');
+              }
             })
           },
           label: '粘贴',
           role: '粘贴',
         }, {
           accelerator: 'CmdOrCtrl+A',
+          click: (e: any) => {
+            if (this.focusElement) {
+              this.focusElement.select();
+              console.log('内容已全选');
+            }
+          },
           label: '全选',
           role: '全选'
         }]
@@ -80,33 +81,20 @@ class SyncView extends React.Component<object, IState> {
     }]);
   }
 
-  public handleChange = (event: any) => {
-    this.setState({
-      cryptoStr: event.target.value.trim()
-    });
-  }
-  
-  public handlePswdChange = (event: any) => {
-    this.setState({
-      cryptoPswd: event.target.value.trim()
-    });
+  public focusHandle = (event: any) => {
+    this.focusElement = event.target;
   }
   
   public encodeHandle = () => {
-    aesEncode(this.state.cryptoStr, this.state.cryptoPswd, 'qwertyuioplkjhgf', (data) => {
-      console.log(data);
-      this.setState({
-        resultStr: data
-      })
+    console.log(this.cryptoStrEl.value, this.cryptoPswdrEl.value)
+    aesEncode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, 'qwertyuioplkjhgf', (data) => {
+      this.cryptoRztEl.value = data;
     })
   }
   
   public decodeHandle = () => {
-    aesDecode(this.state.cryptoStr, this.state.cryptoPswd, 'qwertyuioplkjhgf', (data) => {
-      console.log(data);
-      this.setState({
-        resultStr: data
-      })
+    aesDecode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, 'qwertyuioplkjhgf', (data) => {
+      this.cryptoRztEl.value = data;
     })
   }
 
@@ -118,23 +106,29 @@ class SyncView extends React.Component<object, IState> {
   public render() {
     return (
       <div>
+        <br />
         <input
         type="text"
-        onChange={this.handleChange}
-        value={this.state.cryptoStr}
+        onFocus={e => { this.focusHandle(e) }}
+        ref={node => { this.cryptoStrEl = node }}
         placeholder="请输入加密/解密字符"
-      />
+        />
         <input
         type="text"
-        onChange={this.handlePswdChange}
-        value={this.state.cryptoPswd}
+        onFocus={e => { this.focusHandle(e) }}
+        ref={node => { this.cryptoPswdrEl = node }}
         placeholder="请输入加密/解密密码"
+        defaultValue="qwertyuioplkjhgf"
       />
       <button onClick={this.encodeHandle}>加密</button>
       <button onClick={this.decodeHandle}>解密</button>
       <div>
         加密/解密结果：
-        <input onClick={(e: any) => { writeClipboard(e.target.value) }} value={this.state.resultStr} readOnly={true} />
+        <input
+          type="text"
+          ref={node => { this.cryptoRztEl = node }}
+          onFocus={e => { this.focusHandle(e) }}
+        />
       </div>
       </div>
     );

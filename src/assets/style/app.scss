@@ -1,6 +1,47 @@
 @import './reset.scss';
 @import './mixin.scss';
 
+.win32 {
+  background-color: #eef1f6;
+
+  .app-win-control {
+    button {
+      &:hover {
+        background-color: #dbdde0;
+      }
+    }
+  }
+}
+
+.app-win-control {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 30px;
+  font-size: 0;
+
+  button {
+    font-size: 12px;
+    height: 30px;
+    width: 40px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0;
+    background: none;
+
+    &:hover {
+      background-color: #eeeef1;
+    }
+
+    &.close {
+      &:hover {
+        background-color: #e73e28;
+        color: #fff;
+      }
+    }
+  }
+}
+
 .app-menu-sidebar {
   width: 60px;
   height: 100%;
@@ -8,7 +49,6 @@
   left: 0;
   top: 0;
   bottom: 0;
-  background-color: #eef1f6;
 
   .app-logo {
     width: 40px;
@@ -31,16 +71,41 @@
 }
 
 .app-content {
+  -webkit-app-region: no-drag;
   position: fixed;
   left: 60px;
   right: 0;
-  top: 0;
+  top: 30px;
   bottom: 0;
+  border-top-left-radius: 5px;
+  background-color: #fff;
 
   @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
 }
 
+@font-face {
+  font-family: 'iconfont';
+  src: url('../font/iconfont.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 // ///////////////////////////////////////////////////////////////
+
+.app-content {
+  button, input {
+    padding: 3px 5px;
+    border: 1px solid #eee;
+    margin: 5px;
+    background: #f4f4f4;
+  }
+}
 
 @font-face {
   font-family: 'halofont';
