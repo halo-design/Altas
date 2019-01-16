@@ -109,6 +109,20 @@ export const readTxtByLine = (filePath: string, readFn: (e: object) => void) => 
   });
 }
 
+export const aesEncode = (data: string, pswd: string, iv: string, callback: (e: string) => void): void => {
+  ipcRenderer.send('aes-encode', { data, pswd, iv });
+  ipcRenderer.once('get-aes-encode', (event : any, params: string) => {
+    callback(params);
+  })
+}
+
+export const aesDecode = (data: string, pswd: string, iv: string, callback: (e: string) => void): void => {
+  ipcRenderer.send('aes-decode', { data, pswd, iv });
+  ipcRenderer.once('get-aes-decode', (event : any, params: string) => {
+    callback(params);
+  })
+}
+
 export class CreateContextMenu {
   public menu: any = null;
   public target: Window | HTMLHtmlElement = window;

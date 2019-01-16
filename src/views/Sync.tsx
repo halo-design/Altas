@@ -1,9 +1,24 @@
 import * as React from 'react';
-import { CreateContextMenu } from '../utils/bridge';
+import { aesDecode, aesEncode, CreateContextMenu, readClipboard, writeClipboard } from '../utils/bridge';
 import createMenu from '../utils/menu';
 
-class SyncView extends React.Component {
+export interface IState {
+  cryptoStr: string;
+  cryptoPswd: string;
+  resultStr: string;
+}
+
+class SyncView extends React.Component<object, IState> {
   public contextMenu: any = null;
+
+  constructor (props: any) {
+    super(props);
+    this.state = {
+      cryptoPswd: 'qwertyuioplkjhgf',
+      cryptoStr: '',
+      resultStr: ''
+    };
+  }
 
   public componentDidMount () {
     createMenu((tpl: any[]): any[] => {
@@ -29,8 +44,16 @@ class SyncView extends React.Component {
           role: '复制'
         }, {
           accelerator: 'CmdOrCtrl+V',
+          click: (e: any) => {
+            readClipboard((arg: string) => {
+              this.setState({
+                cryptoStr: arg
+              })
+              console.log('内容已粘贴')
+            })
+          },
           label: '粘贴',
-          role: '粘贴'
+          role: '粘贴',
         }, {
           accelerator: 'CmdOrCtrl+A',
           label: '全选',
@@ -57,6 +80,36 @@ class SyncView extends React.Component {
     }]);
   }
 
+  public handleChange = (event: any) => {
+    this.setState({
+      cryptoStr: event.target.value.trim()
+    });
+  }
+  
+  public handlePswdChange = (event: any) => {
+    this.setState({
+      cryptoPswd: event.target.value.trim()
+    });
+  }
+  
+  public encodeHandle = () => {
+    aesEncode(this.state.cryptoStr, this.state.cryptoPswd, 'qwertyuioplkjhgf', (data) => {
+      console.log(data);
+      this.setState({
+        resultStr: data
+      })
+    })
+  }
+  
+  public decodeHandle = () => {
+    aesDecode(this.state.cryptoStr, this.state.cryptoPswd, 'qwertyuioplkjhgf', (data) => {
+      console.log(data);
+      this.setState({
+        resultStr: data
+      })
+    })
+  }
+
   public componentWillUnmount () {
     this.contextMenu.unbind();
     createMenu();
@@ -65,7 +118,24 @@ class SyncView extends React.Component {
   public render() {
     return (
       <div>
-        SyncView
+        <input
+        type="text"
+        onChange={this.handleChange}
+        value={this.state.cryptoStr}
+        placeholder="请输入加密/解密字符"
+      />
+        <input
+        type="text"
+        onChange={this.handlePswdChange}
+        value={this.state.cryptoPswd}
+        placeholder="请输入加密/解密密码"
+      />
+      <button onClick={this.encodeHandle}>加密</button>
+      <button onClick={this.decodeHandle}>解密</button>
+      <div>
+        加密/解密结果：
+        <input onClick={(e: any) => { writeClipboard(e.target.value) }} value={this.state.resultStr} readOnly={true} />
+      </div>
       </div>
     );
   }

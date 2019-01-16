@@ -4,6 +4,7 @@ const ip = require('ip')
 const DL = require('electron-dl')
 const { ipcMain, clipboard } = electron
 const readTxtByLine = require('./readTxtByLine')
+const crypto = require('./crypto')
 
 module.exports = (mainWindow, pkg) => {
   // 监听应用弹窗
@@ -112,5 +113,15 @@ module.exports = (mainWindow, pkg) => {
       network.ip = ip.address()
       event.sender.send('ip-address', network)
     })
+  })
+
+  // AES加密字符串
+  ipcMain.on('aes-encode', (event, args) => {
+    event.sender.send('get-aes-encode', crypto.aseEncode(args.data, args.pswd, args.iv))
+  })
+
+  // AES解密字符串
+  ipcMain.on('aes-decode', (event, args) => {
+    event.sender.send('get-aes-decode', crypto.aseDecode(args.data, args.pswd, args.iv))
   })
 }
