@@ -1,5 +1,5 @@
 import { ipcRenderer, remote } from 'electron';
-const { app, dialog, Menu, MenuItem, getCurrentWindow } = remote;
+const { app, dialog, Menu, MenuItem, getCurrentWindow, shell } = remote;
 
 interface IWin {
   quit: () => void;
@@ -160,6 +160,10 @@ export const aesDecode = (data: string, pswd: string, iv: string, callback: (e: 
   ipcRenderer.once('get-aes-decode', (event : any, params: string) => {
     callback(params);
   })
+}
+
+export const openLink = (url: string): void => {
+  shell.openExternal(url);
 }
 
 export class CreateContextMenu {

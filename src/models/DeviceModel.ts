@@ -7,7 +7,12 @@ export default class DeviceModel {
   @observable public ipAddress: any = {};
   @observable public os: object = {};
 
-  constructor () {
+  @action
+  public getIpAddress (cb?: (data: object) => void) {
+    if (this.ipAddress.cip) {
+      return
+    }
+
     getIpAddress((addr: any) => {
       this.ipAddress.local = addr.ip;
       this.ipAddress.mac = addr.mac;
@@ -16,10 +21,7 @@ export default class DeviceModel {
     getDeviceOS((info: any) => {
       this.os = info;
     })
-  }
 
-  @action
-  public getIpAddress (cb?: (data: object) => void) {
     getData(API.ipAddress)
       .then((param: any) => {
         const data = JSON.parse(param.match(/\{[^\}]+\}/)[0]);

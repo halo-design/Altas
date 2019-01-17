@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Refresh from '../components/Refresh';
 import withMenu from '../components/withMenu';
+
 import Sidebar from '../layouts/Sidebar';
 import WinControl from '../layouts/WinControl';
+
 import Device from '../views/Device';
 import Home from '../views/Home';
 import Mine from '../views/Mine';
+import Refresh from '../views/Refresh';
 import Sync from '../views/Sync';
 import Upload from '../views/Upload';
 

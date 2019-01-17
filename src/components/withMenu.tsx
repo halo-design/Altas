@@ -46,16 +46,16 @@ const withMenu = (Component: any) => {
         label: '编辑',
         submenu: [{
           accelerator: 'CmdOrCtrl+Z',
-          click: (item: any, focusedWindow: any) => {
-            const content = focusedWindow.webContents;
+          click: (item: any, win: any) => {
+            const content = win.webContents;
             content.undo();
           },
           label: '撤销',
           role: '撤销'
         }, {
           accelerator: 'Shift+CmdOrCtrl+Z',
-          click: (item: any, focusedWindow: any) => {
-            const content = focusedWindow.webContents;
+          click: (item: any, win: any) => {
+            const content = win.webContents;
             content.redo();
           },
           label: '恢复',
@@ -64,32 +64,32 @@ const withMenu = (Component: any) => {
           type: 'separator'
         }, {
           accelerator: 'CmdOrCtrl+X',
-          click: (item: any, focusedWindow: any) => {
-            const content = focusedWindow.webContents;
+          click: (item: any, win: any) => {
+            const content = win.webContents;
             content.cut();
           },
           label: '剪切',
           role: '剪切'
         }, {
           accelerator: 'CmdOrCtrl+C',
-          click: (item: any, focusedWindow: any) => {
-            const content = focusedWindow.webContents;
+          click: (item: any, win: any) => {
+            const content = win.webContents;
             content.copy();
           },
           label: '复制',
           role: '复制'
         }, {
           accelerator: 'CmdOrCtrl+V',
-          click: (item: any, focusedWindow: any) => {
-            const content = focusedWindow.webContents;
+          click: (item: any, win: any) => {
+            const content = win.webContents;
             content.paste();
           },
           label: '粘贴',
           role: '粘贴',
         }, {
           accelerator: 'CmdOrCtrl+A',
-          click: (item: any, focusedWindow: any) => {
-            const content = focusedWindow.webContents;
+          click: (item: any, win: any) => {
+            const content = win.webContents;
             content.selectAll();
           },
           label: '全选',
@@ -113,29 +113,23 @@ const withMenu = (Component: any) => {
         role: '窗口',
         submenu: [{
           accelerator: 'CmdOrCtrl+M',
-          click: (item: any, focusedWindow: any) => {
-            if (focusedWindow) {
-              focusedWindow.minimize();
-            }
+          click: (item: any, win: any) => {
+            win.minimize();
           },
           label: '最小化',
           role: '最小化',
         }, {
-          click: (item: any, focusedWindow: any) => {
-            if (focusedWindow) {
-              focusedWindow.isMaximized() 
-                ? focusedWindow.unmaximize() 
-                : focusedWindow.maximize();
-            }
+          click: (item: any, win: any) => {
+            win.isMaximized() 
+              ? win.unmaximize() 
+              : win.maximize();
           },
           label: '缩放',
           role: '缩放',
         }, {
           accelerator: 'CmdOrCtrl+Q',
-          click: (item: any, focusedWindow: any) => {
-            if (focusedWindow) {
-              focusedWindow.close();
-            }
+          click: (item: any, win: any) => {
+            win.close();
           },
           label: '关闭',
           role: '关闭',
@@ -143,10 +137,8 @@ const withMenu = (Component: any) => {
           type: 'separator'
         }, {
           checked: false,
-            click: (item: any, focusedWindow: any) => {
-              if (focusedWindow) {
-                focusedWindow.setAlwaysOnTop(item.checked);
-              }
+            click: (item: any, win: any) => {
+              win.setAlwaysOnTop(item.checked);
             },
           label: '置于顶部',
           type: 'checkbox',
@@ -169,10 +161,8 @@ const withMenu = (Component: any) => {
           type: 'separator'
         }, {
           accelerator: isMac ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-          click: (item: any, focusedWindow: any) => {
-            if (focusedWindow) {
-              focusedWindow.toggleDevTools()
-            }
+          click: (item: any, win: any) => {
+            win.toggleDevTools()
           },
           label: 'Developer Tools',
         })
