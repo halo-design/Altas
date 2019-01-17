@@ -5,11 +5,11 @@ const Sidebar = () => (
   <footer className="app-menu-sidebar">
     <div className="app-logo" />
     <div className="menu-button-group">
-      <NavLink exact={true} to="/home">home</NavLink>
-      <NavLink exact={true} to="/upload">upload</NavLink>
-      <NavLink exact={true} to="/mine">mine</NavLink>
-      <NavLink exact={true} to="/device">device</NavLink>
-      <NavLink exact={true} to="/sync">sync</NavLink>
+      <NavLink exact={true} to="/home" activeClassName="active">home</NavLink>
+      <NavLink exact={true} to="/upload" activeClassName="active">upload</NavLink>
+      <NavLink exact={true} to="/mine" activeClassName="active">mine</NavLink>
+      <NavLink exact={true} to="/device" activeClassName="active">device</NavLink>
+      <NavLink exact={true} to="/sync" activeClassName="active">sync</NavLink>
     </div>
   </footer>
 )

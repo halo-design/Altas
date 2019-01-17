@@ -5,6 +5,7 @@ const DL = require('electron-dl')
 const { ipcMain, clipboard } = electron
 const readTxtByLine = require('./readTxtByLine')
 const crypto = require('./crypto')
+const os = require('os')
 
 module.exports = (mainWindow, pkg) => {
   // 监听应用弹窗
@@ -109,10 +110,31 @@ module.exports = (mainWindow, pkg) => {
     require('getmac').getMac((err, macAddress) => {
       if (!err) {
         network.mac = macAddress
+      } else {
+        network.mac = '未知'
       }
       network.ip = ip.address()
       event.sender.send('ip-address', network)
     })
+  })
+
+  // 获取本机硬件信息
+  ipcMain.on('get-device-os', (event, args) => {
+    const info = {
+      arch: os.arch(),
+      cpu: os.cpus(),
+      release: os.release(),
+      homedir: os.homedir(),
+      tmpdir: os.tmpdir(),
+      type: os.type(),
+      uptime: os.uptime(),
+      userInfo: os.userInfo(),
+      memory: os.totalmem(),
+      hostname: os.hostname(),
+      network: os.networkInterfaces(),
+      platform: os.platform()
+    }
+    event.sender.send('device-os', info)
   })
 
   // AES加密字符串

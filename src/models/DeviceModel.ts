@@ -1,15 +1,20 @@
 import { action, observable } from 'mobx';
 import * as API from '../constants/API';
 import { getData } from '../utils/ajax';
-import { getIpAddress } from '../utils/bridge';
+import { getDeviceOS, getIpAddress } from '../utils/bridge';
 
 export default class DeviceModel {
   @observable public ipAddress: any = {};
+  @observable public os: object = {};
 
   constructor () {
     getIpAddress((addr: any) => {
       this.ipAddress.local = addr.ip;
       this.ipAddress.mac = addr.mac;
+    })
+
+    getDeviceOS((info: any) => {
+      this.os = info;
     })
   }
 

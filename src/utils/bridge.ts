@@ -2,8 +2,10 @@ import { ipcRenderer, remote } from 'electron';
 const { app, dialog, Menu, MenuItem, getCurrentWindow } = remote;
 
 interface IWin {
+  quit: () => void;
   close: () => void;
   isMax: () => boolean;
+  restore: () => void;
   maximize: () => void;
   unmaximize: () => void;
   minimize: () => void;
@@ -11,7 +13,7 @@ interface IWin {
 
 export const win: IWin = {
   close: () => {
-    app.quit();
+    getCurrentWindow().close();
   },
   isMax: () => getCurrentWindow().isMaximized(),
   maximize: () => {
@@ -19,6 +21,12 @@ export const win: IWin = {
   },
   minimize: () => {
     getCurrentWindow().minimize();
+  },
+  quit: () => {
+    app.quit()
+  },
+  restore: () => {
+    getCurrentWindow().restore();
   },
   unmaximize: () => {
     getCurrentWindow().unmaximize();
@@ -39,9 +47,16 @@ export const readClipboard = (cb: (args: string) => void): void => {
   });
 }
 
-export const getIpAddress = (cb: (args: string) => void): void => {
+export const getIpAddress = (cb: (args: object) => void): void => {
   ipcRenderer.send('get-ip-address');
-  ipcRenderer.once('ip-address', (event : any, args: string) => {
+  ipcRenderer.once('ip-address', (event : any, args: object) => {
+    cb(args);
+  });
+}
+
+export const getDeviceOS = (cb: (args: object) => void): void => {
+  ipcRenderer.send('get-device-os');
+  ipcRenderer.once('device-os', (event : any, args: object) => {
     cb(args);
   });
 }

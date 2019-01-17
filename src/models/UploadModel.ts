@@ -19,7 +19,7 @@ export default class UploadModel {
 
     const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
 
-    this.postFiles = rawFiles.filter((file: any, index: number): boolean => {
+    const addFiles = rawFiles.filter((file: any, index: number): boolean => {
       const fileType = file.type.split('/')[1];
       if (baseType.indexOf(fileType) > -1) {
         const uid = `${Date.now()}${index}`;
@@ -38,6 +38,8 @@ export default class UploadModel {
         return false;
       }
     });
+
+    this.postFiles = this.postFiles.concat(addFiles);
   }
 
   @action

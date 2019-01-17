@@ -1,64 +1,30 @@
 import * as React from 'react';
-import { aesDecode, aesEncode, CreateContextMenu, readClipboard, writeClipboard } from '../utils/bridge';
-import createMenu from '../utils/menu';
+import withMenu from '../components/withMenu';
+import { aesDecode, aesEncode, CreateContextMenu } from '../utils/bridge';
 
-class SyncView extends React.Component {
+export interface ISyncProps {
+  forceRefresh: () => void;
+  history: any;
+  createMenu: (editor?: (tpl: any[]) => any[]) => void;
+}
+
+class SyncView extends React.Component<ISyncProps> {
   public contextMenu: any = null;
-  public focusElement: any = null;
   public cryptoStrEl: any = null;
   public cryptoPswdrEl: any = null;
   public cryptoRztEl: any = null;
 
   public componentDidMount () {
-    createMenu((tpl: any[]): any[] => {
+    this.props.createMenu((tpl) => {
       const editTpl = {
-        label: '编辑',
+        label: '独占',
         submenu: [{
-          accelerator: 'CmdOrCtrl+Z',
-          label: '撤销',
-          role: '撤销'
-        }, {
-          accelerator: 'Shift+CmdOrCtrl+Z',
-          label: '恢复',
-          role: '恢复'
-        }, {
-          type: 'separator'
-        }, {
-          accelerator: 'CmdOrCtrl+X',
-          label: '剪切',
-          role: '剪切'
-        }, {
-          accelerator: 'CmdOrCtrl+C',
+          accelerator: 'CmdOrCtrl+J',
           click: (e: any) => {
-            if (this.focusElement) {
-              writeClipboard(this.focusElement.value);
-              console.log('内容已复制');
-            }
+            console.log('j')
           },
-          label: '复制',
-          role: '复制'
-        }, {
-          accelerator: 'CmdOrCtrl+V',
-          click: (e: any) => {
-            readClipboard((arg: string) => {
-              if (this.focusElement) {
-                this.focusElement.value = arg;
-                console.log('内容已粘贴');
-              }
-            })
-          },
-          label: '粘贴',
-          role: '粘贴',
-        }, {
-          accelerator: 'CmdOrCtrl+A',
-          click: (e: any) => {
-            if (this.focusElement) {
-              this.focusElement.select();
-              console.log('内容已全选');
-            }
-          },
-          label: '全选',
-          role: '全选'
+          label: '功能',
+          role: '功能'
         }]
       }
 
@@ -69,8 +35,8 @@ class SyncView extends React.Component {
 
     // 右键菜单
     this.contextMenu = new CreateContextMenu(window, [{
-      click: () => { console.log('点击第一个菜单'); },
-      label: '第一个菜单'
+      click: () => { this.props.history.push('/refresh'); },
+      label: '刷新'
     }, {
       type: 'separator'
     }, {
@@ -79,10 +45,6 @@ class SyncView extends React.Component {
       label: '第二个菜单',
       type: 'checkbox'
     }]);
-  }
-
-  public focusHandle = (event: any) => {
-    this.focusElement = event.target;
   }
   
   public encodeHandle = () => {
@@ -100,7 +62,7 @@ class SyncView extends React.Component {
 
   public componentWillUnmount () {
     this.contextMenu.unbind();
-    createMenu();
+    this.props.createMenu();
   }
 
   public render() {
@@ -109,13 +71,11 @@ class SyncView extends React.Component {
         <br />
         <input
         type="text"
-        onFocus={e => { this.focusHandle(e) }}
         ref={node => { this.cryptoStrEl = node }}
         placeholder="请输入加密/解密字符"
         />
         <input
         type="text"
-        onFocus={e => { this.focusHandle(e) }}
         ref={node => { this.cryptoPswdrEl = node }}
         placeholder="请输入加密/解密密码"
         defaultValue="qwertyuioplkjhgf"
@@ -127,7 +87,6 @@ class SyncView extends React.Component {
         <input
           type="text"
           ref={node => { this.cryptoRztEl = node }}
-          onFocus={e => { this.focusHandle(e) }}
         />
       </div>
       </div>
@@ -135,4 +94,4 @@ class SyncView extends React.Component {
   }
 }
 
-export default SyncView;
+export default withMenu(SyncView);

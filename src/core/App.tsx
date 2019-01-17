@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import Refresh from '../components/Refresh';
+import withMenu from '../components/withMenu';
 import Sidebar from '../layouts/Sidebar';
 import WinControl from '../layouts/WinControl';
 import Device from '../views/Device';
@@ -8,8 +10,10 @@ import Mine from '../views/Mine';
 import Sync from '../views/Sync';
 import Upload from '../views/Upload';
 
-const App = (): any => [
-  process.platform === 'win32' ? <WinControl key='app-win-control' /> : '',
+const App = ({ createMenu }: any): any => {
+  createMenu();
+  const isWin = process.platform === 'win32';
+  const Comp = [
     <div className="app-content" key="app-main-content">
       <Switch>
         <Route
@@ -32,10 +36,20 @@ const App = (): any => [
           path="/sync"
           component={Sync}
         />
+        <Route
+          path="/refresh"
+          component={Refresh}
+        />
         <Route component={() => <Redirect to="/home" />} />
       </Switch>
     </div>,
     <Sidebar key="app-sidebar" />
-]
+  ];
 
-export default App;
+  if (isWin) {
+    Comp.unshift(<WinControl key='app-win-control' />)
+  }
+  return Comp;
+}
+
+export default withMenu(App);

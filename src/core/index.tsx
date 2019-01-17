@@ -2,14 +2,14 @@ import { Provider } from 'mobx-react';
 import { configureDevtool } from 'mobx-react-devtools';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { HashRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import store from '../store';
-import createMenu from '../utils/menu';
 import App from './App';
 
 import '../assets/style/app.scss';
 
-const isDev = process.env.NODE_ENV === 'development'
+const isDev = process.env.NODE_ENV === 'development';
+const supportsHistory = 'pushState' in window.history;
 
 if (isDev) {
   configureDevtool({
@@ -21,11 +21,10 @@ if (isDev) {
 }
 
 document.documentElement.classList.add(process.platform);
-createMenu();
 
 ReactDOM.render(
   <Provider {...store}>
-    <Router basename="/">
+    <Router basename="/" forceRefresh={!supportsHistory}>
       <App />
     </Router>
   </Provider>,
