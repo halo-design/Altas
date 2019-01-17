@@ -33,7 +33,7 @@ const withMenu = (Component: any) => {
           label: '重启应用',
           role: '重启应用',
         }, {
-          accelerator: 'CmdOrCtrl+W',
+          accelerator: 'CmdOrCtrl+Q',
           click: () => {
             app.quit();
           },
@@ -127,7 +127,7 @@ const withMenu = (Component: any) => {
           label: '缩放',
           role: '缩放',
         }, {
-          accelerator: 'CmdOrCtrl+Q',
+          accelerator: 'CmdOrCtrl+W',
           click: (item: any, win: any) => {
             win.close();
           },

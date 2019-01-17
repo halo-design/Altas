@@ -4,10 +4,36 @@ const ip = require('ip')
 const DL = require('electron-dl')
 const { ipcMain, clipboard } = electron
 const readTxtByLine = require('./readTxtByLine')
+const storage = require('electron-json-storage')
 const crypto = require('./crypto')
 const os = require('os')
 
 module.exports = (mainWindow, pkg) => {
+  // 数据写入
+  ipcMain.on('write-storage', (event, key, data) => {
+    storage.set(key, data, err => {
+      if (err) {
+        throw err;
+      } else {
+        console.log(data)
+        console.log(`[${key}]：数据已写入`)
+      }
+    })
+  })
+
+  // 数据读取
+  ipcMain.on('read-storage', (event, key) => {
+    storage.get(key, (err, data) => {
+      event.sender.send('get-storage', data)
+    })
+  })
+
+  // 数据删除
+  ipcMain.on('remove-storage', (event, key) => {
+    storage.remove(key)
+    console.log(`[${key}]：数据已删除`)
+  })
+
   // 监听应用弹窗
   // https://www.npmjs.com/package/electron-better-dialog
   ipcMain.on('on-dialog-message', (event, args) => {

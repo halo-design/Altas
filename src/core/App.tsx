@@ -12,7 +12,7 @@ import Refresh from '../views/Refresh';
 import Sync from '../views/Sync';
 import Upload from '../views/Upload';
 
-const App = ({ createMenu }: any): any => {
+const App = ({ createMenu, initPath, location }: any): any => {
   createMenu();
   const isWin = process.platform === 'win32';
   const Comp = [
@@ -42,7 +42,7 @@ const App = ({ createMenu }: any): any => {
           path="/refresh"
           component={Refresh}
         />
-        <Route component={() => <Redirect to="/home" />} />
+        <Route component={() => <Redirect to={initPath} />} />
       </Switch>
     </div>,
     <Sidebar key="app-sidebar" />

@@ -33,6 +33,21 @@ export const win: IWin = {
   },
 }
 
+export const writeStorage = (key: string, data: object): void => {
+  ipcRenderer.send('write-storage', key, data);
+}
+
+export const readStorage = (key: string, cb: (args: object) => void): void => {
+  ipcRenderer.send('read-storage', key);
+  ipcRenderer.once('get-storage', (event: any, data: object) => {
+    cb(data);
+  })
+}
+
+export const removeStorage = (key: string): void => {
+  ipcRenderer.send('remove-storage', key);
+}
+
 export const detect = (cb: (args: object) => void): void => {
   ipcRenderer.send('ipc-start');
   ipcRenderer.once('ipc-running', (event: any, args: object) => {

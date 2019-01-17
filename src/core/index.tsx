@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import store from '../store';
+import { readStorage } from '../utils/bridge';
 import App from './App';
 
 import '../assets/style/app.scss';
@@ -22,11 +23,18 @@ if (isDev) {
 
 document.documentElement.classList.add(process.platform);
 
-ReactDOM.render(
-  <Provider {...store}>
-    <Router basename="/" forceRefresh={!supportsHistory}>
-      <App />
-    </Router>
-  </Provider>,
-  document.getElementById("MOUNT_NODE") as HTMLElement
-);
+
+const renderer = (initPath: string): void => {
+  ReactDOM.render(
+    <Provider {...store}>
+      <Router basename="/" forceRefresh={!supportsHistory}>
+        <App initPath={initPath || '/home'} />
+      </Router>
+    </Provider>,
+    document.getElementById("MOUNT_NODE") as HTMLElement
+    );
+  }
+  
+  readStorage('altas-last-modify-path', (data: any) => {
+    renderer(data.path);
+});

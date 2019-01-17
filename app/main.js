@@ -1,8 +1,10 @@
 const { app } = require('electron')
 const createWindow = require('./createWindow')
+const storage = require('electron-json-storage')
 
 const ipcBridge = require('./utils/bridge')
 let mainWindow
+let forceQuit = false
 
 const init = () => {
   mainWindow = createWindow({
@@ -12,12 +14,23 @@ const init = () => {
     bridge: ipcBridge
   })
 
-  mainWindow.on('closed', function () {
-    mainWindow = null
+  mainWindow.on('close', (e) => {
+    if (forceQuit) {
+      mainWindow = null
+      app.quit()
+    } else {
+      e.preventDefault()
+      mainWindow.hide()
+    }
   })
+
 }
 
 app.on('ready', init)
+
+app.on('before-quit', () => {
+  forceQuit = true
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -28,5 +41,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (mainWindow === null) {
     init()
+  } else {
+    mainWindow.show()
   }
 })
