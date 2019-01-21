@@ -1,11 +1,14 @@
 const electron = require('electron')
 const { showBetterMessageBox } = require('electron-better-dialog')
 const ip = require('ip')
+const md5 = require('md5')
+const notifier = require('node-notifier')
 const DL = require('electron-dl')
 const { ipcMain, clipboard } = electron
 const readTxtByLine = require('./readTxtByLine')
 const storage = require('electron-json-storage')
 const crypto = require('./crypto')
+const file = require('./file')
 const os = require('os')
 
 module.exports = (mainWindow, pkg) => {
@@ -165,11 +168,17 @@ module.exports = (mainWindow, pkg) => {
 
   // AES加密字符串
   ipcMain.on('aes-encode', (event, args) => {
-    event.sender.send('get-aes-encode', crypto.aseEncode(args.data, args.pswd, args.iv))
+    const mdString = md5(args.pswd);
+    const key = mdString.slice(0, 16);
+    const iv = mdString.slice(16);
+    event.sender.send('get-aes-encode', crypto.aseEncode(args.data, key, iv))
   })
 
   // AES解密字符串
   ipcMain.on('aes-decode', (event, args) => {
-    event.sender.send('get-aes-decode', crypto.aseDecode(args.data, args.pswd, args.iv))
+    const mdString = md5(args.pswd);
+    const key = mdString.slice(0, 16);
+    const iv = mdString.slice(16);
+    event.sender.send('get-aes-decode', crypto.aseDecode(args.data, key, iv))
   })
 }

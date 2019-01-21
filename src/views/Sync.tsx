@@ -3,7 +3,6 @@ import withMenu from '../components/withMenu';
 import { aesDecode, aesEncode, CreateContextMenu } from '../utils/bridge';
 
 export interface ISyncProps {
-  forceRefresh: () => void;
   history: any;
   createMenu: (editor?: (tpl: any[]) => any[]) => void;
 }
@@ -13,6 +12,7 @@ class SyncView extends React.Component<ISyncProps> {
   public cryptoStrEl: any = null;
   public cryptoPswdrEl: any = null;
   public cryptoRztEl: any = null;
+  public notify: any = null;
 
   public componentDidMount () {
     this.props.createMenu((tpl) => {
@@ -21,7 +21,7 @@ class SyncView extends React.Component<ISyncProps> {
         submenu: [{
           accelerator: 'CmdOrCtrl+J',
           click: (e: any) => {
-            console.log('j')
+            this.notify = new Notification('独占功能');
           },
           label: '功能',
           role: '功能'
@@ -49,13 +49,13 @@ class SyncView extends React.Component<ISyncProps> {
   
   public encodeHandle = () => {
     console.log(this.cryptoStrEl.value, this.cryptoPswdrEl.value)
-    aesEncode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, 'qwertyuioplkjhgf', (data) => {
+    aesEncode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
       this.cryptoRztEl.value = data;
     })
   }
   
   public decodeHandle = () => {
-    aesDecode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, 'qwertyuioplkjhgf', (data) => {
+    aesDecode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
       this.cryptoRztEl.value = data;
     })
   }
@@ -78,7 +78,6 @@ class SyncView extends React.Component<ISyncProps> {
         type="text"
         ref={node => { this.cryptoPswdrEl = node }}
         placeholder="请输入加密/解密密码"
-        defaultValue="qwertyuioplkjhgf"
       />
       <button onClick={this.encodeHandle}>加密</button>
       <button onClick={this.decodeHandle}>解密</button>

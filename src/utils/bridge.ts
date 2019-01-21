@@ -163,15 +163,15 @@ export const readTxtByLine = (filePath: string, readFn: (e: object) => void) => 
   });
 }
 
-export const aesEncode = (data: string, pswd: string, iv: string, callback: (e: string) => void): void => {
-  ipcRenderer.send('aes-encode', { data, pswd, iv });
+export const aesEncode = (data: string, pswd: string, callback: (e: string) => void): void => {
+  ipcRenderer.send('aes-encode', { data, pswd });
   ipcRenderer.once('get-aes-encode', (event : any, params: string) => {
     callback(params);
   })
 }
 
-export const aesDecode = (data: string, pswd: string, iv: string, callback: (e: string) => void): void => {
-  ipcRenderer.send('aes-decode', { data, pswd, iv });
+export const aesDecode = (data: string, pswd: string, callback: (e: string) => void): void => {
+  ipcRenderer.send('aes-decode', { data, pswd });
   ipcRenderer.once('get-aes-decode', (event : any, params: string) => {
     callback(params);
   })
