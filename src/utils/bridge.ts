@@ -1,5 +1,6 @@
 import { ipcRenderer, remote } from 'electron';
 const { app, dialog, Menu, MenuItem, getCurrentWindow, shell } = remote;
+import { history } from 'react-router-util';
 
 interface IWin {
   quit: () => void;
@@ -10,6 +11,10 @@ interface IWin {
   unmaximize: () => void;
   minimize: () => void;
 }
+
+ipcRenderer.on('history-push', (event: any, path: string): void => {
+  history.push(path);
+})
 
 export const win: IWin = {
   close: () => {

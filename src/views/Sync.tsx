@@ -1,13 +1,9 @@
 import * as React from 'react';
-import withMenu from '../components/withMenu';
+import { withRouter } from 'react-router';
 import { aesDecode, aesEncode, CreateContextMenu } from '../utils/bridge';
+import createAppMenu from '../utils/createAppMenu';
 
-export interface ISyncProps {
-  history: any;
-  createMenu: (editor?: (tpl: any[]) => any[]) => void;
-}
-
-class SyncView extends React.Component<ISyncProps> {
+class SyncView extends React.Component<any> {
   public contextMenu: any = null;
   public cryptoStrEl: any = null;
   public cryptoPswdrEl: any = null;
@@ -15,24 +11,6 @@ class SyncView extends React.Component<ISyncProps> {
   public notify: any = null;
 
   public componentDidMount () {
-    this.props.createMenu((tpl) => {
-      const editTpl = {
-        label: '独占',
-        submenu: [{
-          accelerator: 'CmdOrCtrl+J',
-          click: (e: any) => {
-            this.notify = new Notification('独占功能');
-          },
-          label: '功能',
-          role: '功能'
-        }]
-      }
-
-      tpl.unshift(editTpl);
-
-      return tpl
-    });
-
     // 右键菜单
     this.contextMenu = new CreateContextMenu(window, [{
       click: () => { this.props.history.push('/refresh'); },
@@ -60,9 +38,32 @@ class SyncView extends React.Component<ISyncProps> {
     })
   }
 
+  public componentWillMount () {
+    createAppMenu((tpl) => {
+      const editTpl = {
+        label: '独占',
+        submenu: [{
+          accelerator: 'CmdOrCtrl+J',
+          click: (e: any) => {
+            this.notify = new Notification('独占功能', {
+              body: '通知正文内容'
+            });
+          },
+          label: '功能',
+          role: '功能'
+        }]
+      }
+  
+      tpl.unshift(editTpl);
+  
+      return tpl
+    })
+  }
+
   public componentWillUnmount () {
     this.contextMenu.unbind();
-    this.props.createMenu();
+
+    createAppMenu()
   }
 
   public render() {
@@ -75,22 +76,22 @@ class SyncView extends React.Component<ISyncProps> {
         placeholder="请输入加密/解密字符"
         />
         <input
-        type="text"
-        ref={node => { this.cryptoPswdrEl = node }}
-        placeholder="请输入加密/解密密码"
-      />
-      <button onClick={this.encodeHandle}>加密</button>
-      <button onClick={this.decodeHandle}>解密</button>
-      <div>
-        加密/解密结果：
-        <input
           type="text"
-          ref={node => { this.cryptoRztEl = node }}
+          ref={node => { this.cryptoPswdrEl = node }}
+          placeholder="请输入加密/解密密码"
         />
-      </div>
+        <button onClick={this.encodeHandle}>加密</button>
+        <button onClick={this.decodeHandle}>解密</button>
+        <div>
+          加密/解密结果：
+          <input
+            type="text"
+            ref={node => { this.cryptoRztEl = node }}
+          />
+        </div>
       </div>
     );
   }
 }
 
-export default withMenu(SyncView);
+export default withRouter(SyncView);

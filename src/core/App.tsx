@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import withMenu from '../components/withMenu';
+import createAppMenu from '../utils/createAppMenu';
 
 import Sidebar from '../layouts/Sidebar';
 import WinControl from '../layouts/WinControl';
@@ -12,8 +12,8 @@ import Refresh from '../views/Refresh';
 import Sync from '../views/Sync';
 import Upload from '../views/Upload';
 
+createAppMenu()
 const App = ({ createMenu, initPath, location }: any): any => {
-  createMenu();
   const isWin = process.platform === 'win32';
   const Comp = [
     <div className="app-content" key="app-main-content">
@@ -45,7 +45,7 @@ const App = ({ createMenu, initPath, location }: any): any => {
         <Route component={() => <Redirect to={initPath} />} />
       </Switch>
     </div>,
-    <Sidebar key="app-sidebar" />
+    <Sidebar key="app-sidebar" />,
   ];
 
   if (isWin) {
@@ -54,4 +54,4 @@ const App = ({ createMenu, initPath, location }: any): any => {
   return Comp;
 }
 
-export default withMenu(App);
+export default App;

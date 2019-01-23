@@ -3,6 +3,8 @@ const createWindow = require('./createWindow')
 const storage = require('electron-json-storage')
 
 const ipcBridge = require('./utils/bridge')
+const createAppTray = require('./utils/tray')
+
 let mainWindow
 let forceQuit = false
 
@@ -13,6 +15,9 @@ const init = () => {
     height: 620,
     bridge: ipcBridge
   })
+
+  const tray = createAppTray(mainWindow)
+  tray.setToolTip('Altas')
 
   mainWindow.on('close', (e) => {
     if (forceQuit) {
