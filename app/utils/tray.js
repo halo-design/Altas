@@ -4,12 +4,9 @@ const file = require('./file')
 const isWin = process.platform === 'win32'
 
 module.exports = (mainWindow) => {
-
-  let img = file.path('app/resource/icon.png')
-
-  if (isWin) {
-    img = file.path('app/resource/dock.ico')
-  }
+  const img = isWin
+    ? file.path('app/resource/dock.ico')
+    : file.path('app/resource/icon.png')
 
   const appIcon = new Tray(img)
 
@@ -18,6 +15,8 @@ module.exports = (mainWindow) => {
       mainWindow.webContents.send('history-push', '/sync')
     },
     label: '设置',
+  }, {
+    type: 'separator'
   }, {
     click: () => {
       shell.openExternal('https://github.com/halo-design/Altas')

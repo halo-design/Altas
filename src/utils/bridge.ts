@@ -38,11 +38,17 @@ export const win: IWin = {
   },
 }
 
-export const writeStorage = (key: string, data: object): void => {
+export const writeStorage = (
+  key: string,
+  data: object
+): void => {
   ipcRenderer.send('write-storage', key, data);
 }
 
-export const readStorage = (key: string, cb: (args: object) => void): void => {
+export const readStorage = (
+  key: string,
+  cb: (args: object) => void
+): void => {
   ipcRenderer.send('read-storage', key);
   ipcRenderer.once('get-storage', (event: any, data: object) => {
     cb(data);
@@ -53,28 +59,36 @@ export const removeStorage = (key: string): void => {
   ipcRenderer.send('remove-storage', key);
 }
 
-export const detect = (cb: (args: object) => void): void => {
+export const detect = (
+  cb: (args: object) => void
+): void => {
   ipcRenderer.send('ipc-start');
   ipcRenderer.once('ipc-running', (event: any, args: object) => {
     cb(args);
   });
 }
 
-export const readClipboard = (cb: (args: string) => void): void => {
+export const readClipboard = (
+  cb: (args: string) => void
+): void => {
   ipcRenderer.send('read-clipboard');
   ipcRenderer.once('get-clipboard-text', (event : any, args: string) => {
     cb(args);
   });
 }
 
-export const getIpAddress = (cb: (args: object) => void): void => {
+export const getIpAddress = (
+  cb: (args: object) => void
+): void => {
   ipcRenderer.send('get-ip-address');
   ipcRenderer.once('ip-address', (event : any, args: object) => {
     cb(args);
   });
 }
 
-export const getDeviceOS = (cb: (args: object) => void): void => {
+export const getDeviceOS = (
+  cb: (args: object) => void
+): void => {
   ipcRenderer.send('get-device-os');
   ipcRenderer.once('device-os', (event : any, args: object) => {
     cb(args);
@@ -85,7 +99,11 @@ export const writeClipboard = (txt: string) => {
   ipcRenderer.send('write-clipboard', txt);
 }
 
-export const download = (url: string, args: object, cb: (args: object) => void): void => {
+export const download = (
+  url: string,
+  args: object,
+  cb: (args: object) => void
+): void => {
   ipcRenderer.send('file-download', url, args);
   ipcRenderer.on('on-download-state', (event : any, params: any) => {
     const { status } = params;
@@ -151,14 +169,20 @@ export const messageBox = (args: object): void => {
 }
 
 // https://electronjs.org/docs/api/dialog
-export const selectFile = (args: object, cb: (e: string[]) => void): void => {
+export const selectFile = (
+  args: object,
+  cb: (e: string[]) => void
+): void => {
   dialog.showOpenDialog({
     defaultPath: '../Desktop',
     ...args
   }, cb)
 }
 
-export const readTxtByLine = (filePath: string, readFn: (e: object) => void) => {
+export const readTxtByLine = (
+  filePath: string,
+  readFn: (e: object) => void
+) => {
   ipcRenderer.send('read-text', filePath);
   ipcRenderer.on('get-text-line', (event : any, params: any) => {
     readFn(params);
@@ -168,14 +192,22 @@ export const readTxtByLine = (filePath: string, readFn: (e: object) => void) => 
   });
 }
 
-export const aesEncode = (data: string, pswd: string, callback: (e: string) => void): void => {
+export const aesEncode = (
+  data: string,
+  pswd: string,
+  callback: (e: string) => void
+): void => {
   ipcRenderer.send('aes-encode', { data, pswd });
   ipcRenderer.once('get-aes-encode', (event : any, params: string) => {
     callback(params);
   })
 }
 
-export const aesDecode = (data: string, pswd: string, callback: (e: string) => void): void => {
+export const aesDecode = (
+  data: string,
+  pswd: string,
+  callback: (e: string) => void
+): void => {
   ipcRenderer.send('aes-decode', { data, pswd });
   ipcRenderer.once('get-aes-decode', (event : any, params: string) => {
     callback(params);

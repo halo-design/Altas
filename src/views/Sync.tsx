@@ -26,7 +26,6 @@ class SyncView extends React.Component<any> {
   }
   
   public encodeHandle = () => {
-    console.log(this.cryptoStrEl.value, this.cryptoPswdrEl.value)
     aesEncode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
       this.cryptoRztEl.value = data;
     })
