@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import createAppMenu from '../utils/createAppMenu';
 
-import Sidebar from '../layouts/Sidebar';
-import WinControl from '../layouts/WinControl';
+import Sidebar from '../layouts/Sidebar/';
+import WinControl from '../layouts/WinControl/';
 
 import Device from '../views/Device';
 import Home from '../views/Home';

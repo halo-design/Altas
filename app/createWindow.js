@@ -44,17 +44,19 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
 
   mainWindowState.manage(mainWindow)
 
-  mainWindow.loadURL(url.format({
+  const entryUrl = url.format({
     pathname: file.path(entry),
     protocol: 'file:',
     slashes: true
-  }))
+  })
+
+  mainWindow.loadURL(entryUrl)
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 
-  bridge(mainWindow, pkg)
+  bridge(mainWindow, pkg, entryUrl)
 
   return mainWindow
 }

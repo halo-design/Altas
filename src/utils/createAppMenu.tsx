@@ -1,5 +1,6 @@
 import { remote } from 'electron';
 import { history } from 'react-router-util';
+import { getAppDir } from './bridge';
 
 const { app, Menu, shell }= remote;
 
@@ -20,7 +21,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
     }, {
       click: () => {
         app.relaunch();
-        app.quit();
+        app.exit(0);
       },
       label: '重启应用',
       role: '重启应用',
@@ -95,6 +96,12 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
       accelerator: 'CmdOrCtrl+R',
       click: () => {
         history.push('/refresh');
+        if (isDev) {
+          getAppDir(path => {
+            document.getElementsByTagName('link')[0].href
+              = `${path}browser/static/index.css?${Date.now()}`
+          })
+        }
       },
       label: '刷新',
     }]

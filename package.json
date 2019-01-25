@@ -38,6 +38,7 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "@types/classnames": "^2.2.7",
     "@types/md5": "^2.1.33",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.20",
@@ -57,6 +58,7 @@
     "typescript": "^3.2.4"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.12.0",
     "electron-json-storage": "^4.1.5",

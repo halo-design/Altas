@@ -1,0 +1,49 @@
+.app-menu-sidebar {
+  width: 60px;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  .menu-button-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 280px;
+    margin-top: 60px;
+
+    a {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+
+      &.iconfont {
+        color: #7c8090;
+        font-size: 20px;
+
+        &.active {
+          color: #3f55a9;
+        }
+      }
+    }
+  }
+
+  .setting {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 20px;
+    color: #7c8090;
+    cursor: pointer;
+
+    &:hover {
+      color: #3f55a9;
+    }
+  }
+}

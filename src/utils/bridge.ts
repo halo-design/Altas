@@ -68,6 +68,15 @@ export const detect = (
   });
 }
 
+export const getAppDir = (
+  cb: (args: string) => void
+): void => {
+  ipcRenderer.send('get-appdir');
+  ipcRenderer.once('appdir', (event: any, args: string) => {
+    cb(args);
+  });
+}
+
 export const readClipboard = (
   cb: (args: string) => void
 ): void => {

@@ -1,0 +1,40 @@
+.win32 {
+  background-color: #eef1f6;
+
+  .app-win-control {
+    button {
+      &:hover {
+        background-color: #dbdde0;
+      }
+    }
+  }
+}
+
+.app-win-control {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 30px;
+  font-size: 0;
+
+  button {
+    font-size: 12px;
+    height: 30px;
+    width: 40px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0;
+    background: none;
+
+    &:hover {
+      background-color: #eeeef1;
+    }
+
+    &.close {
+      &:hover {
+        background-color: #e73e28;
+        color: #fff;
+      }
+    }
+  }
+}

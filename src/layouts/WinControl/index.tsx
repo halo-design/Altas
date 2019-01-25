@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { win } from '../utils/bridge';
+import { win } from '../../utils/bridge';
+import './index.scss';
 
 export interface IWinCtrlState {
   isMax: boolean;

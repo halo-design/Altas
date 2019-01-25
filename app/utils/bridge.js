@@ -12,6 +12,11 @@ const file = require('./file')
 const os = require('os')
 
 module.exports = (mainWindow, pkg) => {
+  // 获取app绝对目录
+  ipcMain.on('get-appdir', (event, args) => {
+    event.sender.send('appdir', file.root)
+  })
+
   // 数据写入
   ipcMain.on('write-storage', (event, key, data) => {
     storage.set(key, data, err => {

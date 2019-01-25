@@ -6,6 +6,7 @@ const ipcBridge = require('./utils/bridge')
 const createAppTray = require('./utils/tray')
 
 let mainWindow
+let tray
 let forceQuit = false
 
 const init = () => {
@@ -16,12 +17,13 @@ const init = () => {
     bridge: ipcBridge
   })
 
-  const tray = createAppTray(mainWindow)
+  tray = createAppTray(mainWindow)
   tray.setToolTip('Altas')
 
   mainWindow.on('close', (e) => {
     if (forceQuit) {
       mainWindow = null
+      tray = null
       app.quit()
     } else {
       e.preventDefault()
