@@ -25,7 +25,7 @@ module.exports = (mainWindow) => {
     },
     label: '关于',
   }, {
-    click: () => { 
+    click: () => {
       app.quit()
     },
     label: '退出',
