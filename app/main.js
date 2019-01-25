@@ -1,4 +1,4 @@
-const { app } = require('electron')
+const { app, ipcMain } = require('electron')
 const createWindow = require('./createWindow')
 const storage = require('electron-json-storage')
 
@@ -20,8 +20,19 @@ const init = () => {
   tray = createAppTray(mainWindow)
   tray.setToolTip('Altas')
 
+  ipcMain.on('set-tray-title', (event, args) => {
+    tray.setTitle(args)
+  })
+
+  tray.on('click', () => {
+    mainWindow.isVisible()
+      ? mainWindow.hide()
+      : mainWindow.show()
+  })
+
   mainWindow.on('close', (e) => {
     if (forceQuit) {
+      tray.destroy()
       mainWindow = null
       tray = null
       app.quit()

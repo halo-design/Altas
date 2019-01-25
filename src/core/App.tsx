@@ -42,15 +42,23 @@ const App = ({ createMenu, initPath, location }: any): any => {
           path="/refresh"
           component={Refresh}
         />
-        <Route component={() => <Redirect to={initPath} />} />
+        <Route
+          component={
+            () => <Redirect to={initPath} />
+          }
+        />
       </Switch>
     </div>,
-    <Sidebar key="app-sidebar" />,
+    <Sidebar
+      key="app-sidebar"
+      initPath={initPath}
+    />,
   ];
 
   if (isWin) {
     Comp.unshift(<WinControl key='app-win-control' />)
   }
+
   return Comp;
 }
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './index.scss'
 
-export default ({ size, style, run }: { size: number, style: object, run: boolean }): any => {
+export default ({ size, style, run, initPath }: { size: number, style: object, run: boolean, initPath: string }): any => {
   const allStyle = {
     backgroundSize: `${size}px ${size}px`,
     height: `${size}px`,
@@ -12,7 +12,7 @@ export default ({ size, style, run }: { size: number, style: object, run: boolea
   }
   return (
     <Link
-      to='/home'
+      to={initPath}
       className={classNames({
         'app-logo': true,
         'running': run

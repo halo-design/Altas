@@ -6,11 +6,15 @@ import './index.scss'
 
 const { getCurrentWindow } = remote;
 
+export interface ISidebarProps {
+  initPath: string;
+}
+
 export interface ISidebarState {
   isBlur: boolean;
 }
 
-class Sidebar extends React.Component<object, ISidebarState> {
+class Sidebar extends React.Component<ISidebarProps, ISidebarState> {
   constructor (props: any) {
     super(props);
     this.state = {
@@ -34,7 +38,12 @@ class Sidebar extends React.Component<object, ISidebarState> {
   public render () {
     return (
       <footer className="app-menu-sidebar">
-        <Logo size={40} style={{ margin: '30px auto 20px' }} run={this.state.isBlur} />
+        <Logo
+          size={40}
+          style={{ margin: '30px auto 20px' }}
+          run={this.state.isBlur}
+          initPath={this.props.initPath}
+        />
         <div className="menu-button-group">
           <NavLink exact={true} to="/home" className="iconfont" activeClassName="active">&#xec89;</NavLink>
           <NavLink exact={true} to="/upload" className="iconfont" activeClassName="active">&#xe6f5;</NavLink>

@@ -8,7 +8,7 @@ const pkg = require('../package.json')
 // const isDev = process.env.NODE_ENV === 'development'
 const isMac = process.platform === 'darwin'
 
-const createWindow = ({ entry, width, height, bridge, devtool }) => {
+const createWindow = ({ entry, width, height, bridge }) => {
   const mainWindowState = windowStateKeeper({
     defaultWidth: width,
     defaultHeight: height,
@@ -56,7 +56,7 @@ const createWindow = ({ entry, width, height, bridge, devtool }) => {
     mainWindow = null
   })
 
-  bridge(mainWindow, pkg, entryUrl)
+  bridge(mainWindow, pkg)
 
   return mainWindow
 }

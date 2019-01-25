@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
+import { setTrayTitle } from '../utils/bridge';
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
@@ -49,7 +50,8 @@ export default class UploadModel {
 
   @computed
   get isXhrQueueEmpty (): boolean {
-    if (Object.keys(this.xhrQueue).length > 0) {
+    const num = Object.keys(this.xhrQueue).length;
+    if (num > 0) {
       console.log('上传队列尚未完成！')
       return false
     } else {
@@ -112,6 +114,7 @@ export default class UploadModel {
     if (!this.isXhrQueueEmpty) {
       return
     }
+    setTrayTitle(this.postFiles.length.toString());
     this.postFiles.forEach((file: any, index: number) => {
       const uid = file.uid;
       this.xhrQueue[uid] = upload({
@@ -138,6 +141,7 @@ export default class UploadModel {
           this.remoteImageArray.push(e.data);
           delete this.xhrQueue[uid];
           if (this.isXhrQueueEmpty) {
+            setTrayTitle('');
             this.postFiles = [];
           }
         }

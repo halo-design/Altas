@@ -59,6 +59,10 @@ export const removeStorage = (key: string): void => {
   ipcRenderer.send('remove-storage', key);
 }
 
+export const setTrayTitle = (title: string): void => {
+  ipcRenderer.send('set-tray-title', title);
+}
+
 export const detect = (
   cb: (args: object) => void
 ): void => {
