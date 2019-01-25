@@ -176,12 +176,10 @@ export const multiDownload = (
   });
 }
 
-// https://www.npmjs.com/package/electron-better-dialog
 export const messageBox = (args: object): void => {
   ipcRenderer.send('on-dialog-message', { type: 'info', ...args });
 }
 
-// https://electronjs.org/docs/api/dialog
 export const selectFile = (
   args: object,
   cb: (e: string[]) => void

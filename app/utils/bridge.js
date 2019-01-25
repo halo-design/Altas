@@ -43,7 +43,6 @@ module.exports = (mainWindow, pkg) => {
   })
 
   // 监听应用弹窗
-  // https://www.npmjs.com/package/electron-better-dialog
   ipcMain.on('on-dialog-message', (event, args) => {
     showBetterMessageBox(mainWindow, args)
   })
@@ -64,7 +63,6 @@ module.exports = (mainWindow, pkg) => {
   })
 
   // 文件下载监听
-  // https://www.npmjs.com/package/electron-dl
   ipcMain.on('file-download', (event, url, args) => {
     let timer
     let dlItem

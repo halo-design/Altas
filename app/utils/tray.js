@@ -13,6 +13,8 @@ module.exports = (mainWindow) => {
   const menu = Menu.buildFromTemplate([{
     click: () => {
       mainWindow.webContents.send('history-push', '/sync')
+      mainWindow.show()
+      mainWindow.focus()
     },
     label: '设置',
   }, {
