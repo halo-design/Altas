@@ -13,7 +13,12 @@ import Sync from '../views/Sync';
 import Upload from '../views/Upload';
 
 createAppMenu()
-const App = ({ createMenu, initPath, location }: any): any => {
+
+interface IAppProp {
+  initPath: string;
+}
+
+const App = ({ initPath }: IAppProp): any => {
   const isWin = process.platform === 'win32';
   const Comp = [
     <div className="app-content" key="app-main-content">
@@ -56,7 +61,9 @@ const App = ({ createMenu, initPath, location }: any): any => {
   ];
 
   if (isWin) {
-    Comp.unshift(<WinControl key='app-win-control' />)
+    Comp.unshift(
+      <WinControl key='app-win-control' />
+    )
   }
 
   return Comp;

@@ -18,7 +18,7 @@ class Sidebar extends React.Component<ISidebarProps, ISidebarState> {
   constructor (props: any) {
     super(props);
     this.state = {
-      isBlur: true
+      isBlur: false
     }
 
     const win = getCurrentWindow();

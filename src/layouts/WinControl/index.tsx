@@ -42,7 +42,11 @@ class WinControlView extends React.Component<object, IWinCtrlState> {
     return (
       <div className="app-win-control">
         <button onClick={this.min} className="iconfont min">&#xe607;</button>
-        <button ref={node => { this.toogleEl = node }} onClick={this.maxToogle} className="iconfont toogle">&#xe604;</button>
+        <button
+          ref={node => { this.toogleEl = node }}
+          onClick={this.maxToogle}
+          className="iconfont toogle"
+        >&#xe604;</button>
         <button onClick={this.close} className="iconfont close">&#xe762;</button>
       </div>
     )

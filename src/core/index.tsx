@@ -28,5 +28,5 @@ ReactDOM.render(
       <App initPath="/home" />
     </Router>
   </Provider>,
-  document.getElementById("MOUNT_NODE") as HTMLElement
+  document.getElementById('MOUNT_NODE') as HTMLElement
 );
