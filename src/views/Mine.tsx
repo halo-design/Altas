@@ -133,7 +133,7 @@ class MineView extends React.Component<object, IState> {
       <button onClick={this.handleSelectPath}>选择路径</button>
       <button onClick={this.showMessageBox}>弹出消息框</button>
       <br />
-      <button onClick={e => { this.readLocalTxtDownload() }}>按行读取下载文件并执行下载</button>
+      <button onClick={e => { this.readLocalTxtDownload() }}>按行读取下载文件并下载</button>
     </div>
   }
 }
