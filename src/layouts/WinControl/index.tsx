@@ -1,56 +1,33 @@
+import classNames from 'classnames';
 import * as React from 'react';
 import { win } from '../../utils/bridge';
 import './index.scss';
 
-export interface IWinCtrlState {
-  isMax: boolean;
-}
+const { useState } = React;
 
-class WinControlView extends React.Component<object, IWinCtrlState> {
-  public toogleEl: HTMLElement | null = null
+function WinControl () {
+  const [isMax, setMax]: [boolean, (isMax: boolean) => void] = useState(false);
 
-  constructor (props: any) {
-    super(props);
-    this.state = {
-      isMax: win.isMax()
-    };
-  }
-
-  public min () {
-    win.minimize();
-  }
-
-  public maxToogle = () => {
+  const maxToogle = () => {
     if (win.isMax()){
       win.unmaximize();
-      if (this.toogleEl) {
-        this.toogleEl.innerHTML = '&#xe604;'
-      }
+      setMax(false);
     } else {
       win.maximize();
-      if (this.toogleEl) {
-        this.toogleEl.innerHTML = '&#xe625;'
-      }
+      setMax(true);
     }
   }
 
-  public close () {
-    win.close();
-  }
-
-  public render() {
-    return (
-      <div className="app-win-control">
-        <button onClick={this.min} className="iconfont min">&#xe607;</button>
-        <button
-          ref={node => { this.toogleEl = node }}
-          onClick={this.maxToogle}
-          className="iconfont toogle"
-        >&#xe604;</button>
-        <button onClick={this.close} className="iconfont close">&#xe762;</button>
-      </div>
-    )
-  }
+  return (
+    <div className="app-win-control">
+      <button onClick={win.minimize} className="iconfont min" />
+      <button
+        onClick={maxToogle}
+        className={classNames('iconfont', 'toogle', { back: isMax })}
+      />
+      <button onClick={win.close} className="iconfont close" />
+    </div>
+  )
 }
 
-export default WinControlView
+export default WinControl;

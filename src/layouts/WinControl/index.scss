@@ -30,7 +30,29 @@
       background-color: #eeeef1;
     }
 
+    &.min {
+      &:after {
+        content: '\e607';
+      }
+    }
+  
+    &.toogle {
+      &:after {
+        content: '\e604';
+      }
+
+      &.back {
+        &:after {
+          content: '\e625';
+        }
+      }
+    }
+
     &.close {
+      &:after {
+        content: '\e762';
+      }
+
       &:hover {
         background-color: #e73e28;
         color: #fff;
