@@ -63,16 +63,18 @@ module.exports = (mainWindow, pkg) => {
   })
 
   // 文件下载监听
+  let dlItem
   ipcMain.on('file-download', (event, url, args) => {
     let timer
-    let dlItem
 
     const createTimer = () => {
       const t = args.timeout
       if (t) {
         timer = setTimeout(() => {
-          dlItem && dlItem.cancel()
-          console.log(url + '[下载超时，已取消]')
+          if (dlItem) {
+            dlItem.cancel()
+            console.log(url + '[下载超时，已取消]')
+          }
         }, t)
       }
     }
@@ -126,6 +128,12 @@ module.exports = (mainWindow, pkg) => {
       })
   })
 
+  ipcMain.on('file-download-cancel', (event, args) => {
+    if (dlItem) {
+      dlItem.cancel()
+    }
+  })
+
   // 剪贴板监听
   ipcMain.on('read-clipboard', (event, args) => {
     event.sender.send('get-clipboard-text', clipboard.readText())
@@ -136,18 +144,11 @@ module.exports = (mainWindow, pkg) => {
     clipboard.writeText(args)
   })
 
-  // 获取本机IP、MAC地址
+  // 获取本机IP地址
   ipcMain.on('get-ip-address', (event, args) => {
     const network = {}
-    require('getmac').getMac((err, macAddress) => {
-      if (!err) {
-        network.mac = macAddress
-      } else {
-        network.mac = '未知'
-      }
-      network.ip = ip.address()
-      event.sender.send('ip-address', network)
-    })
+    network.ip = ip.address()
+    event.sender.send('ip-address', network)
   })
 
   // 获取本机硬件信息

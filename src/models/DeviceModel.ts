@@ -15,7 +15,6 @@ export default class DeviceModel {
 
     getIpAddress((addr: any) => {
       this.ipAddress.local = addr.ip;
-      this.ipAddress.mac = addr.mac;
     })
 
     getDeviceOS((info: any) => {

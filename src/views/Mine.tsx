@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
-import { detect, download, messageBox, multiDownload, readClipboard, readTxtByLine, selectFile } from '../utils/bridge';
+import { cancelMultiDownload, detect, download, messageBox, multiDownload, readClipboard, readTxtByLine, selectFile } from '../utils/bridge';
 
 export interface IState {
   filePath: string;
@@ -66,7 +66,10 @@ class MineView extends React.Component<object, IState> {
   public readLocalTxtByLine (cb: (data: string[]) => void) {
     selectFile({
       properties: ['openFile']
-    }, res => {
+    }, (res: string[] | undefined) => {
+      if (!res) {
+        return
+      }
       const list: string[] = [];
       readTxtByLine(res[0], ({ index, line, status }: any): void => {
         if (line && line.trim()) {
@@ -134,6 +137,7 @@ class MineView extends React.Component<object, IState> {
       <button onClick={this.showMessageBox}>弹出消息框</button>
       <br />
       <button onClick={e => { this.readLocalTxtDownload() }}>按行读取下载文件并下载</button>
+      <button onClick={cancelMultiDownload}>停止下载队列</button>
     </div>
   }
 }

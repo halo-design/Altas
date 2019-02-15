@@ -18,7 +18,7 @@ const options = {
   sourceMaps: false,
   hmrHostname: '',
   detailedReport: true
-};
+}
 
 const bundler = new Bundler(file, options)
 

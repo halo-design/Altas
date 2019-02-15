@@ -127,6 +127,12 @@ export const download = (
   });
 }
 
+let cancelDL: boolean = false;
+export const cancelMultiDownload = (): void => {
+  ipcRenderer.send('file-download-cancel');
+  cancelDL = true;
+}
+
 export const multiDownload = (
   urls: string[],
   onProgess: (e: object) => void,
@@ -136,7 +142,11 @@ export const multiDownload = (
   selectFile({
     multiSelections: false,
     properties: ['openDirectory'],
-  },  (res: string[]): void => {
+  },  (res: string[] | undefined): void => {
+    if (!res) {
+      return
+    }
+
     const outputPath = res[0];
     let index = 0;
     let isDone = false;
@@ -153,11 +163,17 @@ export const multiDownload = (
     }
 
     ipcRenderer.on('on-download-state', (event : any, params: any) => {
+      if (cancelDL) {
+        cancelDL = false;
+        return
+      }
+
       const state = {
         count: urls.length,
         current: params,
         finished: params.index + 1,
       }
+
       const { status } = params;
       if (/(cancel|finished|error)/.test(status)) {
         if (params.index < urls.length - 1) {
@@ -182,7 +198,7 @@ export const messageBox = (args: object): void => {
 
 export const selectFile = (
   args: object,
-  cb: (e: string[]) => void
+  cb: (e: string[] | undefined) => void
 ): void => {
   dialog.showOpenDialog({
     defaultPath: '../Desktop',
