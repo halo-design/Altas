@@ -82,7 +82,7 @@ class SyncView extends React.Component<any> {
         <button onClick={this.encodeHandle}>加密</button>
         <button onClick={this.decodeHandle}>解密</button>
         <div>
-          加密/解密结果：
+          ∞加密/解密结果：
           <input
             type="text"
             ref={node => { this.cryptoRztEl = node }}
