@@ -6,6 +6,7 @@ import Sidebar from '../layouts/Sidebar/';
 import WinControl from '../layouts/WinControl/';
 
 import Device from '../views/Device';
+import Face from '../views/Face';
 import Home from '../views/Home';
 import Mine from '../views/Mine';
 import Refresh from '../views/Refresh';
@@ -26,6 +27,10 @@ const App = ({ initPath }: IAppProp): any => {
         <Route
           path="/home"
           component={Home}
+        />
+        <Route
+          path="/face"
+          component={Face}
         />
         <Route
           path="/upload"

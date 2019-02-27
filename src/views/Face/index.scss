@@ -1,0 +1,16 @@
+.page-face {
+  .camera-video {
+    overflow: hidden;
+    width: 480px;
+    height: 320px;
+    position: relative;
+
+    .overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

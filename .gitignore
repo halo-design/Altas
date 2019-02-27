@@ -4,6 +4,7 @@
 node_modules/
 packages/
 browser/static/
+examples/
 
 npm-debug.log*
 yarn-debug.log*

@@ -38,7 +38,7 @@ function Sidebar ({ initPath }: ISidebarProps) {
         <NavLink exact={true} to="/upload" className="iconfont" activeClassName="active">&#xe6f5;</NavLink>
         <NavLink exact={true} to="/mine" className="iconfont" activeClassName="active">&#xe602;</NavLink>
         <NavLink exact={true} to="/device" className="iconfont" activeClassName="active">&#xe6ab;</NavLink>
-        <NavLink exact={true} to="/tools" className="iconfont" activeClassName="active">&#xe83d;</NavLink>
+        <NavLink exact={true} to="/face" className="iconfont" activeClassName="active">&#xe83d;</NavLink>
         <NavLink exact={true} to="/sync" className="iconfont" activeClassName="active">&#xe703;</NavLink>
       </div>
       <i className="iconfont setting">&#xe626;</i>
