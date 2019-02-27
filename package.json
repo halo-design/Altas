@@ -41,7 +41,6 @@
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@babel/runtime": "^7.3.4",
     "@types/classnames": "^2.2.7",
     "@types/md5": "^2.1.33",
     "@types/node": "^11.9.5",
@@ -62,6 +61,7 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
+    "@babel/runtime": "^7.3.4",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.13.0",
