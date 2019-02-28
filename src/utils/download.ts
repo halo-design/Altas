@@ -17,10 +17,8 @@ export const download = (
   });
 }
 
-let cancelDL: boolean = false;
-export const cancelMultiDownload = (): void => {
+export const cancelDownloadTask = (): void => {
   ipcRenderer.send('file-download-cancel');
-  cancelDL = true;
 }
 
 export const multiDownload = (
@@ -55,11 +53,6 @@ export const multiDownload = (
     }
 
     ipcRenderer.on('on-download-state', (event : any, params: any) => {
-      if (cancelDL) {
-        cancelDL = false;
-        return
-      }
-
       const state = {
         count: urls.length,
         current: params,

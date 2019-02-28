@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
-import * as clipBoard from '../utils/clipboard';
-import { cancelMultiDownload, download, multiDownload} from '../utils/download';
+import * as clipBoard from '../utils/clipBoard';
+import { cancelDownloadTask, download, multiDownload} from '../utils/download';
 import { readTxtByLine, selectFile } from '../utils/file';
 import messageBox from '../utils/msgBox';
 import { detect } from '../utils/system';
@@ -140,7 +140,7 @@ class MineView extends React.Component<object, IState> {
       <button onClick={this.showMessageBox}>弹出消息框</button>
       <br />
       <button onClick={e => { this.readLocalTxtDownload() }}>按行读取下载文件并下载</button>
-      <button onClick={cancelMultiDownload}>停止下载队列</button>
+      <button onClick={cancelDownloadTask}>终止当前正在下载</button>
     </div>
   }
 }

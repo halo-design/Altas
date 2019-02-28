@@ -1,6 +1,6 @@
 import { inject, observer } from 'mobx-react'
 import * as React from 'react';
-import * as clipboard from '../utils/clipboard';
+import * as clipBoard from '../utils/clipBoard';
 
 interface IProps {
   doUpload: () => void;
@@ -44,7 +44,7 @@ class UploadView extends React.Component<IProps> {
   }
 
   public saveClipboard (txt: string) {
-    clipboard.write(txt);
+    clipBoard.write(txt);
     console.log(txt + '已复制到剪切板！')
   }
 
