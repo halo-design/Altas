@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { withRouter } from 'react-router';
-import { aesDecode, aesEncode, CreateContextMenu } from '../utils/bridge';
+import { decode, encode } from '../utils/aes';
 import createAppMenu from '../utils/createAppMenu';
+import CreateContextMenu from '../utils/CreateContextMenu';
 
 class SyncView extends React.Component<any> {
   public contextMenu: any = null;
@@ -26,13 +27,13 @@ class SyncView extends React.Component<any> {
   }
   
   public encodeHandle = () => {
-    aesEncode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
+    encode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
       this.cryptoRztEl.value = data;
     })
   }
   
   public decodeHandle = () => {
-    aesDecode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
+    decode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
       this.cryptoRztEl.value = data;
     })
   }

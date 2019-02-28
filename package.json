@@ -62,6 +62,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.13.0",
@@ -76,6 +78,7 @@
     "mobx-react-devtools": "^6.0.3",
     "mobx-react-router": "^4.0.5",
     "node-notifier": "^5.4.0",
+    "notistack": "^0.4.3",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router": "^4.3.1",

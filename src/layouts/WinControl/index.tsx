@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { win } from '../../utils/bridge';
+import win from '../../utils/win';
 import './index.scss';
 
 const { useState } = React;

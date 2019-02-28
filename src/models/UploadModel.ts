@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
-import { setTrayTitle } from '../utils/bridge';
+import { setTrayTitle } from '../utils/system';
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
@@ -114,7 +114,11 @@ export default class UploadModel {
     if (!this.isXhrQueueEmpty) {
       return
     }
-    setTrayTitle(this.postFiles.length.toString());
+
+    if (this.postFiles.length > 0) {
+      setTrayTitle(this.postFiles.length.toString());
+    }
+
     this.postFiles.forEach((file: any, index: number) => {
       const uid = file.uid;
       this.xhrQueue[uid] = upload({

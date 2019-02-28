@@ -1,6 +1,6 @@
 import { remote } from 'electron';
 import { history } from 'react-router-util';
-import { getAppDir } from './bridge';
+import { getAppDir } from './system';
 
 const { app, Menu, shell }= remote;
 

@@ -1,7 +1,10 @@
 import * as faceapi from 'face-api.js';
+import { withSnackbar } from 'notistack';
 import * as React from 'react';
 import LineProgress from '../../layouts/LineProgress';
-import { download, getAppDir, selectFile } from '../../utils/bridge';
+import { download } from '../../utils/download';
+import { setSaveAs } from '../../utils/file';
+import { getAppDir } from '../../utils/system';
 
 import './index.scss';
 
@@ -14,7 +17,7 @@ export interface IFaceState {
   photoTaking: boolean;
 }
 
-class FaceView extends React.Component<object, IFaceState> {
+class FaceView extends React.Component<any, IFaceState> {
   public recordStream: any = null;
   private videoEl: any = null;
   private canvasEl: any = null;
@@ -54,7 +57,9 @@ class FaceView extends React.Component<object, IFaceState> {
         this.setState({
           videoVisible: false
         })
-        console.log('设备不支持视频录制');
+        this.props.enqueueSnackbar('设备不支持视频录制', { 
+          variant: 'info',
+        });
       }))
       .finally(() => {
         this.setState({
@@ -137,6 +142,9 @@ class FaceView extends React.Component<object, IFaceState> {
     const referPath = this.state.referencePath;
 
     if (!referPath) {
+      this.props.enqueueSnackbar('请选取一张参照照片', { 
+        variant: 'warning',
+      });
       return
     }
 
@@ -216,18 +224,19 @@ class FaceView extends React.Component<object, IFaceState> {
     const content = canvasEl.toDataURL('image/png');
     const blob = this.base64Image2Blob(content);
 
-    selectFile({
-      properties: ['openDirectory']
-    }, (paths) => {
-      if (paths) {
-        const path = paths[0];
+    setSaveAs(`shot-${Date.now()}.png`, (path) => {
+      if (path) {
+        const point = path.lastIndexOf('/');
+
         download(URL.createObjectURL(blob), (params: any) => {
           if (/(cancel|finished|error)/.test(params.status)) {
-            console.log('下载完成');
+            this.props.enqueueSnackbar('照片已保存', {
+              variant: 'success'
+            });
           }
         }, {
-          directory: path,
-          filename: `photo-${Date.now()}.png`,
+          directory: path.substr(0, point),
+          filename: path.substr(point + 1),
           openFolderWhenDone: true,
         })
       }
@@ -236,7 +245,9 @@ class FaceView extends React.Component<object, IFaceState> {
 
   public takePhoto () {
     if (!this.state.videoVisible) {
-      console.log('请先开启摄像头');
+      this.props.enqueueSnackbar('请先开启摄像头', { 
+        variant: 'warning',
+      });
     } else {
       this.savePhoto();
     }
@@ -254,7 +265,15 @@ class FaceView extends React.Component<object, IFaceState> {
   }
 
   public render() {
-    const { faceRecognitionOpen, lineProgressHidden, lineProgressTitle, photoTaking, videoVisible } = this.state;
+    const {
+      faceRecognitionOpen,
+      lineProgressHidden,
+      lineProgressTitle,
+      photoTaking,
+      referencePath,
+      videoVisible
+    } = this.state;
+
     return (
       <div className="page-face">
         <div className="camera-video" style={{ display: videoVisible ? '' : 'none' }}>
@@ -277,6 +296,7 @@ class FaceView extends React.Component<object, IFaceState> {
           onChange={e => this.handleRefer(e)}
           onDrop={e => this.handleRefer(e)}
         />
+        <img src={referencePath} width="320"/>
         {
           videoVisible
             ? <button onClick={e => this.stopRecord()}>关闭摄像头</button>
@@ -296,4 +316,4 @@ class FaceView extends React.Component<object, IFaceState> {
   }
 }
 
-export default FaceView
+export default withSnackbar(FaceView);

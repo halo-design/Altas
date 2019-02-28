@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import * as API from '../constants/API';
 import { getData } from '../utils/ajax';
-import { getDeviceOS, getIpAddress } from '../utils/bridge';
+import { getDeviceOS, getIpAddress } from '../utils/system';
 
 export default class DeviceModel {
   @observable public ipAddress: any = {};

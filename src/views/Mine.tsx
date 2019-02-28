@@ -1,6 +1,10 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
-import { cancelMultiDownload, detect, download, messageBox, multiDownload, readClipboard, readTxtByLine, selectFile } from '../utils/bridge';
+import * as clipBoard from '../utils/clipboard';
+import { cancelMultiDownload, download, multiDownload} from '../utils/download';
+import { readTxtByLine, selectFile } from '../utils/file';
+import messageBox from '../utils/msgBox';
+import { detect } from '../utils/system';
 
 export interface IState {
   filePath: string;
@@ -50,7 +54,7 @@ class MineView extends React.Component<object, IState> {
 
   public handlePaste = (event: any) => {
     event.preventDefault();
-    readClipboard((arg: string) => {
+    clipBoard.read((arg: string) => {
       this.setPath(arg);
     });
   }
