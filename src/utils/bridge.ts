@@ -114,10 +114,10 @@ export const writeClipboard = (txt: string) => {
 
 export const download = (
   url: string,
-  args: object,
-  cb: (args: object) => void
+  cb: (args: object) => void,
+  args?: object,
 ): void => {
-  ipcRenderer.send('file-download', url, args);
+  ipcRenderer.send('file-download', url, args || {});
   ipcRenderer.on('on-download-state', (event : any, params: any) => {
     const { status } = params;
     if (/(cancel|finished|error)/.test(status)) {

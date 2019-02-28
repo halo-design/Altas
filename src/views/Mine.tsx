@@ -34,11 +34,10 @@ class MineView extends React.Component<object, IState> {
     const { filePath } = this.state;
     if (this.testPath(filePath)) {
       console.log(filePath);
-      download(filePath, {
-        openFolderWhenDone: true,
-        saveAs: true,
-      }, (arg: object) => {
+      download(filePath, (arg: object) => {
         console.log(arg)
+      }, {
+        openFolderWhenDone: true,
       });
     } else {
       this.clearPath();

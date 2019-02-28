@@ -42,6 +42,7 @@ const init = () => {
     }
   })
 
+  mainWindow.hide()
 }
 
 app.on('ready', init)

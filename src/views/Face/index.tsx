@@ -1,7 +1,7 @@
 import * as faceapi from 'face-api.js';
 import * as React from 'react';
 import LineProgress from '../../layouts/LineProgress';
-import { getAppDir } from '../../utils/bridge';
+import { download, getAppDir, selectFile } from '../../utils/bridge';
 
 import './index.scss';
 
@@ -11,6 +11,7 @@ export interface IFaceState {
   videoVisible: boolean;
   faceRecognitionOpen : boolean;
   referencePath: string;
+  photoTaking: boolean;
 }
 
 class FaceView extends React.Component<object, IFaceState> {
@@ -27,6 +28,7 @@ class FaceView extends React.Component<object, IFaceState> {
       faceRecognitionOpen: false,
       lineProgressHidden: true,
       lineProgressTitle: '正在开启摄像头',
+      photoTaking: false,
       referencePath: '',
       videoVisible: false,
     };
@@ -49,6 +51,9 @@ class FaceView extends React.Component<object, IFaceState> {
         }
       })
       .catch((err => {
+        this.setState({
+          videoVisible: false
+        })
         console.log('设备不支持视频录制');
       }))
       .finally(() => {
@@ -68,7 +73,8 @@ class FaceView extends React.Component<object, IFaceState> {
     }
     this.setState({
       faceRecognitionOpen: false,
-      videoVisible: false
+      photoTaking: false,
+      videoVisible: false,
     })
   }
 
@@ -177,17 +183,92 @@ class FaceView extends React.Component<object, IFaceState> {
     }
   }
 
+  public base64Image2Blob = (content: any): Blob => {
+    const parts = content.split(';base64,');
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], { type: contentType });
+  }
+
+  public savePhoto () {
+    const videoEl = this.videoEl;
+    const canvasEl = this.canvasEl;
+
+    videoEl.pause();
+    this.setState({
+      photoTaking: true
+    })
+
+    const ctx = canvasEl.getContext('2d');
+    const { width, height } = videoEl instanceof HTMLVideoElement
+    ? faceapi.getMediaDimensions(videoEl)
+    : videoEl;
+
+    canvasEl.width = width;
+    canvasEl.height = height;
+    ctx.drawImage(videoEl, 0, 0, width, height);
+
+    const content = canvasEl.toDataURL('image/png');
+    const blob = this.base64Image2Blob(content);
+
+    selectFile({
+      properties: ['openDirectory']
+    }, (paths) => {
+      if (paths) {
+        const path = paths[0];
+        download(URL.createObjectURL(blob), (params: any) => {
+          if (/(cancel|finished|error)/.test(params.status)) {
+            console.log('下载完成');
+          }
+        }, {
+          directory: path,
+          filename: `photo-${Date.now()}.png`,
+          openFolderWhenDone: true,
+        })
+      }
+    });
+  }
+
+  public takePhoto () {
+    if (!this.state.videoVisible) {
+      console.log('请先开启摄像头');
+    } else {
+      this.savePhoto();
+    }
+  }
+
+  public resumePhotoTaken () {
+    this.setState({
+      photoTaking: false
+    })
+    this.videoEl.play();
+  }
+
   public componentWillUnmount () {
     this.stopRecord();
   }
 
   public render() {
-    const { faceRecognitionOpen, lineProgressHidden, lineProgressTitle, videoVisible } = this.state;
+    const { faceRecognitionOpen, lineProgressHidden, lineProgressTitle, photoTaking, videoVisible } = this.state;
     return (
       <div className="page-face">
         <div className="camera-video" style={{ display: videoVisible ? '' : 'none' }}>
-          <video onPlay={e => this.onPlay()} ref={node => { this.videoEl = node }} autoPlay={true} muted={true} />
-          <canvas ref={node => { this.canvasEl = node }} className="overlay" style={{ display: faceRecognitionOpen ? '' : 'none' }} />
+          <video
+            onPlay={e => this.onPlay()}
+            ref={node => { this.videoEl = node }}
+            autoPlay={true}
+            muted={true}
+          />
+          <canvas
+            ref={node => { this.canvasEl = node }}
+            className="overlay"
+            style={{ display: faceRecognitionOpen ? '' : 'none' }}
+          />
         </div>
         <input
           type="file"
@@ -198,11 +279,16 @@ class FaceView extends React.Component<object, IFaceState> {
         />
         {
           videoVisible
-          ? <button onClick={e => this.stopRecord()}>关闭摄像头</button>
-          : [
-            <button key="open-normal" onClick={e => this.startRecord(null)}>开启摄像头</button>,
-            <button key="open-face" onClick={e => this.faceRecognition()}>人脸识别</button>
-          ]
+            ? <button onClick={e => this.stopRecord()}>关闭摄像头</button>
+            : [
+              <button key="open-normal" onClick={e => this.startRecord(null)}>开启摄像头</button>,
+              <button key="open-face" onClick={e => this.faceRecognition()}>人脸识别</button>
+            ]
+        }
+        {
+          photoTaking
+            ? <button onClick={e => this.resumePhotoTaken()}>继续拍照</button>
+            : <button onClick={e => this.takePhoto()}>拍照</button>
         }
         <LineProgress hide={lineProgressHidden} title={lineProgressTitle} mask={true} />
       </div>

@@ -21,6 +21,7 @@ const saveFile = (filePath, fileDataBuffer) => {
 
 module.exports = {
   root,
+  saveFile,
   path: p => path.join(root, p),
   exist: filename => fs.existsSync(path.join(root, filename)),
   del: filename => {
