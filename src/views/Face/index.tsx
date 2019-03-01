@@ -1,7 +1,7 @@
 import * as faceapi from 'face-api.js';
 import { withSnackbar } from 'notistack';
 import * as React from 'react';
-import LineProgress from '../../layouts/LineProgress';
+import LineProgress from '../../components/LineProgress';
 import { download } from '../../utils/download';
 import { setSaveAs } from '../../utils/file';
 import { getAppDir } from '../../utils/system';

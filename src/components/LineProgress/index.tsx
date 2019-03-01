@@ -1,6 +1,6 @@
 // import classNames from 'classnames';
 import * as React from 'react';
-import RootPortal from '../../components/RootPortal';
+import RootPortal from '../RootPortal';
 import './index.scss'
 
 interface ILogoProp {

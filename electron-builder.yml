@@ -4,7 +4,6 @@ appId: gh.halo-design.altas
 files: 
   - app/
   - browser/
-  - node_modules/
   - package.json
 
 compression: maximum
