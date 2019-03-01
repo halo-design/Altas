@@ -1,3 +1,3 @@
 # Altas
 
-## An Electron Application
+## 🚦An Electron Application
