@@ -21,59 +21,103 @@ export const cancelDownloadTask = (): void => {
   ipcRenderer.send('file-download-cancel');
 }
 
-export const multiDownload = (
-  urls: string[],
-  onProgess: (e: object) => void,
-  callback: (e: object) => void,
-  timeout?: number,
-) => {
-  selectFile({
-    buttonLabel: '确定',
-    multiSelections: false,
-    properties: ['openDirectory'],
-    title: '选择下载目录',
-  },  (res: string[] | undefined): void => {
-    if (!res) {
+export interface IMultiDownloadOptions {
+  urls: string[];
+  onProgess?: (e: object) => void;
+  callback?: (e: object) => void;
+  timeout?: number;
+}
+
+export class MultiDownload {
+  public opts: IMultiDownloadOptions = { urls: [] };
+  public outputPath: string = '';
+  public index: number = 0;
+  public isDone: boolean = false;
+  public dowloadQueueStatus: string = 'downloading';
+
+  constructor (options: IMultiDownloadOptions) {
+    this.opts = options;
+    this.saveFolder()
+      .then((res) => {
+        this.loopDownload();
+      })
+  }
+
+  public cancelAll () {
+    this.dowloadQueueStatus = 'stop';
+    cancelDownloadTask();
+  }
+
+  public pause () {
+    this.dowloadQueueStatus = 'pause';
+  }
+  
+  public resume () {
+    if (this.dowloadQueueStatus === 'pause') {
+      this.dowloadQueueStatus = 'downloading';
+      this.loop();
+    }
+  }
+
+  protected saveFolder () {
+    return new Promise((resolve, reject) => {
+      selectFile({
+        buttonLabel: '确定',
+        multiSelections: false,
+        properties: ['openDirectory'],
+        title: '选择下载目录',
+      }, (res: string[] | undefined): void => {
+        if (res) {
+          this.outputPath = res[0];
+          resolve(res[0]);
+        } else {
+          reject();
+        }
+      })
+    })
+  }
+
+  protected loop () {
+    const dlStatus = this.dowloadQueueStatus;
+    if (/(stop|pause)/.test(dlStatus)) {
       return
     }
 
-    const outputPath = res[0];
-    let index = 0;
-    let isDone = false;
+    const url = this.opts.urls[this.index];
+    ipcRenderer.send('file-download', url, {
+      directory: this.outputPath || app.getPath('downloads'),
+      index: this.index,
+      saveAs: false,
+      timeout: this.opts.timeout,
+    });
+    this.index++;
+  }
 
-    const singleDl = () => {
-      const url = urls[index];
-      ipcRenderer.send('file-download', url, {
-        directory: outputPath || app.getPath('downloads'),
-        index,
-        saveAs: false,
-        timeout
-      });
-      index++;
-    }
-
+  protected loopDownload () {
+    this.loop();
     ipcRenderer.on('on-download-state', (event : any, params: any) => {
       const state = {
-        count: urls.length,
+        count: this.opts.urls.length,
         current: params,
         finished: params.index + 1,
       }
 
       const { status } = params;
       if (/(cancel|finished|error)/.test(status)) {
-        if (params.index < urls.length - 1) {
-          singleDl();
-        } else if (!isDone) {
-          callback(state);
+        if (params.index < this.opts.urls.length - 1 && this.dowloadQueueStatus !== 'stop') {
+          this.loop();
+        } else if (!this.isDone) {
+          if (this.opts.callback) {
+            this.opts.callback(state);
+          }
           ipcRenderer.removeAllListeners('on-download-state');
-          isDone = true;
+          this.isDone = true;
         }
       } else {
-        onProgess(state);
+        if (this.opts.onProgess) {
+          this.opts.onProgess(state);
+        }
       }
     });
-
-    singleDl();
-  });
+  }
 }
-

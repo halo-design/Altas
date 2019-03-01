@@ -68,14 +68,14 @@ module.exports = (mainWindow, pkg) => {
     let timer
 
     const createTimer = () => {
-      const t = args.timeout
-      if (t) {
+      const { timeout } = args
+      if (timeout) {
         timer = setTimeout(() => {
           if (dlItem) {
             dlItem.cancel()
             console.log(url + '[下载超时，已取消]')
           }
-        }, t)
+        }, timeout)
       }
     }
 

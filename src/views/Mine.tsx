@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Reg from '../constants/Reg';
 import * as clipBoard from '../utils/clipBoard';
-import { cancelDownloadTask, download, multiDownload} from '../utils/download';
+import { download, MultiDownload} from '../utils/download';
 import { readTxtByLine, selectFile } from '../utils/file';
 import messageBox from '../utils/msgBox';
 import { detect } from '../utils/system';
@@ -11,6 +11,8 @@ export interface IState {
 }
 
 class MineView extends React.Component<object, IState> {
+  private multiDl: any = null;
+
   constructor (props: any) {
     super(props);
     this.state = {
@@ -111,17 +113,18 @@ class MineView extends React.Component<object, IState> {
     });
   }
 
-  public multiDownloadHandle (picArr: string[]) {
-    multiDownload(picArr, (e) => {
-      console.log('ing', e)
-    }, (e) => {
-      console.log('done', e)
-    }, 10 * 1000)
-  }
-
   public readLocalTxtDownload () {
     this.readLocalTxtByLine((data) => {
-      this.multiDownloadHandle(data)
+      this.multiDl = new MultiDownload({
+        callback: (e) => {
+          console.log('done', e);
+        },
+        onProgess: (e) => {
+          console.log('ing', e);
+        },
+        timeout: 10 * 1000,
+        urls: data,
+      })
     })
   }
 
@@ -140,7 +143,9 @@ class MineView extends React.Component<object, IState> {
       <button onClick={this.showMessageBox}>弹出消息框</button>
       <br />
       <button onClick={e => { this.readLocalTxtDownload() }}>按行读取下载文件并下载</button>
-      <button onClick={cancelDownloadTask}>终止当前正在下载</button>
+      <button onClick={e => { this.multiDl.cancelAll() }}>终止全部下载队列</button>
+      <button onClick={e => { this.multiDl.pause() }}>暂停下载队列</button>
+      <button onClick={e => { this.multiDl.resume() }}>继续下载队列</button>
     </div>
   }
 }
