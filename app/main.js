@@ -12,7 +12,7 @@ let forceQuit = false
 const init = () => {
   mainWindow = createWindow({
     entry: 'browser/index.html',
-    width: 960,
+    width: 980,
     height: 620,
     bridge: ipcBridge
   })

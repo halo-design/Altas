@@ -20,12 +20,12 @@
       text-decoration: none;
 
       &.iconfont {
-        color: #7c8090;
+        color: #5c5f6b;
         font-size: 20px;
         transition: all .3s;
 
         &.active {
-          color: #3f55a9;
+          color: #354582;
         }
       }
     }
@@ -40,11 +40,7 @@
     line-height: 40px;
     text-align: center;
     font-size: 20px;
-    color: #7c8090;
+    color: #5c5f6b;
     cursor: pointer;
-
-    &:hover {
-      color: #575b67;
-    }
   }
 }
