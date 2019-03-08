@@ -1,4 +1,5 @@
 const https = require('https')
+const log = require('electron-log')
 
 module.exports = {
   getJSON (url) {
@@ -6,7 +7,7 @@ module.exports = {
       https.get(url, res => {
         const { statusCode } = res
         if (statusCode !== 200) {
-          console.log('文件请求失败！')
+          log.error('文件请求失败！')
           reject(statusCode)
           res.resume()
         } else {

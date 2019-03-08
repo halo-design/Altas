@@ -2,7 +2,7 @@ const electron = require('electron')
 const { showBetterMessageBox } = require('electron-better-dialog')
 const ip = require('ip')
 const md5 = require('md5')
-const notifier = require('node-notifier')
+// const notifier = require('node-notifier')
 const DL = require('electron-dl')
 const { ipcMain, clipboard } = electron
 const readTxtByLine = require('./readTxtByLine')
@@ -10,6 +10,7 @@ const storage = require('electron-json-storage')
 const crypto = require('./crypto')
 const file = require('./file')
 const os = require('os')
+const log = require('electron-log')
 
 module.exports = (mainWindow, pkg) => {
   // 获取app绝对目录
@@ -23,8 +24,8 @@ module.exports = (mainWindow, pkg) => {
       if (err) {
         throw err;
       } else {
-        console.log(data)
-        console.log(`[${key}]：数据已写入`)
+        log.info(data)
+        log.info(`[${key}]：数据已写入`)
       }
     })
   })
@@ -39,7 +40,7 @@ module.exports = (mainWindow, pkg) => {
   // 数据删除
   ipcMain.on('remove-storage', (event, key) => {
     storage.remove(key)
-    console.log(`[${key}]：数据已删除`)
+    log.info(`[${key}]：数据已删除`)
   })
 
   // 监听应用弹窗
@@ -73,12 +74,11 @@ module.exports = (mainWindow, pkg) => {
         timer = setTimeout(() => {
           if (dlItem) {
             dlItem.cancel()
-            console.log(url + '[下载超时，已取消]')
+            log.error(url + '[下载超时，已取消]')
           }
         }, timeout)
       }
     }
-
 
     DL.download(mainWindow, url, {
       onStarted: e => {
@@ -111,7 +111,7 @@ module.exports = (mainWindow, pkg) => {
     })
       .then(dl => {
         timer && clearTimeout(timer)
-        console.log(dl.getSavePath())
+        log.debug(dl.getSavePath())
         mainWindow.webContents.send('on-download-state', {
           status: 'finished',
           progress: 1,
@@ -145,14 +145,14 @@ module.exports = (mainWindow, pkg) => {
   })
 
   // 获取本机IP地址
-  ipcMain.on('get-ip-address', (event, args) => {
+  ipcMain.once('get-ip-address', (event, args) => {
     const network = {}
     network.ip = ip.address()
     event.sender.send('ip-address', network)
   })
 
   // 获取本机硬件信息
-  ipcMain.on('get-device-os', (event, args) => {
+  ipcMain.once('get-device-os', (event, args) => {
     const info = {
       arch: os.arch(),
       cpu: os.cpus(),

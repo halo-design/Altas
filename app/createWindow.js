@@ -35,7 +35,7 @@ const createWindow = ({ entry, width, height, bridge }) => {
   }
 
   if (isMac) {
-    options.vibrancy = 'appearance-based'
+    options.vibrancy = 'titlebar'
   } else {
     options.backgroundColor = '#fff'
   }

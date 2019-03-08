@@ -1,8 +1,9 @@
 const fs = require('fs')
 const readline = require('readline')
+const log = require('electron-log')
 
 module.exports = (filePath, cb, done) => {
-  console.log(filePath)
+  log.debug(filePath)
   const rl = readline.createInterface({
     input: fs.createReadStream(filePath)
   })

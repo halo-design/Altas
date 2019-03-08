@@ -1,6 +1,6 @@
 const { app, ipcMain } = require('electron')
 const createWindow = require('./createWindow')
-const storage = require('electron-json-storage')
+const path = require('path')
 
 const ipcBridge = require('./utils/bridge')
 const createAppTray = require('./utils/tray')
