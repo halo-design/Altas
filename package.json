@@ -35,7 +35,7 @@
     "node": ">=8"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "7.3.4",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-transform-runtime": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
@@ -43,8 +43,8 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/classnames": "^2.2.7",
     "@types/md5": "^2.1.33",
-    "@types/node": "^11.10.5",
-    "@types/react": "^16.8.7",
+    "@types/node": "^11.11.3",
+    "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
     "@types/react-router": "^4.4.5",
     "@types/react-router-dom": "^4.3.1",
@@ -52,7 +52,7 @@
     "electron": "5.0.0-beta.5",
     "electron-builder": "^20.39.0",
     "node-sass": "^4.11.0",
-    "parcel-bundler": "1.11.0",
+    "parcel-bundler": "1.12.1",
     "postcss-modules": "^1.4.1",
     "sass": "^1.17.2",
     "tslint": "^5.13.1",
