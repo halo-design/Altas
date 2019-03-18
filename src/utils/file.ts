@@ -1,7 +1,10 @@
 import { ipcRenderer, remote } from 'electron';
 const { app, dialog, getCurrentWindow } = remote;
 
-export const setSaveAs = (fileName: string, afterFn: (e: string) => void): void => {
+export const setSaveAs = (
+  fileName: string,
+  afterFn: (e: string) => void
+): void => {
   dialog.showSaveDialog(getCurrentWindow(), {
     defaultPath: app.getPath('downloads') + '/' + fileName,
   }, (filename) => {
