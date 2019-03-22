@@ -1,6 +1,4 @@
 import { remote } from 'electron';
-import { history } from 'react-router-util';
-import { getAppDir } from './system';
 
 const { app, Menu, shell }= remote;
 
@@ -95,13 +93,8 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
     submenu: [{
       accelerator: 'CmdOrCtrl+R',
       click: () => {
-        history.push('/refresh');
-        if (isDev) {
-          getAppDir(path => {
-            document.getElementsByTagName('link')[0].href
-              = `${path}browser/static/index.css?${Date.now()}`
-          })
-        }
+        // 刷新页面
+        location.href = '#/refresh';
       },
       label: '刷新',
     }]

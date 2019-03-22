@@ -145,14 +145,14 @@ module.exports = (mainWindow, pkg) => {
   })
 
   // 获取本机IP地址
-  ipcMain.once('get-ip-address', (event, args) => {
+  ipcMain.on('get-ip-address', (event, args) => {
     const network = {}
     network.ip = ip.address()
     event.sender.send('ip-address', network)
   })
 
   // 获取本机硬件信息
-  ipcMain.once('get-device-os', (event, args) => {
+  ipcMain.on('get-device-os', (event, args) => {
     const info = {
       arch: os.arch(),
       cpu: os.cpus(),

@@ -1,9 +1,8 @@
 import { ipcRenderer, remote } from 'electron';
 const { shell } = remote;
-import { history } from 'react-router-util';
 
 ipcRenderer.on('history-push', (event: any, path: string): void => {
-  history.push(path);
+  location.href=`#${path}`;
 })
 
 export const setTrayTitle = (title: string): void => {

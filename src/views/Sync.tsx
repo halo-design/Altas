@@ -25,7 +25,7 @@ class SyncView extends React.Component<any> {
       type: 'checkbox'
     }]);
   }
-  
+
   public encodeHandle = () => {
     encode(this.cryptoStrEl.value, this.cryptoPswdrEl.value, (data) => {
       this.cryptoRztEl.value = data;
@@ -46,14 +46,14 @@ class SyncView extends React.Component<any> {
           accelerator: 'CmdOrCtrl+J',
           click: (e: any) => {
             this.notify = new Notification('独占功能', {
-              body: '通知正文内容'
+              body: '显示通知正文内容'
             });
           },
           label: '功能',
           role: '功能'
         }]
       }
-  
+
       tpl.unshift(editTpl);
   
       return tpl

@@ -1,5 +1,5 @@
+import message from 'antd/lib/message';
 import * as faceapi from 'face-api.js';
-import { withSnackbar } from 'notistack';
 import * as React from 'react';
 import LineProgress from '../../components/LineProgress';
 import { download } from '../../utils/download';
@@ -57,9 +57,7 @@ class FaceView extends React.Component<any, IFaceState> {
         this.setState({
           videoVisible: false
         })
-        this.props.enqueueSnackbar('设备不支持视频录制', { 
-          variant: 'info',
-        });
+        message.warning('设备不支持视频录制');
       }))
       .finally(() => {
         this.setState({
@@ -142,9 +140,7 @@ class FaceView extends React.Component<any, IFaceState> {
     const referPath = this.state.referencePath;
 
     if (!referPath) {
-      this.props.enqueueSnackbar('请选取一张参照照片', { 
-        variant: 'warning',
-      });
+      message.warning('请选取一张参照照片');
       return
     }
 
@@ -230,9 +226,7 @@ class FaceView extends React.Component<any, IFaceState> {
 
         download(URL.createObjectURL(blob), (params: any) => {
           if (/(cancel|finished|error)/.test(params.status)) {
-            this.props.enqueueSnackbar('照片已保存', {
-              variant: 'success'
-            });
+            message.success('照片已保存');
           }
         }, {
           directory: path.substr(0, point),
@@ -245,9 +239,7 @@ class FaceView extends React.Component<any, IFaceState> {
 
   public takePhoto () {
     if (!this.state.videoVisible) {
-      this.props.enqueueSnackbar('请先开启摄像头', { 
-        variant: 'warning',
-      });
+      message.warning('请先开启摄像头');
     } else {
       this.savePhoto();
     }
@@ -316,4 +308,4 @@ class FaceView extends React.Component<any, IFaceState> {
   }
 }
 
-export default withSnackbar(FaceView);
+export default FaceView;

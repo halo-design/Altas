@@ -1,6 +1,10 @@
 @import './reset.scss';
 @import './mixin.scss';
 
+body {
+  background-color: transparent;
+}
+
 .app-content {
   -webkit-app-region: no-drag;
   position: fixed;
@@ -29,15 +33,6 @@
 
 // ///////////////////////////////////////////////////////////////
 
-.app-content {
-  button, input {
-    padding: 3px 5px;
-    border: 1px solid #eee;
-    margin: 5px;
-    background: #f4f4f4;
-  }
-}
-
 @font-face {
   font-family: 'halofont';
   src: url('../font/halo.ttf') format('truetype');
@@ -50,6 +45,12 @@ body {
     background: url(../img/logo.png) no-repeat;
     background-size: 100% auto;
     margin: 30px auto;
+  }
+
+  button {
+    background-color: #eee;
+    margin: 4px;
+    padding: 5px;
   }
 
   h1 {
