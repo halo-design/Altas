@@ -6,7 +6,7 @@ class HomeView extends React.Component {
     return (
       <div className="home">
         <div className="logo" />
-        <h1>Awesome Nail!</h1>
+        <h1>Awesome Electron!</h1>
       </div>
     )
   }

@@ -47,10 +47,13 @@ body {
     margin: 30px auto;
   }
 
-  button {
-    background-color: #eee;
-    margin: 4px;
-    padding: 5px;
+  .app-content {
+    button, input {
+      background-color: #eee;
+      margin: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
   }
 
   h1 {

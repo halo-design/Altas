@@ -1,4 +1,5 @@
 import { remote } from 'electron';
+import { getAppDir } from './system';
 
 const { app, Menu, shell }= remote;
 
@@ -95,6 +96,12 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
       click: () => {
         // 刷新页面
         location.href = '#/refresh';
+        if (isDev) {
+          getAppDir(path => {
+            document.getElementsByTagName('link')[0].href
+              = `${path}browser/static/index.css?${Date.now()}`
+          })
+        }
       },
       label: '刷新',
     }]
