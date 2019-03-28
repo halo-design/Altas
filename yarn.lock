@@ -1083,10 +1083,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@tensorflow/tfjs-core@0.14.2":
-  version "0.14.2"
-  resolved "https://registry.npmjs.org/@tensorflow/tfjs-core/-/tfjs-core-0.14.2.tgz#b1ee6af0d893782a1c3b2c988091c36c42f1d7a4"
-  integrity sha512-VVbcu6H3ioKCkfkep/gQASfzPnQt3C5v+4ppH9pQ6Lf0lD+l3NMuMJYxa8Wjac1TfiWhFEX58bJvhpMfTGsUlg==
+"@tensorflow/tfjs-core@1.0.3":
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/@tensorflow/tfjs-core/download/@tensorflow/tfjs-core-1.0.3.tgz#344f3fb1ed43c43b0e19e5e2764677770fd7a085"
+  integrity sha1-NE8/se1DxDsOGeXidkZ3dw/XoIU=
   dependencies:
     "@types/seedrandom" "2.4.27"
     "@types/webgl-ext" "0.0.30"
@@ -1115,10 +1115,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
 
-"@types/node@^11.11.6":
-  version "11.11.6"
-  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-11.11.6.tgz#df929d1bb2eee5afdda598a41930fe50b43eaa6a"
-  integrity sha1-35KdG7Lu5a/dpZikGTD+ULQ+qmo=
+"@types/node@^11.12.0":
+  version "11.12.0"
+  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-11.12.0.tgz#ec5594728811dc2797e42396cfcdf786f2052c12"
+  integrity sha1-7FWUcogR3CeX5COWz833hvIFLBI=
 
 "@types/prop-types@*":
   version "15.5.8"
@@ -1177,10 +1177,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@^16.8.8":
-  version "16.8.8"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.8.8.tgz#4b60a469fd2469f7aa6eaa0f8cfbc51f6d76e662"
-  integrity sha512-xwEvyet96u7WnB96kqY0yY7qxx/pEpU51QeACkKFtrgjjXITQn0oO1iwPEraXVgh10ZFPix7gs1R4OJXF7P5sg==
+"@types/react@^16.8.10":
+  version "16.8.10"
+  resolved "http://registry.npm.taobao.org/@types/react/download/@types/react-16.8.10.tgz#1ccb6fde17f71a62ef055382ec68bdc379d4d8d9"
+  integrity sha1-HMtv3hf3GmLvBVOC7Gi9w3nU2Nk=
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -3158,10 +3158,10 @@ electron-json-storage@^4.1.6:
     rimraf "^2.5.1"
     write-file-atomic "^2.4.2"
 
-electron-log@^3.0.3:
-  version "3.0.3"
-  resolved "http://registry.npm.taobao.org/electron-log/download/electron-log-3.0.3.tgz#f2a7021f5ebca67125dfad087d1d48f7fc5f60f6"
-  integrity sha1-8qcCH168pnEl360IfR1I9/xfYPY=
+electron-log@^3.0.4:
+  version "3.0.4"
+  resolved "http://registry.npm.taobao.org/electron-log/download/electron-log-3.0.4.tgz#d2e296157999f540621300183662882bb6d14991"
+  integrity sha1-0uKWFXmZ9UBiEwAYNmKIK7bRSZE=
 
 electron-osx-sign@0.4.11:
   version "0.4.11"
@@ -3501,13 +3501,13 @@ extsprintf@^1.2.0:
   resolved "https://registry.npmjs.org/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-face-api.js@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/face-api.js/-/face-api.js-0.18.0.tgz#3a143ee881dae8a30f09f93c7dfd6a4462796e5f"
-  integrity sha512-SbUGAIrNAMbCA8E+w0vArfEt4zQyoWIBax8hXPsWgxCx7uim/o9s305xo68ltzYgMnPvXMWPin89GgDN+eMECA==
+face-api.js@^0.19.0:
+  version "0.19.0"
+  resolved "http://registry.npm.taobao.org/face-api.js/download/face-api.js-0.19.0.tgz#b7120b7f432ca3db56818c5600e9bc37de5beb60"
+  integrity sha1-txILf0Mso9tWgYxWAOm8N95b62A=
   dependencies:
-    "@tensorflow/tfjs-core" "0.14.2"
-    tfjs-image-recognition-base "^0.4.1"
+    "@tensorflow/tfjs-core" "1.0.3"
+    tfjs-image-recognition-base "^0.5.1"
     tslib "^1.9.3"
 
 falafel@^2.1.0:
@@ -5176,10 +5176,10 @@ mobx-react-devtools@6.1.1:
   resolved "https://registry.npmjs.org/mobx-react-devtools/-/mobx-react-devtools-6.1.1.tgz#a462b944085cf11ff96fc937d12bf31dab4c8984"
   integrity sha512-nc5IXLdEUFLn3wZal65KF3/JFEFd+mbH4KTz/IG5BOPyw7jo8z29w/8qm7+wiCyqVfUIgJ1gL4+HVKmcXIOgqA==
 
-mobx-react-router@^4.0.6:
-  version "4.0.6"
-  resolved "http://registry.npm.taobao.org/mobx-react-router/download/mobx-react-router-4.0.6.tgz#8f49b5ad8788a2fd916fce08dc64930f192b22a5"
-  integrity sha1-j0m1rYeIov2Rb84I3GSTDxkrIqU=
+mobx-react-router@^4.0.7:
+  version "4.0.7"
+  resolved "http://registry.npm.taobao.org/mobx-react-router/download/mobx-react-router-4.0.7.tgz#d248a0e0525049f0e37e94f2fb1ab09563be4c35"
+  integrity sha1-0kig4FJQSfDjfpTy+xqwlWO+TDU=
 
 mobx-react@^5.4.3:
   version "5.4.3"
@@ -7152,15 +7152,15 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@^16.8.5:
-  version "16.8.5"
-  resolved "http://registry.npm.taobao.org/react-dom/download/react-dom-16.8.5.tgz#b3e37d152b49e07faaa8de41fdf562be3463335e"
-  integrity sha1-s+N9FStJ4H+qqN5B/fVivjRjM14=
+react-dom@^16.8.6:
+  version "16.8.6"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
+  integrity sha512-1nL7PIq9LTL3fthPqwkvr2zY7phIPjYrT0jp4HjyEQrEROnw4dG41VVwi/wfoCneoleqrNX7iAD+pXebJZwrwA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.5"
+    scheduler "^0.13.6"
 
 react-is@^16.3.2:
   version "16.7.0"
@@ -7233,15 +7233,15 @@ react-slick@~0.23.2:
     prettier "^1.14.3"
     resize-observer-polyfill "^1.5.0"
 
-react@^16.8.5:
-  version "16.8.5"
-  resolved "http://registry.npm.taobao.org/react/download/react-16.8.5.tgz#49be3b655489d74504ad994016407e8a0445de66"
-  integrity sha1-Sb47ZVSJ10UErZlAFkB+igRF3mY=
+react@^16.8.6:
+  version "16.8.6"
+  resolved "https://registry.npmjs.org/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
+  integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.5"
+    scheduler "^0.13.6"
 
 read-config-file@3.2.2:
   version "3.2.2"
@@ -7666,10 +7666,10 @@ sax@^1.2.4, sax@~1.2.4:
   resolved "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-scheduler@^0.13.5:
-  version "0.13.5"
-  resolved "http://registry.npm.taobao.org/scheduler/download/scheduler-0.13.5.tgz#b7226625167041298af3b98088a9dbbf6d7733a8"
-  integrity sha1-tyJmJRZwQSmK87mAiKnbv213M6g=
+scheduler@^0.13.6:
+  version "0.13.6"
+  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
+  integrity sha512-IWnObHt413ucAYKsD9J1QShUKkbKLQQHdxRyw73sw4FN26iWr3DY/H34xGPe4nmL1DwXyWmSWmMrA9TfQbE/XQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -8315,12 +8315,12 @@ terser@^3.7.3:
     source-map "~0.6.1"
     source-map-support "~0.5.6"
 
-tfjs-image-recognition-base@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.npmjs.org/tfjs-image-recognition-base/-/tfjs-image-recognition-base-0.4.1.tgz#c06baa8aadc41cbb6d853e17d346d1c6d1205e53"
-  integrity sha512-oJOLByZa0OgPaLB17ZlL2qO8dIQwgV1ma4/iEFbzVbF8yd0qOomIuEGvyPzXDfD0dmyPwzj8Ysa3Jq+O375Fpw==
+tfjs-image-recognition-base@^0.5.1:
+  version "0.5.1"
+  resolved "http://registry.npm.taobao.org/tfjs-image-recognition-base/download/tfjs-image-recognition-base-0.5.1.tgz#c98ec31e77eedc2d5f0a2b257fe6b75aa9a26a8d"
+  integrity sha1-yY7DHnfu3C1fCislf+a3Wqmiao0=
   dependencies:
-    "@tensorflow/tfjs-core" "0.14.2"
+    "@tensorflow/tfjs-core" "1.0.3"
     tslib "^1.9.3"
 
 throttleit@0.0.2:
@@ -8483,12 +8483,12 @@ tslint-config-prettier@^1.18.0:
   resolved "https://registry.npmjs.org/tslint-config-prettier/-/tslint-config-prettier-1.18.0.tgz#75f140bde947d35d8f0d238e0ebf809d64592c37"
   integrity sha512-xPw9PgNPLG3iKRxmK7DWr+Ea/SzrvfHtjFt5LBl61gk2UBG/DB9kCXRjv+xyIU1rUtnayLeMUVJBcMX8Z17nDg==
 
-tslint-react@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.npmjs.org/tslint-react/-/tslint-react-3.6.0.tgz#7f462c95c4a0afaae82507f06517ff02942196a1"
-  integrity sha512-AIv1QcsSnj7e9pFir6cJ6vIncTqxfqeFF3Lzh8SuuBljueYzEAtByuB6zMaD27BL0xhMEqsZ9s5eHuCONydjBw==
+tslint-react@^4.0.0:
+  version "4.0.0"
+  resolved "http://registry.npm.taobao.org/tslint-react/download/tslint-react-4.0.0.tgz#b4bb4c01c32448cb14d23f143a2f5e4989bb961e"
+  integrity sha1-tLtMAcMkSMsU0j8UOi9eSYm7lh4=
   dependencies:
-    tsutils "^2.13.1"
+    tsutils "^3.9.1"
 
 tslint@^5.14.0:
   version "5.14.0"
@@ -8509,10 +8509,17 @@ tslint@^5.14.0:
     tslib "^1.8.0"
     tsutils "^2.29.0"
 
-tsutils@^2.13.1, tsutils@^2.29.0:
+tsutils@^2.29.0:
   version "2.29.0"
   resolved "https://registry.npmjs.org/tsutils/-/tsutils-2.29.0.tgz#32b488501467acbedd4b85498673a0812aca0b99"
   integrity sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==
+  dependencies:
+    tslib "^1.8.1"
+
+tsutils@^3.9.1:
+  version "3.9.1"
+  resolved "http://registry.npm.taobao.org/tsutils/download/tsutils-3.9.1.tgz#2a40dc742943c71eca6d5c1994fcf999956be387"
+  integrity sha1-KkDcdClDxx7KbVwZlPz5mZVr44c=
   dependencies:
     tslib "^1.8.1"
 
