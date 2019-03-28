@@ -3211,10 +3211,10 @@ electron-window-state@^5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@5.0.0-beta.5:
-  version "5.0.0-beta.5"
-  resolved "https://registry.npmjs.org/electron/-/electron-5.0.0-beta.5.tgz#0b3cc7417a75b36483943f67987fdb4aea27f3a7"
-  integrity sha512-sBYm1WJ4GwC6KLo8EQKdqY0vGmKf+d1VUt79zKtqnKK19FZ1TktMPpLo8hOBesrxjx19qeX9RYF8z2rP5viKmw==
+electron@5.0.0-beta.7:
+  version "5.0.0-beta.7"
+  resolved "https://registry.npmjs.org/electron/-/electron-5.0.0-beta.7.tgz#072fda102c9a08abbd003a81ac2f75c6423fee25"
+  integrity sha512-3Rij+MomuSnUG6cNoZutIg8fq6B3zj42HjzMU3rcKKHh/Lu1Q0epTIR/n2VxmMkQ/CnuyZty1OJAcqxAuZqz0g==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
