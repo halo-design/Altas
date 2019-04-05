@@ -1,17 +1,11 @@
-matrix:
-  include:
-    - os: osx
-      osx_image: xcode9.4
-      language: node_js
-      node_js: '10'
+os: osx
+osx_image: xcode9.4
+language: node_js
+node_js: '10'
 
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
-    - os: windows
-      language: node_js
-      node_js: '10'
+env:
+  - ELECTRON_CACHE=$HOME/.cache/electron
+  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
 branchs:
   only:
@@ -26,7 +20,7 @@ cache:
     - $HOME/.cache/electron-builder
 
 install:
-  - nvm install 7
+  - nvm install
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - source ~/.bashrc
   - npm install -g xvfb-maybe
