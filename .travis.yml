@@ -32,5 +32,3 @@ deploy:
   - provider: script
     script: npm run pack
     skip_cleanup: true
-    on:
-      tags: true
