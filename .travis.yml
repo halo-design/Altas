@@ -1,10 +1,17 @@
-os:
-  - osx
-  - windows
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.4
+      language: node_js
+      node_js: '10'
 
-language: node_js
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
-node_js: stable
+    - os: linux
+      language: node_js
+      node_js: '10'
 
 branchs:
   only:
@@ -12,15 +19,20 @@ branchs:
 
 sudo: required
 
-env:
-  - ELECTRON_CACHE=$HOME/.cache/electron
-  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
 cache:
   directories:
-    - electron
-    - 'node_modules'
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+
+if: tag IS present
 
 script:
   - npm run lint
-  - npm run pack
+
+deploy:
+  - provider: script
+    script: npm run pack
+    skip_cleanup: true
+    on:
+      tags: true
