@@ -9,7 +9,7 @@ matrix:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
-    - os: linux
+    - os: windows
       language: node_js
       node_js: '10'
 
@@ -26,24 +26,15 @@ cache:
     - $HOME/.cache/electron-builder
 
 install:
-  - npm install
-
-before_script:
-  - if [ '$TRAVIS_OS_NAME' == 'linux' ] && [ '$TRAVIS_PULL_REQUEST' == 'false' ]; then
-      sudo apt-get update;
-      sudo apt-get install -y rpm;
-    fi
+  - nvm install 7
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - source ~/.bashrc
+  - npm install -g xvfb-maybe
+  - yarn
 
 script:
   - npm run lint
-  - if [ '$TRAVIS_OS_NAME' == 'linux' ] && [ '$TRAVIS_PULL_REQUEST' == 'false' ]; then
-      npm run pack;
-    elif [ '$TRAVIS_OS_NAME' == 'osx' ] && [ '$TRAVIS_PULL_REQUEST' == 'false' ]; then
-      npm run pack:win;
-    else
-      npm run build;
-    fi
+  - npm run pack
 
 notifications:
   email: false
-  
