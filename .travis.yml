@@ -19,13 +19,6 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
-install:
-  - nvm install
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - source ~/.bashrc
-  - npm install -g xvfb-maybe
-  - yarn
-
 script:
   - npm run lint
   - npm run pack
