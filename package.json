@@ -12,9 +12,9 @@
     "compile": "node ./config/compile.js",
     "build": "npm run clear && npm run compile",
     "start": "NODE_ENV=development electron ./app/main.js",
-    "pack": "npm run build && build --mac --win",
-    "pack:mac": "npm run build && build --mac",
-    "pack:win": "npm run build && build --win",
+    "pack": "npm run build && build --mac --win --publish never",
+    "pack:mac": "npm run build && build --mac --publish never",
+    "pack:win": "npm run build && build --win --publish never",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "lint:fix": "tslint -c tslint.json 'src/**/*.ts' --fix"
   },
