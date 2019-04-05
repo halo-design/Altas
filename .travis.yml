@@ -25,10 +25,25 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
+install:
+  - npm install
+
+before_script:
+  - if [ '$TRAVIS_OS_NAME' == 'linux' ] && [ '$TRAVIS_PULL_REQUEST' == 'false' ]; then
+      sudo apt-get update;
+      sudo apt-get install -y rpm;
+    fi
+
 script:
   - npm run lint
+  - if [ '$TRAVIS_OS_NAME' == 'linux' ] && [ '$TRAVIS_PULL_REQUEST' == 'false' ]; then
+      npm run pack;
+    elif [ '$TRAVIS_OS_NAME' == 'osx' ] && [ '$TRAVIS_PULL_REQUEST' == 'false' ]; then
+      npm run pack:win;
+    else
+      npm run build;
+    fi
 
-deploy:
-  - provider: script
-    script: npm run pack
-    skip_cleanup: true
+notifications:
+  email: false
+  
