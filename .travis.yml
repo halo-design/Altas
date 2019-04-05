@@ -21,7 +21,9 @@ cache:
 
 script:
   - npm run lint
-  - npm run pack
+  - npm run build
+  - npm run pack:win
+  - npm run pack:mac
 
 notifications:
   email: false

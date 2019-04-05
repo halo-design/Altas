@@ -5,8 +5,8 @@ const isWin = process.platform === 'win32'
 
 module.exports = (mainWindow) => {
   const img = isWin
-    ? file.path('app/resource/dock.ico')
-    : file.path('app/resource/icon.png')
+    ? file.path('resources/dock.ico')
+    : file.path('resources/icon.png')
 
   const appIcon = new Tray(img)
 

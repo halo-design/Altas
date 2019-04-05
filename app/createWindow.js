@@ -30,8 +30,8 @@ const createWindow = ({ entry, width, height, bridge }) => {
       scrollBounce: true
     },
     frame: false,
-    icon: file.path('app/resource/dock.ico'),
-    appIcon: file.path('app/resource/dock.png')
+    icon: file.path('resources/dock.ico'),
+    appIcon: file.path('resources/dock.png')
   }
 
   if (isMac) {

@@ -1,9 +1,11 @@
 productName: Altas
-appId: gh.halo-design.altas
+# appId: gh.halo-design.altas
+copyright: Copyright © 2019 ${author}
 
 files: 
   - app/
   - browser/
+  - resources/
   - package.json
 
 compression: maximum
@@ -20,26 +22,26 @@ dmg:
   title: Altas ${version} Install
 
 mac:
-  icon: app/resource/dock.icns
+  icon: resources/dock.icns
 
 linux:
-  icon: app/resource
+  icon: resources
   category: app.tools
   executableName: Altas
-  target: 
+  target:
     - deb
     - rpm
     - AppImage
 
 win:
   target: nsis
-  icon: app/resource/dock.ico
+  icon: resources/dock.ico
 
 nsis: 
   oneClick: false
-  installerIcon: app/resource/dock.ico
-  uninstallerIcon: app/resource/dock.ico
-  installerHeaderIcon: app/resource/dock.ico
+  installerIcon: resources/dock.ico
+  uninstallerIcon: resources/dock.ico
+  installerHeaderIcon: resources/dock.ico
   allowToChangeInstallationDirectory: true
   artifactName: ${productName}-${version}-${os}-${arch}-setup.${ext}
   deleteAppDataOnUninstall: true
