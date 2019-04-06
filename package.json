@@ -1,7 +1,7 @@
 {
   "name": "altas",
   "appName": "Altas",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "An Electron Application",
   "main": "app/main.js",
   "scripts": {
@@ -12,9 +12,9 @@
     "compile": "node ./config/compile.js",
     "build": "npm run clear && npm run compile",
     "start": "NODE_ENV=development electron ./app/main.js",
-    "pack": "npm run build && build --mac --win -p never",
-    "pack:mac": "build --mac -p never",
-    "pack:win": "build --win -p never",
+    "pack:mac": "electron-builder --mac",
+    "pack:win": "electron-builder --win",
+    "pack": "npm run build && npm run pack:win && npm run pack:mac",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "lint:fix": "tslint -c tslint.json 'src/**/*.ts' --fix"
   },

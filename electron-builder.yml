@@ -1,5 +1,5 @@
 productName: Altas
-# appId: gh.halo-design.altas
+appId: gh.halo-design.altas
 copyright: Copyright © 2019 ${author}
 
 files: 
@@ -45,6 +45,8 @@ nsis:
   allowToChangeInstallationDirectory: true
   artifactName: ${productName}-${version}-${os}-${arch}-setup.${ext}
   deleteAppDataOnUninstall: true
+
+artifactBuildCompleted: './bin/afterBuild.js'
 
 directories:
   buildResources: resources
