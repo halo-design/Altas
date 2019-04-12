@@ -19,9 +19,13 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
+before_install:
+  - openssl aes-256-cbc -K $encrypted_eddd6ba770f1_key -iv $encrypted_eddd6ba770f1_iv -in sftpkey.enc -out sftpkey -d
+
 script:
   - npm run lint
   - npm run pack
+  - npm run upload
 
 notifications:
   email: false

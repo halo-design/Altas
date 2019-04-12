@@ -11,7 +11,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 selenium-debug.log
-token.txt
+sftpkey
 
 *.suo
 *.ntvs*
