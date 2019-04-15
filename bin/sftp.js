@@ -2,7 +2,6 @@ const log = require('electron-log')
 const { buildInfoFilePath, ssh } = require('./utils')
 const fs = require('fs-extra')
 const path = require('path')
-const readline = require('readline')
 
 const auth = {
   host: '106.14.138.86',
@@ -54,4 +53,3 @@ if (fs.existsSync(buildInfoFilePath)) {
 } else {
   log.error('未找到构建信息文件！')
 }
-

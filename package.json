@@ -66,7 +66,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "antd": "^3.16.2",
+    "antd": "^3.16.3",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
