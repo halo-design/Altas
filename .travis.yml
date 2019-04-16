@@ -25,7 +25,18 @@ before_install:
 script:
   - npm run lint
   - npm run pack
-  - npm run upload
+  # - npm run upload
+
+after_script:
+  - cd ./packages
+  - git config --global user.name "${GT_USERNAME}"
+  - git config --global user.email "${GT_EMAIL}"
+  - git init
+  - git add .
+  - git commit -m "update app bundles"
+  - git remote add origin https://${GT_USERNAME}:${GT_PASSWORD}@gitee.com/owlaford/altas.git
+  - git push -f origin master
 
 notifications:
-  email: false
+  email:
+    - ${GT_EMAIL}
