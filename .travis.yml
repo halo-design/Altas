@@ -35,7 +35,7 @@ after_script:
   - git add .
   - git commit -m "update app bundles"
   - git remote add origin https://${GT_USERNAME}:${GT_PASSWORD}@gitee.com/owlaford/altas.git
-  - git push -f origin master
+  - git push --progress -f origin master
 
 notifications:
   email:
