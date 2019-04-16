@@ -1,0 +1,7 @@
+mac/
+win-unpacked/
+
+*.blockmap
+*.json
+*.yml
+*.yml

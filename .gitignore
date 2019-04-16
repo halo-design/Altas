@@ -3,9 +3,19 @@
 .cache
 node_modules/
 data/
-packages/
 browser/static/
 examples/
+
+packages/mac/
+packages/win-unpacked/
+packages/*.dmg
+packages/*.exe
+packages/*.blockmap
+packages/*.7z
+packages/*.zip
+packages/*.json
+packages/*.yml
+packages/*.yaml
 
 npm-debug.log*
 yarn-debug.log*
