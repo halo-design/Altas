@@ -39,4 +39,7 @@ after_script:
 
 notifications:
   email:
-    - ${GT_EMAIL}
+    recipients:
+      - ${GT_EMAIL}
+      on_success: always
+      on_failure: always
