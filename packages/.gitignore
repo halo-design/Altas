@@ -2,6 +2,8 @@ mac/
 win-unpacked/
 
 *.blockmap
-*.json
+*.zip
+*.7z
+
 *.yml
-*.yml
+*.yaml
