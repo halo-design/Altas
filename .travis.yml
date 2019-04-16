@@ -41,5 +41,5 @@ notifications:
   email:
     recipients:
       - ${GT_EMAIL}
-      on_success: always
-      on_failure: always
+    on_success: always
+    on_failure: always
