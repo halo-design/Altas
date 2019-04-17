@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "app/static",
+    "outDir": "browser/static",
     "module": "esnext",
     "target": "es6",
     "lib": ["es5", "es6", "dom"],

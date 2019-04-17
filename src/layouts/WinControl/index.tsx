@@ -6,7 +6,7 @@ import './index.scss';
 const { useState } = React;
 
 function WinControl () {
-  const [isMax, setMax]: [boolean, (isMax: boolean) => void] = useState(false);
+  const [isMax, setMax]: [boolean, any] = useState(false);
 
   const maxToogle = () => {
     if (win.isMax()){

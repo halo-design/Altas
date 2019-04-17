@@ -12,7 +12,7 @@ export interface ISidebarProps {
 }
 
 function Sidebar ({ initPath }: ISidebarProps) {
-  const [isBlur, setBlur]: [boolean, (isBlur: boolean) => void] = useState(false);
+  const [isBlur, setBlur]: [boolean, any] = useState(false);
 
   useEffect(() => {
     const win = getCurrentWindow();

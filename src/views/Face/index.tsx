@@ -139,6 +139,8 @@ class FaceView extends React.Component<any, IFaceState> {
   public faceRecognition() {
     const referPath = this.state.referencePath;
 
+    faceapi.tf.getBackend();
+
     if (!referPath) {
       message.warning('请选取一张参照照片');
       return
