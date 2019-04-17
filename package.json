@@ -62,8 +62,7 @@
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.4.3",
-    "yaml": "^1.5.0"
+    "typescript": "^3.4.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
@@ -88,6 +87,7 @@
     "react-dom": "^16.8.6",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "yaml": "^1.5.0"
   }
 }
