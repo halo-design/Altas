@@ -1,5 +1,6 @@
+const path = require('path')
 const log = require('electron-log')
-const { getFileName, saveInfo } = require('./utils')
+const { saveInfo } = require('./utils')
 
 exports.default = async (context) => {
   const { packager, file, updateInfo } = context
@@ -9,10 +10,11 @@ exports.default = async (context) => {
   log.info(`[${nodeName}] ${name}应用安装包构建完成！`)
 
   if (/(mac|windows)/.test(name)) {
-    const localFile = file.replace('.blockmap', '')
-    const remoteFile = `www/${getFileName(localFile)}`
+    const local = file.replace('.blockmap', '')
+    const basename = path.basename(local)
+    const remote = `www/${basename}`
     let data = {}
-    data[name] = { localFile, remoteFile, updateInfo }
+    data[name] = { basename, local, remote, updateInfo }
 
     saveInfo(data)
   }

@@ -4,7 +4,6 @@ const fs = require('fs-extra')
 const path = require('path')
 const _ = require('lodash')
 
-exports.getFileName = o =>  o.substring(o.lastIndexOf('/') + 1)
 exports.buildInfoFilePath = path.join(__dirname, '../packages', `build-info.json`)
 
 exports.saveInfo = data => {
@@ -19,13 +18,13 @@ exports.saveInfo = data => {
   }
 }
 
-exports.ssh = (auth, localFile, remoteFile) => {
+exports.ssh = (auth, files) => {
   const ssh = new node_ssh()
   return new Promise((resolve, reject) => {
+    log.warn(`准备传输文件...`)
     ssh.connect(auth).then(() => {
-      log.warn(`准备传输文件：[${localFile}]...`)
       log.info('已连接到服务器，正在传输文件...\n')
-      ssh.putFile(localFile, remoteFile).then(() => {
+      ssh.putFiles(files).then(() => {
         resolve()
       }, (error) => {
         reject(error)

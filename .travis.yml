@@ -1,3 +1,5 @@
+os: osx
+osx_image: xcode9.4
 language: node_js
 node_js: '10'
 
@@ -18,7 +20,7 @@ cache:
     - $HOME/.cache/electron-builder
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_eddd6ba770f1_key -iv $encrypted_eddd6ba770f1_iv -in sftpkey.enc -out sftpkey -d
+  - openssl aes-256-cbc -K $encrypted_eddd6ba770f1_key -iv $encrypted_eddd6ba770f1_iv -in keygen.yml.enc -out keygen.yml -d
 
 script:
   - npm run lint
@@ -32,7 +34,7 @@ after_script:
   - git init
   - git add .
   - git commit -m "update app bundles"
-  - git remote add origin https://${GT_USERNAME}:${GT_PASSWORD}@gitee.com/owlaford/altas.git
+  - git remote add origin https://${GT_USERNAME}:${GT_PASSWORD}@gitee.com/${GT_USERNAME}/altas.git
   - git push --progress -f origin master
 
 notifications:
