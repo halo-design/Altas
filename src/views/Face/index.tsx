@@ -270,7 +270,7 @@ class FaceView extends React.Component<any, IFaceState> {
       <div className="page-face">
         <div className="camera-video" style={{ display: videoVisible ? '' : 'none' }}>
           <video
-            onPlay={e => this.onPlay()}
+            onLoadedMetadata={e => this.onPlay()}
             ref={node => { this.videoEl = node }}
             autoPlay={true}
             muted={true}

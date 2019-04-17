@@ -1,7 +1,7 @@
 {
   "name": "altas",
   "appName": "Altas",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "An Electron Application",
   "main": "app/main.js",
   "scripts": {
@@ -55,14 +55,15 @@
     "electron": "4.1.4",
     "electron-builder": "^20.39.0",
     "node-sass": "^4.11.0",
-    "node-ssh": "^5.1.2",
+    "node-ssh": "^6.0.0",
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "sass": "^1.18.0",
-    "tslint": "^5.15.0",
+    "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.3",
+    "yaml": "^1.5.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
@@ -87,7 +88,6 @@
     "react-dom": "^16.8.6",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
-    "tslib": "^1.9.3",
-    "yaml": "^1.5.0"
+    "tslib": "^1.9.3"
   }
 }
