@@ -18,15 +18,13 @@ if (fs.existsSync(buildInfoFilePath)) {
   }
 
   if ('mac' in buildInfo && /(mac|all)/.test(platform)) {
-    const { local, remote } = buildInfo.windows
+    const { local, remote } = buildInfo.mac
     uploadArr.push({ local, remote })
   }
-
+  
   ssh(auth, uploadArr).then(() => {
-    log.info(`文件传输成功！`)
     process.exit(0)
   }).catch(err => {
-    log.warn(err)
     process.exit(0)
   })
 

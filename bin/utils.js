@@ -3,6 +3,7 @@ const node_ssh = require('node-ssh')
 const fs = require('fs-extra')
 const path = require('path')
 const _ = require('lodash')
+const ora = require('ora')
 
 exports.buildInfoFilePath = path.join(__dirname, '../packages', `build-info.json`)
 
@@ -19,16 +20,20 @@ exports.saveInfo = data => {
 }
 
 exports.ssh = (auth, files) => {
+  const spinner = ora('准备开始上传...\n').start()
+
   const ssh = new node_ssh()
-  return new Promise((resolve, reject) => {
-    log.warn(`准备传输文件...`)
-    ssh.connect(auth).then(() => {
-      log.info('已连接到服务器，正在传输文件...\n')
-      ssh.putFiles(files).then(() => {
+  return new Promise(async (resolve, reject) => {
+    spinner.text = '连接到服务器...'
+    await ssh.connect(auth)
+    spinner.text = '开始传输文件...'
+    ssh.putFiles(files)
+      .then(() => {
+        spinner.succeed(`共${files.length}个文件传输完毕！`)
         resolve()
-      }, (error) => {
+      }).catch((error) => {
+        spinner.fail('文件传输失败！')
         reject(error)
       })
-    })
   })
 }

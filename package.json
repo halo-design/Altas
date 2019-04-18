@@ -17,9 +17,9 @@
     "pack": "npm run build && npm run pack:win && npm run pack:mac",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "lint:fix": "tslint -c tslint.json 'src/**/*.ts' --fix",
-    "upload:mac": "node ./bin/sftp --platform mac",
-    "upload:win": "node ./bin/sftp --platform win",
-    "upload": "node ./bin/sftp --platform all"
+    "upload:mac": "node ./bin/upload --platform mac",
+    "upload:win": "node ./bin/upload --platform win",
+    "upload": "node ./bin/upload --platform all"
   },
   "keywords": [
     "Electron",
@@ -56,6 +56,7 @@
     "electron-builder": "20.40.2",
     "node-sass": "^4.11.0",
     "node-ssh": "^6.0.0",
+    "ora": "^3.4.0",
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "sass": "^1.18.0",
