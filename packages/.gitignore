@@ -4,6 +4,8 @@ win-unpacked/
 *.blockmap
 *.zip
 *.7z
+*.dmg
+*.exe
 
 *.yml
 *.yaml
