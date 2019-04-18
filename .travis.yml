@@ -1,5 +1,5 @@
 os: osx
-osx_image: xcode9.4
+osx_image: xcode10.2
 language: node_js
 node_js: '10'
 
@@ -40,6 +40,6 @@ after_script:
 notifications:
   email:
     recipients:
-      - ${GT_EMAIL}
+      - owlaford@gmail.com
     on_success: always
     on_failure: always

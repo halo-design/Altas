@@ -130,7 +130,7 @@ class FaceView extends React.Component<any, IFaceState> {
         console.log(bestMatch)
       }
     }
-  
+
     setTimeout(() => this.onPlay());
 
     return result;
@@ -138,8 +138,6 @@ class FaceView extends React.Component<any, IFaceState> {
 
   public faceRecognition() {
     const referPath = this.state.referencePath;
-
-    faceapi.tf.getBackend();
 
     if (!referPath) {
       message.warning('请选取一张参照照片');
@@ -160,7 +158,7 @@ class FaceView extends React.Component<any, IFaceState> {
     })
 
     getAppDir(async (path: any) => {
-      const modelPath = `${path}browser/weights/`;
+      const modelPath = `${path}frame/weights/`;
       await faceapi.loadTinyFaceDetectorModel(modelPath);
       await faceapi.loadFaceLandmarkModel(modelPath);
       await faceapi.loadFaceRecognitionModel(modelPath);

@@ -4,7 +4,7 @@ copyright: Copyright © 2019 ${author}
 
 files: 
   - app/
-  - browser/
+  - frame/
   - resources/
   - package.json
 

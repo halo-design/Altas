@@ -99,7 +99,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
         if (isDev) {
           getAppDir(path => {
             document.getElementsByTagName('link')[0].href
-              = `${path}browser/static/index.css?${Date.now()}`
+              = `${path}frame/static/index.css?${Date.now()}`
           })
         }
       },
