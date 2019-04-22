@@ -1,4 +1,4 @@
-const log = require('electron-log')
+const Bundler = require('parcel-bundler')
 const node_ssh = require('node-ssh')
 const fs = require('fs-extra')
 const path = require('path')
@@ -36,4 +36,31 @@ exports.ssh = (auth, files) => {
         reject(error)
       })
   })
+}
+
+exports.createBundle = (file, opts) => {
+  const baseOpts = {
+    outDir: './frame/static',
+    outFile: 'index.js',
+    publicUrl: './',
+    watch: true,
+    cache: true,
+    cacheDir: '.cache',
+    minify: false,
+    target: 'electron',
+    https: false,
+    logLevel: 3,
+    hmrPort: 0,
+    sourceMaps: true,
+    hmrHostname: '',
+    detailedReport: false
+  }
+
+  let options = baseOpts
+
+  if (opts) {
+    options = _.merge(baseOpts, opts)
+  }
+
+  return new Bundler(file, options)
 }
