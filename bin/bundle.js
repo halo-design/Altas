@@ -29,7 +29,7 @@ if (/(dev|prod)/.test(mode)) {
   ).bundle()
 } else if (mode === 'main') {
   createBundle(
-    Path.join(__dirname, '../src/app/main.js'), {
+    Path.join(__dirname, '../src/app/main.ts'), {
       watch: false,
       minify: true,
       sourceMaps: false,

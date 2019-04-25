@@ -1,26 +1,25 @@
-const { app, ipcMain } = require('electron')
-const createWindow = require('./createWindow')
-const path = require('path')
+import { app, ipcMain } from 'electron';
+import createWindow from './createWindow';
 
-const ipcBridge = require('./utils/bridge')
-const createAppTray = require('./utils/tray')
+import ipcBridge from './utils/bridge';
+import createAppTray from './utils/tray';
 
-let mainWindow
-let tray
-let forceQuit = false
+let mainWindow: any;
+let tray: any;
+let forceQuit: boolean = false;
 
 const init = () => {
   mainWindow = createWindow({
+    bridge: ipcBridge,
     entry: 'renderer/index.html',
-    width: 980,
     height: 620,
-    bridge: ipcBridge
+    width: 980
   })
 
   tray = createAppTray(mainWindow)
   tray.setToolTip('Altas')
 
-  ipcMain.on('set-tray-title', (event, args) => {
+  ipcMain.on('set-tray-title', (event: any, args: any) => {
     tray.setTitle(args)
   })
 
@@ -30,7 +29,7 @@ const init = () => {
       : mainWindow.show()
   })
 
-  mainWindow.on('close', (e) => {
+  mainWindow.on('close', (e: Event) => {
     if (forceQuit) {
       tray.destroy()
       mainWindow = null

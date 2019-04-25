@@ -1,9 +1,9 @@
-const { app, Menu, Tray, shell, ipcMain } = require('electron')
-const file = require('./file')
+import { app, Menu, shell, Tray } from 'electron';
+import file from './file';
 
 const isWin = process.platform === 'win32'
 
-module.exports = (mainWindow) => {
+export default (mainWindow: Electron.BrowserWindow) => {
   const img = isWin
     ? file.path('resources/dock.ico')
     : file.path('resources/icon.png')

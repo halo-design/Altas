@@ -1,8 +1,9 @@
-const path = require('path')
-const fs = require('fs-extra')
-const root = path.join(__dirname, '../')
+import * as fs from 'fs-extra';
+import * as path from 'path';
 
-const saveFile = (filePath, fileDataBuffer) => {
+const root = path.join(__dirname, '../');
+
+const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
   return new Promise((resolve, reject) => {
   const wstream = fs.createWriteStream(filePath)
   wstream.on('open', () => {
@@ -19,21 +20,20 @@ const saveFile = (filePath, fileDataBuffer) => {
   })
 }
 
-module.exports = {
-  root,
-  saveFile,
-  path: p => path.join(root, p),
-  exist: filename => fs.existsSync(path.join(root, filename)),
-  del: filename => {
+export default {
+  JSON2File: (fileName: string, data: object) => {
+    const buf = Buffer.from(JSON.stringify(data, null, 2), 'utf8')
+    saveFile(fileName, buf)
+  },
+  del: (filename: string): void => {
     const fileRelPath = path.join(root, filename)
     if (fs.existsSync(fileRelPath)) {
       fs.unlinkSync(fileRelPath)
     }
   },
-  file2JSON: filePath => JSON.parse(fs.readFileSync(path.join(root, filePath))),
-  JSON2File: (fileName, data) => {
-    const buf = Buffer.from(JSON.stringify(data, null, 2), 'utf8')
-    saveFile(fileName, buf)
-  },
-  saveFile
+  exist: (filename: string): boolean => fs.existsSync(path.join(root, filename)),
+  file2JSON: (filePath: string): object => JSON.parse(fs.readFileSync(path.join(root, filePath), 'utf-8')),
+  path: (p: string): string => path.join(root, p),
+  root,
+  saveFile,
 }

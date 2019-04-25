@@ -1,8 +1,8 @@
-const fs = require('fs')
-const readline = require('readline')
-const log = require('electron-log')
+import log from 'electron-log';
+import * as fs from 'fs';
+import * as readline from 'readline';
 
-module.exports = (filePath, cb, done) => {
+export default (filePath: string, cb: (i: number, s:string) => void, done: () => void) => {
   log.debug(filePath)
   const rl = readline.createInterface({
     input: fs.createReadStream(filePath)
