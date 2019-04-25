@@ -1,8 +1,8 @@
-const https = require('https')
-const log = require('electron-log')
+import log from 'electron-log';
+import * as https from 'https';
 
 module.exports = {
-  getJSON (url) {
+  getJSON (url: string) {
     return new Promise((resolve, reject) => {
       https.get(url, res => {
         const { statusCode } = res
