@@ -45,7 +45,7 @@ exports.createBundle = (file, opts) => {
     publicUrl: './',
     watch: true,
     cache: true,
-    cacheDir: '.cache',
+    cacheDir: '.cache/build',
     minify: false,
     target: 'electron',
     https: false,

@@ -20,6 +20,7 @@ if (/(dev|prod)/.test(mode)) {
     Path.join(__dirname, '../src/core/extra.tsx'), {
       watch: false,
       minify: true,
+      cacheDir: '.cache/extra',
       sourceMaps: false,
       detailedReport: true,
       outDir: './renderer/static',
@@ -32,6 +33,7 @@ if (/(dev|prod)/.test(mode)) {
     Path.join(__dirname, '../src/app/main.ts'), {
       watch: false,
       minify: true,
+      cacheDir: '.cache/main',
       sourceMaps: false,
       detailedReport: true,
       outDir: './renderer',
