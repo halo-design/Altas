@@ -40,7 +40,7 @@ exports.ssh = (auth, files) => {
 
 exports.createBundle = (file, opts) => {
   const baseOpts = {
-    outDir: './frame/static',
+    outDir: './renderer/static',
     outFile: 'index.js',
     publicUrl: './',
     watch: true,

@@ -3,8 +3,7 @@ appId: gh.halo-design.altas
 copyright: Copyright © 2019 ${author}
 
 files: 
-  - app/
-  - frame/
+  - renderer/
   - resources/
   - package.json
 

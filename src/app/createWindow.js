@@ -3,7 +3,11 @@ const windowStateKeeper = require('electron-window-state')
 const url = require('url')
 
 const file = require('./utils/file')
-const pkg = require('../package.json')
+
+const info = {
+  appName: 'Altas',
+  version: '0.2.4'
+}
 
 // const isDev = process.env.NODE_ENV === 'development'
 const isMac = process.platform === 'darwin'
@@ -56,7 +60,7 @@ const createWindow = ({ entry, width, height, bridge }) => {
     mainWindow = null
   })
 
-  bridge(mainWindow, pkg)
+  bridge(mainWindow, info)
 
   return mainWindow
 }

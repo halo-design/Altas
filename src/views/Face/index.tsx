@@ -158,7 +158,7 @@ class FaceView extends React.Component<any, IFaceState> {
     })
 
     getAppDir(async (path: any) => {
-      const modelPath = `${path}frame/weights/`;
+      const modelPath = `${path}/renderer/weights/`;
       await faceapi.loadTinyFaceDetectorModel(modelPath);
       await faceapi.loadFaceLandmarkModel(modelPath);
       await faceapi.loadFaceRecognitionModel(modelPath);

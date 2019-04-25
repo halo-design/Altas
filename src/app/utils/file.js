@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
-const root = path.join(__dirname, '../../')
+const root = path.join(__dirname, '../')
 
 const saveFile = (filePath, fileDataBuffer) => {
   return new Promise((resolve, reject) => {

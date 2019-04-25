@@ -12,7 +12,7 @@ const file = require('./file')
 const os = require('os')
 const log = require('electron-log')
 
-module.exports = (mainWindow, pkg) => {
+module.exports = (mainWindow, info) => {
   // 获取app绝对目录
   ipcMain.on('get-appdir', (event, args) => {
     event.sender.send('appdir', file.root)
@@ -50,7 +50,7 @@ module.exports = (mainWindow, pkg) => {
 
   // 应用启动监听
   ipcMain.on('ipc-start', (event, args) => {
-    event.sender.send('ipc-running', pkg)
+    event.sender.send('ipc-running', info)
   })
 
   // 按行读取本地文件

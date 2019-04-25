@@ -15,16 +15,27 @@ if (/(dev|prod)/.test(mode)) {
     }
     : {}
   ).bundle()
-} else {
+} else if (mode === 'extra') {
   createBundle(
     Path.join(__dirname, '../src/core/extra.tsx'), {
       watch: false,
       minify: true,
       sourceMaps: false,
       detailedReport: true,
-      outDir: './frame/static',
+      outDir: './renderer/static',
       outFile: 'extra.min.js',
       target: 'browser'
     }
   ).bundle()
+} else if (mode === 'main') {
+  createBundle(
+    Path.join(__dirname, '../src/app/main.js'), {
+      watch: false,
+      minify: true,
+      sourceMaps: false,
+      detailedReport: true,
+      outDir: './renderer',
+      outFile: 'main.js'
+    }
+    ).bundle()
 }

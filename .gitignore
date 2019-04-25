@@ -3,7 +3,7 @@
 .cache
 node_modules/
 data/
-frame/static/
+renderer/static/
 examples/
 
 packages/mac/
