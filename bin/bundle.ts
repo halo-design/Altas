@@ -1,43 +1,43 @@
-const Path = require('path')
-const { createBundle } = require('./utils')
+const Path = require('path');
+const { createBundle } = require('./utils');
 
-const mode = process.argv.slice(2)[1]
+const mode = process.argv.slice(2)[1];
 
 if (/(dev|prod)/.test(mode)) {
   createBundle(
     Path.join(__dirname, '../src/core/index.tsx'),
     mode === 'prod'
     ? {
-      watch: false,
+      detailedReport: true,
       minify: true,
       sourceMaps: false,
-      detailedReport: true
+      watch: false,
     }
     : {}
-  ).bundle()
+  ).bundle();
 } else if (mode === 'extra') {
   createBundle(
     Path.join(__dirname, '../src/core/extra.tsx'), {
-      watch: false,
-      minify: true,
       cacheDir: '.cache/extra',
-      sourceMaps: false,
       detailedReport: true,
+      minify: true,
       outDir: './renderer/static',
       outFile: 'extra.min.js',
-      target: 'browser'
+      sourceMaps: false,
+      target: 'browser',
+      watch: false,
     }
-  ).bundle()
+  ).bundle();
 } else if (mode === 'main') {
   createBundle(
     Path.join(__dirname, '../src/app/main.ts'), {
-      watch: false,
-      minify: true,
       cacheDir: '.cache/main',
-      sourceMaps: false,
       detailedReport: true,
+      minify: true,
       outDir: './renderer',
-      outFile: 'main.js'
+      outFile: 'main.js',
+      sourceMaps: false,
+      watch: false,
     }
-    ).bundle()
+    ).bundle();
 }

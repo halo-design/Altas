@@ -4,12 +4,12 @@
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
-    "clear": "node ./bin/clear.js --dir renderer/static",
+    "clear": "ts-node ./bin/clear --dir renderer/static",
     "update": "yarn upgrade-interactive --latest",
-    "serve": "node ./bin/bundle.js --mode dev",
-    "compile:extra": "node ./bin/bundle.js --mode extra",
-    "compile:main": "node ./bin/bundle.js --mode main",
-    "compile:renderer": "node ./bin/bundle.js --mode prod",
+    "serve": "ts-node ./bin/bundle --mode dev",
+    "compile:extra": "ts-node ./bin/bundle --mode extra",
+    "compile:main": "ts-node ./bin/bundle --mode main",
+    "compile:renderer": "ts-node ./bin/bundle --mode prod",
     "compile": "npm run compile:main && npm run compile:extra && npm run compile:renderer",
     "dev": "npm run clear && npm run compile:main && npm run compile:extra && npm run serve",
     "build": "npm run clear && npm run compile",
@@ -19,9 +19,9 @@
     "pack": "npm run build && npm run pack:win && npm run pack:mac",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "lint:fix": "tslint -c tslint.json 'src/**/*.ts' --fix",
-    "upload:mac": "node ./bin/upload --platform mac",
-    "upload:win": "node ./bin/upload --platform win",
-    "upload": "node ./bin/upload --platform all"
+    "upload:mac": "ts-node ./bin/upload --platform mac",
+    "upload:win": "ts-node ./bin/upload --platform win",
+    "upload": "ts-node ./bin/upload --platform all"
   },
   "keywords": [
     "Electron",
@@ -65,6 +65,7 @@
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "sass": "^1.19.0",
+    "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",

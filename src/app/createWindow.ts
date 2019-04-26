@@ -1,7 +1,6 @@
 import { BrowserWindow } from 'electron';
 import * as url from 'url';
 import file from './utils/file';
-// tslint:disable-next-line:no-var-requires
 const windowStateKeeper = require('electron-window-state');
 
 const info = {
