@@ -20,7 +20,7 @@ exports.default = async (context) => {
   const { platform } = packager;
   const { name, nodeName } = platform;
 
-  log.info(`[${nodeName}] The ${name} application installation package is complete!`);
+  log.info(`[${nodeName}] The ${name} application build complete!`);
 
   if (/(mac|windows)/.test(name)) {
     const local = file.replace('.blockmap', '');

@@ -1,0 +1,15 @@
+extends:
+  - 'tslint-react'
+  - 'tslint-plugin-prettier'
+
+rules:
+  prettier: true
+  no-console: false
+  jsx-no-lambda: false
+  no-var-requires: false
+
+linterOptions:
+  exclude:
+    - config/**/*.js
+    - node_modules/**/*.ts
+    - coverage/lcov-report/*.js

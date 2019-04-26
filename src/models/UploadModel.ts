@@ -1,80 +1,80 @@
-import { action, computed, observable } from 'mobx';
-import * as API from '../constants/API';
-import { getData, upload } from '../utils/ajax';
-import { setTrayTitle } from '../utils/system';
+import { action, computed, observable } from "mobx";
+import * as API from "../constants/API";
+import { getData, upload } from "../utils/ajax";
+import { setTrayTitle } from "../utils/system";
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
   @observable public xhrQueue: object = {};
   @observable public uploadListStatus: object = {};
   @observable public remoteImageArray: any[] = [];
-  
+
   @action
   public getFileList = (node: HTMLInputElement) => {
     if (!this.isXhrQueueEmpty) {
-      return
+      return;
     }
-  
+
     const files = node.files;
     const rawFiles = Array.prototype.slice.call(files);
 
-    const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+    const baseType = ["jpeg", "jpg", "png", "gif", "bmp"];
 
-    const addFiles = rawFiles.filter((file: any, index: number): boolean => {
-      const fileType = file.type.split('/')[1];
-      if (baseType.indexOf(fileType) > -1) {
-        const uid = `${Date.now()}${index}`;
-        file.uid = uid;
-        file.addIndex = index;
+    const addFiles = rawFiles.filter(
+      (file: any, index: number): boolean => {
+        const fileType = file.type.split("/")[1];
+        if (baseType.indexOf(fileType) > -1) {
+          const uid = `${Date.now()}${index}`;
+          file.uid = uid;
+          file.addIndex = index;
 
-        this.uploadListStatus[uid] = {
-          file,
-          progress: null,
-          remote: null,
-          status: 'ready',
-        };
+          this.uploadListStatus[uid] = {
+            file,
+            progress: null,
+            remote: null,
+            status: "ready"
+          };
 
-        return true;
-      } else {
-        return false;
+          return true;
+        } else {
+          return false;
+        }
       }
-    });
+    );
 
     this.postFiles = this.postFiles.concat(addFiles);
-  }
+  };
 
   @action
-  public deletePostFile (index: number): void {
+  public deletePostFile(index: number): void {
     delete this.postFiles[index];
   }
 
   @computed
-  get isXhrQueueEmpty (): boolean {
+  get isXhrQueueEmpty(): boolean {
     const num = Object.keys(this.xhrQueue).length;
     if (num > 0) {
-      console.log('上传队列尚未完成！')
-      return false
+      console.log("上传队列尚未完成！");
+      return false;
     } else {
-      return true
+      return true;
     }
   }
 
-  public getUploadHistory () {
-    getData(API.uploadHistory)
-      .then((param) => {
-        console.log(param)
-      })
+  public getUploadHistory() {
+    getData(API.uploadHistory).then(param => {
+      console.log(param);
+    });
   }
 
-  public clearUploadHistory () {
-    getData(API.clearUploadHistory)
-      .then((param) => {
-        console.log(param)
-      })
+  public clearUploadHistory() {
+    getData(API.clearUploadHistory).then(param => {
+      console.log(param);
+    });
   }
 
   @action
-  public deleteUploadListStatusItem (uid: string, addIndex: number) {
+  public deleteUploadListStatusItem(uid: string, addIndex: number) {
     delete this.uploadListStatus[uid];
     if (this.xhrQueue[uid]) {
       this.xhrQueue[uid].abort();
@@ -83,22 +83,22 @@ export default class UploadModel {
     this.deletePostFile(addIndex);
   }
 
-  public deleteRemoteImage (
+  public deleteRemoteImage(
     token: string,
     onSuccess: (e: object) => void,
     onError: (e: any) => void
   ) {
     getData(token)
-      .then((param) => {
+      .then(param => {
         onSuccess(param);
       })
-      .catch((e) => {
+      .catch(e => {
         onError(e);
-      })
+      });
   }
 
   @action
-  public abort (uid?: string) {
+  public abort(uid?: string) {
     if (uid) {
       this.xhrQueue[uid].abort();
     } else {
@@ -112,7 +112,7 @@ export default class UploadModel {
   @action
   public doUpload = () => {
     if (!this.isXhrQueueEmpty) {
-      return
+      return;
     }
 
     if (this.postFiles.length > 0) {
@@ -124,32 +124,32 @@ export default class UploadModel {
       this.xhrQueue[uid] = upload({
         action: API.upload,
         file,
-        filename: 'smfile',
+        filename: "smfile",
         onError: () => {
-          this.uploadListStatus[uid].status = 'error';
+          this.uploadListStatus[uid].status = "error";
           delete this.xhrQueue[uid];
         },
-        onProgress: (e) => {
+        onProgress: e => {
           const itemStatus = this.uploadListStatus[uid];
           if (itemStatus) {
             itemStatus.progress = e;
-            itemStatus.status = 'pending';
+            itemStatus.status = "pending";
           }
         },
-        onSuccess: (e) => {
+        onSuccess: e => {
           const itemStatus = this.uploadListStatus[uid];
           if (itemStatus) {
-            itemStatus.status = 'done';
+            itemStatus.status = "done";
             itemStatus.remote = e.data;
           }
           this.remoteImageArray.push(e.data);
           delete this.xhrQueue[uid];
           if (this.isXhrQueueEmpty) {
-            setTrayTitle('');
+            setTrayTitle("");
             this.postFiles = [];
           }
         }
       });
     });
-  }
+  };
 }

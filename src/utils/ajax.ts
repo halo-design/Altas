@@ -10,10 +10,10 @@ const getError = (action: string, xhr: any) => {
 
   const err: any = new Error(msg);
   err.status = xhr.status;
-  err.method = 'post';
+  err.method = "post";
   err.url = action;
   return err;
-}
+};
 
 const getBody = (xhr: any) => {
   const text = xhr.responseText || xhr.response;
@@ -26,7 +26,7 @@ const getBody = (xhr: any) => {
   } catch (e) {
     return text;
   }
-}
+};
 
 export interface IUpload {
   action: string;
@@ -46,7 +46,7 @@ export const upload = (option: IUpload): XMLHttpRequest => {
   if (xhr.upload) {
     xhr.upload.onprogress = (e: any): void => {
       if (e.total > 0) {
-        e.percent = e.loaded / e.total * 100;
+        e.percent = (e.loaded / e.total) * 100;
       }
       if (option.onProgress) {
         option.onProgress(e);
@@ -73,9 +73,9 @@ export const upload = (option: IUpload): XMLHttpRequest => {
     }
   };
 
-  xhr.open('post', action, true);
+  xhr.open("post", action, true);
 
-  if (option.withCredentials && 'withCredentials' in xhr) {
+  if (option.withCredentials && "withCredentials" in xhr) {
     xhr.withCredentials = true;
   }
 
@@ -89,7 +89,7 @@ export const upload = (option: IUpload): XMLHttpRequest => {
 
   xhr.send(formData);
   return xhr;
-}
+};
 
 export const getData = (url: string) => {
   return new Promise((resolve, reject) => {
@@ -103,7 +103,7 @@ export const getData = (url: string) => {
       }
     };
 
-    xhr.open('get', url, true);
+    xhr.open("get", url, true);
     xhr.send();
-  })
-}
+  });
+};
