@@ -11,14 +11,19 @@ compression: maximum
 artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 
 dmg:
+  background: build/background.tiff
+  icon: build/icon.icns
   contents:
   - x: 130
     y: 220
-  - x: 410
+  - x: 550
     y: 220
     type: link
     path: /Applications
-  title: Altas ${version} Install
+  title: Altas ${version}
+  window:
+    width: 680
+    height: 420
 
 mac:
   icon: resources/dock.icns
@@ -45,7 +50,7 @@ nsis:
   artifactName: ${productName}-${version}-${os}-${arch}-setup.${ext}
   deleteAppDataOnUninstall: true
 
-artifactBuildCompleted: './bin/afterBuild.js'
+artifactBuildCompleted: build/afterBuild.js
 
 directories:
   buildResources: resources
