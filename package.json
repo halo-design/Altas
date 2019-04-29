@@ -17,8 +17,8 @@
     "pack:mac": "electron-builder --mac",
     "pack:win": "electron-builder --win",
     "pack": "npm run build && npm run pack:win && npm run pack:mac",
-    "lint": "tslint -c tslint.yml 'src/**/*.ts'",
-    "lint:fix": "tslint -c tslint.yml 'src/**/*.ts' --fix",
+    "lint": "tslint -c tslint.yml 'src/**/*.ts?(x)'",
+    "lint:fix": "tslint -c tslint.yml 'src/**/*.ts?(x)' --fix",
     "upload:mac": "ts-node ./bin/upload --platform mac",
     "upload:win": "ts-node ./bin/upload --platform win",
     "upload": "ts-node ./bin/upload --platform all"
