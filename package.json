@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
@@ -39,10 +39,10 @@
     "node": ">=8"
   },
   "devDependencies": {
-    "@babel/core": "7.4.3",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/plugin-transform-runtime": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/core": "7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/classnames": "^2.2.7",
@@ -50,7 +50,7 @@
     "@types/fs-extra": "^5.0.5",
     "@types/ip": "^1.1.0",
     "@types/md5": "^2.1.33",
-    "@types/node": "^11.13.7",
+    "@types/node": "^11.13.8",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
     "@types/react-router": "^4.4.5",
@@ -59,7 +59,7 @@
     "babel-plugin-import": "^1.11.0",
     "electron": "5.0.0",
     "electron-builder": "20.40.2",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "node-ssh": "^6.0.0",
     "ora": "^3.4.0",
     "parcel-bundler": "1.12.3",
@@ -69,11 +69,11 @@
     "tslint": "^5.16.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.3",
-    "antd": "^3.16.5",
+    "@babel/runtime": "^7.4.4",
+    "antd": "^3.16.6",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
