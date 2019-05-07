@@ -47,14 +47,14 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/classnames": "^2.2.7",
     "@types/electron-json-storage": "^4.0.0",
-    "@types/fs-extra": "^5.0.5",
+    "@types/fs-extra": "^5.1.0",
     "@types/ip": "^1.1.0",
     "@types/md5": "^2.1.33",
     "@types/node": "^12.0.0",
     "@types/react": "^16.8.16",
     "@types/react-dom": "^16.8.4",
     "@types/react-router": "^4.4.5",
-    "@types/react-router-dom": "^4.3.2",
+    "@types/react-router-dom": "^4.3.3",
     "autoprefixer": "^9.5.1",
     "babel-plugin-import": "^1.11.0",
     "electron": "5.0.1",
@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "antd": "^3.16.6",
+    "antd": "^3.17.0",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
@@ -96,6 +96,6 @@
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
     "tslib": "^1.9.3",
-    "yaml": "^1.5.0"
+    "yaml": "^1.5.1"
   }
 }
