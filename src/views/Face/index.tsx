@@ -43,7 +43,7 @@ class FaceView extends React.Component<any, IFaceState> {
       videoVisible: true
     });
     navigator.mediaDevices
-      .getUserMedia({ video: { width: 480, height: 320 } })
+      .getUserMedia({ video: { width: 960, height: 640 } })
       .then(stream => {
         if (success) {
           success();
@@ -101,18 +101,14 @@ class FaceView extends React.Component<any, IFaceState> {
   public drawLandmarks(results: any) {
     const resizedResults = this.resizeCanvasAndResults(results);
 
-    faceapi.drawDetection(
+    faceapi.draw.drawDetections(
       this.canvasEl,
       resizedResults.map((det: any) => det.detection)
     );
 
     const faceLandmarks = resizedResults.map((det: any) => det.landmarks);
 
-    faceapi.drawLandmarks(this.canvasEl, faceLandmarks, {
-      color: "green",
-      drawLines: true,
-      lineWidth: 2
-    });
+    faceapi.draw.drawFaceLandmarks(this.canvasEl, faceLandmarks);
   }
 
   public async onPlay() {
@@ -291,12 +287,15 @@ class FaceView extends React.Component<any, IFaceState> {
       videoVisible
     } = this.state;
 
+    const cameraSize = (visible: boolean): object => ({
+      width: "480px",
+      height: "320px",
+      display: visible ? "" : "none"
+    });
+
     return (
       <div className="page-face">
-        <div
-          className="camera-video"
-          style={{ display: videoVisible ? "" : "none" }}
-        >
+        <div className="camera-video" style={cameraSize(videoVisible)}>
           <video
             onPlay={e => this.onPlay()}
             ref={node => {
@@ -309,8 +308,8 @@ class FaceView extends React.Component<any, IFaceState> {
             ref={node => {
               this.canvasEl = node;
             }}
+            style={cameraSize(faceRecognitionOpen)}
             className="overlay"
-            style={{ display: faceRecognitionOpen ? "" : "none" }}
           />
         </div>
         <input
