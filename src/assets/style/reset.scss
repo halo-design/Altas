@@ -12,7 +12,10 @@ body {
   font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
 }
 
-button, a, input, textarea {
+button,
+a,
+input,
+textarea {
   // https://electronjs.org/docs/api/frameless-window
   -webkit-app-region: no-drag;
   -webkit-appearance: none;

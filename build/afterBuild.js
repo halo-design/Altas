@@ -3,19 +3,22 @@ const log = require('electron-log');
 const fs = require('fs-extra');
 const _ = require('lodash');
 
-const saveInfo = (data) => {
+const saveInfo = data => {
   const infoFilePath = path.join(__dirname, '../packages', `build-info.json`);
   const hasInfoFile = fs.existsSync(infoFilePath);
 
   if (hasInfoFile) {
     const oldData = JSON.parse(fs.readFileSync(infoFilePath));
-    fs.writeFileSync(infoFilePath, JSON.stringify(_.merge(oldData, data), null, 2));
+    fs.writeFileSync(
+      infoFilePath,
+      JSON.stringify(_.merge(oldData, data), null, 2)
+    );
   } else {
     fs.writeFileSync(infoFilePath, JSON.stringify(data, null, 2));
   }
-}
+};
 
-exports.default = async (context) => {
+exports.default = async context => {
   const { packager, file, updateInfo } = context;
   const { platform } = packager;
   const { name, nodeName } = platform;
@@ -33,4 +36,4 @@ exports.default = async (context) => {
   }
 
   process.exit(0);
-}
+};

@@ -1,15 +1,3 @@
-.win32 {
-  background-color: #eef1f6;
-
-  .app-win-control {
-    button {
-      &:hover {
-        background-color: #dbdde0;
-      }
-    }
-  }
-}
-
 .app-win-control {
   position: fixed;
   right: 0;
@@ -35,7 +23,7 @@
         content: '\e607';
       }
     }
-  
+
     &.toogle {
       &:after {
         content: '\e604';
@@ -56,6 +44,18 @@
       &:hover {
         background-color: #e73e28;
         color: #fff;
+      }
+    }
+  }
+}
+
+.win32 {
+  background-color: #eef1f6;
+
+  .app-win-control {
+    button {
+      &:hover {
+        background-color: #dbdde0;
       }
     }
   }

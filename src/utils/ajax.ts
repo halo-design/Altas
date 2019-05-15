@@ -10,7 +10,7 @@ const getError = (action: string, xhr: any) => {
 
   const err: any = new Error(msg);
   err.status = xhr.status;
-  err.method = "post";
+  err.method = 'post';
   err.url = action;
   return err;
 };
@@ -73,9 +73,9 @@ export const upload = (option: IUpload): XMLHttpRequest => {
     }
   };
 
-  xhr.open("post", action, true);
+  xhr.open('post', action, true);
 
-  if (option.withCredentials && "withCredentials" in xhr) {
+  if (option.withCredentials && 'withCredentials' in xhr) {
     xhr.withCredentials = true;
   }
 
@@ -103,7 +103,7 @@ export const getData = (url: string) => {
       }
     };
 
-    xhr.open("get", url, true);
+    xhr.open('get', url, true);
     xhr.send();
   });
 };

@@ -1,6 +1,6 @@
-import { inject, observer } from "mobx-react";
-import * as React from "react";
-import * as clipBoard from "../utils/clipBoard";
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
+import * as clipBoard from '../utils/clipBoard';
 
 interface IProps {
   doUpload: () => void;
@@ -14,7 +14,7 @@ interface IProps {
 
 @inject((stores: any) => {
   const {
-    upload: { postFiles, uploadListStatus }
+    upload: { postFiles, uploadListStatus },
   } = stores;
   return {
     clearUploadHistory: () => {
@@ -31,7 +31,7 @@ interface IProps {
       stores.upload.getUploadHistory();
     },
     postFiles,
-    uploadListStatus
+    uploadListStatus,
   };
 })
 @observer
@@ -46,7 +46,7 @@ class UploadView extends React.Component<IProps> {
 
   public saveClipboard(txt: string) {
     clipBoard.write(txt);
-    console.log(txt + "已复制到剪切板！");
+    console.log(txt + '已复制到剪切板！');
   }
 
   public render() {
@@ -56,7 +56,7 @@ class UploadView extends React.Component<IProps> {
       doUpload,
       getUploadHistory,
       uploadListStatus,
-      postFiles
+      postFiles,
     } = this.props;
 
     const uids = Object.keys(uploadListStatus);
@@ -78,11 +78,11 @@ class UploadView extends React.Component<IProps> {
         <button onClick={doUpload}>图片上传</button>
         <button onClick={getUploadHistory}>获取上传历史</button>
         <button onClick={clearUploadHistory}>清除上传历史</button>
-        <div style={{ background: "#f4f4f4" }}>
+        <div style={{ background: '#f4f4f4' }}>
           {postFiles.map((item, i) => {
             return (
               <div
-                style={{ borderBottom: "1px solid #ccc", fontSize: "10px" }}
+                style={{ borderBottom: '1px solid #ccc', fontSize: '10px' }}
                 key={i}
               >
                 name: {item.name} <br />
@@ -92,22 +92,22 @@ class UploadView extends React.Component<IProps> {
             );
           })}
         </div>
-        <div style={{ background: "#8aa7d2" }}>
+        <div style={{ background: '#8aa7d2' }}>
           {uids.length > 0 &&
             uids.map(uid => {
               const item = uploadListStatus[uid];
               return (
                 <div
                   style={{
-                    borderBottom: "1px solid #51637d",
-                    fontSize: "12px"
+                    borderBottom: '1px solid #51637d',
+                    fontSize: '12px',
                   }}
                   key={uid}
                 >
                   name: {item.file.name} <br />
                   status: {item.status} <br />
-                  progress: {item.progress ? item.progress.percent : "0"} <br />
-                  link:{" "}
+                  progress: {item.progress ? item.progress.percent : '0'} <br />
+                  link:{' '}
                   {item.remote ? (
                     <button
                       onClick={e => {
@@ -117,7 +117,7 @@ class UploadView extends React.Component<IProps> {
                       🔗点击复制链接
                     </button>
                   ) : (
-                    "null"
+                    'null'
                   )}
                   <button
                     onClick={e => {

@@ -2,6 +2,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   50% {
     transform: rotate(1080deg);
   }
@@ -14,7 +15,7 @@
   background: url(./img/logo-bg.png) no-repeat;
   background-size: 100% 100%;
   position: relative;
-  
+
   &:after {
     content: '';
     display: block;

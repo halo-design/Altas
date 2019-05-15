@@ -1,7 +1,7 @@
-import classNames from "classnames";
-import * as React from "react";
-import { Link } from "react-router-dom";
-import "./index.scss";
+import classNames from 'classnames';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import './index.scss';
 
 interface ILogoProp {
   size: number;
@@ -15,15 +15,15 @@ export default ({ size, style, run, initPath }: ILogoProp): any => {
     backgroundSize: `${size}px ${size}px`,
     height: `${size}px`,
     width: `${size}px`,
-    ...style
+    ...style,
   };
 
   return (
     <Link
       to={initPath}
       className={classNames({
-        "app-logo": true,
-        running: run
+        'app-logo': true,
+        running: run,
       })}
       style={allStyle}
     />

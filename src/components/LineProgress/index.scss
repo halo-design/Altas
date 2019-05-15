@@ -46,7 +46,7 @@ $comp: line-progress;
   height: 4px;
   width: auto;
   border-radius: 2px;
-  animation: #{$comp}-indeterminate1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: #{$comp}-indeterminate1 2.1s cubic-bezier(.65, .815, .735, .395) infinite;
   top: 0;
   left: 0;
   bottom: 0;
@@ -55,11 +55,10 @@ $comp: line-progress;
   background-color: #1890ff;
 
   &.type2 {
-    animation: #{$comp}-indeterminate2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation: #{$comp}-indeterminate2 2.1s cubic-bezier(.165, .84, .44, 1) infinite;
     animation-delay: 1.15s;
   }
 }
-
 
 @keyframes #{$comp}-indeterminate1 {
   0% {

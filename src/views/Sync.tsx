@@ -1,8 +1,8 @@
-import * as React from "react";
-import { withRouter } from "react-router";
-import { decode, encode } from "../utils/aes";
-import createAppMenu from "../utils/createAppMenu";
-import CreateContextMenu from "../utils/CreateContextMenu";
+import * as React from 'react';
+import { withRouter } from 'react-router';
+import { decode, encode } from '../utils/aes';
+import createAppMenu from '../utils/createAppMenu';
+import CreateContextMenu from '../utils/CreateContextMenu';
 
 class SyncView extends React.Component<any> {
   public contextMenu: any = null;
@@ -16,21 +16,21 @@ class SyncView extends React.Component<any> {
     this.contextMenu = new CreateContextMenu(window, [
       {
         click: () => {
-          this.props.history.push("/refresh");
+          this.props.history.push('/refresh');
         },
-        label: "刷新"
+        label: '刷新',
       },
       {
-        type: "separator"
+        type: 'separator',
       },
       {
         checked: true,
         click: (e: any) => {
-          console.log(e.checked ? "已选中" : "未选中");
+          console.log(e.checked ? '已选中' : '未选中');
         },
-        label: "第二个菜单",
-        type: "checkbox"
-      }
+        label: '第二个菜单',
+        type: 'checkbox',
+      },
     ]);
   }
 
@@ -49,19 +49,19 @@ class SyncView extends React.Component<any> {
   public componentWillMount() {
     createAppMenu(tpl => {
       const editTpl = {
-        label: "独占",
+        label: '独占',
         submenu: [
           {
-            accelerator: "CmdOrCtrl+J",
+            accelerator: 'CmdOrCtrl+J',
             click: (e: any) => {
-              this.notify = new Notification("独占功能", {
-                body: "显示通知正文内容"
+              this.notify = new Notification('独占功能', {
+                body: '显示通知正文内容',
               });
             },
-            label: "功能",
-            role: "功能"
-          }
-        ]
+            label: '功能',
+            role: '功能',
+          },
+        ],
       };
 
       tpl.unshift(editTpl);

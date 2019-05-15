@@ -1,6 +1,6 @@
-import log from "electron-log";
-import * as fs from "fs";
-import * as readline from "readline";
+import log from 'electron-log';
+import * as fs from 'fs';
+import * as readline from 'readline';
 
 export default (
   filePath: string,
@@ -9,14 +9,14 @@ export default (
 ) => {
   log.debug(filePath);
   const rl = readline.createInterface({
-    input: fs.createReadStream(filePath)
+    input: fs.createReadStream(filePath),
   });
 
   let i = 1;
-  rl.on("line", line => {
+  rl.on('line', line => {
     cb(i, line);
     i++;
   });
 
-  rl.on("close", done);
+  rl.on('close', done);
 };

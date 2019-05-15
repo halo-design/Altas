@@ -1,10 +1,10 @@
-import * as React from "react";
-import * as Reg from "../constants/Reg";
-import * as clipBoard from "../utils/clipBoard";
-import { download, MultiDownload } from "../utils/download";
-import { readTxtByLine, selectFile } from "../utils/file";
-import messageBox from "../utils/msgBox";
-import { detect } from "../utils/system";
+import * as React from 'react';
+import * as Reg from '../constants/Reg';
+import * as clipBoard from '../utils/clipBoard';
+import { download, MultiDownload } from '../utils/download';
+import { readTxtByLine, selectFile } from '../utils/file';
+import messageBox from '../utils/msgBox';
+import { detect } from '../utils/system';
 
 export interface IState {
   filePath: string;
@@ -16,7 +16,7 @@ class MineView extends React.Component<object, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      filePath: ""
+      filePath: '',
     };
   }
 
@@ -26,13 +26,13 @@ class MineView extends React.Component<object, IState> {
 
   public clearPath = () => {
     this.setState({
-      filePath: ""
+      filePath: '',
     });
   };
 
   public setPath = (path: string) => {
     this.setState({
-      filePath: path.trim()
+      filePath: path.trim(),
     });
   };
 
@@ -46,7 +46,7 @@ class MineView extends React.Component<object, IState> {
           console.log(arg);
         },
         {
-          openFolderWhenDone: true
+          openFolderWhenDone: true,
         }
       );
     } else {
@@ -77,7 +77,7 @@ class MineView extends React.Component<object, IState> {
   public readLocalTxtByLine(cb: (data: string[]) => void) {
     selectFile(
       {
-        properties: ["openFile"]
+        properties: ['openFile'],
       },
       (res: string[] | undefined) => {
         if (!res) {
@@ -90,7 +90,7 @@ class MineView extends React.Component<object, IState> {
             if (line && line.trim()) {
               list.push(line.trim());
             }
-            if (status === "done") {
+            if (status === 'done') {
               cb(list);
             }
           }
@@ -102,7 +102,7 @@ class MineView extends React.Component<object, IState> {
   public handleSelectPath() {
     selectFile(
       {
-        properties: ["openDirectory", "openFile"]
+        properties: ['openDirectory', 'openFile'],
       },
       res => {
         console.log(res);
@@ -115,20 +115,20 @@ class MineView extends React.Component<object, IState> {
       betterButtons: [
         {
           isDefault: true,
-          label: "Default Button"
+          label: 'Default Button',
         },
         {
           isCancel: true,
-          label: "Cancel Button"
+          label: 'Cancel Button',
         },
         {
           data: {
-            arbitrary: true
+            arbitrary: true,
           },
-          label: "Action Button"
-        }
+          label: 'Action Button',
+        },
       ],
-      message: "Async"
+      message: 'Async',
     });
   }
 
@@ -136,13 +136,13 @@ class MineView extends React.Component<object, IState> {
     this.readLocalTxtByLine(data => {
       this.multiDl = new MultiDownload({
         callback: e => {
-          console.log("done", e);
+          console.log('done', e);
         },
         onProgess: e => {
-          console.log("ing", e);
+          console.log('ing', e);
         },
         timeout: 10 * 1000,
-        urls: data
+        urls: data,
       });
     });
   }

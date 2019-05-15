@@ -1,8 +1,8 @@
-import { app, ipcMain } from "electron";
-import createWindow from "./createWindow";
+import { app, ipcMain } from 'electron';
+import createWindow from './createWindow';
 
-import ipcBridge from "./utils/bridge";
-import createAppTray from "./utils/tray";
+import ipcBridge from './utils/bridge';
+import createAppTray from './utils/tray';
 
 let mainWindow: any;
 let tray: any;
@@ -11,23 +11,23 @@ let forceQuit: boolean = false;
 const init = () => {
   mainWindow = createWindow({
     bridge: ipcBridge,
-    entry: "renderer/index.html",
+    entry: 'renderer/index.html',
     height: 620,
-    width: 980
+    width: 980,
   });
 
   tray = createAppTray(mainWindow);
-  tray.setToolTip("Altas");
+  tray.setToolTip('Altas');
 
-  ipcMain.on("set-tray-title", (event: any, args: any) => {
+  ipcMain.on('set-tray-title', (event: any, args: any) => {
     tray.setTitle(args);
   });
 
-  tray.on("click", () => {
+  tray.on('click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
   });
 
-  mainWindow.on("close", (e: Event) => {
+  mainWindow.on('close', (e: Event) => {
     if (forceQuit) {
       tray.destroy();
       mainWindow = null;
@@ -42,19 +42,19 @@ const init = () => {
   mainWindow.hide();
 };
 
-app.on("ready", init);
+app.on('ready', init);
 
-app.on("before-quit", () => {
+app.on('before-quit', () => {
   forceQuit = true;
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on("activate", () => {
+app.on('activate', () => {
   if (mainWindow === null) {
     init();
   } else {

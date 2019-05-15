@@ -1,4 +1,4 @@
-import { remote } from "electron";
+import { remote } from 'electron';
 const { Menu, MenuItem, getCurrentWindow } = remote;
 
 export default class CreateContextMenu {
@@ -14,7 +14,7 @@ export default class CreateContextMenu {
 
     this.menu = menu;
     this.target = target;
-    target.addEventListener("contextmenu", this.init, false);
+    target.addEventListener('contextmenu', this.init, false);
   }
 
   public init(e: any) {
@@ -23,6 +23,6 @@ export default class CreateContextMenu {
   }
 
   public unbind() {
-    this.target.removeEventListener("contextmenu", this.init);
+    this.target.removeEventListener('contextmenu', this.init);
   }
 }

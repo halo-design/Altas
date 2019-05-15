@@ -1,12 +1,12 @@
-import message from "antd/lib/message";
-import * as faceapi from "face-api.js";
-import * as React from "react";
-import LineProgress from "../../components/LineProgress";
-import { download } from "../../utils/download";
-import { setSaveAs } from "../../utils/file";
-import { getAppDir } from "../../utils/system";
+import message from 'antd/lib/message';
+import * as faceapi from 'face-api.js';
+import * as React from 'react';
+import LineProgress from '../../components/LineProgress';
+import { download } from '../../utils/download';
+import { setSaveAs } from '../../utils/file';
+import { getAppDir } from '../../utils/system';
 
-import "./index.scss";
+import './index.scss';
 
 export interface IFaceState {
   lineProgressHidden: boolean;
@@ -30,17 +30,17 @@ class FaceView extends React.Component<any, IFaceState> {
     this.state = {
       faceRecognitionOpen: false,
       lineProgressHidden: true,
-      lineProgressTitle: "正在开启摄像头",
+      lineProgressTitle: '正在开启摄像头',
       photoTaking: false,
-      referencePath: "",
-      videoVisible: false
+      referencePath: '',
+      videoVisible: false,
     };
   }
 
   public startRecord(success: any) {
     this.setState({
       lineProgressHidden: false,
-      videoVisible: true
+      videoVisible: true,
     });
     navigator.mediaDevices
       .getUserMedia({ video: { width: 960, height: 640 } })
@@ -56,13 +56,13 @@ class FaceView extends React.Component<any, IFaceState> {
       })
       .catch(err => {
         this.setState({
-          videoVisible: false
+          videoVisible: false,
         });
-        message.warning("设备不支持视频录制");
+        message.warning('设备不支持视频录制');
       })
       .finally(() => {
         this.setState({
-          lineProgressHidden: true
+          lineProgressHidden: true,
         });
       });
   }
@@ -80,7 +80,7 @@ class FaceView extends React.Component<any, IFaceState> {
     this.setState({
       faceRecognitionOpen: false,
       photoTaking: false,
-      videoVisible: false
+      videoVisible: false,
     });
   }
 
@@ -150,12 +150,12 @@ class FaceView extends React.Component<any, IFaceState> {
     const referPath = this.state.referencePath;
 
     if (!referPath) {
-      message.warning("请选取一张参照照片");
+      message.warning('请选取一张参照照片');
       return;
     }
 
     this.setState({
-      faceRecognitionOpen: true
+      faceRecognitionOpen: true,
     });
 
     faceapi.env.monkeyPatch({
@@ -163,8 +163,8 @@ class FaceView extends React.Component<any, IFaceState> {
       Image: HTMLImageElement,
       ImageData,
       Video: HTMLVideoElement,
-      createCanvasElement: () => document.createElement("canvas"),
-      createImageElement: () => document.createElement("img")
+      createCanvasElement: () => document.createElement('canvas'),
+      createImageElement: () => document.createElement('img'),
     });
 
     getAppDir(async (path: any) => {
@@ -176,10 +176,10 @@ class FaceView extends React.Component<any, IFaceState> {
       this.startRecord(async () => {
         this.options = new faceapi.TinyFaceDetectorOptions({
           inputSize: 224,
-          scoreThreshold: 0.5
+          scoreThreshold: 0.5,
         });
 
-        const imgEl = document.createElement("img");
+        const imgEl = document.createElement('img');
 
         if (referPath) {
           imgEl.src = referPath;
@@ -194,18 +194,18 @@ class FaceView extends React.Component<any, IFaceState> {
 
   public handleRefer(e: any) {
     const file = e.target.files[0];
-    const baseType = ["jpeg", "jpg", "png", "gif", "bmp"];
-    const fileType = file.type.split("/")[1];
+    const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+    const fileType = file.type.split('/')[1];
     if (baseType.indexOf(fileType) > -1) {
       this.setState({
-        referencePath: file.path
+        referencePath: file.path,
       });
     }
   }
 
   public base64Image2Blob = (content: any): Blob => {
-    const parts = content.split(";base64,");
-    const contentType = parts[0].split(":")[1];
+    const parts = content.split(';base64,');
+    const contentType = parts[0].split(':')[1];
     const raw = window.atob(parts[1]);
     const rawLength = raw.length;
     const uInt8Array = new Uint8Array(rawLength);
@@ -221,10 +221,10 @@ class FaceView extends React.Component<any, IFaceState> {
 
     videoEl.pause();
     this.setState({
-      photoTaking: true
+      photoTaking: true,
     });
 
-    const ctx = canvasEl.getContext("2d");
+    const ctx = canvasEl.getContext('2d');
     const { width, height } =
       videoEl instanceof HTMLVideoElement
         ? faceapi.getMediaDimensions(videoEl)
@@ -234,24 +234,24 @@ class FaceView extends React.Component<any, IFaceState> {
     canvasEl.height = height;
     ctx.drawImage(videoEl, 0, 0, width, height);
 
-    const content = canvasEl.toDataURL("image/png");
+    const content = canvasEl.toDataURL('image/png');
     const blob = this.base64Image2Blob(content);
 
     setSaveAs(`shot-${Date.now()}.png`, path => {
       if (path) {
-        const point = path.lastIndexOf("/");
+        const point = path.lastIndexOf('/');
 
         download(
           URL.createObjectURL(blob),
           (params: any) => {
             if (/(cancel|finished|error)/.test(params.status)) {
-              message.success("照片已保存");
+              message.success('照片已保存');
             }
           },
           {
             directory: path.substr(0, point),
             filename: path.substr(point + 1),
-            openFolderWhenDone: true
+            openFolderWhenDone: true,
           }
         );
       }
@@ -260,7 +260,7 @@ class FaceView extends React.Component<any, IFaceState> {
 
   public takePhoto() {
     if (!this.state.videoVisible) {
-      message.warning("请先开启摄像头");
+      message.warning('请先开启摄像头');
     } else {
       this.savePhoto();
     }
@@ -268,7 +268,7 @@ class FaceView extends React.Component<any, IFaceState> {
 
   public resumePhotoTaken() {
     this.setState({
-      photoTaking: false
+      photoTaking: false,
     });
     this.videoEl.play();
   }
@@ -284,13 +284,13 @@ class FaceView extends React.Component<any, IFaceState> {
       lineProgressTitle,
       photoTaking,
       referencePath,
-      videoVisible
+      videoVisible,
     } = this.state;
 
     const cameraSize = (visible: boolean): object => ({
-      width: "480px",
-      height: "320px",
-      display: visible ? "" : "none"
+      width: '480px',
+      height: '320px',
+      display: visible ? '' : 'none',
     });
 
     return (
@@ -329,7 +329,7 @@ class FaceView extends React.Component<any, IFaceState> {
             </button>,
             <button key="open-face" onClick={e => this.faceRecognition()}>
               人脸识别
-            </button>
+            </button>,
           ]
         )}
         {photoTaking ? (

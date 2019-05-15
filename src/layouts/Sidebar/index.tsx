@@ -1,8 +1,8 @@
-import { remote } from "electron";
-import * as React from "react";
-import { NavLink } from "react-router-dom";
-import Logo from "../Logo/";
-import "./index.scss";
+import { remote } from 'electron';
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
+import Logo from '../Logo/';
+import './index.scss';
 
 const { useState, useEffect } = React;
 const { getCurrentWindow } = remote;
@@ -16,11 +16,11 @@ function Sidebar({ initPath }: ISidebarProps) {
 
   useEffect(() => {
     const win = getCurrentWindow();
-    win.on("blur", () => {
+    win.on('blur', () => {
       setBlur(true);
     });
 
-    win.on("focus", () => {
+    win.on('focus', () => {
       setBlur(false);
     });
   });
@@ -29,7 +29,7 @@ function Sidebar({ initPath }: ISidebarProps) {
     <footer className="app-menu-sidebar">
       <Logo
         size={40}
-        style={{ margin: "30px auto 20px" }}
+        style={{ margin: '30px auto 20px' }}
         run={isBlur}
         initPath={initPath}
       />

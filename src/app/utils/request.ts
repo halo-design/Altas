@@ -1,5 +1,5 @@
-import log from "electron-log";
-import * as https from "https";
+import log from 'electron-log';
+import * as https from 'https';
 
 module.exports = {
   getJSON(url: string) {
@@ -7,26 +7,26 @@ module.exports = {
       https.get(url, res => {
         const { statusCode } = res;
         if (statusCode !== 200) {
-          log.error("文件请求失败！");
+          log.error('文件请求失败！');
           reject(statusCode);
           res.resume();
         } else {
-          res.setEncoding("utf8");
+          res.setEncoding('utf8');
 
-          let rawData = "";
-          res.on("data", chunk => {
+          let rawData = '';
+          res.on('data', chunk => {
             rawData += chunk;
           });
 
           res
-            .on("end", () => {
+            .on('end', () => {
               resolve(JSON.parse(rawData));
             })
-            .on("error", e => {
+            .on('error', e => {
               reject(e);
             });
         }
       });
     });
-  }
+  },
 };

@@ -4,12 +4,12 @@
   &::-webkit-scrollbar {
     width: $width;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: $thumbBg;
     border-radius: $radius;
   }
-  
+
   &::-webkit-scrollbar-track-piece {
     background-color: $trackBg;
   }

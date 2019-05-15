@@ -1,7 +1,7 @@
-import { action, computed, observable } from "mobx";
-import * as API from "../constants/API";
-import { getData, upload } from "../utils/ajax";
-import { setTrayTitle } from "../utils/system";
+import { action, computed, observable } from 'mobx';
+import * as API from '../constants/API';
+import { getData, upload } from '../utils/ajax';
+import { setTrayTitle } from '../utils/system';
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
@@ -18,11 +18,11 @@ export default class UploadModel {
     const files = node.files;
     const rawFiles = Array.prototype.slice.call(files);
 
-    const baseType = ["jpeg", "jpg", "png", "gif", "bmp"];
+    const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
 
     const addFiles = rawFiles.filter(
       (file: any, index: number): boolean => {
-        const fileType = file.type.split("/")[1];
+        const fileType = file.type.split('/')[1];
         if (baseType.indexOf(fileType) > -1) {
           const uid = `${Date.now()}${index}`;
           file.uid = uid;
@@ -32,7 +32,7 @@ export default class UploadModel {
             file,
             progress: null,
             remote: null,
-            status: "ready"
+            status: 'ready',
           };
 
           return true;
@@ -54,7 +54,7 @@ export default class UploadModel {
   get isXhrQueueEmpty(): boolean {
     const num = Object.keys(this.xhrQueue).length;
     if (num > 0) {
-      console.log("上传队列尚未完成！");
+      console.log('上传队列尚未完成！');
       return false;
     } else {
       return true;
@@ -124,31 +124,31 @@ export default class UploadModel {
       this.xhrQueue[uid] = upload({
         action: API.upload,
         file,
-        filename: "smfile",
+        filename: 'smfile',
         onError: () => {
-          this.uploadListStatus[uid].status = "error";
+          this.uploadListStatus[uid].status = 'error';
           delete this.xhrQueue[uid];
         },
         onProgress: e => {
           const itemStatus = this.uploadListStatus[uid];
           if (itemStatus) {
             itemStatus.progress = e;
-            itemStatus.status = "pending";
+            itemStatus.status = 'pending';
           }
         },
         onSuccess: e => {
           const itemStatus = this.uploadListStatus[uid];
           if (itemStatus) {
-            itemStatus.status = "done";
+            itemStatus.status = 'done';
             itemStatus.remote = e.data;
           }
           this.remoteImageArray.push(e.data);
           delete this.xhrQueue[uid];
           if (this.isXhrQueueEmpty) {
-            setTrayTitle("");
+            setTrayTitle('');
             this.postFiles = [];
           }
-        }
+        },
       });
     });
   };

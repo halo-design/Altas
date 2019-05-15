@@ -1,5 +1,5 @@
-import { inject, observer } from "mobx-react";
-import * as React from "react";
+import { inject, observer } from 'mobx-react';
+import * as React from 'react';
 
 interface IProps {
   ipAddress: object;
@@ -9,13 +9,13 @@ interface IProps {
 
 @inject((stores: any) => {
   const {
-    device: { ipAddress, os }
+    device: { ipAddress, os },
   } = stores;
   return {
     getIpAddress: (cb?: (data: object) => void) =>
       stores.device.getIpAddress(cb),
     ipAddress,
-    os
+    os,
   };
 })
 @observer

@@ -1,5 +1,5 @@
-import * as React from "react";
-import { withRouter } from "react-router";
+import * as React from 'react';
+import { withRouter } from 'react-router';
 
 class RefreshView extends React.Component<any, any> {
   public componentWillMount() {
@@ -7,7 +7,7 @@ class RefreshView extends React.Component<any, any> {
   }
 
   public render() {
-    return "";
+    return '';
   }
 }
 

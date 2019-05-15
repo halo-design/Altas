@@ -1,4 +1,4 @@
-import { remote } from "electron";
+import { remote } from 'electron';
 const { app, getCurrentWindow } = remote;
 
 interface IWin {
@@ -30,7 +30,7 @@ const win: IWin = {
   },
   unmaximize: () => {
     getCurrentWindow().unmaximize();
-  }
+  },
 };
 
 export default win;

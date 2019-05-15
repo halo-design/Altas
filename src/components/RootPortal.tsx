@@ -1,5 +1,5 @@
-import * as React from "react";
-import { createPortal } from "react-dom";
+import * as React from 'react';
+import { createPortal } from 'react-dom';
 const { useEffect } = React;
 
 export interface IRootPortalProps {
@@ -8,11 +8,11 @@ export interface IRootPortalProps {
 
 function RootPortal({ children }: IRootPortalProps) {
   const node: HTMLElement =
-    document.getElementById("ROOT_PORTAL_CONTAINER") ||
-    document.createElement("div");
+    document.getElementById('ROOT_PORTAL_CONTAINER') ||
+    document.createElement('div');
 
   if (!node.id) {
-    node.id = "ROOT_PORTAL_CONTAINER";
+    node.id = 'ROOT_PORTAL_CONTAINER';
   }
 
   useEffect(() => {

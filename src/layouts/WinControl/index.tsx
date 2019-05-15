@@ -1,7 +1,7 @@
-import classNames from "classnames";
-import * as React from "react";
-import win from "../../utils/win";
-import "./index.scss";
+import classNames from 'classnames';
+import * as React from 'react';
+import win from '../../utils/win';
+import './index.scss';
 
 const { useState } = React;
 
@@ -23,7 +23,7 @@ function WinControl() {
       <button onClick={win.minimize} className="iconfont min" />
       <button
         onClick={maxToogle}
-        className={classNames("iconfont", "toogle", { back: isMax })}
+        className={classNames('iconfont', 'toogle', { back: isMax })}
       />
       <button onClick={win.close} className="iconfont close" />
     </div>
