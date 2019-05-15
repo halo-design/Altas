@@ -38,29 +38,27 @@ body {
   src: url('../font/halo.ttf') format('truetype');
 }
 
-.home {
-  .logo {
-    height: 80px;
-    width: 80px;
-    background: url(../img/logo.png) no-repeat;
-    background-size: 100% auto;
-    margin: 30px auto;
-  }
+.logo {
+  height: 80px;
+  width: 80px;
+  background: url(../img/logo.png) no-repeat;
+  background-size: 100% auto;
+  margin: 30px auto;
+}
 
-  .app-content {
-    button,
-    input {
-      background-color: #eee;
-      margin: 4px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
+.app-content {
+  button,
+  input {
+    background-color: #eee;
+    margin: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
   }
+}
 
-  h1 {
-    font-family: 'halofont' !important;
-    font-size: 32px;
-    line-height: 2;
-    text-align: center;
-  }
+h1 {
+  font-family: 'halofont' !important;
+  font-size: 32px;
+  line-height: 2;
+  text-align: center;
 }

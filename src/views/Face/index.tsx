@@ -38,12 +38,13 @@ class FaceView extends React.Component<any, IFaceState> {
   }
 
   public startRecord(success: any) {
+    const dpr = window.devicePixelRatio;
     this.setState({
       lineProgressHidden: false,
       videoVisible: true,
     });
     navigator.mediaDevices
-      .getUserMedia({ video: { width: 960, height: 640 } })
+      .getUserMedia({ video: { width: 480 * dpr, height: 320 * dpr } })
       .then(stream => {
         if (success) {
           success();
