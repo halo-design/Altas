@@ -46,19 +46,21 @@ body {
   margin: 30px auto;
 }
 
-.app-content {
-  button,
-  input {
-    background-color: #eee;
-    margin: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
+div {
+  .app-content {
+    button,
+    input {
+      background-color: #eee;
+      margin: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
   }
-}
 
-h1 {
-  font-family: 'halofont' !important;
-  font-size: 32px;
-  line-height: 2;
-  text-align: center;
+  h1 {
+    font-family: 'halofont' !important;
+    font-size: 32px;
+    line-height: 2;
+    text-align: center;
+  }
 }

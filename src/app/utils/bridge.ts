@@ -3,7 +3,6 @@ import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
 import * as storage from 'electron-json-storage';
 import * as ip from 'ip';
-import * as md5 from 'md5';
 import * as os from 'os';
 // const notifier from 'node-notifier')
 const { ipcMain, clipboard } = electron;
@@ -167,7 +166,9 @@ export default (mainWindow: any, info: object) => {
 
   // 获取本机IP地址
   ipcMain.on('get-ip-address', (event: electron.Event) => {
-    const network = {};
+    const network = {
+      ip: '',
+    };
     network.ip = ip.address();
     event.sender.send('ip-address', network);
   });
@@ -193,7 +194,7 @@ export default (mainWindow: any, info: object) => {
 
   // AES加密字符串
   ipcMain.on('aes-encode', (event: electron.Event, args: any) => {
-    const mdString = md5(args.pswd);
+    const mdString = args.pswd;
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     event.sender.send('get-aes-encode', crypto.aseEncode(args.data, key, iv));
@@ -201,7 +202,7 @@ export default (mainWindow: any, info: object) => {
 
   // AES解密字符串
   ipcMain.on('aes-decode', (event: electron.Event, args: any) => {
-    const mdString = md5(args.pswd);
+    const mdString = args.pswd;
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     event.sender.send('get-aes-decode', crypto.aseDecode(args.data, key, iv));
