@@ -9,6 +9,12 @@ exports.clear = (dir: string): void => {
   fs.emptyDirSync(path.join(__dirname, '../', dir));
 };
 
+exports.buildInfoFilePath = path.join(
+  __dirname,
+  '../packages',
+  `build-info.json`
+);
+
 exports.ssh = (auth: object, files: any[]): Promise<string> => {
   const spinner = ora('Ready to upload...\n').start();
 
