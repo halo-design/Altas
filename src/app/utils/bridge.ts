@@ -4,6 +4,7 @@ import DL from 'electron-dl';
 import * as storage from 'electron-json-storage';
 import * as ip from 'ip';
 import * as os from 'os';
+import * as hash from 'object-hash';
 // const notifier from 'node-notifier')
 const { ipcMain, clipboard } = electron;
 import log from 'electron-log';
@@ -194,7 +195,7 @@ export default (mainWindow: any, info: object) => {
 
   // AES加密字符串
   ipcMain.on('aes-encode', (event: electron.Event, args: any) => {
-    const mdString = args.pswd;
+    const mdString = hash.MD5(args.pswd);
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     event.sender.send('get-aes-encode', crypto.aseEncode(args.data, key, iv));
@@ -202,7 +203,7 @@ export default (mainWindow: any, info: object) => {
 
   // AES解密字符串
   ipcMain.on('aes-decode', (event: electron.Event, args: any) => {
-    const mdString = args.pswd;
+    const mdString = hash.MD5(args.pswd);
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     event.sender.send('get-aes-decode', crypto.aseDecode(args.data, key, iv));
