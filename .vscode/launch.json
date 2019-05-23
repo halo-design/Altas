@@ -12,6 +12,9 @@
       "program": "${workspaceRoot}/renderer/main.js",
       "protocol": "inspector",
       "args": ["."],
+      "env": {
+        "NODE_ENV": "development"
+      },
       "outputCapture": "std"
     },
     {
