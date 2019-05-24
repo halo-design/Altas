@@ -1,16 +1,18 @@
 import { ipcRenderer } from 'electron';
 
-export const commander = (command: string): void => {
-  ipcRenderer.send('commander', command);
-};
-
-export const bindReadStdout = (callback: (e: string) => void): void => {
-  ipcRenderer.send('bind-read-stdout');
+export const spawn = (
+  command: string,
+  callback?: (e: string) => void
+): void => {
+  ipcRenderer.send('spawn', command);
+  ipcRenderer.removeAllListeners('stdout');
   ipcRenderer.on('stdout', (event: any, params: string) => {
-    callback(params);
+    if (callback) {
+      callback(params);
+    }
   });
 };
 
-export const unbindReadStdout = () => {
-  ipcRenderer.send('unbind-read-stdout');
+export const spawnKill = () => {
+  ipcRenderer.send('spawn-kill');
 };

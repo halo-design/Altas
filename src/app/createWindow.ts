@@ -40,7 +40,7 @@ const createWindow = ({ entry, width, height, bridge }: ICreateWindow) => {
     width: mainWindowState.width,
     x: mainWindowState.x,
     y: mainWindowState.y,
-    // resizable: isDev,
+    resizable: false,
     // alwaysOnTop: isDev,
   };
 

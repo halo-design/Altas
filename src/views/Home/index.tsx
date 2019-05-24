@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Terminal } from 'xterm';
-import { commander, bindReadStdout } from '../../utils/terminal';
+import { shell } from 'electron';
+import { spawn, spawnKill } from '../../utils/terminal';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 Terminal.applyAddon(fit);
@@ -44,37 +45,46 @@ const darkTheme = {
 class HomeView extends React.Component {
   public terminalEl: any = null;
   public $_terminal: any = null;
+  public textareaEl: any = null;
+  public darkMode: boolean = false;
 
   public componentDidMount() {
     this.initTerm();
+  }
 
-    bindReadStdout(data => {
+  public shell() {
+    const commands = this.textareaEl.value.split('\n');
+    spawn(commands.join('\r') + '\r', data => {
       this.addLog({
         text: data,
         type: 'stdout',
       });
     });
-  }
-
-  public shell() {
-    commander(
-      'cd /Users/owlaford/Documents/WorkSpace/carbon-altas\rls\rnpm -v\rnpm run build\r'
-    );
+    this.textareaEl.value = '';
   }
 
   public initTerm() {
+    if (this.$_terminal) {
+      this.$_terminal.destroy();
+    }
     const term = new Terminal({
       cols: 80,
       rows: 24,
       fontSize: 12,
       scrollback: 1500,
       fontFamily: 'Monaco, Consolas, Source Code Pro',
-      theme: darkTheme,
+      theme: this.darkMode ? darkTheme : defaultTheme,
     });
     this.$_terminal = term;
     term.open(this.terminalEl);
     term.on('blur', () => term.blur);
     term.on('focus', () => term.focus);
+
+    webLinks.webLinksInit(term, this.handleLink);
+  }
+
+  public handleLink(event: any, uri: string) {
+    shell.openExternal(uri);
   }
 
   public setContent(value: string, ln = true) {
@@ -89,12 +99,22 @@ class HomeView extends React.Component {
     }
   }
 
+  public switchTheme() {
+    this.darkMode = !this.darkMode;
+    this.initTerm();
+  }
+
   public addLog(log: { text: string; type: string }) {
     this.setContent(log.text, log.type === 'stdout');
   }
 
   public clear() {
     this.$_terminal.clear();
+  }
+
+  public stopSpawn() {
+    spawnKill();
+    this.clear();
   }
 
   public scrollToBottom() {
@@ -108,19 +128,44 @@ class HomeView extends React.Component {
   public render() {
     return (
       <div className="page-home">
-        <div
-          className="logo"
+        <textarea
+          style={{
+            width: '300px',
+            height: '120px',
+            border: '1px solid #eee',
+          }}
+          ref={node => {
+            this.textareaEl = node;
+          }}
+        />
+        <button
           onClick={e => {
             this.clear();
           }}
-        />
-        <h1
+        >
+          清除控制台
+        </button>
+        <button
           onClick={e => {
             this.shell();
           }}
         >
-          Awesome Electron!
-        </h1>
+          执行命令
+        </button>
+        <button
+          onClick={e => {
+            this.stopSpawn();
+          }}
+        >
+          结束进程
+        </button>
+        <button
+          onClick={e => {
+            this.switchTheme();
+          }}
+        >
+          切换主题
+        </button>
         <div
           className="app-terminal"
           ref={node => {

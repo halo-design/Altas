@@ -12,7 +12,7 @@ import log from 'electron-log';
 import * as crypto from './crypto';
 import file from './file';
 import readTxtByLine from './readTxtByLine';
-import { commander, bindReadStdout, unbindReadStdout } from './terminal';
+import { spawn, spawnKill } from './terminal';
 
 export default (mainWindow: any, info: object) => {
   // 获取app绝对目录
@@ -211,19 +211,14 @@ export default (mainWindow: any, info: object) => {
   });
 
   // 执行终端命令
-  ipcMain.on('commander', (event: electron.Event, args: string) => {
-    commander(args);
-  });
-
-  // 绑定终端命令输出
-  ipcMain.on('bind-read-stdout', (event: electron.Event) => {
-    bindReadStdout(data => {
+  ipcMain.on('spawn', (event: electron.Event, args: string) => {
+    spawn(args, data => {
       event.sender.send('stdout', data);
     });
   });
 
-  // 解绑终端命令输出
-  ipcMain.on('unbind-read-stdout', () => {
-    unbindReadStdout();
+  // 结束终端命令
+  ipcMain.on('spawn-kill', () => {
+    spawnKill();
   });
 };

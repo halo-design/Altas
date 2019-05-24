@@ -7,24 +7,36 @@ if (process.platform === 'darwin') {
   process.env.PATH = process.env.PATH + ':/usr/local/bin';
 }
 
-const term = pty.spawn(shell, [], {
-  name: 'xterm-color',
-  cols: 60,
-  rows: 32,
-  cwd: process.env.PWD,
-  env: process.env,
-});
-
-export const commander = (command: string) => {
-  term.write(command);
-};
-
-export const bindReadStdout = (callback: (out: string) => void) => {
-  term.on('data', (data: any) => {
-    callback(data);
+const initPty = () =>
+  pty.spawn(shell, [], {
+    name: 'xterm-color',
+    cols: 60,
+    rows: 32,
+    cwd: process.env.PWD,
+    env: process.env,
   });
+
+let term: any = initPty();
+let first: boolean = true;
+let kill: boolean = false;
+
+export const spawn = (command: string, bindFn: (out: string) => void) => {
+  if (kill) {
+    term = initPty();
+    kill = false;
+    first = true;
+  }
+  term.write(command);
+  if (first) {
+    term.on('data', (data: any) => {
+      bindFn(data);
+    });
+    first = false;
+  }
 };
 
-export const unbindReadStdout = () => {
-  term.off('data');
+export const spawnKill = () => {
+  term.kill();
+  term = null;
+  kill = true;
 };
