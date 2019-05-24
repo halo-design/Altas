@@ -24,6 +24,7 @@ before_install:
 
 script:
   - npm run lint
+  - npm run postinstall
   - npm run pack
   - npm run upload
 
