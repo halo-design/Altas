@@ -1,6 +1,6 @@
 productName: Altas
 appId: gh.halo-design.altas
-copyright: Copyright © 2019 ${author}
+copyright: Copyright © 2018-present ${author}
 
 files: 
   - renderer/

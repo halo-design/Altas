@@ -31,21 +31,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// ///////////////////////////////////////////////////////////////
-
-@font-face {
-  font-family: 'halofont';
-  src: url('../font/halo.ttf') format('truetype');
-}
-
-.logo {
-  height: 80px;
-  width: 80px;
-  background: url(../img/logo.png) no-repeat;
-  background-size: 100% auto;
-  margin: 30px auto;
-}
-
+///////////////////////////////////////////
 div {
   .app-content {
     button,
@@ -55,12 +41,5 @@ div {
       padding: 5px 10px;
       cursor: pointer;
     }
-  }
-
-  h1 {
-    font-family: 'halofont' !important;
-    font-size: 32px;
-    line-height: 2;
-    text-align: center;
   }
 }

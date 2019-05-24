@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'halofont';
+  src: url('./img/halo.ttf') format('truetype');
+}
+
+.page-home {
+  .logo {
+    height: 80px;
+    width: 80px;
+    background: url(./img/logo.png) no-repeat;
+    background-size: 100% auto;
+    margin: 30px auto 10px;
+  }
+
+  h1 {
+    font-family: 'halofont' !important;
+    font-size: 32px;
+    line-height: 2;
+    text-align: center;
+  }
+
+  .app-terminal {
+    // width: 520px;
+    // height: 400px;
+    position: relative;
+  }
+}

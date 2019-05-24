@@ -13,7 +13,8 @@
     "compile": "npm run compile:main && npm run compile:extra && npm run compile:renderer",
     "dev": "npm run clear && npm run compile:extra && npm run serve",
     "build": "npm run clear && npm run compile",
-    "start": "npm run compile:main && NODE_ENV=development electron ./renderer/main.js",
+    "start": "npm run compile:main && NODE_ENV=development electron ./renderer/main.js --nointro",
+    "rebuild": "electron-rebuild -f -w node-pty",
     "pack:mac": "electron-builder --mac",
     "pack:win": "electron-builder --win",
     "pack": "npm run build && npm run pack:win && npm run pack:mac",
@@ -62,6 +63,7 @@
     "babel-plugin-import": "^1.11.2",
     "electron": "5.0.1",
     "electron-builder": "20.40.2",
+    "electron-rebuild": "^1.8.4",
     "node-sass": "^4.12.0",
     "node-ssh": "^6.0.0",
     "ora": "^3.4.0",
@@ -95,12 +97,14 @@
     "mobx-react-devtools": "6.1.1",
     "mobx-react-router": "^4.0.7",
     "node-notifier": "^5.4.0",
+    "node-pty": "^0.8.1",
     "object-hash": "^1.3.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
     "tslib": "^1.9.3",
-    "yaml": "^1.5.1"
+    "xterm": "^3.13.2",
+    "yaml": "^1.6.0"
   }
 }

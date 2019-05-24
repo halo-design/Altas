@@ -1,7 +1,7 @@
 import log from 'electron-log';
 import * as https from 'https';
 
-module.exports = {
+export default {
   getJSON(url: string) {
     return new Promise((resolve, reject) => {
       https.get(url, res => {

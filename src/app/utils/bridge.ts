@@ -12,6 +12,7 @@ import log from 'electron-log';
 import * as crypto from './crypto';
 import file from './file';
 import readTxtByLine from './readTxtByLine';
+import { commander, bindReadStdout, unbindReadStdout } from './terminal';
 
 export default (mainWindow: any, info: object) => {
   // 获取app绝对目录
@@ -207,5 +208,22 @@ export default (mainWindow: any, info: object) => {
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     event.sender.send('get-aes-decode', crypto.aseDecode(args.data, key, iv));
+  });
+
+  // 执行终端命令
+  ipcMain.on('commander', (event: electron.Event, args: string) => {
+    commander(args);
+  });
+
+  // 绑定终端命令输出
+  ipcMain.on('bind-read-stdout', (event: electron.Event) => {
+    bindReadStdout(data => {
+      event.sender.send('stdout', data);
+    });
+  });
+
+  // 解绑终端命令输出
+  ipcMain.on('unbind-read-stdout', () => {
+    unbindReadStdout();
   });
 };
