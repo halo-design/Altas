@@ -41,7 +41,7 @@ win:
   target: nsis
   icon: resources/dock.ico
 
-nsis: 
+nsis:
   oneClick: false
   installerIcon: resources/dock.ico
   uninstallerIcon: resources/dock.ico
