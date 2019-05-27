@@ -87,7 +87,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "antd": "^3.19.0",
+    "antd": "^3.19.1",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
