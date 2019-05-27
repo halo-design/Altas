@@ -5,7 +5,7 @@ import * as storage from 'electron-json-storage';
 import * as ip from 'ip';
 import * as os from 'os';
 import * as hash from 'object-hash';
-// const notifier from 'node-notifier')
+// const notifier from 'node-notifier';
 const { ipcMain, clipboard } = electron;
 import log from 'electron-log';
 
