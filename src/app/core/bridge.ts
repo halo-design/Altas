@@ -8,7 +8,6 @@ import * as ip from 'ip';
 import * as os from 'os';
 import * as hash from 'object-hash';
 import * as crypto from '../utils/crypto';
-import { spawn, spawnKill } from '../utils/terminal';
 import createAppTray from '../utils/tray';
 import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
@@ -203,16 +202,6 @@ export default (RPC: IServer) => {
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     dispatch('get-aes-decode', crypto.aseDecode(args.data, key, iv));
-  });
-
-  RPC.on('spawn', (args: string) => {
-    spawn(args, data => {
-      dispatch('stdout', data);
-    });
-  });
-
-  RPC.on('spawn-kill', () => {
-    spawnKill();
   });
 
   return { tray };

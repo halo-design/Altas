@@ -1,7 +1,6 @@
-import { BrowserWindow } from 'electron';
 import * as url from 'url';
 import file from '../utils/file';
-import keeper from './winStateKeeper';
+import winStateKeeper from './winStateKeeper';
 
 const winCreate = (opts: any, entry: string) => {
   const options: any = {
@@ -27,10 +26,7 @@ const winCreate = (opts: any, entry: string) => {
 
   Object.assign(options, opts);
 
-  const mainWindow = keeper(new BrowserWindow(options), {
-    width: opts.width,
-    height: opts.height,
-  });
+  const mainWindow = winStateKeeper(options);
 
   const entryUrl = url.format({
     pathname: file.path(entry),

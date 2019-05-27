@@ -1,22 +1,25 @@
+import { BrowserWindow } from 'electron';
 const windowStateKeeper = require('electron-window-state');
 
-interface Ikeeper {
-  width: number;
-  height: number;
-}
+const winStateKeeper = (opts: any) => {
+  const { width, height } = opts;
 
-const keeper = (win: Electron.BrowserWindow, { width, height }: Ikeeper) => {
   const winState = windowStateKeeper({
     defaultHeight: height,
     defaultWidth: width,
   });
 
-  win.setSize(winState.width, winState.height);
-  win.setPosition(winState.x, winState.y);
+  const win = new BrowserWindow({
+    ...opts,
+    x: winState.x,
+    y: winState.y,
+    width: winState.width,
+    height: winState.height,
+  });
 
   winState.manage(win);
 
   return win;
 };
 
-export default keeper;
+export default winStateKeeper;

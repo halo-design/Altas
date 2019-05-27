@@ -1,6 +1,6 @@
 import { app } from 'electron';
 import winCreate from './core/winCreate';
-import createRpc from './core/rpc';
+import createRPC from './core/rpc';
 import createBridge from './core/bridge';
 
 let mainWindow: any;
@@ -15,7 +15,7 @@ const init = () => {
     'renderer/index.html'
   );
 
-  const RPC = createRpc(mainWindow);
+  const RPC = createRPC(mainWindow);
   const { tray } = createBridge(RPC);
 
   mainWindow.on('close', (e: Event) => {

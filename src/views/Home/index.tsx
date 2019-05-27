@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Terminal } from 'xterm';
 import { shell } from 'electron';
-import { spawn, spawnKill } from '../../utils/terminal';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
+import * as os from 'os';
+const { spawn } = require('node-pty');
+
+const xshell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
+
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
 
@@ -45,58 +49,66 @@ const darkTheme = {
 class HomeView extends React.Component {
   public terminalEl: any = null;
   public $_terminal: any = null;
-  public textareaEl: any = null;
+  public ptyProcess: any = null;
   public darkMode: boolean = false;
 
   public componentDidMount() {
+    this.initPty();
     this.initTerm();
   }
 
-  public shell() {
-    const commands = this.textareaEl.value.split('\n');
-    spawn(commands.join('\r') + '\r', data => {
-      this.addLog({
-        text: data,
-        type: 'stdout',
-      });
+  public ls() {
+    console.log(this.ptyProcess);
+    this.ptyProcess.write('ls\n');
+  }
+
+  public initPty() {
+    const ptyProcess = spawn(xshell, [], {
+      name: 'xterm-color',
+      cols: 60,
+      rows: 32,
+      cwd: process.env.PWD,
+      env: process.env,
     });
-    this.textareaEl.value = '';
+
+    ptyProcess.on('data', (data: string) => {
+      this.$_terminal.write(data);
+    });
+
+    this.ptyProcess = ptyProcess;
   }
 
   public initTerm() {
-    if (this.$_terminal) {
-      this.$_terminal.destroy();
-    }
-    const term = new Terminal({
+    const opts = {
       cols: 80,
       rows: 24,
       fontSize: 12,
       scrollback: 1500,
       fontFamily: 'Monaco, Consolas, Source Code Pro',
-      theme: this.darkMode ? darkTheme : defaultTheme,
-    });
-    this.$_terminal = term;
-    term.open(this.terminalEl);
-    term.on('blur', () => term.blur);
-    term.on('focus', () => term.focus);
+      theme: defaultTheme,
+    };
 
-    webLinks.webLinksInit(term, this.handleLink);
+    if (this.$_terminal) {
+      this.$_terminal.setOption(
+        'theme',
+        this.darkMode ? darkTheme : defaultTheme
+      );
+    } else {
+      const term = new Terminal(opts);
+      this.$_terminal = term;
+      term.open(this.terminalEl);
+      term.on('blur', () => term.blur);
+      term.on('focus', () => term.focus);
+      term.on('data', (data: string) => {
+        this.ptyProcess.write(data);
+      });
+
+      webLinks.webLinksInit(term, this.handleLink);
+    }
   }
 
   public handleLink(event: any, uri: string) {
     shell.openExternal(uri);
-  }
-
-  public setContent(value: string, ln = true) {
-    if (value.indexOf('\n') !== -1) {
-      value.split('\n').forEach(t => this.setContent(t));
-    } else {
-      if (typeof value === 'string') {
-        this.$_terminal[ln ? 'writeln' : 'write'](value);
-      } else {
-        this.$_terminal.writeln('');
-      }
-    }
   }
 
   public switchTheme() {
@@ -104,17 +116,12 @@ class HomeView extends React.Component {
     this.initTerm();
   }
 
-  public addLog(log: { text: string; type: string }) {
-    this.setContent(log.text, log.type === 'stdout');
-  }
-
   public clear() {
     this.$_terminal.clear();
   }
 
   public stopSpawn() {
-    spawnKill();
-    this.clear();
+    this.ptyProcess.kill();
   }
 
   public scrollToBottom() {
@@ -123,21 +130,12 @@ class HomeView extends React.Component {
 
   public componentWillUnmount() {
     this.$_terminal.destroy();
+    this.ptyProcess.destroy();
   }
 
   public render() {
     return (
       <div className="page-home">
-        <textarea
-          style={{
-            width: '300px',
-            height: '120px',
-            border: '1px solid #eee',
-          }}
-          ref={node => {
-            this.textareaEl = node;
-          }}
-        />
         <button
           onClick={e => {
             this.clear();
@@ -147,7 +145,7 @@ class HomeView extends React.Component {
         </button>
         <button
           onClick={e => {
-            this.shell();
+            this.ls();
           }}
         >
           执行命令
