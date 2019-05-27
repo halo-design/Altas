@@ -1,41 +1,37 @@
-import { ipcRenderer, remote } from 'electron';
+import { remote } from 'electron';
 const { shell } = remote;
 
-ipcRenderer.on(
+import RPC from './rpc';
+const { dispatch } = RPC;
+
+RPC.on(
   'history-push',
-  (event: any, path: string): void => {
+  (path: string): void => {
     location.href = `#${path}`;
   }
 );
 
 export const setTrayTitle = (title: string): void => {
-  ipcRenderer.send('set-tray-title', title);
-};
-
-export const detect = (cb: (args: object) => void): void => {
-  ipcRenderer.send('ipc-start');
-  ipcRenderer.once('ipc-running', (event: any, args: object) => {
-    cb(args);
-  });
+  dispatch('set-tray-title', title);
 };
 
 export const getAppDir = (cb: (args: string) => void): void => {
-  ipcRenderer.send('get-appdir');
-  ipcRenderer.once('appdir', (event: any, args: string) => {
+  dispatch('get-appdir', '');
+  RPC.once('appdir', (args: string) => {
     cb(args);
   });
 };
 
 export const getIpAddress = (cb: (args: object) => void): void => {
-  ipcRenderer.send('get-ip-address');
-  ipcRenderer.once('ip-address', (event: any, args: object) => {
+  dispatch('get-ip-address', '');
+  RPC.once('ip-address', (args: object) => {
     cb(args);
   });
 };
 
 export const getDeviceOS = (cb: (args: object) => void): void => {
-  ipcRenderer.send('get-device-os');
-  ipcRenderer.once('device-os', (event: any, args: object) => {
+  dispatch('get-device-os', '');
+  RPC.once('device-os', (args: object) => {
     cb(args);
   });
 };

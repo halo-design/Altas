@@ -1,7 +1,8 @@
-import { ipcRenderer } from 'electron';
+import RPC from './rpc';
+const { dispatch } = RPC;
 
 const messageBox = (args: object): void => {
-  ipcRenderer.send('on-dialog-message', { type: 'info', ...args });
+  dispatch('on-dialog-message', { type: 'info', ...args });
 };
 
 export default messageBox;

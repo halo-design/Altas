@@ -3,7 +3,7 @@ import file from './file';
 
 const isWin = process.platform === 'win32';
 
-export default (mainWindow: Electron.BrowserWindow) => {
+export default (RPC: any) => {
   const img = isWin
     ? file.path('resources/dock.ico')
     : file.path('resources/icon.png');
@@ -13,9 +13,9 @@ export default (mainWindow: Electron.BrowserWindow) => {
   const menu = Menu.buildFromTemplate([
     {
       click: () => {
-        mainWindow.webContents.send('history-push', '/sync');
-        mainWindow.show();
-        mainWindow.focus();
+        RPC.dispatch('history-push', '/sync');
+        RPC.win.show();
+        RPC.win.focus();
       },
       label: '设置',
     },

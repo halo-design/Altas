@@ -1,12 +1,13 @@
-import { ipcRenderer } from 'electron';
+import RPC from './rpc';
+const { dispatch } = RPC;
 
 export const encode = (
   data: string,
   pswd: string,
   callback: (e: string) => void
 ): void => {
-  ipcRenderer.send('aes-encode', { data, pswd });
-  ipcRenderer.once('get-aes-encode', (event: any, params: string) => {
+  dispatch('aes-encode', { data, pswd });
+  RPC.once('get-aes-encode', (params: string) => {
     callback(params);
   });
 };
@@ -16,8 +17,8 @@ export const decode = (
   pswd: string,
   callback: (e: string) => void
 ): void => {
-  ipcRenderer.send('aes-decode', { data, pswd });
-  ipcRenderer.once('get-aes-decode', (event: any, params: string) => {
+  dispatch('aes-decode', { data, pswd });
+  RPC.once('get-aes-decode', (params: string) => {
     callback(params);
   });
 };

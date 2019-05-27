@@ -1,24 +1,27 @@
-import { ipcRenderer, remote } from 'electron';
-import { selectFile } from './file';
+import { remote } from 'electron';
 const { app } = remote;
+
+import { selectFile } from './file';
+import RPC from './rpc';
+const { dispatch } = RPC;
 
 export const download = (
   url: string,
   cb: (args: object) => void,
   args?: object
 ): void => {
-  ipcRenderer.send('file-download', url, args || {});
-  ipcRenderer.on('on-download-state', (event: any, params: any) => {
+  dispatch('file-download', { url, args: args || {} });
+  RPC.on('on-download-state', (params: any) => {
     const { status } = params;
     if (/(cancel|finished|error)/.test(status)) {
-      ipcRenderer.removeAllListeners('on-download-state');
+      RPC.removeListener('on-download-state', () => {});
     }
     cb(params);
   });
 };
 
 export const cancelDownloadTask = (): void => {
-  ipcRenderer.send('file-download-cancel');
+  dispatch('file-download-cancel', '');
 };
 
 export interface IMultiDownloadOptions {
@@ -86,18 +89,21 @@ export class MultiDownload {
     }
 
     const url = this.opts.urls[this.index];
-    ipcRenderer.send('file-download', url, {
-      directory: this.outputPath || app.getPath('downloads'),
-      index: this.index,
-      saveAs: false,
-      timeout: this.opts.timeout,
+    dispatch('file-download', {
+      url,
+      args: {
+        directory: this.outputPath || app.getPath('downloads'),
+        index: this.index,
+        saveAs: false,
+        timeout: this.opts.timeout,
+      },
     });
     this.index++;
   }
 
   protected loopDownload() {
     this.loop();
-    ipcRenderer.on('on-download-state', (event: any, params: any) => {
+    RPC.on('on-download-state', (params: any) => {
       const state = {
         count: this.opts.urls.length,
         current: params,
@@ -115,7 +121,7 @@ export class MultiDownload {
           if (this.opts.callback) {
             this.opts.callback(state);
           }
-          ipcRenderer.removeAllListeners('on-download-state');
+          RPC.removeListener('on-download-state', () => {});
           this.isDone = true;
         }
       } else {

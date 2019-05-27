@@ -1,12 +1,15 @@
-import { ipcRenderer } from 'electron';
+import RPC from './rpc';
+const { dispatch } = RPC;
 
 export const spawn = (
   command: string,
   callback?: (e: string) => void
 ): void => {
-  ipcRenderer.send('spawn', command);
-  ipcRenderer.removeAllListeners('stdout');
-  ipcRenderer.on('stdout', (event: any, params: string) => {
+  dispatch('spawn', command);
+  RPC.removeListener('stdout', () => {
+    console.warn('已停止监听终端输出！');
+  });
+  RPC.on('stdout', (params: string) => {
     if (callback) {
       callback(params);
     }
@@ -14,5 +17,5 @@ export const spawn = (
 };
 
 export const spawnKill = () => {
-  ipcRenderer.send('spawn-kill');
+  dispatch('spawn-kill', '');
 };

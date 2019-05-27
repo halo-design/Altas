@@ -1,5 +1,8 @@
-import { ipcRenderer, remote } from 'electron';
+import { remote } from 'electron';
 const { app, dialog, getCurrentWindow } = remote;
+
+import RPC from './rpc';
+const { dispatch } = RPC;
 
 export const setSaveAs = (
   fileName: string,
@@ -35,11 +38,11 @@ export const readTxtByLine = (
   filePath: string,
   readFn: (e: object) => void
 ) => {
-  ipcRenderer.send('read-text', filePath);
-  ipcRenderer.on('get-text-line', (event: any, params: any) => {
+  dispatch('read-text', filePath);
+  RPC.on('get-text-line', (params: any) => {
     readFn(params);
     if (params.status === 'done') {
-      ipcRenderer.removeAllListeners('get-text-line');
+      RPC.removeListener('get-text-line', () => {});
     }
   });
 };

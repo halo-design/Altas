@@ -1,37 +1,27 @@
-import { app, ipcMain } from 'electron';
-import createWindow from './createWindow';
-
-import ipcBridge from './utils/bridge';
-import createAppTray from './utils/tray';
+import { app } from 'electron';
+import winCreate from './core/winCreate';
+import createRpc from './core/rpc';
+import createBridge from './core/bridge';
 
 let mainWindow: any;
-let tray: any;
 let forceQuit: boolean = false;
 
 const init = () => {
-  mainWindow = createWindow({
-    bridge: ipcBridge,
-    entry: 'renderer/index.html',
-    height: 620,
-    width: 980,
-  });
+  mainWindow = winCreate(
+    {
+      height: 620,
+      width: 980,
+    },
+    'renderer/index.html'
+  );
 
-  tray = createAppTray(mainWindow);
-  tray.setToolTip('Altas');
-
-  ipcMain.on('set-tray-title', (event: any, args: any) => {
-    tray.setTitle(args);
-  });
-
-  tray.on('click', () => {
-    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
-  });
+  const RPC = createRpc(mainWindow);
+  const { tray } = createBridge(RPC);
 
   mainWindow.on('close', (e: Event) => {
     if (forceQuit) {
       tray.destroy();
       mainWindow = null;
-      tray = null;
       app.quit();
     } else {
       e.preventDefault();

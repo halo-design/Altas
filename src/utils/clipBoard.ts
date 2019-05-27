@@ -1,12 +1,13 @@
-import { ipcRenderer } from 'electron';
+import RPC from './rpc';
+const { dispatch } = RPC;
 
 export const read = (cb: (args: string) => void): void => {
-  ipcRenderer.send('read-clipboard');
-  ipcRenderer.once('get-clipboard-text', (event: any, args: string) => {
+  dispatch('read-clipboard', '');
+  RPC.once('get-clipboard-text', (args: string) => {
     cb(args);
   });
 };
 
 export const write = (txt: string) => {
-  ipcRenderer.send('write-clipboard', txt);
+  dispatch('write-clipboard', txt);
 };

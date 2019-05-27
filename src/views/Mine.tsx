@@ -4,7 +4,6 @@ import * as clipBoard from '../utils/clipBoard';
 import { download, MultiDownload } from '../utils/download';
 import { readTxtByLine, selectFile } from '../utils/file';
 import messageBox from '../utils/msgBox';
-import { detect } from '../utils/system';
 
 export interface IState {
   filePath: string;
@@ -64,15 +63,6 @@ class MineView extends React.Component<object, IState> {
       this.setPath(arg);
     });
   };
-
-  public componentWillMount() {
-    detect(
-      (args: any): void => {
-        const { appName, version } = args;
-        console.log(`${appName} ${version}已经启动！`);
-      }
-    );
-  }
 
   public readLocalTxtByLine(cb: (data: string[]) => void) {
     selectFile(

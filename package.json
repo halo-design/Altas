@@ -60,6 +60,7 @@
     "@types/react-dom": "^16.8.4",
     "@types/react-router": "^5.0.1",
     "@types/react-router-dom": "^4.3.3",
+    "@types/uuid": "^3.4.4",
     "autoprefixer": "^9.5.1",
     "babel-plugin-import": "^1.11.2",
     "electron": "5.0.2",
