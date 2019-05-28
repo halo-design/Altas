@@ -1,5 +1,4 @@
-os: osx
-osx_image: xcode10.2
+os: windows
 language: node_js
 node_js: '10'
 
@@ -10,8 +9,6 @@ env:
 branchs:
   only:
     - DaVinci
-
-sudo: required
 
 cache:
   directories:
@@ -24,8 +21,7 @@ before_install:
 
 script:
   - npm run lint
-  - npm run postinstall
-  - npm run pack
+  - npm run pack:win
   - npm run upload
 
 after_script:
