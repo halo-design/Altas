@@ -3,7 +3,7 @@ import { getAppDir } from './system';
 
 const { app, Menu, shell } = remote;
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = true; //process.env.NODE_ENV === 'development';
 const isMac = process.platform === 'darwin';
 
 const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
@@ -169,7 +169,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
     submenu: [
       {
         click: () => {
-          shell.openExternal('http://106.14.138.86:7000/halo/');
+          shell.openExternal('http://owlaford.gitee.io');
         },
         label: '作者博客',
       },

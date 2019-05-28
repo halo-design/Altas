@@ -4,6 +4,7 @@
 node_modules/
 data/
 renderer/static/
+renderer/main.js
 examples/
 
 packages/mac/

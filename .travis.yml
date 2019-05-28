@@ -9,7 +9,7 @@ env:
 
 branchs:
   only:
-    - master
+    - DaVinci
 
 sudo: required
 

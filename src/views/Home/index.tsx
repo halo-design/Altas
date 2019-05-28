@@ -6,6 +6,23 @@ import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
 const { spawn } = require('node-pty');
 
+const getWindowsBuildNumber = (): number => {
+  const osVersion = /(\d+)\.(\d+)\.(\d+)/g.exec(os.release());
+  let buildNumber: number = 0;
+  if (osVersion && osVersion.length === 4) {
+    buildNumber = parseInt(osVersion[3]);
+  }
+  return buildNumber;
+};
+
+const is32ProcessOn64Windows = process.env.hasOwnProperty(
+  'PROCESSOR_ARCHITEW6432'
+);
+const useConpty =
+  process.platform === 'win32' &&
+  !is32ProcessOn64Windows &&
+  getWindowsBuildNumber() >= 18309;
+
 const xshell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
 
 Terminal.applyAddon(fit);
@@ -58,7 +75,6 @@ class HomeView extends React.Component {
   }
 
   public ls() {
-    console.log(this.ptyProcess);
     this.ptyProcess.write('ls\n');
   }
 
@@ -69,6 +85,8 @@ class HomeView extends React.Component {
       rows: 32,
       cwd: process.env.PWD,
       env: process.env,
+      experimentalUseConpty: useConpty,
+      conptyInheritCursor: true,
     });
 
     ptyProcess.on('data', (data: string) => {
