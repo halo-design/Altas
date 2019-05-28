@@ -6,6 +6,10 @@ import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
 const { spawn } = require('node-pty');
 
+if (process.platform === 'darwin') {
+  process.env.PATH = process.env.PATH + ':/usr/local/bin';
+}
+
 const getWindowsBuildNumber = (): number => {
   const osVersion = /(\d+)\.(\d+)\.(\d+)/g.exec(os.release());
   let buildNumber: number = 0;
