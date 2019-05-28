@@ -19,6 +19,7 @@ addons:
       - rpm
       - bsdtar
       - snapd
+      - wine
 
 branchs:
   only:
