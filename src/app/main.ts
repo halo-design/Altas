@@ -12,7 +12,10 @@ const init = () => {
       height: 620,
       width: 980,
     },
-    'renderer/index.html'
+    {
+      pathname: 'renderer/index.html',
+      hash: '#/home',
+    }
   );
 
   const RPC = createRPC(mainWindow);

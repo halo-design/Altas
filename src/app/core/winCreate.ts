@@ -1,8 +1,14 @@
 import * as url from 'url';
 import file from '../utils/file';
 import winStateKeeper from './winStateKeeper';
+import { BrowserWindow } from 'electron';
 
-const winCreate = (opts: any, entry: string) => {
+const winCreate = (
+  opts: any,
+  entry: any,
+  parentWindow?: Electron.BrowserWindow,
+  isChild?: boolean
+) => {
   const options: any = {
     appIcon: file.path('resources/dock.png'),
     center: true,
@@ -15,7 +21,7 @@ const winCreate = (opts: any, entry: string) => {
       nodeIntegration: true,
       scrollBounce: true,
     },
-    resizable: false,
+    resizable: true,
   };
 
   if (process.platform === 'darwin') {
@@ -26,12 +32,21 @@ const winCreate = (opts: any, entry: string) => {
 
   Object.assign(options, opts);
 
-  const mainWindow = winStateKeeper(options);
+  let mainWindow: any;
+  if (isChild) {
+    Object.assign(options, {
+      parent: parentWindow,
+    });
+    mainWindow = new BrowserWindow(options);
+  } else {
+    mainWindow = winStateKeeper(options);
+  }
 
   const entryUrl = url.format({
-    pathname: file.path(entry),
+    pathname: file.path(entry.pathname),
     protocol: 'file:',
     slashes: true,
+    hash: entry.hash,
   });
 
   mainWindow.loadURL(entryUrl);

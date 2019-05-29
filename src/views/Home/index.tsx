@@ -6,6 +6,7 @@ import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
 const { spawn } = require('node-pty');
 import xtermConfig from '../../utils/xTermConfig';
+import { createWindow, closeWindow } from '../../utils/createWindow';
 
 if (process.platform === 'darwin') {
   process.env.PATH = process.env.PATH + ':/usr/local/bin';
@@ -43,6 +44,7 @@ class HomeView extends React.Component {
   public terminalEl: any = null;
   public term: any = null;
   public ptyProcess: any = null;
+  public win_uid: string = '';
 
   public componentDidMount() {
     this.initPty();
@@ -114,6 +116,32 @@ class HomeView extends React.Component {
     this.term.scrollToBottom();
   }
 
+  public createWin() {
+    createWindow(
+      {
+        pathname: 'renderer/index.html',
+        hash: '#/upload',
+      },
+      {
+        width: 300,
+        height: 200,
+        resizable: false,
+        movable: true,
+        maximizable: false,
+        minimizable: false,
+      },
+      params => {
+        this.win_uid = params.win_uid;
+      }
+    );
+  }
+
+  public closeWin() {
+    if (this.win_uid) {
+      closeWindow(this.win_uid);
+    }
+  }
+
   public componentWillUnmount() {
     this.term.destroy();
     this.ptyProcess.destroy();
@@ -122,6 +150,20 @@ class HomeView extends React.Component {
   public render() {
     return (
       <div className="page-home">
+        <button
+          onClick={e => {
+            this.createWin();
+          }}
+        >
+          打开新窗口
+        </button>
+        <button
+          onClick={e => {
+            this.closeWin();
+          }}
+        >
+          关闭新窗口
+        </button>
         <button
           onClick={e => {
             this.clear();
