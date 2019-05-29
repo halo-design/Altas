@@ -19,13 +19,15 @@ function WinControl() {
   };
 
   return (
-    <div className="app-win-control">
-      <button onClick={win.minimize} className="iconfont min" />
-      <button
-        onClick={maxToogle}
-        className={classNames('iconfont', 'toogle', { back: isMax })}
-      />
-      <button onClick={win.close} className="iconfont close" />
+    <div className="app-header-wrap">
+      <div className="app-win-control">
+        <button onClick={win.minimize} className="iconfont min" />
+        <button
+          onClick={maxToogle}
+          className={classNames('iconfont', 'toogle', { back: isMax })}
+        />
+        <button onClick={win.close} className="iconfont close" />
+      </div>
     </div>
   );
 }

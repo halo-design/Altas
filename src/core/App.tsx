@@ -4,6 +4,8 @@ import createAppMenu from '../utils/createAppMenu';
 
 import Sidebar from '../layouts/Sidebar/';
 import WinControl from '../layouts/WinControl/';
+import Terminal from '../layouts/Terminal/';
+import StateBar from '../layouts/StateBar/';
 
 import Device from '../views/Device';
 import Face from '../views/Face';
@@ -35,10 +37,14 @@ const App = ({ initPath }: IAppProp): any => {
       </Switch>
     </div>,
     <Sidebar key="app-sidebar" initPath={initPath} />,
+    <Terminal key="app-terminal" />,
+    <StateBar key="app-statebar" />,
   ];
 
   if (isWin) {
-    Comp.unshift(<WinControl key="app-win-control" />);
+    Comp.push(<WinControl key="app-win-control" />);
+  } else {
+    Comp.push(<div key="app-header-wrap" className="app-header-wrap" />);
   }
 
   return Comp;

@@ -1,9 +1,9 @@
 const defaultTheme = {
   foreground: '#eff0eb',
-  background: '#282a36',
+  background: '#1d2028',
   cursor: '#97979b',
   selection: 'rgba(151, 151, 155, 0.2)',
-  black: '#282a36',
+  black: '#1d2028',
   red: '#ff5c57',
   brightRed: '#ff5c57',
   green: '#5af78e',

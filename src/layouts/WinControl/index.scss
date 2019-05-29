@@ -1,5 +1,14 @@
+.app-header-wrap {
+  -webkit-app-region: drag;
+  position: absolute;
+  left: 64px;
+  top: 0;
+  height: 30px;
+  right: 0;
+}
+
 .app-win-control {
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
   height: 30px;
@@ -13,9 +22,10 @@
     text-align: center;
     padding: 0;
     background: none;
+    color: #6f727e;
 
     &:hover {
-      background-color: #eeeef1;
+      background-color: rgba(0, 0, 0, 0.1);
     }
 
     &.min {
@@ -49,14 +59,3 @@
   }
 }
 
-.win32 {
-  background-color: #eef1f6;
-
-  .app-win-control {
-    button {
-      &:hover {
-        background-color: #dbdde0;
-      }
-    }
-  }
-}

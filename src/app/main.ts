@@ -9,8 +9,10 @@ let forceQuit: boolean = false;
 const init = () => {
   mainWindow = winCreate(
     {
-      height: 620,
-      width: 980,
+      height: 648,
+      width: 1050,
+      minWidth: 980,
+      minHeight: 620,
     },
     {
       pathname: 'renderer/index.html',

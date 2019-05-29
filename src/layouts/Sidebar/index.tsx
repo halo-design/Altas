@@ -33,6 +33,7 @@ function Sidebar({ initPath }: ISidebarProps) {
         run={isBlur}
         initPath={initPath}
       />
+      <div className="brand-name">ALTAS</div>
       <div className="menu-button-group">
         <NavLink
           exact={true}
