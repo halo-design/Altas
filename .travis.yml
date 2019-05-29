@@ -12,7 +12,7 @@ env:
 
 branchs:
   only:
-    - DaVinci
+    - master
 
 cache:
   yarn: true
