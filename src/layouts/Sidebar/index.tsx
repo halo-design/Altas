@@ -28,7 +28,7 @@ function Sidebar({ initPath }: ISidebarProps) {
   return (
     <footer className="app-menu-sidebar">
       <Logo
-        size={40}
+        size={36}
         style={{ margin: '30px auto 20px' }}
         run={isBlur}
         initPath={initPath}

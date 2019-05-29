@@ -26,8 +26,8 @@ class HomeView extends React.Component<IProps> {
   public createWin() {
     createWindow(
       {
-        pathname: 'renderer/index.html',
-        hash: '#/upload',
+        pathname: 'renderer/info.html',
+        hash: '',
       },
       {
         width: 300,
