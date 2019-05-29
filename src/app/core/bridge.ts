@@ -9,11 +9,15 @@ import * as os from 'os';
 import * as hash from 'object-hash';
 import * as crypto from '../utils/crypto';
 import createAppTray from '../utils/tray';
+import winCreate from '../core/winCreate';
 import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
+import * as uuid from 'uuid';
 
 export default (RPC: IServer) => {
   const { dispatch, win } = RPC;
+  const windowContainer = {};
+
   let tray: any = null;
 
   if (win) {
@@ -202,6 +206,25 @@ export default (RPC: IServer) => {
     const key = mdString.slice(0, 16);
     const iv = mdString.slice(16);
     dispatch('get-aes-decode', crypto.aseDecode(args.data, key, iv));
+  });
+
+  RPC.on('create-window', (args: any) => {
+    if (!win) {
+      return;
+    }
+    const childWin = winCreate(args.options, args.entry, win, true);
+    const uid = uuid.v4();
+    windowContainer[uid] = childWin;
+    dispatch('get-window-id', { win_uid: uid });
+  });
+
+  RPC.on('close-window', (args: any) => {
+    if (args.uid in windowContainer) {
+      const targetWin = windowContainer[args.uid];
+      if (!targetWin.isDestroyed()) {
+        targetWin.close();
+      }
+    }
   });
 
   return { tray };
