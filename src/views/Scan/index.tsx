@@ -1,33 +1,28 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import Radar from '../../utils/radar';
 
 import './index.scss';
-
-interface IProps {
-  showTerm: () => void;
-  hideTerm: () => void;
-}
 
 @inject((stores: any) => {
   return {
     showTerm: () => stores.terminal.show(),
     hideTerm: () => stores.terminal.hide(),
+    radarStart: () => stores.radar.start(),
+    radarPause: () => stores.radar.pause(),
+    radarPlay: () => stores.radar.play(),
+    radarHide: () => stores.radar.hide(),
+    radarShow: () => stores.radar.show(),
+    radarDispose: () => stores.radar.dispose(),
   };
 })
 @observer
-class HomeView extends React.Component<IProps> {
-  public scanEl: any = null;
-  public radar: any = null;
-
+class ScanView extends React.Component<any> {
   public componentWillUnmount() {
     this.props.showTerm();
-    this.radar.destroy();
   }
 
   public componentDidMount() {
-    const radar = new Radar(this.scanEl);
-    this.radar = radar;
+    this.props.radarDispose();
   }
 
   public render() {
@@ -49,41 +44,49 @@ class HomeView extends React.Component<IProps> {
         </button>
         <button
           onClick={e => {
-            this.radar.start();
+            this.props.radarStart();
           }}
         >
           开始扫描
         </button>
         <button
           onClick={e => {
-            this.radar.pause();
+            this.props.radarPause();
           }}
         >
           暂停扫描
         </button>
         <button
           onClick={e => {
-            this.radar.play();
+            this.props.radarPlay();
           }}
         >
           继续扫描
         </button>
         <button
           onClick={e => {
-            this.radar.destroy();
+            this.props.radarDispose();
           }}
         >
           结束扫描
         </button>
-        <div
-          style={{ height: '400px', width: '400px' }}
-          ref={node => {
-            this.scanEl = node;
+        <button
+          onClick={e => {
+            this.props.radarHide();
           }}
-        />
+        >
+          隐藏扫描
+        </button>
+        <button
+          onClick={e => {
+            this.props.radarShow();
+          }}
+        >
+          显示扫描
+        </button>
       </div>
     );
   }
 }
 
-export default HomeView;
+export default ScanView;

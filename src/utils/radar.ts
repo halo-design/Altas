@@ -12,11 +12,12 @@ class Radar {
   public offsetHeight: number = 0;
   public center: { x: number; y: number } = { x: 0, y: 0 };
   public animateRaf: any = null;
-  public isPause: boolean = false;
-  public isDestory: boolean = false;
-  private ctx: any = null;
-  private time: number = 0;
-  private target: any = Array(10)
+  public isPause: boolean = true;
+  public isDestory: boolean | null = null;
+  protected resizeControl: any = null;
+  protected ctx: any = null;
+  protected time: number = 0;
+  protected target: any = Array(5)
     .fill({})
     .map(() => ({
       r: Math.random() * 200 * this.dpr,
@@ -24,36 +25,56 @@ class Radar {
       opacity: 0,
     }));
 
-  constructor(el: HTMLElement) {
+  constructor(el?: HTMLElement) {
+    this.init = this.init.bind(this);
     this.drawFrame = this.drawFrame.bind(this);
+
+    if (el) {
+      this.containerEl = el;
+      this.ready();
+    }
+  }
+
+  protected ready() {
+    this.init();
+    this.drawBg();
+    this.drawAxis();
+    this.drawCalibration();
+
+    this.resizeControl = throttle(() => {
+      if (this.isPause) {
+        this.ready();
+      } else {
+        this.init();
+      }
+    }, 30);
+    window.addEventListener('resize', this.resizeControl, false);
+  }
+
+  public initDOM(el: HTMLElement) {
     this.containerEl = el;
+    this.ready();
   }
 
   public start() {
     this.isPause = false;
-    this.init();
     this.draw();
-    window.addEventListener('resize', this.resizeControl, false);
     this.isDestory = false;
   }
 
-  private resizeControl() {
-    throttle(this.init, 30);
-  }
-
-  private colorBlue(opacity: number): string {
+  protected colorBlue(opacity: number): string {
     return `rgba(34, 68, 207, ${opacity})`;
   }
 
-  private colorBlueDark(opacity: number): string {
+  protected colorBlueDark(opacity: number): string {
     return `rgba(89, 115, 179, ${opacity})`;
   }
 
-  private colorRed(opacity: number): string {
+  protected colorRed(opacity: number): string {
     return `rgba(255, 0, 109, ${opacity})`;
   }
 
-  private point(r: number, deg: number) {
+  protected point(r: number, deg: number) {
     const deg_to_pi = Math.PI / 180;
     return {
       x: r * Math.cos(deg_to_pi * deg),
@@ -61,7 +82,7 @@ class Radar {
     };
   }
 
-  private init() {
+  protected init() {
     if (this.containerEl) {
       this.offsetWidth = this.containerEl.offsetWidth * this.dpr;
       this.offsetHeight = this.containerEl.offsetHeight * this.dpr;
@@ -75,16 +96,17 @@ class Radar {
         const canvasEl = document.createElement('canvas');
         const ctx = canvasEl.getContext('2d');
 
-        canvasEl.width = this.offsetWidth;
-        canvasEl.height = this.offsetHeight;
-
-        canvasEl.style.width = `${this.offsetWidth / this.dpr}px`;
-        canvasEl.style.height = `${this.offsetHeight / this.dpr}px`;
-
         this.containerEl.appendChild(canvasEl);
         this.canvasEl = canvasEl;
         this.ctx = ctx;
       }
+
+      const canvasEl: any = this.canvasEl;
+      canvasEl.width = this.offsetWidth;
+      canvasEl.height = this.offsetHeight;
+
+      canvasEl.style.width = `${this.offsetWidth / this.dpr}px`;
+      canvasEl.style.height = `${this.offsetHeight / this.dpr}px`;
 
       if (!this.isDestory) {
         this.ctx.restore();
@@ -93,7 +115,7 @@ class Radar {
     }
   }
 
-  private condCircle(
+  protected condCircle(
     r: number,
     lineWidth: number,
     condFn: (p: number) => boolean
@@ -114,7 +136,7 @@ class Radar {
     ctx.stroke();
   }
 
-  private drawBg() {
+  protected drawBg() {
     const ctx = this.ctx;
     const dpr = this.dpr;
 
@@ -124,7 +146,7 @@ class Radar {
     ctx.fill();
   }
 
-  private drawAxis() {
+  protected drawAxis() {
     const ctx = this.ctx;
 
     ctx.strokeStyle = this.colorBlueDark(0.3);
@@ -135,7 +157,7 @@ class Radar {
     ctx.stroke();
   }
 
-  private drawFan() {
+  protected drawFan() {
     const ctx = this.ctx;
     const dpr = this.dpr;
 
@@ -199,7 +221,7 @@ class Radar {
     });
   }
 
-  private drawCalibration() {
+  protected drawCalibration() {
     const ctx = this.ctx;
     const dpr = this.dpr;
 
@@ -238,7 +260,7 @@ class Radar {
     this.condCircle(136 * dpr, 1, () => true);
   }
 
-  private drawFrame() {
+  protected drawFrame() {
     this.time += 1;
 
     this.drawBg();
@@ -255,12 +277,15 @@ class Radar {
     this.isPause = false;
   }
 
-  private draw() {
+  protected draw() {
     this.animateRaf = window.requestAnimationFrame(this.draw.bind(this));
     this.drawFrame();
   }
 
-  public destroy() {
+  public dispose() {
+    if (this.isDestory === null) {
+      return;
+    }
     window.removeEventListener('resize', this.resizeControl);
     window.cancelAnimationFrame(this.animateRaf);
     this.pause();
