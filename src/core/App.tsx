@@ -7,9 +7,11 @@ import WinControl from '../layouts/WinControl/';
 import Terminal from '../layouts/Terminal/';
 import StateBar from '../layouts/StateBar/';
 
+import Scan from '../views/Scan';
+
+import Home from '../views/Home';
 import Device from '../views/Device';
 import Face from '../views/Face';
-import Home from '../views/Home';
 import Mine from '../views/Mine';
 import Refresh from '../views/Refresh';
 import Sync from '../views/Sync';
@@ -26,6 +28,7 @@ const App = ({ initPath }: IAppProp): any => {
   const Comp = [
     <div className="app-content" key="app-main-content">
       <Switch>
+        <Route path="/scan" component={Scan} />
         <Route path="/home" component={Home} />
         <Route path="/face" component={Face} />
         <Route path="/upload" component={Upload} />

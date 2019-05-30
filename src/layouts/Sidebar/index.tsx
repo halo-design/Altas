@@ -1,6 +1,7 @@
 import { remote } from 'electron';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
+import Tooltip from 'antd/lib/tooltip';
 import Logo from '../Logo/';
 import './index.scss';
 
@@ -37,11 +38,13 @@ function Sidebar({ initPath }: ISidebarProps) {
       <div className="menu-button-group">
         <NavLink
           exact={true}
-          to="/home"
+          to="/scan"
           className="iconfont"
           activeClassName="active"
         >
-          &#xec89;
+          <Tooltip placement="right" title="系统扫描">
+            &#xe63b;
+          </Tooltip>
         </NavLink>
         <NavLink
           exact={true}

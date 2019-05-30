@@ -2,11 +2,6 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import './index.scss';
 
-interface IProps {
-  init: (el: HTMLElement) => void;
-  destroy: () => void;
-}
-
 @inject((stores: any) => {
   return {
     init: (el: HTMLElement) => stores.terminal.init(el),
@@ -14,7 +9,7 @@ interface IProps {
   };
 })
 @observer
-class TerminalView extends React.Component<IProps> {
+class TerminalView extends React.Component<any> {
   public terminalEl: any = null;
 
   public componentDidMount() {

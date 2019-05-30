@@ -36,12 +36,18 @@ Terminal.applyAddon(webLinks);
 
 export default class TerminalModel {
   public terminalEl: any = null;
+  public terminalParentEl: any = null;
   public term: any = null;
   public ptyProcess: any = null;
   public resizeTerm: any = null;
 
   public init(el: HTMLElement) {
     this.terminalEl = el;
+    const parent: any = el.parentNode;
+    if (parent && parent.className.toLowerCase().indexOf('terminal') != -1) {
+      this.terminalParentEl = parent;
+    }
+
     this.initPty();
     this.initTerm();
 
@@ -52,6 +58,18 @@ export default class TerminalModel {
       }, 100);
 
       window.addEventListener('resize', this.resizeTerm, false);
+    }
+  }
+
+  public show() {
+    if (this.terminalParentEl) {
+      this.terminalParentEl.style.display = 'block';
+    }
+  }
+
+  public hide() {
+    if (this.terminalParentEl) {
+      this.terminalParentEl.style.display = 'none';
     }
   }
 

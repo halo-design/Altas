@@ -16,7 +16,7 @@ const init = () => {
     },
     {
       pathname: 'renderer/index.html',
-      hash: '#/home',
+      hash: '#/scan',
     }
   );
 

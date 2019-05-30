@@ -35,7 +35,7 @@ const winCreate = (
   let mainWindow: any;
   if (isChild) {
     Object.assign(options, {
-      // parent: parentWindow,
+      parent: parentWindow,
     });
     mainWindow = new BrowserWindow(options);
   } else {

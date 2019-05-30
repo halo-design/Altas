@@ -30,7 +30,7 @@ document.documentElement.classList.add(process.platform);
 ReactDOM.render(
   <Provider {...store}>
     <Router basename="/">
-      <App initPath="/home" />
+      <App initPath="/scan" />
     </Router>
   </Provider>,
   document.getElementById('MOUNT_NODE') as HTMLElement
