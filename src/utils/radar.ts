@@ -14,25 +14,40 @@ class Radar {
   public animateRaf: any = null;
   public isPause: boolean = true;
   public isDestory: boolean | null = null;
+  public detectFn: null | Function = null;
+  public tarArr: any[] = [];
   protected resizeControl: any = null;
   protected ctx: any = null;
   protected time: number = 0;
-  protected target: any = Array(5)
-    .fill({})
-    .map(() => ({
-      r: Math.random() * 200 * this.dpr,
-      deg: Math.random() * 360,
-      opacity: 0,
-    }));
+  protected target: any[] = [];
 
-  constructor(el?: HTMLElement) {
+  constructor(el?: HTMLElement, tarArr?: any[], detectFn?: Function) {
     this.init = this.init.bind(this);
     this.drawFrame = this.drawFrame.bind(this);
 
     if (el) {
-      this.containerEl = el;
-      this.ready();
+      this.initDOM(el, tarArr, detectFn);
     }
+  }
+
+  protected initTarget() {
+    this.target = this.tarArr.map(item => ({
+      loaded: false,
+      img: null,
+      r: Math.random() * 200 * this.dpr,
+      deg: Math.random() * 360,
+      opacity: 0,
+      ...item,
+    }));
+  }
+
+  public setTarget(arr: any[]) {
+    this.tarArr = arr;
+    this.initTarget();
+  }
+
+  public setDetectFn(fn: Function) {
+    this.detectFn = fn;
   }
 
   protected ready() {
@@ -51,13 +66,27 @@ class Radar {
     window.addEventListener('resize', this.resizeControl, false);
   }
 
-  public initDOM(el: HTMLElement) {
+  public initDOM(
+    el: HTMLElement,
+    tarArr: any[] | undefined,
+    detectFn: Function | undefined
+  ) {
     this.containerEl = el;
+    if (tarArr) {
+      this.tarArr = tarArr;
+    }
+    if (detectFn) {
+      this.detectFn = detectFn;
+    }
+    this.initTarget();
     this.ready();
   }
 
   public start() {
     this.isPause = false;
+    if (this.isDestory) {
+      this.initTarget();
+    }
     this.draw();
     this.isDestory = false;
   }
@@ -185,29 +214,44 @@ class Radar {
       ctx.fill();
     }
 
-    this.target.forEach((obj: any) => {
-      const { opacity, r, deg } = obj;
-
-      ctx.fillStyle = this.colorRed(opacity);
+    this.target.forEach((obj: any, index: number) => {
+      let { opacity, r, deg, lnk, loaded, img } = obj;
       const { x, y } = this.point(r, deg);
 
-      ctx.beginPath();
-      ctx.arc(x, y, 4 * dpr, 0, 2 * Math.PI);
-      ctx.fill();
+      // ctx.fillStyle = this.colorRed(opacity);
 
-      ctx.strokeStyle = this.colorRed(opacity);
-      const x_size = 6 * dpr;
-      ctx.lineWidth = 4 * dpr;
+      // ctx.beginPath();
+      // ctx.arc(x, y, 4 * dpr, 0, 2 * Math.PI);
+      // ctx.fill();
 
-      ctx.beginPath();
-      ctx.moveTo(x - x_size, y + x_size);
-      ctx.lineTo(x + x_size, y - x_size);
-      ctx.moveTo(x + x_size, y + x_size);
-      ctx.lineTo(x - x_size, y - x_size);
-      ctx.stroke();
+      // ctx.strokeStyle = this.colorRed(opacity);
+      // const x_size = 6 * dpr;
+      // ctx.lineWidth = 4 * dpr;
+
+      // ctx.beginPath();
+      // ctx.moveTo(x - x_size, y + x_size);
+      // ctx.lineTo(x + x_size, y - x_size);
+      // ctx.moveTo(x + x_size, y + x_size);
+      // ctx.lineTo(x - x_size, y - x_size);
+      // ctx.stroke();
+
+      // draw image
+      if (loaded) {
+        this.drawImage(img, x, y, opacity);
+      } else {
+        const tmpImg = new Image();
+        tmpImg.src = lnk;
+        tmpImg.onload = () => {
+          this.target[index].img = tmpImg;
+          this.target[index].loaded = true;
+        };
+      }
 
       if (Math.abs(deg - line_deg) <= 1) {
         obj.opacity = 1;
+        if (this.detectFn) {
+          this.detectFn(obj);
+        }
       }
 
       obj.opacity *= 0.99;
@@ -215,10 +259,17 @@ class Radar {
       ctx.strokeStyle = this.colorRed(opacity);
       ctx.lineWidth = 1 * dpr;
       ctx.beginPath();
-      ctx.arc(x, y, 10 * (1 / (opacity + 0.0001)) * dpr, 0, 2 * Math.PI);
+      ctx.arc(x, y, 20 * (1 / (opacity + 0.0001)) * dpr, 0, 2 * Math.PI);
 
       ctx.stroke();
     });
+  }
+
+  private drawImage(image: ImageData, x: number, y: number, alpha: number) {
+    const ctx = this.ctx;
+    const size = 80 * alpha;
+
+    ctx.drawImage(image, x - size / 2, y - size / 2, size, size);
   }
 
   protected drawCalibration() {
@@ -265,7 +316,11 @@ class Radar {
 
     this.drawBg();
     this.drawAxis();
-    !this.isPause && this.drawFan();
+    if (this.isPause) {
+      this.ready();
+    } else {
+      this.drawFan();
+    }
     this.drawCalibration();
   }
 
@@ -279,7 +334,9 @@ class Radar {
 
   protected draw() {
     this.animateRaf = window.requestAnimationFrame(this.draw.bind(this));
-    this.drawFrame();
+    if (!this.isPause) {
+      this.drawFrame();
+    }
   }
 
   public dispose() {
@@ -288,8 +345,10 @@ class Radar {
     }
     window.removeEventListener('resize', this.resizeControl);
     window.cancelAnimationFrame(this.animateRaf);
-    this.pause();
-    this.drawFrame();
+    this.ready();
+    this.time = 0;
+    this.target = [];
+    this.detectFn = null;
     this.isDestory = true;
   }
 }

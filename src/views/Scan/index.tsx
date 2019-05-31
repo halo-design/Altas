@@ -3,11 +3,47 @@ import * as React from 'react';
 
 import './index.scss';
 
+import node from '../../assets/img/node.png';
+import npm from '../../assets/img/npm.png';
+import vue from '../../assets/img/vue.png';
+import yarn from '../../assets/img/yarn.png';
+import eslint from '../../assets/img/eslint.png';
+import webpack from '../../assets/img/webpack.png';
+
+const originImages = [
+  {
+    name: 'node',
+    lnk: 'static/' + node,
+  },
+  {
+    name: 'npm',
+    lnk: 'static/' + npm,
+  },
+  {
+    name: 'vue',
+    lnk: 'static/' + vue,
+  },
+  {
+    name: 'yarn',
+    lnk: 'static/' + yarn,
+  },
+  {
+    name: 'eslint',
+    lnk: 'static/' + eslint,
+  },
+  {
+    name: 'webpack',
+    lnk: 'static/' + webpack,
+  },
+];
+
 @inject((stores: any) => {
   return {
     showTerm: () => stores.terminal.show(),
     hideTerm: () => stores.terminal.hide(),
     radarStart: () => stores.radar.start(),
+    radarSetTarget: (arr: any[]) => stores.radar.setTarget(arr),
+    radarSetDetectFn: (obj: any) => stores.radar.setDetectFn(obj),
     radarPause: () => stores.radar.pause(),
     radarPlay: () => stores.radar.play(),
     radarHide: () => stores.radar.hide(),
@@ -19,10 +55,16 @@ import './index.scss';
 class ScanView extends React.Component<any> {
   public componentWillUnmount() {
     this.props.showTerm();
+    this.props.radarDispose();
+    this.props.radarHide();
   }
 
   public componentDidMount() {
-    this.props.radarDispose();
+    this.props.radarShow();
+    this.props.radarSetTarget(originImages);
+    this.props.radarSetDetectFn((obj: any) => {
+      console.log(obj.name);
+    });
   }
 
   public render() {

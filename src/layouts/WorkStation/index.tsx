@@ -36,7 +36,7 @@ export default class WorkStation extends React.Component<IProps> {
         </div>
         <div className="app-monitor">
           {this.props.children}
-          <div className="app-state-bar">state</div>
+          <div className="app-state-bar">等待操作</div>
         </div>
         <div key="app-header-wrap" className="app-header-wrap" />
       </div>
