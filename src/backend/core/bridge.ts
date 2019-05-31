@@ -9,7 +9,7 @@ import * as os from 'os';
 import * as hash from 'object-hash';
 import * as crypto from '../utils/crypto';
 import createAppTray from '../utils/tray';
-import winCreate from '../core/winCreate';
+import winCreate from './winCreate';
 import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
 import * as uuid from 'uuid';

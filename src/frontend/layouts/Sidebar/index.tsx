@@ -2,7 +2,7 @@ import { remote } from 'electron';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import Tooltip from 'antd/lib/tooltip';
-import Logo from '../Logo/';
+import Logo from '../Logo';
 import './index.scss';
 
 const { useState, useEffect } = React;

@@ -5,7 +5,7 @@ const mode = process.argv.slice(2)[1];
 
 if (/(dev|prod)/.test(mode)) {
   createBundle(
-    Path.join(__dirname, '../src/core/index.tsx'),
+    Path.join(__dirname, '../src/frontend/core/index.tsx'),
     mode === 'prod'
       ? {
           detailedReport: true,
@@ -16,7 +16,7 @@ if (/(dev|prod)/.test(mode)) {
       : {}
   ).bundle();
 } else if (mode === 'extra') {
-  createBundle(Path.join(__dirname, '../src/core/extra.tsx'), {
+  createBundle(Path.join(__dirname, '../src/frontend/core/extra.tsx'), {
     cacheDir: '.cache/extra',
     detailedReport: true,
     minify: true,
@@ -27,7 +27,7 @@ if (/(dev|prod)/.test(mode)) {
     watch: false,
   }).bundle();
 } else if (mode === 'main') {
-  createBundle(Path.join(__dirname, '../src/app/main.ts'), {
+  createBundle(Path.join(__dirname, '../src/backend/main.ts'), {
     cacheDir: '.cache/main',
     detailedReport: true,
     minify: true,
