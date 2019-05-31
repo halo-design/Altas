@@ -110,10 +110,10 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
           // 刷新页面
           location.href = '#/refresh';
           if (isDev) {
-            getAppDir(path => {
+            getAppDir(({ root }: any) => {
               document.getElementsByTagName(
                 'link'
-              )[1].href = `${path}renderer/static/index.css?${Date.now()}`;
+              )[1].href = `${root}renderer/static/index.css?${Date.now()}`;
             });
           }
         },

@@ -13,6 +13,9 @@ import winCreate from './winCreate';
 import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
 import * as uuid from 'uuid';
+import { supportEnv } from '../utils/env';
+
+const pkg = require('../../../package.json');
 
 export default (RPC: IServer) => {
   const { dispatch, win } = RPC;
@@ -22,7 +25,11 @@ export default (RPC: IServer) => {
 
   if (win) {
     tray = createAppTray(RPC);
-    tray.setToolTip('Altas');
+    tray.setToolTip('Altas ' + pkg.version);
+
+    RPC.on('read-app-info', () => {
+      dispatch('get-app-info', pkg);
+    });
 
     RPC.on('set-tray-title', (args: any) => {
       tray.setTitle(args);
@@ -34,7 +41,7 @@ export default (RPC: IServer) => {
   }
 
   RPC.on('get-appdir', () => {
-    dispatch('appdir', file.root);
+    dispatch('appdir', { root: file.root });
   });
 
   RPC.on('write-storage', ({ key, data }: { key: string; data: object }) => {
@@ -225,6 +232,12 @@ export default (RPC: IServer) => {
         targetWin.close();
       }
     }
+  });
+
+  RPC.on('detect-support-env', (args: any) => {
+    const se = supportEnv();
+    log.info(se);
+    dispatch('get-support-env', { env_support: se });
   });
 
   return { tray };

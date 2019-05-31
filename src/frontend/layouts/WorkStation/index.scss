@@ -40,8 +40,7 @@
     right: 0;
     top: 0;
     bottom: 0;
-    background-color: #fff;
-    padding: 30px 0 0 0;
+    background-color: #fbfbfd;
   
     @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
   }
@@ -78,7 +77,7 @@
     }
 
     &.warn {
-      background-color: #d5a645;
+      background-color: #e4a82a;
     }
 
     &.error {
@@ -86,9 +85,17 @@
     }
   }
 
+  .app-freeze-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 464px;
+  }
+
   .app-header-wrap {
     -webkit-app-region: drag;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 30px;

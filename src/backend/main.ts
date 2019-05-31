@@ -16,7 +16,7 @@ const init = () => {
     },
     {
       pathname: 'renderer/index.html',
-      hash: '#/scan',
+      hash: '',
     }
   );
 
@@ -56,3 +56,5 @@ app.on('activate', () => {
     mainWindow.show();
   }
 });
+
+require('./utils/env').supportEnv();

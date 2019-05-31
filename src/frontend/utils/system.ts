@@ -15,9 +15,9 @@ export const setTrayTitle = (title: string): void => {
   dispatch('set-tray-title', title);
 };
 
-export const getAppDir = (cb: (args: string) => void): void => {
+export const getAppDir = (cb: (args: object) => void): void => {
   dispatch('get-appdir', '');
-  RPC.once('appdir', (args: string) => {
+  RPC.once('appdir', (args: object) => {
     cb(args);
   });
 };

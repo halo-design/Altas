@@ -184,6 +184,18 @@ class Radar {
     ctx.stroke();
   }
 
+  protected hex2rgba(hex: string, alpha: number) {
+    const rzt = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (rzt) {
+      return `rgba(${parseInt(rzt[1], 16)}, ${parseInt(rzt[2], 16)}, ${parseInt(
+        rzt[3],
+        16
+      )}, ${alpha || 1})`;
+    } else {
+      return null;
+    }
+  }
+
   protected drawFan() {
     const ctx = this.ctx;
     const dpr = this.dpr;
@@ -213,7 +225,7 @@ class Radar {
     }
 
     this.target.forEach((obj: any, index: number) => {
-      let { opacity, r, deg, lnk, loaded, img } = obj;
+      let { opacity, r, deg, lnk, loaded, img, color } = obj;
       const { x, y } = this.point(r, deg);
 
       // ctx.fillStyle = this.colorRed(opacity);
@@ -254,7 +266,9 @@ class Radar {
 
       obj.opacity *= 0.99;
 
-      ctx.strokeStyle = this.colorRed(opacity);
+      ctx.strokeStyle = color
+        ? this.hex2rgba(color, opacity)
+        : this.colorRed(opacity);
       ctx.lineWidth = 1 * dpr;
       ctx.beginPath();
       ctx.arc(x, y, 20 * (1 / (opacity + 0.0001)) * dpr, 0, 2 * Math.PI);

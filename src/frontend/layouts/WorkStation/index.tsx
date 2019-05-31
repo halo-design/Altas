@@ -2,6 +2,8 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import classNames from 'classnames';
+import message from 'antd/lib/message';
+
 import './index.scss';
 
 import Scan from '../../views/Scan';
@@ -16,7 +18,7 @@ import Upload from '../../views/Upload';
 
 @inject((stores: any) => {
   const {
-    workStation: { monitorVisible, stateBarText, stateBarStatus },
+    workStation: { monitorVisible, stateBarText, stateBarStatus, isFreeze },
   } = stores;
 
   return {
@@ -27,19 +29,29 @@ import Upload from '../../views/Upload';
     monitorVisible,
     stateBarText,
     stateBarStatus,
+    isFreeze,
   };
 })
 @observer
 export default class WorkStation extends React.Component<any> {
+  public notice() {
+    message.warning('当前操作正在进行！');
+  }
+
   render() {
-    const { monitorVisible, stateBarText, stateBarStatus } = this.props;
+    const {
+      monitorVisible,
+      stateBarText,
+      stateBarStatus,
+      isFreeze,
+    } = this.props;
     return (
       <div
         className={classNames('app-work-station', {
           'hide-monitor': !monitorVisible,
         })}
       >
-        <div className="app-panel" key="app-main-content">
+        <div className="app-panel">
           <Switch>
             <Route path="/scan" component={Scan} />
             <Route path="/home" component={Home} />
@@ -65,7 +77,10 @@ export default class WorkStation extends React.Component<any> {
             {stateBarText}
           </div>
         </div>
-        <div key="app-header-wrap" className="app-header-wrap" />
+        {isFreeze && (
+          <div className="app-freeze-mask" onClick={e => this.notice()} />
+        )}
+        <div className="app-header-wrap" />
       </div>
     );
   }
