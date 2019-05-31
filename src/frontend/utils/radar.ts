@@ -2,7 +2,7 @@
  * @ Author Aford
  * @ Date: 2019/05/30
  */
-const throttle = require('lodash/throttle');
+const debounce = require('lodash/debounce');
 
 class Radar {
   public containerEl: HTMLElement | null = null;
@@ -56,13 +56,9 @@ class Radar {
     this.drawAxis();
     this.drawCalibration();
 
-    this.resizeControl = throttle(() => {
-      if (this.isPause) {
-        this.ready();
-      } else {
-        this.init();
-      }
-    }, 30);
+    this.resizeControl = debounce(() => {
+      this.ready();
+    }, 100);
     window.addEventListener('resize', this.resizeControl, false);
   }
 

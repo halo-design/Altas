@@ -9,6 +9,7 @@ import store from '../store';
 import App from './App';
 
 import '../assets/style/app.scss';
+remote.getCurrentWindow().removeAllListeners();
 
 message.config({
   top: 540,

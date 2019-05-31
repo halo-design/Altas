@@ -16,14 +16,22 @@ function Sidebar({ initPath }: ISidebarProps) {
   const [isBlur, setBlur]: [boolean, any] = useState(false);
 
   useEffect(() => {
-    const win = getCurrentWindow();
-    win.on('blur', () => {
+    const beBlur = () => {
       setBlur(true);
-    });
+    };
 
-    win.on('focus', () => {
+    const beClear = () => {
       setBlur(false);
-    });
+    };
+
+    const win = getCurrentWindow();
+    win.on('blur', beBlur);
+    win.on('focus', beClear);
+
+    return () => {
+      win.removeListener('blur', beBlur);
+      win.removeListener('focus', beClear);
+    };
   });
 
   return (
