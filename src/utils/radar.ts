@@ -137,10 +137,8 @@ class Radar {
       canvasEl.style.width = `${this.offsetWidth / this.dpr}px`;
       canvasEl.style.height = `${this.offsetHeight / this.dpr}px`;
 
-      if (!this.isDestory) {
-        this.ctx.restore();
-        this.ctx.translate(this.center.x, this.center.y);
-      }
+      this.ctx.restore();
+      this.ctx.translate(this.center.x, this.center.y);
     }
   }
 

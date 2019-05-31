@@ -49,13 +49,16 @@ const originImages = [
     radarHide: () => stores.radar.hide(),
     radarShow: () => stores.radar.show(),
     radarDispose: () => stores.radar.dispose(),
+    setMonitorVisible: (state: boolean) =>
+      stores.workStation.setMonitorVisible(state),
+    setStateBar: (str: string, code: number) =>
+      stores.workStation.setStateBar(str, code),
   };
 })
 @observer
 class ScanView extends React.Component<any> {
   public componentWillUnmount() {
     this.props.showTerm();
-    this.props.radarDispose();
     this.props.radarHide();
   }
 
@@ -70,6 +73,20 @@ class ScanView extends React.Component<any> {
   public render() {
     return (
       <div className="page-scan">
+        <button
+          onClick={e => {
+            this.props.setMonitorVisible(true);
+          }}
+        >
+          显示监视器
+        </button>
+        <button
+          onClick={e => {
+            this.props.setMonitorVisible(false);
+          }}
+        >
+          隐藏监视器
+        </button>
         <button
           onClick={e => {
             this.props.showTerm();
