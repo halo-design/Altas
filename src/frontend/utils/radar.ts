@@ -13,7 +13,7 @@ class Radar {
   public center: { x: number; y: number } = { x: 0, y: 0 };
   public animateRaf: any = null;
   public isPause: boolean = true;
-  public isDestory: boolean | null = null;
+  public isDestory: boolean = false;
   public detectFn: null | Function = null;
   public tarArr: any[] = [];
   protected resizeControl: any = null;
@@ -79,12 +79,14 @@ class Radar {
   }
 
   public start() {
-    this.isPause = false;
     if (this.isDestory) {
       this.initTarget();
+      this.draw();
+      this.isDestory = false;
+    } else if (this.isPause) {
+      this.isPause = false;
+      this.draw();
     }
-    this.draw();
-    this.isDestory = false;
   }
 
   protected colorBlue(opacity: number): string {
@@ -320,7 +322,7 @@ class Radar {
   }
 
   protected drawFrame() {
-    this.time += 1;
+    this.time += 2;
 
     this.drawBg();
     this.drawAxis();
@@ -348,7 +350,7 @@ class Radar {
   }
 
   public dispose() {
-    if (this.isDestory === null) {
+    if (this.isDestory) {
       return;
     }
     window.removeEventListener('resize', this.resizeControl);
