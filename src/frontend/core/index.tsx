@@ -21,7 +21,7 @@ if (isDev) {
   configureDevtool({
     graphEnabled: false,
     logEnabled: true,
-    logFilter: (change: any) => change.type === 'reaction',
+    logFilter: ({ type }: any) => /(action|reaction|update)/.test(type),
     updatesEnabled: false,
   });
 }

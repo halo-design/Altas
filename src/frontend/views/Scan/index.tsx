@@ -1,3 +1,4 @@
+import { remote } from 'electron';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import notification from 'antd/lib/notification';
@@ -73,11 +74,14 @@ const originImages = [
     setStateBar: (str: string, code: number) =>
       stores.workStation.setStateBar(str, code),
     getEnvSupport: (cb: Function) => stores.workStation.getEnvSupport(cb),
+    resetEnvData: () => stores.workStation.resetEnvData(),
     setFreeze: (status: boolean) => stores.workStation.setFreeze(status),
   };
 })
 @observer
 class ScanView extends React.Component<any> {
+  public fresh: boolean = false;
+
   public componentWillUnmount() {
     this.props.showTerm();
     this.props.radarHide();
@@ -91,8 +95,10 @@ class ScanView extends React.Component<any> {
 
   public envScanHandle() {
     this.props.setFreeze(true);
+    this.props.resetEnvData();
     this.props.radarStart();
     this.props.setStateBar('正在扫描系统...', 2);
+    this.fresh = true;
     this.props.getEnvSupport(() => {
       setTimeout(() => {
         this.props.radarDispose();
@@ -102,16 +108,17 @@ class ScanView extends React.Component<any> {
           message: '完成',
           description: '已完成对系统开发环境的扫描.',
         });
+        this.fresh = false;
       }, 4000);
     });
   }
 
+  public openWebsite(url: string) {
+    remote.shell.openExternal(url);
+  }
+
   public render() {
-    const {
-      appInfo,
-      systemEnv: { env_support },
-      isFreeze,
-    } = this.props;
+    const { appInfo, systemEnv, isFreeze } = this.props;
     return (
       <div className="page-scan">
         <div className="title">
@@ -150,83 +157,116 @@ class ScanView extends React.Component<any> {
             )}
           </div>
           <div className="support-list">
-            <div className="item">
-              <div className="env-node" />
-              <div className="version">0.0.0</div>
-            </div>
+            {systemEnv.map((item: any, index: number) => (
+              <div
+                className="item"
+                key={item.name}
+                style={{
+                  animation:
+                    item.version && this.fresh
+                      ? `fadeInUp 300ms ease ${index * 1000}ms both`
+                      : 'fadeInUp 300ms ease both',
+                }}
+              >
+                <i className={`env-${item.icon_name}`} />
+                <div className="env-name">{item.name}</div>
+                <div className="env-version">
+                  {item.version === null
+                    ? '待扫描'
+                    : item.version === false
+                    ? '未安装'
+                    : item.version}
+                </div>
+                <div className="env-status">
+                  {item.version ? (
+                    <button className="done">已安装</button>
+                  ) : (
+                    <button
+                      className="download"
+                      onClick={() => {
+                        this.openWebsite(item.download_lnk);
+                      }}
+                    >
+                      官方下载
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-          {JSON.stringify(env_support)}
         </div>
-        <button
-          onClick={e => {
-            this.props.setMonitorVisible(true);
-          }}
-        >
-          显示监视器
-        </button>
-        <button
-          onClick={e => {
-            this.props.setMonitorVisible(false);
-          }}
-        >
-          隐藏监视器
-        </button>
-        <button
-          onClick={e => {
-            this.props.showTerm();
-          }}
-        >
-          显示终端
-        </button>
-        <button
-          onClick={e => {
-            this.props.hideTerm();
-          }}
-        >
-          隐藏终端
-        </button>
-        <button
-          onClick={e => {
-            this.props.radarStart();
-          }}
-        >
-          开始扫描
-        </button>
-        <button
-          onClick={e => {
-            this.props.radarPause();
-          }}
-        >
-          暂停扫描
-        </button>
-        <button
-          onClick={e => {
-            this.props.radarPlay();
-          }}
-        >
-          继续扫描
-        </button>
-        <button
-          onClick={e => {
-            this.props.radarDispose();
-          }}
-        >
-          结束扫描
-        </button>
-        <button
-          onClick={e => {
-            this.props.radarHide();
-          }}
-        >
-          隐藏扫描
-        </button>
-        <button
-          onClick={e => {
-            this.props.radarShow();
-          }}
-        >
-          显示扫描
-        </button>
+        <div className="tmp">
+          <button
+            onClick={e => {
+              this.props.setMonitorVisible(true);
+            }}
+          >
+            显示监视器
+          </button>
+          <button
+            onClick={e => {
+              this.props.setMonitorVisible(false);
+            }}
+          >
+            隐藏监视器
+          </button>
+          <button
+            onClick={e => {
+              this.props.showTerm();
+            }}
+          >
+            显示终端
+          </button>
+          <button
+            onClick={e => {
+              this.props.hideTerm();
+            }}
+          >
+            隐藏终端
+          </button>
+          <button
+            onClick={e => {
+              this.props.radarStart();
+            }}
+          >
+            开始扫描
+          </button>
+          <button
+            onClick={e => {
+              this.props.radarPause();
+            }}
+          >
+            暂停扫描
+          </button>
+          <button
+            onClick={e => {
+              this.props.radarPlay();
+            }}
+          >
+            继续扫描
+          </button>
+          <button
+            onClick={e => {
+              this.props.radarDispose();
+            }}
+          >
+            结束扫描
+          </button>
+          <button
+            onClick={e => {
+              this.props.radarHide();
+            }}
+          >
+            隐藏扫描
+          </button>
+          <button
+            onClick={e => {
+              this.props.radarShow();
+            }}
+          >
+            显示扫描
+          </button>
+        </div>
       </div>
     );
   }

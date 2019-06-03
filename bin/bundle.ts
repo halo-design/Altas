@@ -13,7 +13,7 @@ if (/(dev|prod)/.test(mode)) {
           sourceMaps: false,
           watch: false,
         }
-      : {}
+      : { cacheDir: '.cache/dev' }
   ).bundle();
 } else if (mode === 'extra') {
   createBundle(Path.join(__dirname, '../src/frontend/core/extra.tsx'), {

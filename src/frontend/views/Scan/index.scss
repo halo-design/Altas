@@ -1,3 +1,15 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 .page-scan {
   position: relative;
 
@@ -107,9 +119,69 @@
         padding: 5%;
       }
     }
+
+    .support-list {
+      .item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 10px 0;
+
+        i {
+          height: 32px;
+          width: 32px;
+          margin-right: 10px;
+          background: url(../../assets/img/node.svg) no-repeat center center;
+            background-size: 100% auto;
+
+          &.env-npm {
+            background-image: url(../../assets/img/npm.svg);
+          }
+
+          &.env-yarn {
+            background-image: url(../../assets/img/yarn.svg);
+          }
+
+          &.env-python {
+            background-image: url(../../assets/img/python.svg);
+          }
+
+          &.env-vue {
+            background-image: url(../../assets/img/vue.svg);
+          }
+        }
+
+        .env-name {
+          width: 100px;
+        }
+
+        .env-version {
+          width: 160px;
+        }
+
+        .env-status {
+          flex-grow: 1;
+          text-align: center;
+          font-size: 12px;
+
+          button {
+            padding: 5px 10px;
+            background-color: #04aa6f;
+            color: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+
+            &.done {
+              background-color: #dcdff0;
+              color: #71769a;
+            }
+          }
+        }
+      }
+    }
   }
 
-  button {
+  .tmp button {
     background-color: #ccc;
     padding: 5px 10px;
     margin: 5px;

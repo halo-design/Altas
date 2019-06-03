@@ -61,7 +61,7 @@
     "@types/react-router-dom": "^4.3.3",
     "@types/uuid": "^3.4.4",
     "autoprefixer": "^9.5.1",
-    "babel-plugin-import": "^1.11.2",
+    "babel-plugin-import": "^1.12.0",
     "cross-env": "^5.2.0",
     "electron": "^5.0.2",
     "electron-builder": "20.41.0",
@@ -72,10 +72,10 @@
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "prettier": "^1.17.1",
-    "sass": "^1.20.1",
+    "sass": "^1.20.3",
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.3.0",
-    "stylelint-scss": "^3.7.0",
+    "stylelint-scss": "^3.8.0",
     "ts-node": "^8.2.0",
     "tslint": "^5.17.0",
     "tslint-plugin-prettier": "^2.0.1",
@@ -83,7 +83,7 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
-    "antd": "^3.19.1",
+    "antd": "^3.19.2",
     "classnames": "^2.2.6",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
@@ -106,7 +106,7 @@
     "react-router-dom": "5.0.0",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
-    "xterm": "^3.14.0",
+    "xterm": "^3.14.1",
     "yaml": "^1.6.0"
   }
 }
