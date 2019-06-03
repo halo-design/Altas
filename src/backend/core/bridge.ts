@@ -13,7 +13,7 @@ import winCreate from './winCreate';
 import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
 import * as uuid from 'uuid';
-import { supportEnv } from '../utils/env';
+import { cmdIsAvailable, langIsAvailable } from '../utils/env';
 
 const pkg = require('../../../package.json');
 
@@ -235,9 +235,40 @@ export default (RPC: IServer) => {
   });
 
   RPC.on('detect-support-env', (args: any) => {
-    const se = supportEnv();
-    log.info(se);
-    dispatch('get-support-env', { env_support: se });
+    const es = [
+      {
+        name: 'Node.js',
+        icon_name: 'node',
+        version: cmdIsAvailable('node -v'),
+        download_lnk: 'http://nodejs.cn/download/',
+      },
+      {
+        name: 'NPM',
+        icon_name: 'npm',
+        version: cmdIsAvailable('npm -v'),
+        download_lnk: 'http://caibaojian.com/npm/all.html',
+      },
+      {
+        icon_name: 'vue',
+        name: 'Vue CLI',
+        version: cmdIsAvailable('vue -V'),
+        download_lnk: 'https://cli.vuejs.org/zh/guide/prototyping.html',
+      },
+      {
+        icon_name: 'yarn',
+        name: 'Yarn',
+        version: cmdIsAvailable('yarn -v'),
+        download_lnk: 'https://yarn.bootcss.com/docs/install/',
+      },
+      {
+        name: 'Python',
+        icon_name: 'python',
+        version: langIsAvailable('python', ['-V']),
+        download_lnk: 'https://www.python.org/getit/',
+      },
+    ];
+
+    dispatch('get-support-env', { env_support: es });
   });
 
   return { tray };

@@ -62,15 +62,10 @@ const originImages = [
     hideTerm: () => stores.terminal.hide(),
     radarStart: () => stores.radar.start(),
     radarSetTarget: (arr: any[]) => stores.radar.setTarget(arr),
-    radarSetDetectFn: (obj: any) => stores.radar.setDetectFn(obj),
-    radarPause: () => stores.radar.pause(),
-    radarPlay: () => stores.radar.play(),
     radarHide: () => stores.radar.hide(),
     radarShow: () => stores.radar.show(),
     radarDispose: () => stores.radar.dispose(),
     resetStateBar: () => stores.workStation.resetStateBar(),
-    setMonitorVisible: (state: boolean) =>
-      stores.workStation.setMonitorVisible(state),
     setStateBar: (str: string, code: number) =>
       stores.workStation.setStateBar(str, code),
     getEnvSupport: (cb: Function) => stores.workStation.getEnvSupport(cb),
@@ -162,10 +157,9 @@ class ScanView extends React.Component<any> {
                 className="item"
                 key={item.name}
                 style={{
-                  animation:
-                    item.version && this.fresh
-                      ? `fadeInUp 300ms ease ${index * 1000}ms both`
-                      : 'fadeInUp 300ms ease both',
+                  animation: this.fresh
+                    ? `fadeInUp 300ms ease ${index * 1000}ms both`
+                    : 'fadeInUp 300ms ease both',
                 }}
               >
                 <i className={`env-${item.icon_name}`} />
@@ -194,78 +188,6 @@ class ScanView extends React.Component<any> {
               </div>
             ))}
           </div>
-        </div>
-        <div className="tmp">
-          <button
-            onClick={e => {
-              this.props.setMonitorVisible(true);
-            }}
-          >
-            显示监视器
-          </button>
-          <button
-            onClick={e => {
-              this.props.setMonitorVisible(false);
-            }}
-          >
-            隐藏监视器
-          </button>
-          <button
-            onClick={e => {
-              this.props.showTerm();
-            }}
-          >
-            显示终端
-          </button>
-          <button
-            onClick={e => {
-              this.props.hideTerm();
-            }}
-          >
-            隐藏终端
-          </button>
-          <button
-            onClick={e => {
-              this.props.radarStart();
-            }}
-          >
-            开始扫描
-          </button>
-          <button
-            onClick={e => {
-              this.props.radarPause();
-            }}
-          >
-            暂停扫描
-          </button>
-          <button
-            onClick={e => {
-              this.props.radarPlay();
-            }}
-          >
-            继续扫描
-          </button>
-          <button
-            onClick={e => {
-              this.props.radarDispose();
-            }}
-          >
-            结束扫描
-          </button>
-          <button
-            onClick={e => {
-              this.props.radarHide();
-            }}
-          >
-            隐藏扫描
-          </button>
-          <button
-            onClick={e => {
-              this.props.radarShow();
-            }}
-          >
-            显示扫描
-          </button>
         </div>
       </div>
     );

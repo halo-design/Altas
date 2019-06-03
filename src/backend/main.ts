@@ -26,6 +26,7 @@ const init = () => {
   mainWindow.on('close', (e: Event) => {
     if (forceQuit) {
       tray.destroy();
+      mainWindow.removeAllListeners();
       mainWindow = null;
       app.quit();
     } else {
@@ -56,5 +57,3 @@ app.on('activate', () => {
     mainWindow.show();
   }
 });
-
-require('./utils/env').supportEnv();
