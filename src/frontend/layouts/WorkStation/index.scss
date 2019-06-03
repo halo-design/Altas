@@ -22,16 +22,6 @@
   bottom: 0;
   right: 0;
 
-  &.hide-monitor {
-    .app-panel {
-      width: auto;
-    }
-
-    .app-monitor {
-      z-index: -1;
-    }
-  }
-
   .app-panel {
     -webkit-app-region: no-drag;
     position: absolute;
@@ -41,7 +31,7 @@
     top: 0;
     bottom: 0;
     background-color: #fbfbfd;
-  
+
     @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
   }
 
@@ -54,6 +44,16 @@
     bottom: 0;
     background-color: #090819;
     overflow: hidden;
+  }
+
+  &.hide-monitor {
+    .app-panel {
+      width: auto;
+    }
+
+    .app-monitor {
+      z-index: -1;
+    }
   }
 
   .app-state-bar {

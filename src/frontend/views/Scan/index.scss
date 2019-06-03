@@ -32,7 +32,6 @@
     }
 
     .scan-btn {
-      width: 100%;
       padding: 14px 0;
       color: #fff;
       background-color: #4347ff;
@@ -42,12 +41,12 @@
       cursor: pointer;
       display: block;
       width: 320px;
-      transition: all 0.3s;
+      transition: all .3s;
       text-align: center;
       position: relative;
-      
+
       &:hover {
-        box-shadow: 0 2px 12px -2px rgba(44, 48, 255, 0.432);
+        box-shadow: 0 2px 12px -2px rgba(44, 48, 255, .432);
       }
 
       $width: 30px;
@@ -58,6 +57,7 @@
         top: 50%;
         margin-top: -15px;
         width: $width;
+
         &:before {
           content: '';
           display: block;
@@ -97,10 +97,12 @@
           stroke-dasharray: 1, 200;
           stroke-dashoffset: 0;
         }
+
         50% {
           stroke-dasharray: 89, 200;
           stroke-dashoffset: -35px;
         }
+
         100% {
           stroke-dasharray: 89, 200;
           stroke-dashoffset: -124px;
@@ -110,6 +112,7 @@
       body {
         background-color: #fff;
       }
+
       .showbox {
         position: absolute;
         top: 0;
@@ -132,7 +135,7 @@
           width: 32px;
           margin-right: 10px;
           background: url(../../assets/img/node.svg) no-repeat center center;
-            background-size: 100% auto;
+          background-size: 100% auto;
 
           &.env-npm {
             background-image: url(../../assets/img/npm.svg);
@@ -179,11 +182,5 @@
         }
       }
     }
-  }
-
-  .tmp button {
-    background-color: #ccc;
-    padding: 5px 10px;
-    margin: 5px;
   }
 }
