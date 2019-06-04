@@ -33,6 +33,83 @@
     background-color: #fbfbfd;
 
     @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
+
+    .btn-large {
+      padding: 14px 0;
+      color: #fff;
+      background-color: #4347ff;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: block;
+      transition: all .3s;
+      text-align: center;
+      position: relative;
+
+      &:hover {
+        box-shadow: 0 2px 12px -2px rgba(44, 48, 255, .432);
+      }
+
+      $width: 30px;
+
+      .loader {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        margin-top: -15px;
+        width: $width;
+
+        &:before {
+          content: '';
+          display: block;
+          padding-top: 100%;
+        }
+      }
+
+      .circular {
+        animation: rotate 2s linear infinite;
+        height: 100%;
+        transform-origin: center center;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+
+      .path {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        stroke-linecap: round;
+        stroke: #fff;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dasharray: 1, 200;
+          stroke-dashoffset: 0;
+        }
+
+        50% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: -35px;
+        }
+
+        100% {
+          stroke-dasharray: 89, 200;
+          stroke-dashoffset: -124px;
+        }
+      }
+    }
   }
 
   .app-monitor {
@@ -101,5 +178,43 @@
     top: 0;
     height: 30px;
     right: 0;
+  }
+
+  .app-switch {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 10px;
+    font-size: 13px;
+  
+    .item-btn {
+      padding: 10px 20px;
+      background-color: #fff;
+      border: 1px solid #4347ff;
+      color: #4347ff;
+      cursor: pointer;
+      transition: all .3s;
+      z-index: 3;
+  
+      &.active {
+        color: #fff;
+        background-color: #4347ff;
+        box-shadow: 0 6px 12px -4px rgb(156, 166, 252);
+        z-index: 1;
+      }
+  
+      & + .item-btn {
+        border-left: 0;
+      }
+  
+      &:first-child {
+        border-bottom-left-radius: 5px;
+        border-top-left-radius: 5px;
+      }
+  
+      &:last-child {
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+    }
   }
 }

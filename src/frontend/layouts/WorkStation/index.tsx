@@ -7,7 +7,7 @@ import message from 'antd/lib/message';
 import './index.scss';
 
 import Scan from '../../views/Scan';
-import Create from '../../views/Create';
+import Project from '../../views/Project';
 
 import Device from '../../views/Device';
 import Face from '../../views/Face';
@@ -54,7 +54,7 @@ export default class WorkStation extends React.Component<any> {
         <div className="app-panel">
           <Switch>
             <Route path="/scan" component={Scan} />
-            <Route path="/create" component={Create} />
+            <Route path="/project" component={Project} />
             <Route path="/face" component={Face} />
             <Route path="/upload" component={Upload} />
             <Route path="/mine" component={Mine} />

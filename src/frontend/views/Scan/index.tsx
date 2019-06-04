@@ -123,7 +123,7 @@ class ScanView extends React.Component<any> {
         <div className="dashboard">
           <div className="current-version">当前应用版本: {appInfo.version}</div>
           <div
-            className="scan-btn"
+            className="btn-large scan-btn"
             onClick={e => {
               this.envScanHandle();
             }}

@@ -20,7 +20,7 @@ if (isDev) {
   configureDevtool({
     graphEnabled: false,
     logEnabled: true,
-    logFilter: ({ type }: any) => /(action|reaction|update)/.test(type),
+    logFilter: ({ type }: any) => /(reaction|update)/.test(type),
     updatesEnabled: false,
   });
 }
