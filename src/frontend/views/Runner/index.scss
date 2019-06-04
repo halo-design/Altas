@@ -1,0 +1,25 @@
+.sub-page-runner {
+  .form-table {
+    padding-top: 0;
+  }
+
+  .title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+
+    .sub {
+      color: #b1b3c2;
+    }
+  }
+
+  .tips {
+    span {
+      color: #b1b3c2;
+    }
+
+    .env-set-btn {
+      margin-left: 10px;
+    }
+  }
+}

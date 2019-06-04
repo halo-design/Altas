@@ -34,17 +34,28 @@
 
     @include overflow-scrollbar(6px, 3px, #b7b7b7, #fff);
 
+    .btn-default,
     .btn-large {
-      padding: 14px 0;
+      padding: 6px 10px;
       color: #fff;
       background-color: #4347ff;
-      font-size: 14px;
       border-radius: 4px;
       cursor: pointer;
-      display: block;
       transition: all .3s;
       text-align: center;
+      display: inline-block;
       position: relative;
+      
+      &:hover {
+        box-shadow: 0 2px 8px -1px rgba(44, 48, 255, .432);
+      }
+    }
+    
+    .btn-large {
+      display: block;
+      font-size: 14px;
+      padding: 14px 20px;
+      border-radius: 6px;
 
       &:hover {
         box-shadow: 0 2px 12px -2px rgba(44, 48, 255, .432);
@@ -187,19 +198,17 @@
     font-size: 13px;
   
     .item-btn {
-      padding: 10px 20px;
+      padding: 8px 20px;
       background-color: #fff;
       border: 1px solid #4347ff;
       color: #4347ff;
       cursor: pointer;
       transition: all .3s;
-      z-index: 3;
   
       &.active {
         color: #fff;
         background-color: #4347ff;
         box-shadow: 0 6px 12px -4px rgb(156, 166, 252);
-        z-index: 1;
       }
   
       & + .item-btn {

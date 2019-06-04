@@ -1,21 +1,38 @@
 import * as React from 'react';
+import { inject, observer } from 'mobx-react';
 import { action, observable } from 'mobx';
 import { selectFile } from '../../utils/file';
+import LineProgress from '../../components/LineProgress';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
 import Icon from 'antd/lib/icon';
 import message from 'antd/lib/message';
+import Switch from 'antd/lib/switch';
 const { Option } = Select;
 const InputGroup = Input.Group;
 const nameReg = /^[0-9a-zA-Z_-]{1,}$/;
 
 import './index.scss';
 
+@inject((stores: any) => {
+  return {
+    shell: (str: string) => stores.terminal.shell(str),
+  };
+})
+@observer
 class CreatehView extends React.Component<any, any> {
   @observable public projectScaffold: string = 'vue-basic';
   @observable public projectName: string = '';
   @observable public projectPath: string = '';
   @observable public projectTemplate: string = 'vue-empty';
+  @observable public installPackages: boolean = true;
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      creating: false,
+    };
+  }
 
   @action
   public projectTypeOnChange(val: string) {
@@ -60,9 +77,26 @@ class CreatehView extends React.Component<any, any> {
         projectPath: this.projectPath,
         projectScaffold: this.projectScaffold,
         projectTemplate: this.projectTemplate,
+        installPackages: this.installPackages,
       };
-      console.log(params);
+      this.setState({
+        creating: true,
+      });
+
+      setTimeout(() => {
+        this.setState({
+          creating: false,
+        });
+        console.log(params);
+      }, 3000);
     }
+  }
+
+  public setTaobaoMirror() {
+    this.props.shell(
+      'npm config set registry https://registry.npm.taobao.org/\n' +
+        'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass\n'
+    );
   }
 
   public render() {
@@ -121,6 +155,26 @@ class CreatehView extends React.Component<any, any> {
               <Option value="vue-gfbank">广发信用卡App业务模板</Option>
             </Select>
           </div>
+          <div className="tips">
+            <span>为防止安装失败，建议使用淘宝镜像源</span>
+            <div
+              className="btn-default env-set-btn"
+              onClick={() => {
+                this.setTaobaoMirror();
+              }}
+            >
+              一键设置
+            </div>
+          </div>
+          <div className="form-item install-packages">
+            <span className="label">自动安装依赖包</span>
+            <Switch
+              onChange={(e: boolean) => {
+                this.installPackages = e;
+              }}
+              defaultChecked={this.installPackages}
+            />
+          </div>
           <div
             className="btn-large create-btn"
             onClick={() => {
@@ -130,6 +184,11 @@ class CreatehView extends React.Component<any, any> {
             创建工程
           </div>
         </div>
+        <LineProgress
+          hide={!this.state.creating}
+          title="正在创建工程"
+          mask={true}
+        />
       </div>
     );
   }
