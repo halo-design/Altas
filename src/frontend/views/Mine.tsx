@@ -140,6 +140,8 @@ class MineView extends React.Component<object, IState> {
   public render() {
     return (
       <div className="page-mine">
+        <br />
+        <br />
         <input
           type="text"
           name="remotePath"

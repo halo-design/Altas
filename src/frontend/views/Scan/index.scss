@@ -125,10 +125,21 @@
 
     .support-list {
       .item {
+        background-color: #fff;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 10px 0;
+        padding: 10px 15px;
+
+        &:first-child {
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+        }
+
+        &:last-child {
+          border-bottom-left-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
 
         i {
           height: 32px;
@@ -159,11 +170,10 @@
         }
 
         .env-version {
-          width: 160px;
+          flex-grow: 1;
         }
 
         .env-status {
-          flex-grow: 1;
           text-align: center;
           font-size: 12px;
 

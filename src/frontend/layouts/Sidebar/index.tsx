@@ -56,11 +56,13 @@ function Sidebar({ initPath }: ISidebarProps) {
         </NavLink>
         <NavLink
           exact={true}
-          to="/upload"
+          to="/create"
           className="iconfont"
           activeClassName="active"
         >
-          &#xe6f5;
+          <Tooltip placement="right" title="创建工程">
+            &#xe754;
+          </Tooltip>
         </NavLink>
         <NavLink
           exact={true}
