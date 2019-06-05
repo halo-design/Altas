@@ -6,25 +6,45 @@
   .comand-table {
     background-color: #fff;
     font-size: 12px;
-    padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 4px 16px -2px rgba(27, 32, 45, .1);
+    border: 1px solid #e9ebf2;
+    box-shadow: 0 2px 6px -2px rgba(85, 85, 150, 0.16);
 
     .row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 6px 10px;
+      padding: 10px 10px 10px 15px;
+
+      & + .row {
+        border-top: 1px solid #e9ebf2;
+      }
 
       .desc {
         color: #484950;
       }
 
+      .control {
+        padding: 4px;
+        border-radius: 28px;
+        background-color: #e9ebf2;
+      }
+
       .btn-default {
-        padding: 6px 15px;
+        padding: 0;
+        border-radius: 100%;
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        text-align: center;
+        line-height: 24px;
+        
+        i.iconfont {
+          font-size: 12px;
+        }
 
         & + .btn-default {
-          margin-left: 5px;
+          margin-left: 6px;
         }
 
         &.btn-kill {

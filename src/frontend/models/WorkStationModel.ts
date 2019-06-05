@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx';
 import message from 'antd/lib/message';
 import { detectSupportEnv, getAppInfo } from '../utils/env';
+import * as storage from '../utils/storage';
 
 const initEnvData = [
   {
@@ -50,11 +51,19 @@ export default class WorkStationModel {
   @observable public appInfo: object = {
     version: '0.0.0',
   };
+  @observable public userDefaultProjectPath: string = '';
 
   constructor() {
     setTimeout(() => {
       getAppInfo((param: any) => {
         this.appInfo = param;
+      });
+
+      storage.read('user_default_project_path', (data: any) => {
+        const { user_default_project_path } = data;
+        if (user_default_project_path) {
+          this.userDefaultProjectPath = user_default_project_path;
+        }
       });
     }, 2000);
     this.detectNetwork();
@@ -63,6 +72,16 @@ export default class WorkStationModel {
   @action
   public resetEnvData() {
     this.systemEnv = [];
+  }
+
+  @action
+  public setUserDefaultProjerctPath(dir: string) {
+    this.userDefaultProjectPath = dir;
+    if (dir) {
+      storage.write('user_default_project_path', {
+        user_default_project_path: dir,
+      });
+    }
   }
 
   @action

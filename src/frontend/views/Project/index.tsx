@@ -45,7 +45,7 @@ class ProjectView extends React.Component<any, any> {
           <Route path="/project/runner" component={Runner} />
           <Route
             path="/project"
-            component={() => <Redirect to="/project/create" />}
+            component={() => <Redirect to="/project/runner" />}
           />
         </Switch>
       </div>

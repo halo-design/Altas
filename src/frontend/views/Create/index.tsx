@@ -149,7 +149,7 @@ class CreatehView extends React.Component<any, any> {
               size="large"
               onChange={(val: string) => this.projectTemplateOnChange(val)}
             >
-              <Option value="vue-empty">空模板</Option>
+              <Option value="vue-empty">默认模板</Option>
               <Option value="vue-hzbank">杭银直销业务模板</Option>
               <Option value="vue-tlbank">泰隆手机银行业务模板</Option>
               <Option value="vue-gfbank">广发信用卡App业务模板</Option>
