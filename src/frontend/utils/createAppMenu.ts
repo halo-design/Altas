@@ -1,10 +1,8 @@
 import { remote } from 'electron';
 import { getAppDir } from './system';
+import { isDev, isMac } from './env';
 
 const { app, Menu, shell } = remote;
-
-const isDev = true; // process.env.NODE_ENV === 'development';
-const isMac = process.platform === 'darwin';
 
 const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
   const appTpl: any = {

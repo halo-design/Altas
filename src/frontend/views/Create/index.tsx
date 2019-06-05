@@ -2,6 +2,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { action, observable } from 'mobx';
 import { selectFile } from '../../utils/file';
+import * as project from '../../utils/project';
 import LineProgress from '../../components/LineProgress';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
@@ -82,7 +83,7 @@ class CreatehView extends React.Component<any, any> {
       this.setState({
         creating: true,
       });
-
+      project.create(params);
       setTimeout(() => {
         this.setState({
           creating: false,

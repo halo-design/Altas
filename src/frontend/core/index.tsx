@@ -9,6 +9,16 @@ import createStores from '../store';
 import App from './App';
 import RPC from '../utils/rpc';
 
+import '../../../node_modules/antd/es/style/index.css';
+import '../../../node_modules/antd/es/message/style/index.css';
+import '../../../node_modules/antd/es/notification/style/index.css';
+import '../../../node_modules/antd/es/tooltip/style/index.css';
+import '../../../node_modules/antd/es/select/style/index.css';
+import '../../../node_modules/antd/es/input/style/index.css';
+import '../../../node_modules/antd/es/icon/style/index.css';
+import '../../../node_modules/antd/es/switch/style/index.css';
+import '../../../node_modules/xterm/dist/xterm.css';
+
 import '../assets/style/app.scss';
 
 message.config({

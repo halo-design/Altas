@@ -6,6 +6,7 @@ import WorkStation from '../layouts/WorkStation';
 import WinControl from '../layouts/WinControl/';
 import Terminal from '../layouts/Terminal/';
 import Radar from '../layouts/Radar/';
+import { isWin } from '../utils/env';
 
 createAppMenu();
 
@@ -14,7 +15,6 @@ interface IAppProp {
 }
 
 const App = ({ initPath }: IAppProp): any => {
-  const isWin = process.platform === 'win32';
   const Comp = [
     <Sidebar key="app-sidebar" initPath={initPath} />,
     <WorkStation initPath={initPath} key="work-station">

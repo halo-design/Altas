@@ -36,6 +36,10 @@ const init = () => {
   });
 
   mainWindow.hide();
+
+  if (process.env.NODE_ENV === 'development') {
+    require('devtron').install();
+  }
 };
 
 app.on('ready', init);

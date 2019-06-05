@@ -271,5 +271,9 @@ export default (RPC: IServer) => {
     dispatch('get-support-env', { env_support: es });
   });
 
+  RPC.on('create-project', (args: any) => {
+    log.info(args);
+  });
+
   return { tray };
 };

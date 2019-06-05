@@ -39,17 +39,14 @@ exports.ssh = (auth: object, files: any[]): Promise<string> => {
 exports.createBundle = (file: string, opts: object) => {
   const baseOpts = {
     cache: true,
-    cacheDir: '.cache/build',
-    detailedReport: false,
+    detailedReport: true,
     hmrHostname: '',
     hmrPort: 0,
     https: false,
     logLevel: 3,
-    minify: false,
     outDir: './renderer/static',
     outFile: 'index.js',
     publicUrl: './',
-    sourceMaps: true,
     target: 'electron',
     watch: true,
   };
@@ -60,5 +57,5 @@ exports.createBundle = (file: string, opts: object) => {
     options = _.merge(baseOpts, opts);
   }
 
-  return new Bundler(file, options);
+  return new Bundler(path.join(__dirname, file), options);
 };
