@@ -4,12 +4,12 @@ import TerminalModel from '../models/TerminalModel';
 import RadarModel from '../models/RadarModel';
 import WorkStationModel from '../models/WorkStationModel';
 
-const stores = {
+const createStores = () => ({
   device: new DeviceModel(),
   upload: new UploadModel(),
   terminal: new TerminalModel(),
   radar: new RadarModel(),
   workStation: new WorkStationModel(),
-};
+});
 
-export default stores;
+export default createStores;

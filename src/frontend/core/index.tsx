@@ -5,8 +5,9 @@ import { configureDevtool } from 'mobx-react-devtools';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import store from '../store';
+import createStores from '../store';
 import App from './App';
+import RPC from '../utils/rpc';
 
 import '../assets/style/app.scss';
 
@@ -27,14 +28,16 @@ if (isDev) {
 
 document.documentElement.classList.add(process.platform);
 
-ReactDOM.render(
-  <Provider {...store}>
-    <Router basename="/">
-      <App initPath="/scan" />
-    </Router>
-  </Provider>,
-  document.getElementById('MOUNT_NODE') as HTMLElement
-);
+RPC.on('ready', () => {
+  ReactDOM.render(
+    <Provider {...createStores()}>
+      <Router basename="/">
+        <App initPath="/scan" />
+      </Router>
+    </Provider>,
+    document.getElementById('MOUNT_NODE') as HTMLElement
+  );
 
-// 页面节点渲染后显示窗口
-remote.getCurrentWindow().show();
+  // 页面节点渲染后显示窗口
+  remote.getCurrentWindow().show();
+});

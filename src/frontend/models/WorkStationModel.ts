@@ -54,18 +54,16 @@ export default class WorkStationModel {
   @observable public userDefaultProjectPath: string = '';
 
   constructor() {
-    setTimeout(() => {
-      getAppInfo((param: any) => {
-        this.appInfo = param;
-      });
+    getAppInfo((param: any) => {
+      this.appInfo = param;
+    });
 
-      storage.read('user_default_project_path', (data: any) => {
-        const { user_default_project_path } = data;
-        if (user_default_project_path) {
-          this.userDefaultProjectPath = user_default_project_path;
-        }
-      });
-    }, 2000);
+    storage.read('user_default_project_path', (data: any) => {
+      const { user_default_project_path } = data;
+      if (user_default_project_path) {
+        this.userDefaultProjectPath = user_default_project_path;
+      }
+    });
     this.detectNetwork();
   }
 

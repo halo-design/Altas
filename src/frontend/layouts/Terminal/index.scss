@@ -4,6 +4,12 @@
   padding: 30px 15px 24px;
   background-color: #1d2028;
   color: #b2b3b6;
+  transition: opacity 0.3s;
+
+  &.hide {
+    opacity: 0;
+    z-index: -1;
+  }
 
   .terminal {
     width: 100%;

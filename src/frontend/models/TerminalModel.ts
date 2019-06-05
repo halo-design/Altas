@@ -40,6 +40,7 @@ export default class TerminalModel {
   public term: any = null;
   public ptyProcess: any = null;
   public resizeTerm: any = null;
+  public currentExecPath: string = '';
 
   public init(el: HTMLElement) {
     this.terminalEl = el;
@@ -63,13 +64,13 @@ export default class TerminalModel {
 
   public show() {
     if (this.terminalParentEl) {
-      this.terminalParentEl.style.display = 'block';
+      this.terminalParentEl.classList.remove('hide');
     }
   }
 
   public hide() {
     if (this.terminalParentEl) {
-      this.terminalParentEl.style.display = 'none';
+      this.terminalParentEl.classList.add('hide');
     }
   }
 
@@ -94,6 +95,13 @@ export default class TerminalModel {
         this.initPty();
       }
       this.ptyProcess.write(command);
+    }
+  }
+
+  public setExecPath(dir: string, force: boolean) {
+    if (dir !== this.currentExecPath || force) {
+      this.shell(`cd ${dir}\n`);
+      this.currentExecPath = dir;
     }
   }
 

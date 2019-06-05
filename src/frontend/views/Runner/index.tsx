@@ -16,6 +16,8 @@ import './index.scss';
     userDefaultProjectPath,
     kill: () => stores.terminal.kill(),
     clear: () => stores.terminal.clear(),
+    setExecPath: (str: string, force: boolean) =>
+      stores.terminal.setExecPath(str, force),
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workStation.setUserDefaultProjerctPath(str),
@@ -26,8 +28,7 @@ class RunnerView extends React.Component<any, any> {
   constructor(props: object) {
     super(props);
     if (this.props.userDefaultProjectPath) {
-      this.props.clear();
-      this.props.shell(`cd ${this.props.userDefaultProjectPath}\n`);
+      this.props.setExecPath(this.props.userDefaultProjectPath);
     }
   }
 
@@ -43,7 +44,7 @@ class RunnerView extends React.Component<any, any> {
           const dir = res[0];
           this.props.setUserDefaultProjerctPath(dir);
           el.value = dir;
-          this.props.shell(`cd ${dir}\n`);
+          this.props.setExecPath(dir);
         }
       }
     );
@@ -67,7 +68,7 @@ class RunnerView extends React.Component<any, any> {
     this.props.clear();
     setTimeout(() => {
       message.info('当前进程已结束！');
-      this.props.shell(`cd ${this.props.userDefaultProjectPath}\n`);
+      this.props.setExecPath(this.props.userDefaultProjectPath, true);
     }, 600);
   }
 

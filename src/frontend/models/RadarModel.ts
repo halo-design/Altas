@@ -7,13 +7,13 @@ export default class DeviceModel extends Radar {
 
   public hide() {
     if (this.containerEl) {
-      this.containerEl.style.display = 'none';
+      this.containerEl.classList.add('hide');
     }
   }
 
   public show() {
     if (this.containerEl) {
-      this.containerEl.style.display = 'block';
+      this.containerEl.classList.remove('hide');
     }
   }
 }

@@ -7,7 +7,10 @@ import Runner from '../Runner';
 import './index.scss';
 
 @inject((stores: any) => {
+  const { userDefaultProjectPath } = stores.workStation;
+
   return {
+    userDefaultProjectPath,
     showTerm: () => stores.terminal.show(),
     hideRadar: () => stores.radar.hide(),
   };
@@ -45,7 +48,13 @@ class ProjectView extends React.Component<any, any> {
           <Route path="/project/runner" component={Runner} />
           <Route
             path="/project"
-            component={() => <Redirect to="/project/runner" />}
+            component={() => (
+              <Redirect
+                to={`/project/${
+                  this.props.userDefaultProjectPath ? 'runner' : 'create'
+                }`}
+              />
+            )}
           />
         </Switch>
       </div>
