@@ -74,7 +74,7 @@ program.command('serve').action(async () => {
     outFile: 'main.js',
     detailedReport: false,
     minify: false,
-    sourceMaps: true,
+    sourceMaps: false,
     watch: true,
   }).bundle();
 });
