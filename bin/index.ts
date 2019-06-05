@@ -91,4 +91,52 @@ program
     });
   });
 
+program
+  .command('pack')
+  .option('--mac', 'Build macOS application.')
+  .option('--win', 'Build windows application.')
+  .option('--with-build', 'Build project before pack application.')
+  .action((cmd: any) => {
+    if (cmd.withBuild) {
+      execSync('npm run build:p', { stdio: 'inherit' });
+    }
+    if (cmd.mac) {
+      execSync('electron-builder --mac', {
+        stdio: 'inherit',
+      });
+    }
+    if (cmd.win) {
+      execSync('electron-builder --win', {
+        stdio: 'inherit',
+      });
+    }
+  });
+
+program
+  .command('lint')
+  .option('--fix', 'Automatically fixes code syntax problems.')
+  .action((cmd: any) => {
+    if (cmd.fix) {
+      execSync(`tslint -c tslint.yml '**/*.ts?(x)' --fix`, {
+        stdio: 'inherit',
+      });
+      execSync(`prettier -c '**/*.js' --write`, {
+        stdio: 'inherit',
+      });
+      execSync(`stylelint '**/*.scss' --fix`, {
+        stdio: 'inherit',
+      });
+    } else {
+      execSync(`tslint -c tslint.yml '**/*.ts?(x)'`, {
+        stdio: 'inherit',
+      });
+      execSync(`prettier -c '**/*.js'`, {
+        stdio: 'inherit',
+      });
+      execSync(`stylelint '**/*.scss'`, {
+        stdio: 'inherit',
+      });
+    }
+  });
+
 program.parse(process.argv);
