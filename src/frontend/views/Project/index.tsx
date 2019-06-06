@@ -13,6 +13,7 @@ import './index.scss';
     userDefaultProjectPath,
     showTerm: () => stores.terminal.show(),
     hideRadar: () => stores.radar.hide(),
+    getLocalUserProjectPath: () => stores.workStation.getLocalUserProjectPath(),
   };
 })
 @observer

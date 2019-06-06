@@ -7,6 +7,7 @@ import message from 'antd/lib/message';
 import notification from 'antd/lib/notification';
 import Tooltip from 'antd/lib/tooltip';
 import { selectFile } from '../../utils/file';
+import { isMac } from '../../utils/env';
 
 import './index.scss';
 
@@ -50,14 +51,17 @@ class RunnerView extends React.Component<any, any> {
     );
   }
 
-  public commander(str: string) {
+  public commander(str: string, noTips?: boolean) {
     const { shell } = this.props;
+    const sudo = isMac ? 'sudo ' : '';
     if (this.props.userDefaultProjectPath) {
-      notification.success({
-        message: '已运行',
-        description: '请勿重复操作.',
-      });
-      shell(str);
+      if (!noTips) {
+        notification.success({
+          message: '已运行',
+          description: '请勿重复操作.',
+        });
+      }
+      shell(sudo + str);
     } else {
       message.warn('请选择工程目录！');
     }
@@ -106,7 +110,8 @@ class RunnerView extends React.Component<any, any> {
                         className="btn-default"
                         onClick={() => {
                           this.commander(
-                            `sudo chmod -R 777 ${userDefaultProjectPath}\n`
+                            `sudo chmod -R 777 ${userDefaultProjectPath}\n`,
+                            true
                           );
                         }}
                       >
@@ -164,6 +169,21 @@ class RunnerView extends React.Component<any, any> {
                       className="btn-default"
                       onClick={() => {
                         this.commander('npm run test:unit\n');
+                      }}
+                    >
+                      <i className="iconfont">&#xe603;</i>
+                    </div>
+                  </Tooltip>
+                </div>
+              </div>
+              <div className="row">
+                <div className="desc">端到端可视化测试</div>
+                <div className="control">
+                  <Tooltip placement="right" title="启动命令">
+                    <div
+                      className="btn-default"
+                      onClick={() => {
+                        this.commander('npm run test:e2e\n');
                       }}
                     >
                       <i className="iconfont">&#xe603;</i>

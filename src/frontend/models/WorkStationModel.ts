@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import message from 'antd/lib/message';
 import { detectSupportEnv, getAppInfo } from '../utils/env';
 import * as storage from '../utils/storage';
@@ -57,19 +57,44 @@ export default class WorkStationModel {
     getAppInfo((param: any) => {
       this.appInfo = param;
     });
+    this.detectNetwork();
+    this.getLocalUserProjectPath();
+    this.getLocalSystemEnvData();
+  }
 
+  @action
+  getLocalUserProjectPath() {
     storage.read('user_default_project_path', (data: any) => {
       const { user_default_project_path } = data;
       if (user_default_project_path) {
         this.userDefaultProjectPath = user_default_project_path;
       }
     });
-    this.detectNetwork();
+  }
+
+  @action
+  getLocalSystemEnvData() {
+    storage.read('system_support_environment', (data: any) => {
+      const { system_support_environment } = data;
+      if (system_support_environment) {
+        this.systemEnv = system_support_environment;
+      }
+    });
+  }
+
+  @computed get systemEnvObject() {
+    const obj = {};
+    this.systemEnv.forEach((item: any) => {
+      obj[item.name] = item;
+    });
+
+    return obj;
   }
 
   @action
   public resetEnvData() {
     this.systemEnv = [];
+    storage.remove('system_support_environment');
   }
 
   @action
@@ -121,9 +146,13 @@ export default class WorkStationModel {
     this.stateBarStatus = 1;
   }
 
+  @action
   public getEnvSupport(cb: Function) {
     detectSupportEnv((param: any) => {
       this.systemEnv = param.env_support;
+      storage.write('system_support_environment', {
+        system_support_environment: param.env_support,
+      });
       if (cb) {
         cb(param);
       }

@@ -1,4 +1,5 @@
-import { clipboard } from 'electron';
+import * as path from 'path';
+import { app, clipboard } from 'electron';
 import { IServer } from './rpc';
 import file from '../utils/file';
 import readTxtByLine from '../utils/readTxtByLine';
@@ -272,7 +273,88 @@ export default (RPC: IServer) => {
   });
 
   RPC.on('create-project', (args: any) => {
+    const optputDir = path.join(args.projectPath, args.projectName);
     log.info(args);
+    const url = 'http://owlaford.gitee.io/media/demo/vue-basic.zip';
+    if (!win) {
+      return;
+    }
+    DL.download(win, url, {
+      directory: app.getPath('temp'),
+      onProgress: e => {
+        dispatch('get-repo', {
+          step: 'download',
+          status: 'running',
+          state: {
+            progress: e,
+          },
+        });
+      },
+    })
+      .then((dl: any) => {
+        const tempFileSavePath = dl.getSavePath();
+        dispatch('get-repo', {
+          step: 'download',
+          status: 'finished',
+          state: {
+            progress: 1,
+          },
+        });
+
+        const DecompressZip = require('decompress-zip');
+        const unzipper = new DecompressZip(tempFileSavePath);
+
+        unzipper.on('error', () => {
+          dispatch('get-repo', {
+            step: 'unzip',
+            status: 'error',
+            state: {
+              fileIndex: 0,
+              fileCount: 0,
+            },
+          });
+        });
+
+        unzipper.on('progress', (fileIndex: number, fileCount: number) => {
+          dispatch('get-repo', {
+            step: 'unzip',
+            status: 'running',
+            state: {
+              fileIndex,
+              fileCount,
+            },
+          });
+        });
+
+        unzipper.on('extract', (log: any) => {
+          dispatch('get-repo', {
+            step: 'unzip',
+            status: 'finished',
+            state: {
+              log,
+              optputDir,
+              fileIndex: 0,
+              fileCount: 0,
+            },
+          });
+        });
+
+        unzipper.extract({
+          path: optputDir,
+          filter: (file: any) => file.type !== 'SymbolicLink',
+        });
+
+        log.debug(optputDir);
+      })
+      .catch(() => {
+        dispatch('get-repo', {
+          step: 'download',
+          status: 'error',
+          state: {
+            progress: 0,
+          },
+        });
+      });
   });
 
   return { tray };

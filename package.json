@@ -52,7 +52,7 @@
     "@types/electron-json-storage": "^4.0.0",
     "@types/fs-extra": "^7.0.0",
     "@types/ip": "^1.1.0",
-    "@types/node": "^12.0.4",
+    "@types/node": "^12.0.5",
     "@types/object-hash": "^1.2.0",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
@@ -86,6 +86,7 @@
   "dependencies": {
     "antd": "^3.19.2",
     "classnames": "^2.2.6",
+    "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
     "electron-json-storage": "^4.1.6",

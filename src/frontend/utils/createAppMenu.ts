@@ -111,7 +111,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
             getAppDir(({ root }: any) => {
               document.getElementsByTagName(
                 'link'
-              )[1].href = `${root}renderer/static/index.css?${Date.now()}`;
+              )[0].href = `${root}renderer/static/index.css?${Date.now()}`;
             });
           }
         },
