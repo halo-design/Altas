@@ -20,6 +20,7 @@ class Radar {
   protected ctx: any = null;
   protected time: number = 0;
   protected target: any[] = [];
+  protected afterReady: any = null;
 
   constructor(el?: HTMLElement, tarArr?: any[], detectFn?: Function) {
     this.init = this.init.bind(this);
@@ -51,14 +52,19 @@ class Radar {
   }
 
   protected ready() {
-    this.init();
-    this.drawBg();
-    this.drawAxis();
-    this.drawCalibration();
+    const readyForAll = () => {
+      this.init();
+      this.drawBg();
+      this.drawAxis();
+      this.drawCalibration();
 
-    this.resizeControl = debounce(() => {
-      this.ready();
-    }, 100);
+      if (this.afterReady) {
+        this.afterReady();
+        this.afterReady = null;
+      }
+    };
+    readyForAll();
+    this.resizeControl = debounce(readyForAll, 100);
     window.addEventListener('resize', this.resizeControl, false);
   }
 

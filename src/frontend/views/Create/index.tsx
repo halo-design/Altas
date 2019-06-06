@@ -21,9 +21,16 @@ const { confirm } = Modal;
 import './index.scss';
 
 @inject((stores: any) => {
-  const { systemEnvObject } = stores.workStation;
+  const {
+    systemEnvObject,
+    userPassword,
+    adminAuthorizationModalVisible,
+  } = stores.workStation;
+
   return {
     systemEnvObject,
+    userPassword,
+    adminAuthorizationModalVisible,
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workStation.setUserDefaultProjerctPath(str),
@@ -35,19 +42,11 @@ class CreatehView extends React.Component<any, any> {
   @observable public projectName: string = '';
   @observable public projectPath: string = '';
   @observable public projectDir: string = '';
-  @observable public userPassword: string = '';
   @observable public projectTemplate: string = 'vue-empty-typical';
   @observable public installPackages: boolean = true;
-  @observable public inputUserPasswordModalVisible: boolean = false;
   @observable public isYarn: boolean = true;
-
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      creating: false,
-      createInfo: '',
-    };
-  }
+  @observable public creating: boolean = false;
+  @observable public createInfo: string = '';
 
   @action
   public projectTypeOnChange(val: string) {
@@ -62,22 +61,6 @@ class CreatehView extends React.Component<any, any> {
   @action
   public handleChangeProjectName(val: string) {
     this.projectName = val;
-  }
-
-  @action
-  public handleChangeUserPassword(val: string) {
-    this.userPassword = val;
-  }
-
-  @action
-  public setInputUserPasswordVisible() {
-    if (!this.userPassword) {
-      message.warn('密码不能为空！');
-    } else {
-      this.props.shell(`${this.userPassword}\n`);
-      this.setInstallConfirmModal(false);
-      this.installConfirm();
-    }
   }
 
   @action
@@ -131,52 +114,36 @@ class CreatehView extends React.Component<any, any> {
         installPackages: this.installPackages,
         autoInstall: this.installPackages,
       };
-      this.setState({
-        creating: true,
-        createInfo: '开始创建工程',
-      });
+      this.creating = true;
+      this.createInfo = '开始创建工程';
       project.create(params, (data: any) => {
         const { step, state, status } = data;
         if (step === 'download') {
           if (status === 'running') {
-            this.setState({
-              createInfo: `正在下载工程...(${~~(state.progress * 100)}%)`,
-            });
+            this.createInfo = `正在下载工程...(${~~(state.progress * 100)}%)`;
           } else if (status === 'error') {
-            this.setState({
-              createInfo: `工程下载出错！`,
-              creating: false,
-            });
+            this.creating = false;
+            this.createInfo = '工程下载出错！';
           } else if (status === 'finished') {
-            this.setState({
-              createInfo: `工程下载完成！`,
-            });
+            this.createInfo = '工程下载完成！';
           }
         } else if (step === 'unzip') {
           if (status === 'running') {
-            this.setState({
-              createInfo: `正在解压工程...(${~~(
-                (state.fileIndex / state.fileCount) *
-                100
-              )}%)`,
-            });
+            this.createInfo = `正在解压工程...(${~~(
+              (state.fileIndex / state.fileCount) *
+              100
+            )}%)`;
           } else if (status === 'finished') {
-            this.setState({
-              createInfo: `工程解压完毕！`,
-              creating: false,
-            });
+            this.createInfo = `工程解压完毕！`;
+            this.creating = false;
             this.props.setUserDefaultProjerctPath(state.optputDir);
 
             if (this.installPackages) {
               this.props.shell(`cd ${state.optputDir}\n`);
-
-              if (isMac) {
-                this.props.shell('sudo -s\n');
-                this.setInstallConfirmModal(true);
-              } else {
-                this.installConfirm();
-              }
+              this.installConfirm();
               this.projectDir = state.optputDir;
+            } else {
+              remote.shell.showItemInFolder(state.optputDir);
             }
           }
         }
@@ -189,10 +156,6 @@ class CreatehView extends React.Component<any, any> {
       'npm config set registry https://registry.npm.taobao.org/\n' +
         'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass\n'
     );
-  }
-
-  public setInstallConfirmModal(state: boolean) {
-    this.inputUserPasswordModalVisible = state;
   }
 
   public componentDidMount() {
@@ -232,7 +195,7 @@ class CreatehView extends React.Component<any, any> {
                   style={{ width: '66%' }}
                   placeholder="点击选择生成目录"
                   readOnly={true}
-                  defaultValue={this.projectPath}
+                  value={this.projectPath}
                   onClick={(e: any) => {
                     this.handleSelectDir(e.target);
                   }}
@@ -285,26 +248,10 @@ class CreatehView extends React.Component<any, any> {
           </div>
         </div>
         <LineProgress
-          hide={!this.state.creating}
-          title={this.state.createInfo}
+          hide={!this.creating}
+          title={this.createInfo}
           mask={true}
         />
-        <Modal
-          title="请输入管理员密码"
-          visible={this.inputUserPasswordModalVisible}
-          onOk={() => this.setInputUserPasswordVisible()}
-          onCancel={() => this.setInstallConfirmModal(false)}
-          okText="确认"
-          cancelText="取消"
-        >
-          <Input
-            placeholder="请输入密码"
-            type="password"
-            onChange={(e: any) => {
-              this.handleChangeUserPassword(e.target.value);
-            }}
-          />
-        </Modal>
       </div>
     );
   }

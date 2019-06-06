@@ -7,7 +7,7 @@ export const write = (key: string, data: object): void => {
 
 export const read = (key: string, cb: (args: object) => void): void => {
   dispatch('read-storage', key);
-  RPC.once('get-storage', (data: object) => {
+  RPC.once('get-storage' + key, (data: object) => {
     cb(data);
   });
 };

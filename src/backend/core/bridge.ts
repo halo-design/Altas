@@ -58,7 +58,9 @@ export default (RPC: IServer) => {
 
   RPC.on('read-storage', (key: string) => {
     storage.get(key, (err, data) => {
-      dispatch('get-storage', data);
+      log.info(data);
+      log.info(`[${key}]：数据已读取`);
+      dispatch('get-storage' + key, data);
     });
   });
 

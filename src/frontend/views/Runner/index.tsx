@@ -26,13 +26,6 @@ import './index.scss';
 })
 @observer
 class RunnerView extends React.Component<any, any> {
-  constructor(props: object) {
-    super(props);
-    if (this.props.userDefaultProjectPath) {
-      this.props.setExecPath(this.props.userDefaultProjectPath);
-    }
-  }
-
   @action
   public handleSelectDir(el: HTMLInputElement) {
     selectFile(
@@ -77,7 +70,6 @@ class RunnerView extends React.Component<any, any> {
   }
 
   public render() {
-    const isWin = process.platform === 'win32';
     const { userDefaultProjectPath } = this.props;
 
     return (
@@ -101,26 +93,6 @@ class RunnerView extends React.Component<any, any> {
           <div className="form-item">
             <div className="label">开发命令选项</div>
             <div className="comand-table">
-              {!isWin && (
-                <div className="row">
-                  <div className="desc">工程目录sudo授权（需输入密码）</div>
-                  <div className="control">
-                    <Tooltip placement="right" title="启动命令">
-                      <div
-                        className="btn-default"
-                        onClick={() => {
-                          this.commander(
-                            `sudo chmod -R 777 ${userDefaultProjectPath}\n`,
-                            true
-                          );
-                        }}
-                      >
-                        <i className="iconfont">&#xe603;</i>
-                      </div>
-                    </Tooltip>
-                  </div>
-                </div>
-              )}
               <div className="row">
                 <div className="desc">本地开发模式</div>
                 <div className="control">

@@ -52,6 +52,9 @@ export default class WorkStationModel {
     version: '0.0.0',
   };
   @observable public userDefaultProjectPath: string = '';
+  @observable public userPassword: string = '';
+  @observable public adminAuthorizationModalVisible: boolean = false;
+  @observable public adminAuthorizationStatus: boolean = false;
 
   constructor() {
     getAppInfo((param: any) => {
@@ -79,6 +82,7 @@ export default class WorkStationModel {
       if (system_support_environment) {
         this.systemEnv = system_support_environment;
       }
+      console.log(data);
     });
   }
 
@@ -157,5 +161,20 @@ export default class WorkStationModel {
         cb(param);
       }
     });
+  }
+
+  @action
+  public setAdminAuthorizationModalVisible(state: boolean) {
+    this.adminAuthorizationModalVisible = state;
+  }
+
+  @action
+  public handleChangeUserPassword(val: string) {
+    this.userPassword = val;
+  }
+
+  @action
+  public setAdminAuthorizationStatus(state: boolean) {
+    this.adminAuthorizationStatus = state;
   }
 }
