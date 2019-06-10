@@ -1,4 +1,4 @@
-process.env.HMR_PORT=56738;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=58857;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -562,6 +562,65 @@ var langIsAvailable = function langIsAvailable(cmd, argArr) {
 };
 
 exports.langIsAvailable = langIsAvailable;
+},{}],"utils/projectRunner.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var fs = _interopRequireWildcard(require("fs-extra"));
+
+var path = _interopRequireWildcard(require("path"));
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var readYaml = require('read-yaml');
+
+var _default = function _default(projectPath) {
+  var projectIsExists = fs.existsSync(projectPath);
+
+  if (projectIsExists) {
+    var configPath = path.join(projectPath, 'altas.yml');
+    var isConfigExists = fs.existsSync(configPath);
+
+    if (isConfigExists) {
+      var config = readYaml.sync(configPath);
+      var result = {
+        noProject: false,
+        noConfig: false,
+        configList: config
+      };
+
+      _electronLog.default.info(result);
+
+      return result;
+    } else {
+      return {
+        noProject: false,
+        noConfig: true,
+        configList: {
+          command: []
+        }
+      };
+    }
+  } else {
+    return {
+      noProject: true,
+      noConfig: true,
+      configList: {
+        command: []
+      }
+    };
+  }
+};
+
+exports.default = _default;
 },{}],"../../package.json":[function(require,module,exports) {
 module.exports = {
   "name": "altas",
@@ -612,7 +671,7 @@ module.exports = {
     "@types/electron-json-storage": "^4.0.0",
     "@types/fs-extra": "^7.0.0",
     "@types/ip": "^1.1.0",
-    "@types/node": "^12.0.5",
+    "@types/node": "^12.0.7",
     "@types/object-hash": "^1.2.0",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
@@ -624,7 +683,7 @@ module.exports = {
     "commander": "^2.20.0",
     "cross-env": "^5.2.0",
     "devtron": "^1.4.0",
-    "electron": "^5.0.2",
+    "electron": "^5.0.3",
     "electron-builder": "20.43.0",
     "electron-rebuild": "^1.8.5",
     "node-sass": "^4.12.0",
@@ -632,9 +691,9 @@ module.exports = {
     "ora": "^3.4.0",
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
-    "prettier": "^1.17.1",
-    "sass": "^1.20.3",
-    "stylelint": "^10.0.1",
+    "prettier": "^1.18.2",
+    "sass": "^1.21.0",
+    "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-scss": "^3.8.0",
     "ts-node": "^8.2.0",
@@ -656,7 +715,7 @@ module.exports = {
     "fs-extra": "^8.0.1",
     "ip": "^1.1.5",
     "lodash": "^4.17.11",
-    "mobx": "^5.10.0",
+    "mobx": "^5.10.1",
     "mobx-react": "^6.0.3",
     "mobx-react-devtools": "6.1.1",
     "mobx-react-router": "^4.0.7",
@@ -666,6 +725,7 @@ module.exports = {
     "react-dom": "^16.8.6",
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
+    "read-yaml": "^1.1.0",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
     "xterm": "^3.14.2",
@@ -711,6 +771,10 @@ var _electronDl = _interopRequireDefault(require("electron-dl"));
 var uuid = _interopRequireWildcard(require("uuid"));
 
 var _env = require("../utils/env");
+
+var _projectRunner = _interopRequireDefault(require("../utils/projectRunner"));
+
+var fs = _interopRequireWildcard(require("fs-extra"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1001,6 +1065,20 @@ var _default = function _default(RPC) {
         }
       });
 
+      if (fs.existsSync(optputDir)) {
+        dispatch('get-repo', {
+          step: 'unzip',
+          status: 'error',
+          state: {
+            errorText: '该文件夹已存在，无法完成解压！',
+            optputDir: optputDir,
+            fileIndex: 0,
+            fileCount: 0
+          }
+        });
+        return;
+      }
+
       var DecompressZip = require('decompress-zip');
 
       var unzipper = new DecompressZip(tempFileSavePath);
@@ -1009,6 +1087,7 @@ var _default = function _default(RPC) {
           step: 'unzip',
           status: 'error',
           state: {
+            errorText: '文件解压出错！',
             fileIndex: 0,
             fileCount: 0
           }
@@ -1049,10 +1128,19 @@ var _default = function _default(RPC) {
         step: 'download',
         status: 'error',
         state: {
+          errorText: '文件下载出错！',
           progress: 0
         }
       });
     });
+  });
+  RPC.on('detect-runner-config', function (args) {
+    var projectPath = args.projectPath;
+
+    if (projectPath) {
+      var config = (0, _projectRunner.default)(projectPath);
+      dispatch('get-runner-config', config);
+    }
   });
   return {
     tray: tray
@@ -1060,7 +1148,7 @@ var _default = function _default(RPC) {
 };
 
 exports.default = _default;
-},{"../utils/file":"utils/file.ts","../utils/readTxtByLine":"utils/readTxtByLine.ts","../utils/crypto":"utils/crypto.ts","../utils/tray":"utils/tray.ts","./winCreate":"core/winCreate.ts","../utils/env":"utils/env.ts","../../../package.json":"../../package.json"}],"main.ts":[function(require,module,exports) {
+},{"../utils/file":"utils/file.ts","../utils/readTxtByLine":"utils/readTxtByLine.ts","../utils/crypto":"utils/crypto.ts","../utils/tray":"utils/tray.ts","./winCreate":"core/winCreate.ts","../utils/env":"utils/env.ts","../utils/projectRunner":"utils/projectRunner.ts","../../../package.json":"../../package.json"}],"main.ts":[function(require,module,exports) {
 "use strict";
 
 var _electron = require("electron");

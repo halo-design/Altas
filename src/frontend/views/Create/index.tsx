@@ -116,45 +116,52 @@ class CreatehView extends React.Component<any, any> {
       };
       this.creating = true;
       this.createInfo = '开始创建工程';
-      project.create(params, (data: any) => {
-        const { step, state, status } = data;
-        if (step === 'download') {
-          if (status === 'running') {
-            this.createInfo = `正在下载工程...(${~~(state.progress * 100)}%)`;
-          } else if (status === 'error') {
-            this.creating = false;
-            this.createInfo = '工程下载出错！';
-          } else if (status === 'finished') {
-            this.createInfo = '工程下载完成！';
-          }
-        } else if (step === 'unzip') {
-          if (status === 'running') {
-            this.createInfo = `正在解压工程...(${~~(
-              (state.fileIndex / state.fileCount) *
-              100
-            )}%)`;
-          } else if (status === 'finished') {
-            this.createInfo = `工程解压完毕！`;
-            this.creating = false;
-            this.props.setUserDefaultProjerctPath(state.optputDir);
+      project.create(
+        params,
+        (data: any) => {
+          const { step, state, status } = data;
+          if (step === 'download') {
+            if (status === 'running') {
+              this.createInfo = `正在下载工程...(${~~(state.progress * 100)}%)`;
+            } else if (status === 'error') {
+              this.creating = false;
+              this.createInfo = '工程下载出错！';
+            } else if (status === 'finished') {
+              this.createInfo = '工程下载完成！';
+            }
+          } else if (step === 'unzip') {
+            if (status === 'running') {
+              this.createInfo = `正在解压工程...(${~~(
+                (state.fileIndex / state.fileCount) *
+                100
+              )}%)`;
+            } else if (status === 'finished') {
+              this.createInfo = `工程解压完毕！`;
+              this.creating = false;
+              this.props.setUserDefaultProjerctPath(state.optputDir);
 
-            if (this.installPackages) {
-              this.props.shell(`cd ${state.optputDir}\n`);
-              this.installConfirm();
-              this.projectDir = state.optputDir;
-            } else {
-              remote.shell.showItemInFolder(state.optputDir);
+              if (this.installPackages) {
+                this.props.shell(`cd ${state.optputDir}\n`);
+                this.installConfirm();
+                this.projectDir = state.optputDir;
+              } else {
+                remote.shell.showItemInFolder(state.optputDir);
+              }
             }
           }
+        },
+        (errTxt: string) => {
+          message.error(errTxt);
+          this.creating = false;
         }
-      });
+      );
     }
   }
 
   public setTaobaoMirror() {
     this.props.shell(
       'npm config set registry https://registry.npm.taobao.org/\n' +
-        'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass\n'
+        'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass/\n'
     );
   }
 

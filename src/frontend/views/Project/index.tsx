@@ -112,6 +112,7 @@ class ProjectView extends React.Component<any, any> {
           visible={this.props.adminAuthorizationModalVisible}
           onOk={() => this.adminAuthorization()}
           onCancel={() => this.props.setAdminAuthorizationModalVisible(false)}
+          closable={false}
           okText="确定"
           cancelText="取消"
           width={340}

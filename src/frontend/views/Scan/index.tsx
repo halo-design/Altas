@@ -53,11 +53,14 @@ const originImages = [
 
 @inject((stores: any) => {
   const { systemEnv, appInfo, isFreeze } = stores.workStation;
+  const { ipAddress, os } = stores.device;
 
   return {
     systemEnv,
     appInfo,
     isFreeze,
+    ipAddress,
+    os,
     showTerm: () => stores.terminal.show(),
     hideTerm: () => stores.terminal.hide(),
     radarStart: () => stores.radar.start(),
@@ -71,11 +74,17 @@ const originImages = [
     getEnvSupport: (cb: Function) => stores.workStation.getEnvSupport(cb),
     resetEnvData: () => stores.workStation.resetEnvData(),
     setFreeze: (status: boolean) => stores.workStation.setFreeze(status),
+    getIpAddress: (cb?: (data: object) => void) =>
+      stores.device.getIpAddress(cb),
   };
 })
 @observer
 class ScanView extends React.Component<any> {
   public fresh: boolean = false;
+
+  public componentWillMount() {
+    this.props.getIpAddress();
+  }
 
   public componentWillUnmount() {
     this.props.showTerm();
@@ -113,9 +122,49 @@ class ScanView extends React.Component<any> {
   }
 
   public render() {
-    const { appInfo, systemEnv, isFreeze } = this.props;
+    const {
+      appInfo,
+      systemEnv,
+      isFreeze,
+      ipAddress,
+      os: { cpu, memory },
+    } = this.props;
     return (
       <div className="page-scan">
+        <div className="title">
+          <span>硬件信息 / </span>
+          <span className="sub">Hardware Information</span>
+        </div>
+        <div className="info-content">
+          {Array.isArray(cpu) && (
+            <div className="row">
+              <div className="row-item">
+                <i className="iconfont">&#xe652;</i>
+                <span className="label">处理器：</span>
+              </div>
+              <div className="row-item">
+                <span>
+                  {cpu[0].model}（{cpu.length}核）
+                </span>
+              </div>
+            </div>
+          )}
+          <div className="row">
+            <i className="iconfont">&#xe842;</i>
+            <span className="label">内存：</span>
+            <span>{(memory / 1024 / 1024 / 1024).toFixed(2)}GB</span>
+          </div>
+          <div className="row">
+            <i className="iconfont">&#xe729;</i>
+            <span className="label">网络：</span>
+            <span>{ipAddress.local}（本地）</span>
+          </div>
+          <div className="row">
+            <i className="iconfont">&#xe729;</i>
+            <span className="label">网络：</span>
+            <span>{ipAddress.cip}（互联网）</span>
+          </div>
+        </div>
         <div className="title">
           <span>系统环境 / </span>
           <span className="sub">System Environment</span>

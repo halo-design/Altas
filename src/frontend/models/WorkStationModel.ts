@@ -2,6 +2,7 @@ import { action, observable, computed } from 'mobx';
 import message from 'antd/lib/message';
 import { detectSupportEnv, getAppInfo } from '../utils/env';
 import * as storage from '../utils/storage';
+import { getProjectRunnerConfig } from '../utils/project';
 
 const initEnvData = [
   {
@@ -52,6 +53,13 @@ export default class WorkStationModel {
     version: '0.0.0',
   };
   @observable public userDefaultProjectPath: string = '';
+  @observable public projectRunnerConfig: any = {
+    configList: {
+      command: [],
+    },
+    noProject: true,
+    noConfig: true,
+  };
   @observable public userPassword: string = '';
   @observable public adminAuthorizationModalVisible: boolean = false;
   @observable public adminAuthorizationStatus: boolean = false;
@@ -71,6 +79,9 @@ export default class WorkStationModel {
       const { user_default_project_path } = data;
       if (user_default_project_path) {
         this.userDefaultProjectPath = user_default_project_path;
+        getProjectRunnerConfig(user_default_project_path, (data: object) => {
+          this.projectRunnerConfig = data;
+        });
       }
     });
   }
@@ -82,7 +93,6 @@ export default class WorkStationModel {
       if (system_support_environment) {
         this.systemEnv = system_support_environment;
       }
-      console.log(data);
     });
   }
 
@@ -107,6 +117,9 @@ export default class WorkStationModel {
     if (dir) {
       storage.write('user_default_project_path', {
         user_default_project_path: dir,
+      });
+      getProjectRunnerConfig(dir, (data: object) => {
+        this.projectRunnerConfig = data;
       });
     }
   }

@@ -12,9 +12,10 @@ import { isMac } from '../../utils/env';
 import './index.scss';
 
 @inject((stores: any) => {
-  const { userDefaultProjectPath } = stores.workStation;
+  const { userDefaultProjectPath, projectRunnerConfig } = stores.workStation;
   return {
     userDefaultProjectPath,
+    projectRunnerConfig,
     kill: () => stores.terminal.kill(),
     clear: () => stores.terminal.clear(),
     setExecPath: (str: string, force: boolean) =>
@@ -70,7 +71,14 @@ class RunnerView extends React.Component<any, any> {
   }
 
   public render() {
-    const { userDefaultProjectPath } = this.props;
+    const {
+      userDefaultProjectPath,
+      projectRunnerConfig: {
+        configList: { command },
+        noProject,
+        noConfig,
+      },
+    } = this.props;
 
     return (
       <div className="sub-page-runner">
@@ -92,78 +100,43 @@ class RunnerView extends React.Component<any, any> {
           </div>
           <div className="form-item">
             <div className="label">开发命令选项</div>
-            <div className="comand-table">
-              <div className="row">
-                <div className="desc">本地开发模式</div>
-                <div className="control">
-                  <Tooltip placement="left" title="结束进程">
-                    <div
-                      className="btn-default btn-kill"
-                      onClick={() => {
-                        this.killProcess();
-                      }}
-                    >
-                      <i className="iconfont">&#xe716;</i>
+            {(noProject || noConfig) && (
+              <div className="no-result" data-info="暂未找到该项目或命令配置" />
+            )}
+            {!noProject && !noConfig && (
+              <div className="comand-table">
+                {command &&
+                  command.map((item: any, index: number) => (
+                    <div className="row" key={index}>
+                      <div className="desc">{item.name}</div>
+                      <div className="control">
+                        {item.needCancel && (
+                          <Tooltip placement="left" title="结束进程">
+                            <div
+                              className="btn-default btn-kill"
+                              onClick={() => {
+                                this.killProcess();
+                              }}
+                            >
+                              <i className="iconfont">&#xe716;</i>
+                            </div>
+                          </Tooltip>
+                        )}
+                        <Tooltip placement="right" title="启动命令">
+                          <div
+                            className="btn-default"
+                            onClick={() => {
+                              this.commander(`${item.shell}\n`);
+                            }}
+                          >
+                            <i className="iconfont">&#xe603;</i>
+                          </div>
+                        </Tooltip>
+                      </div>
                     </div>
-                  </Tooltip>
-                  <Tooltip placement="right" title="启动命令">
-                    <div
-                      className="btn-default"
-                      onClick={() => {
-                        this.commander('npm run serve\n');
-                      }}
-                    >
-                      <i className="iconfont">&#xe603;</i>
-                    </div>
-                  </Tooltip>
-                </div>
+                  ))}
               </div>
-              <div className="row">
-                <div className="desc">项目构建打包</div>
-                <div className="control">
-                  <Tooltip placement="right" title="启动命令">
-                    <div
-                      className="btn-default"
-                      onClick={() => {
-                        this.commander('npm run build\n');
-                      }}
-                    >
-                      <i className="iconfont">&#xe603;</i>
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-              <div className="row">
-                <div className="desc">单元模块测试</div>
-                <div className="control">
-                  <Tooltip placement="right" title="启动命令">
-                    <div
-                      className="btn-default"
-                      onClick={() => {
-                        this.commander('npm run test:unit\n');
-                      }}
-                    >
-                      <i className="iconfont">&#xe603;</i>
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-              <div className="row">
-                <div className="desc">端到端可视化测试</div>
-                <div className="control">
-                  <Tooltip placement="right" title="启动命令">
-                    <div
-                      className="btn-default"
-                      onClick={() => {
-                        this.commander('npm run test:e2e\n');
-                      }}
-                    >
-                      <i className="iconfont">&#xe603;</i>
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

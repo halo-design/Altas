@@ -9,8 +9,8 @@ win-unpacked/
 *.blockmap
 *.7z
 *.zip
-*.yml
-*.yaml
+./*.yml
+./*.yaml
 
 npm-debug.log*
 yarn-debug.log*

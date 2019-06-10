@@ -15,6 +15,8 @@ import { showBetterMessageBox } from 'electron-better-dialog';
 import DL from 'electron-dl';
 import * as uuid from 'uuid';
 import { cmdIsAvailable, langIsAvailable } from '../utils/env';
+import projectRunner from '../utils/projectRunner';
+import * as fs from 'fs-extra';
 
 const pkg = require('../../../package.json');
 
@@ -303,6 +305,20 @@ export default (RPC: IServer) => {
           },
         });
 
+        if (fs.existsSync(optputDir)) {
+          dispatch('get-repo', {
+            step: 'unzip',
+            status: 'error',
+            state: {
+              errorText: '该文件夹已存在，无法完成解压！',
+              optputDir,
+              fileIndex: 0,
+              fileCount: 0,
+            },
+          });
+          return;
+        }
+
         const DecompressZip = require('decompress-zip');
         const unzipper = new DecompressZip(tempFileSavePath);
 
@@ -311,6 +327,7 @@ export default (RPC: IServer) => {
             step: 'unzip',
             status: 'error',
             state: {
+              errorText: '文件解压出错！',
               fileIndex: 0,
               fileCount: 0,
             },
@@ -353,10 +370,19 @@ export default (RPC: IServer) => {
           step: 'download',
           status: 'error',
           state: {
+            errorText: '文件下载出错！',
             progress: 0,
           },
         });
       });
+  });
+
+  RPC.on('detect-runner-config', (args: any) => {
+    const { projectPath } = args;
+    if (projectPath) {
+      const config = projectRunner(projectPath);
+      dispatch('get-runner-config', config);
+    }
   });
 
   return { tray };

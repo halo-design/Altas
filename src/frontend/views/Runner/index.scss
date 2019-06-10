@@ -3,6 +3,27 @@
     padding-top: 0;
   }
 
+  .no-result {
+    width: 120px;
+    height: 120px;
+    background: url(../../assets/img/noresult.svg) no-repeat center center;
+    background-size: 100% auto;
+    margin: 20px auto 40px;
+    position: relative;
+
+    &:after {
+      width: 400px;
+      content: attr(data-info);
+      display: block;
+      text-align: center;
+      left: -140px;
+      top: 120px;
+      position: absolute;
+      font-size: 12px;
+      color: #484950;
+    }
+  }
+
   .comand-table {
     background-color: #fff;
     font-size: 12px;
