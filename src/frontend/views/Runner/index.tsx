@@ -28,7 +28,7 @@ import './index.scss';
 @observer
 class RunnerView extends React.Component<any, any> {
   @action
-  public handleSelectDir(el: HTMLInputElement) {
+  public handleSelectDir() {
     selectFile(
       {
         message: '选择工程目录',
@@ -38,7 +38,6 @@ class RunnerView extends React.Component<any, any> {
         if (res) {
           const dir = res[0];
           this.props.setUserDefaultProjerctPath(dir);
-          el.value = dir;
           this.props.setExecPath(dir);
         }
       }
@@ -90,9 +89,9 @@ class RunnerView extends React.Component<any, any> {
                 size="large"
                 placeholder="点击选择工程目录"
                 readOnly={true}
-                defaultValue={userDefaultProjectPath}
+                value={userDefaultProjectPath}
                 onClick={(e: any) => {
-                  this.handleSelectDir(e.target);
+                  this.handleSelectDir();
                 }}
                 suffix={<Icon type="project" />}
               />
