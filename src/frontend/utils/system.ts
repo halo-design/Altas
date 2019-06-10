@@ -4,12 +4,9 @@ const { shell } = remote;
 import RPC from './rpc';
 const { dispatch } = RPC;
 
-RPC.on(
-  'history-push',
-  (path: string): void => {
-    location.href = `#${path}`;
-  }
-);
+RPC.on('history-push', (path: string): void => {
+  location.href = `#${path}`;
+});
 
 export const setTrayTitle = (title: string): void => {
   dispatch('set-tray-title', title);

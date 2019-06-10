@@ -20,27 +20,25 @@ export default class UploadModel {
 
     const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
 
-    const addFiles = rawFiles.filter(
-      (file: any, index: number): boolean => {
-        const fileType = file.type.split('/')[1];
-        if (baseType.indexOf(fileType) > -1) {
-          const uid = `${Date.now()}${index}`;
-          file.uid = uid;
-          file.addIndex = index;
+    const addFiles = rawFiles.filter((file: any, index: number): boolean => {
+      const fileType = file.type.split('/')[1];
+      if (baseType.indexOf(fileType) > -1) {
+        const uid = `${Date.now()}${index}`;
+        file.uid = uid;
+        file.addIndex = index;
 
-          this.uploadListStatus[uid] = {
-            file,
-            progress: null,
-            remote: null,
-            status: 'ready',
-          };
+        this.uploadListStatus[uid] = {
+          file,
+          progress: null,
+          remote: null,
+          status: 'ready',
+        };
 
-          return true;
-        } else {
-          return false;
-        }
+        return true;
+      } else {
+        return false;
       }
-    );
+    });
 
     this.postFiles = this.postFiles.concat(addFiles);
   };
@@ -89,7 +87,7 @@ export default class UploadModel {
     onError: (e: any) => void
   ) {
     getData(token)
-      .then(param => {
+      .then((param: any) => {
         onSuccess(param);
       })
       .catch(e => {

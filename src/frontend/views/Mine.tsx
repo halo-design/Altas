@@ -74,17 +74,14 @@ class MineView extends React.Component<object, IState> {
           return;
         }
         const list: string[] = [];
-        readTxtByLine(
-          res[0],
-          ({ index, line, status }: any): void => {
-            if (line && line.trim()) {
-              list.push(line.trim());
-            }
-            if (status === 'done') {
-              cb(list);
-            }
+        readTxtByLine(res[0], ({ index, line, status }: any): void => {
+          if (line && line.trim()) {
+            list.push(line.trim());
           }
-        );
+          if (status === 'done') {
+            cb(list);
+          }
+        });
       }
     );
   }

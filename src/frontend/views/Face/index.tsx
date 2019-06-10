@@ -72,11 +72,9 @@ class FaceView extends React.Component<any, IFaceState> {
     this.videoEl.pause();
     this.videoEl.currentTime = 0;
     if (this.camReady) {
-      this.recordStream.getTracks().forEach(
-        (track: any): void => {
-          track.stop();
-        }
-      );
+      this.recordStream.getTracks().forEach((track: any): void => {
+        track.stop();
+      });
     }
     this.setState({
       faceRecognitionOpen: false,
