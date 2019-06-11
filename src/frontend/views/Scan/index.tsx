@@ -140,12 +140,10 @@ class ScanView extends React.Component<any> {
             <div className="row">
               <div className="row-item">
                 <i className="iconfont">&#xe652;</i>
-                <span className="label">处理器：</span>
+                <span className="label">处理器：{cpu.length}核心/线程</span>
               </div>
               <div className="row-item">
-                <span>
-                  {cpu[0].model}（{cpu.length}核）
-                </span>
+                <span>{cpu[0].model}</span>
               </div>
             </div>
           )}

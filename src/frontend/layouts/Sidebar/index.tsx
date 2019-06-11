@@ -59,13 +59,10 @@ function Sidebar({ initPath }: ISidebarProps) {
             &#xe754;
           </Tooltip>
         </NavLink>
-        <NavLink
-          exact={true}
-          to="/mine"
-          className="iconfont"
-          activeClassName="active"
-        >
-          &#xe602;
+        <NavLink to="/store" className="iconfont" activeClassName="active">
+          <Tooltip placement="right" title="组件商城">
+            &#xe629;
+          </Tooltip>
         </NavLink>
         <NavLink
           exact={true}

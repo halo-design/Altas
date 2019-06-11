@@ -8,10 +8,10 @@ import './index.scss';
 
 import Scan from '../../views/Scan';
 import Project from '../../views/Project';
+import Store from '../../views/Store';
 
 import Device from '../../views/Device';
 import Face from '../../views/Face';
-import Mine from '../../views/Mine';
 import Refresh from '../../views/Refresh';
 import Sync from '../../views/Sync';
 import Upload from '../../views/Upload';
@@ -55,9 +55,9 @@ export default class WorkStation extends React.Component<any> {
           <Switch>
             <Route path="/scan" component={Scan} />
             <Route path="/project" component={Project} />
+            <Route path="/store" component={Store} />
             <Route path="/face" component={Face} />
             <Route path="/upload" component={Upload} />
-            <Route path="/mine" component={Mine} />
             <Route path="/device" component={Device} />
             <Route path="/sync" component={Sync} />
             <Route path="/refresh" component={Refresh} />

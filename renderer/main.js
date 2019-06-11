@@ -1,4 +1,4 @@
-process.env.HMR_PORT=59351;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=49494;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -576,11 +576,16 @@ var path = _interopRequireWildcard(require("path"));
 
 var _electronLog = _interopRequireDefault(require("electron-log"));
 
+var _env = require("../utils/env");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var readYaml = require('read-yaml');
+
+var hasYarn = (0, _env.cmdIsAvailable)('yarn -v');
+var isMac = process.platform === 'darwin';
 
 var _default = function _default(projectPath) {
   var projectIsExists = fs.existsSync(projectPath);
@@ -588,9 +593,23 @@ var _default = function _default(projectPath) {
   if (projectIsExists) {
     var configPath = path.join(projectPath, 'altas.yml');
     var isConfigExists = fs.existsSync(configPath);
+    var isNodeModulesExists = fs.existsSync(path.join(projectPath, 'node_modules'));
+    var commander = hasYarn ? 'yarn ' : 'npm ';
+    var sudo = isMac ? 'sudo ' : '';
+    var commandLine = sudo + commander + 'install';
+    var commandConfig = {
+      name: '安装npm依赖包',
+      shell: commandLine,
+      needCancel: false
+    };
 
     if (isConfigExists) {
       var config = readYaml.sync(configPath);
+
+      if (!isNodeModulesExists) {
+        config.command.unshift(commandConfig);
+      }
+
       var result = {
         noProject: false,
         noConfig: false,
@@ -621,7 +640,7 @@ var _default = function _default(projectPath) {
 };
 
 exports.default = _default;
-},{}],"../../package.json":[function(require,module,exports) {
+},{"../utils/env":"utils/env.ts"}],"../../package.json":[function(require,module,exports) {
 module.exports = {
   "name": "altas",
   "version": "0.2.7",

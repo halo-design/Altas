@@ -228,4 +228,16 @@
       }
     }
   }
+
+  .app-switch-wrap-fixed {
+    height: 57px;
+
+    .app-switch {
+      position: fixed;
+      top: 0;
+      left: 64px;
+      right: 6px;
+      padding: 10px 0;
+    }
+  }
 }
