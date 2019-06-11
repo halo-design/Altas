@@ -1,7 +1,7 @@
 .page-store {
   .app-switch-wrap-fixed {
     height: 87px;
-    
+
     .app-switch {
       padding-top: 30px;
       padding-bottom: 20px;
@@ -87,12 +87,12 @@
           font-size: 13px;
           background: none;
 
-          &:hover {
-            background-color: #fbfbfd;
-          }
-
           & + button {
             border-left: 1px solid #e9ebf2;
+          }
+
+          &:hover {
+            background-color: #fbfbfd;
           }
         }
       }
@@ -115,11 +115,11 @@
     font-size: 22px;
     transition: all .3s;
     z-index: 99;
-    box-shadow: 0 8px 22px -4px rgba(6, 52, 255, 0.56);
-    
+    box-shadow: 0 8px 22px -4px rgba(6, 52, 255, .56);
+
     &:hover {
       background-color: #3336eb;
-      box-shadow: 0 4px 16px -2px rgba(6, 52, 255, 0.68);
+      box-shadow: 0 4px 16px -2px rgba(6, 52, 255, .68);
     }
   }
 }
