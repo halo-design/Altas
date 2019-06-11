@@ -6,9 +6,10 @@ import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
 const { spawn } = require('node-pty');
 import xtermConfig from '../utils/xtermConfig';
+import { isMac, isWin } from '../utils/env';
 const debounce = require('lodash/debounce');
 
-if (process.platform === 'darwin') {
+if (isMac) {
   process.env.PATH = process.env.PATH + ':/usr/local/bin';
 }
 
@@ -25,9 +26,7 @@ const is32ProcessOn64Windows = process.env.hasOwnProperty(
   'PROCESSOR_ARCHITEW6432'
 );
 const useConpty =
-  process.platform === 'win32' &&
-  !is32ProcessOn64Windows &&
-  getWindowsBuildNumber() >= 18309;
+  isWin && !is32ProcessOn64Windows && getWindowsBuildNumber() >= 18309;
 
 const xshell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
 
@@ -94,13 +93,16 @@ export default class TerminalModel {
       if (!this.ptyProcess._writable) {
         this.initPty();
       }
-      this.ptyProcess.write(command);
+      const extra = isWin ? '\r ' : '';
+      this.ptyProcess.write(command + extra + '\n');
     }
   }
 
   public setExecPath(dir: string, force: boolean) {
     if (dir !== this.currentExecPath || force) {
-      this.shell(`cd ${dir}\n`);
+      const extra1 = isWin ? '/d ' : '';
+      const extra2 = isWin ? '\r ' : '';
+      this.shell(`cd ${extra1}${dir}${extra2}\n`);
       this.currentExecPath = dir;
     }
   }

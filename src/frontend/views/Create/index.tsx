@@ -34,6 +34,8 @@ import './index.scss';
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workStation.setUserDefaultProjerctPath(str),
+    setExecPath: (str: string, force: boolean) =>
+      stores.terminal.setExecPath(str, force),
   };
 })
 @observer
@@ -73,7 +75,7 @@ class CreatehView extends React.Component<any, any> {
       onOk: () => {
         const sudo = isMac ? 'sudo ' : '';
         const cmd = this.isYarn ? 'yarn' : 'npm';
-        this.props.shell(`${sudo}${cmd} install\n`);
+        this.props.shell(`${sudo}${cmd} install`);
         remote.shell.showItemInFolder(this.projectDir);
         remote.getCurrentWindow().focus();
       },
@@ -141,7 +143,7 @@ class CreatehView extends React.Component<any, any> {
               this.props.setUserDefaultProjerctPath(state.optputDir);
 
               if (this.installPackages) {
-                this.props.shell(`cd ${state.optputDir}\n`);
+                this.props.setExecPath(state.optputDir, false);
                 this.installConfirm();
                 this.projectDir = state.optputDir;
               } else {
@@ -160,8 +162,10 @@ class CreatehView extends React.Component<any, any> {
 
   public setTaobaoMirror() {
     this.props.shell(
-      'npm config set registry https://registry.npm.taobao.org/\n' +
-        'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass/\n'
+      'npm config set registry https://registry.npm.taobao.org/'
+    );
+    this.props.shell(
+      'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass/'
     );
   }
 

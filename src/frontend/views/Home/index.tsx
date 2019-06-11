@@ -75,7 +75,7 @@ class HomeView extends React.Component<IProps> {
         </button>
         <button
           onClick={e => {
-            this.props.shell('ls\n');
+            this.props.shell('ls');
           }}
         >
           执行命令

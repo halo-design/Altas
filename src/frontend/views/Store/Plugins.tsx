@@ -44,7 +44,7 @@ class PluginsView extends React.Component<any, any> {
                 </div>
                 <div className="control-btn-wrap">
                   <button>查看文档</button>
-                  <button>下载源码</button>
+                  <button>下载使用</button>
                 </div>
               </div>
             ))}

@@ -1,15 +1,26 @@
 .page-store {
   .app-switch-wrap-fixed {
-    height: 77px;
+    height: 87px;
     
     .app-switch {
       padding-top: 30px;
+      padding-bottom: 20px;
       background-color: #fbfbfde0;
+
+      .item-btn {
+        border-color: #dedede;
+        color: #7b7d85;
+
+        &.active {
+          color: #fff;
+          border-color: #4347ff;
+        }
+      }
     }
   }
 
   .content-list {
-    padding: 15px;
+    padding: 0 0 15px 15px;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -74,6 +85,7 @@
           flex-grow: 1;
           cursor: pointer;
           font-size: 13px;
+          background: none;
 
           &:hover {
             background-color: #fbfbfd;

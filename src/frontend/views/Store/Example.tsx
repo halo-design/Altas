@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Tooltip from 'antd/lib/tooltip';
 
-class UIView extends React.Component<any, any> {
+class ExampleView extends React.Component<any, any> {
   public render() {
     return (
       <div className="sub-page sub-page-demo">
@@ -19,7 +19,7 @@ class UIView extends React.Component<any, any> {
                   />
                 </div>
                 <div className="info">
-                  <div className="title">ynet UI库</div>
+                  <div className="title">猎豹直销银行App</div>
                   <div className="author">移动业务条线-王欢</div>
                   <div className="status">
                     <div className="itm download">
@@ -43,8 +43,8 @@ class UIView extends React.Component<any, any> {
                   </div>
                 </div>
                 <div className="control-btn-wrap">
-                  <button>查看文档</button>
-                  <button>安装使用</button>
+                  <button>查看简介</button>
+                  <button>下载案例</button>
                 </div>
               </div>
             ))}
@@ -54,4 +54,4 @@ class UIView extends React.Component<any, any> {
   }
 }
 
-export default UIView;
+export default ExampleView;

@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { Route, Switch, NavLink, Redirect } from 'react-router-dom';
 import Demo from './Demo';
 import Plugins from './Plugins';
-import UI from './UI';
+import Example from './Example';
 import Tools from './Tools';
 import Tooltip from 'antd/lib/tooltip';
 import Drawer from 'antd/lib/drawer';
@@ -68,15 +68,15 @@ class StoreView extends React.Component<any, any> {
               className="item-btn"
               activeClassName="active"
             >
-              插件库
+              插件
             </NavLink>
             <NavLink
               exact={true}
-              to="/store/ui"
+              to="/store/example"
               className="item-btn"
               activeClassName="active"
             >
-              UI库
+              案例
             </NavLink>
             <NavLink
               exact={true}
@@ -84,7 +84,7 @@ class StoreView extends React.Component<any, any> {
               className="item-btn"
               activeClassName="active"
             >
-              演示库
+              演示
             </NavLink>
             <NavLink
               exact={true}
@@ -92,13 +92,13 @@ class StoreView extends React.Component<any, any> {
               className="item-btn"
               activeClassName="active"
             >
-              工具库
+              工具
             </NavLink>
           </div>
         </div>
         <Switch>
           <Route path="/store/plugins" component={Plugins} />
-          <Route path="/store/ui" component={UI} />
+          <Route path="/store/example" component={Example} />
           <Route path="/store/demo" component={Demo} />
           <Route path="/store/tools" component={Tools} />
           <Route
@@ -136,7 +136,7 @@ class StoreView extends React.Component<any, any> {
                 onChange={(val: string) => this.projectTypeOnChange(val)}
               >
                 <Option value="plugin">插件</Option>
-                <Option value="ui-lib">UI库</Option>
+                <Option value="ui-lib">案例</Option>
                 <Option value="demo">演示demo</Option>
                 <Option value="tools">工具</Option>
               </Select>

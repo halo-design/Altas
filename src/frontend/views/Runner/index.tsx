@@ -125,7 +125,7 @@ class RunnerView extends React.Component<any, any> {
                           <div
                             className="btn-default"
                             onClick={() => {
-                              this.commander(`${item.shell}\n`);
+                              this.commander(item.shell);
                             }}
                           >
                             <i className="iconfont">&#xe603;</i>

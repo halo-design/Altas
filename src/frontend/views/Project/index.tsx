@@ -62,9 +62,9 @@ class ProjectView extends React.Component<any, any> {
     if (!this.props.userPassword) {
       message.warn('密码不能为空！');
     } else {
-      this.props.shell('sudo -s\n');
+      this.props.shell('sudo -s');
       const timer = setTimeout(() => {
-        this.props.shell(`${this.props.userPassword}\n`);
+        this.props.shell(this.props.userPassword);
         this.props.setAdminAuthorizationModalVisible(false);
         this.props.setAdminAuthorizationStatus(true);
         clearTimeout(timer);
@@ -108,7 +108,7 @@ class ProjectView extends React.Component<any, any> {
           />
         </Switch>
         <Modal
-          title="请输入管理员密码"
+          title="请输入系统管理员密码"
           visible={this.props.adminAuthorizationModalVisible}
           onOk={() => this.adminAuthorization()}
           onCancel={() => this.props.setAdminAuthorizationModalVisible(false)}
