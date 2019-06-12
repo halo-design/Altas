@@ -60,9 +60,6 @@ export default class WorkStationModel {
     noProject: true,
     noConfig: true,
   };
-  @observable public userPassword: string = '';
-  @observable public adminAuthorizationModalVisible: boolean = false;
-  @observable public adminAuthorizationStatus: boolean = false;
 
   constructor() {
     getAppInfo((param: any) => {
@@ -174,20 +171,5 @@ export default class WorkStationModel {
         cb(param);
       }
     });
-  }
-
-  @action
-  public setAdminAuthorizationModalVisible(state: boolean) {
-    this.adminAuthorizationModalVisible = state;
-  }
-
-  @action
-  public handleChangeUserPassword(val: string) {
-    this.userPassword = val;
-  }
-
-  @action
-  public setAdminAuthorizationStatus(state: boolean) {
-    this.adminAuthorizationStatus = state;
   }
 }

@@ -1,4 +1,4 @@
-// import { action, observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { Terminal } from 'xterm';
 import { shell } from 'electron';
 import * as fit from 'xterm/lib/addons/fit/fit';
@@ -7,6 +7,8 @@ import * as os from 'os';
 const { spawn } = require('node-pty');
 import xtermConfig from '../utils/xtermConfig';
 import { isMac, isWin } from '../utils/env';
+import * as storage from '../utils/storage';
+import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
 
 if (isMac) {
@@ -41,6 +43,9 @@ export default class TerminalModel {
   public resizeTerm: any = null;
   public currentExecPath: string = '';
 
+  @observable public adminAuthorizationModalVisible: boolean = false;
+  @observable public userPassword: string = '';
+
   public init(el: HTMLElement) {
     this.terminalEl = el;
     const parent: any = el.parentNode;
@@ -48,17 +53,20 @@ export default class TerminalModel {
       this.terminalParentEl = parent;
     }
 
-    this.initPty();
-    this.initTerm();
+    storage.read('user_default_project_path', (data: any) => {
+      const { user_default_project_path } = data;
+      this.initPty(user_default_project_path);
+      this.initTerm();
 
-    if (this.term) {
-      this.resizeTerm = debounce(() => {
-        const { rows, cols } = this.getRowsCols();
-        this.term.resize(cols, rows);
-      }, 100);
+      if (this.term) {
+        this.resizeTerm = debounce(() => {
+          const { rows, cols } = this.getRowsCols();
+          this.term.resize(cols, rows);
+        }, 100);
 
-      window.addEventListener('resize', this.resizeTerm, false);
-    }
+        window.addEventListener('resize', this.resizeTerm, false);
+      }
+    });
   }
 
   public show() {
@@ -90,9 +98,6 @@ export default class TerminalModel {
 
   public shell(command: string) {
     if (this.ptyProcess) {
-      if (!this.ptyProcess._writable) {
-        this.initPty();
-      }
       const extra = isWin ? '\r ' : '';
       this.ptyProcess.write(command + extra + '\n');
     }
@@ -100,22 +105,20 @@ export default class TerminalModel {
 
   public setExecPath(dir: string, force: boolean) {
     if (dir !== this.currentExecPath || force) {
-      const extra1 = isWin ? '/d ' : '';
-      const extra2 = isWin ? '\r ' : '';
-      this.shell(`cd ${extra1}${dir}${extra2}\n`);
+      this.initPty(dir);
       this.currentExecPath = dir;
     }
   }
 
-  private initPty() {
+  private initPty(cwd?: string) {
     if (this.ptyProcess) {
-      this.ptyProcess.kill();
+      this.clear();
       this.ptyProcess.destroy();
     }
     const rowscols = this.getRowsCols();
     const ptyProcess = spawn(xshell, [], {
       name: 'xterm-color',
-      cwd: process.env.PWD,
+      cwd: cwd || process.env.PWD,
       env: process.env,
       experimentalUseConpty: useConpty,
       conptyInheritCursor: true,
@@ -123,6 +126,9 @@ export default class TerminalModel {
     });
 
     ptyProcess.on('data', (data: string) => {
+      if (data === 'Password:') {
+        this.setAdminAuthorizationModalVisible(true);
+      }
       this.term.write(data);
     });
 
@@ -158,7 +164,8 @@ export default class TerminalModel {
   }
 
   public kill() {
-    this.ptyProcess.kill();
+    this.clear();
+    this.initPty(this.currentExecPath);
   }
 
   public scrollToBottom() {
@@ -166,8 +173,29 @@ export default class TerminalModel {
   }
 
   public destroy() {
+    this.clear();
     this.term.destroy();
     this.ptyProcess.destroy();
     window.removeEventListener('resize', this.resizeTerm);
+  }
+
+  @action
+  public setAdminAuthorizationModalVisible(state: boolean) {
+    this.adminAuthorizationModalVisible = state;
+  }
+
+  @action
+  public handleChangeUserPassword(val: string) {
+    this.userPassword = val;
+  }
+
+  @action
+  public adminAuthorization() {
+    if (!this.userPassword) {
+      message.warn('密码不能为空！');
+    } else {
+      this.shell(this.userPassword);
+      this.setAdminAuthorizationModalVisible(false);
+    }
   }
 }

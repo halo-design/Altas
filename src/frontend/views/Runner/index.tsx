@@ -17,7 +17,6 @@ import './index.scss';
     userDefaultProjectPath,
     projectRunnerConfig,
     kill: () => stores.terminal.kill(),
-    clear: () => stores.terminal.clear(),
     setExecPath: (str: string, force: boolean) =>
       stores.terminal.setExecPath(str, force),
     shell: (str: string) => stores.terminal.shell(str),
@@ -62,11 +61,8 @@ class RunnerView extends React.Component<any, any> {
 
   public killProcess() {
     this.props.kill();
-    this.props.clear();
-    setTimeout(() => {
-      message.info('当前进程已结束！');
-      this.props.setExecPath(this.props.userDefaultProjectPath, true);
-    }, 600);
+    message.info('当前进程已结束！');
+    this.props.setExecPath(this.props.userDefaultProjectPath);
   }
 
   public render() {

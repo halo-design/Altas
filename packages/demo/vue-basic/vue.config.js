@@ -1,5 +1,4 @@
 const chalk = require("chalk");
-const proxyLog = require("debug")("proxy");
 
 module.exports = {
   pwa: {
@@ -17,7 +16,7 @@ module.exports = {
         target: "http://flameapp.cn",
         changeOrigin: true,
         onProxyReq: ({ method, path }, req, { statusCode }) => {
-          proxyLog(
+          console.log(
             `${chalk.cyanBright(method)} ${chalk.yellow(statusCode)} ${path}`
           );
         }
