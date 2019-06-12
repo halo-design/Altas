@@ -47,7 +47,7 @@ export default class WorkStationModel {
   @observable public stateBarText: string = '等待操作';
   @observable public isOnline: boolean = false;
   @observable public isFreeze: boolean = false;
-  @observable public stateBarStatus: number = 1; // 0: sucess; 1: normal; 2: warn; 3: error;
+  @observable public stateBarStatus: number = 0; // -1: running 1: sucess; 0: normal; 2: warn; 3: error;
   @observable public systemEnv: object[] = initEnvData;
   @observable public appInfo: object = {
     version: '0.0.0',
@@ -141,12 +141,16 @@ export default class WorkStationModel {
   }
 
   @action
+  public setStateBarCode(statusCode: number) {
+    this.stateBarStatus = statusCode;
+  }
+
+  @action
   public setStateBar(str: string, statusCode?: number) {
-    if (statusCode === void 0) {
-      statusCode = 1;
+    if (statusCode) {
+      this.stateBarStatus = statusCode;
     }
     this.stateBarText = str;
-    this.stateBarStatus = statusCode;
   }
 
   @action
@@ -157,7 +161,7 @@ export default class WorkStationModel {
   @action
   public resetStateBar() {
     this.stateBarText = '等待操作';
-    this.stateBarStatus = 1;
+    this.stateBarStatus = 0;
   }
 
   @action

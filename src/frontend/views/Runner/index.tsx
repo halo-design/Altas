@@ -22,6 +22,9 @@ import './index.scss';
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workStation.setUserDefaultProjerctPath(str),
+    resetStateBar: () => stores.workStation.resetStateBar(),
+    setStateBar: (str: string, code: number) =>
+      stores.workStation.setStateBar(str, code),
   };
 })
 @observer
@@ -43,8 +46,8 @@ class RunnerView extends React.Component<any, any> {
     );
   }
 
-  public commander(str: string, noTips?: boolean) {
-    const { shell } = this.props;
+  public commander(str: string, title: string, noTips?: boolean) {
+    const { shell, setStateBar } = this.props;
     const sudo = isMac ? 'sudo ' : '';
     if (this.props.userDefaultProjectPath) {
       if (!noTips) {
@@ -54,6 +57,7 @@ class RunnerView extends React.Component<any, any> {
         });
       }
       shell(sudo + str);
+      setStateBar(title);
     } else {
       message.warn('请选择工程目录！');
     }
@@ -61,8 +65,7 @@ class RunnerView extends React.Component<any, any> {
 
   public killProcess() {
     this.props.kill();
-    message.info('当前进程已结束！');
-    this.props.setExecPath(this.props.userDefaultProjectPath);
+    this.props.resetStateBar();
   }
 
   public render() {
@@ -121,7 +124,7 @@ class RunnerView extends React.Component<any, any> {
                           <div
                             className="btn-default"
                             onClick={() => {
-                              this.commander(item.shell);
+                              this.commander(item.shell, item.name);
                             }}
                           >
                             <i className="iconfont">&#xe603;</i>

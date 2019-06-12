@@ -22,17 +22,18 @@ textarea {
   border: none;
   outline: none;
   padding: 0;
+  background: none;
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #262a35;
-  border-radius: 3px;
+  background-color: rgb(220, 225, 233);
+  border-radius: 2px;
 }
 
 *::-webkit-scrollbar-track-piece {
-  background-color: #1d2028;
+  background-color: transparent;
 }

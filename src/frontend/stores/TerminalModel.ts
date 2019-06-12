@@ -43,6 +43,7 @@ export default class TerminalModel {
   public resizeTerm: any = null;
   public currentExecPath: string = '';
 
+  @observable public stdoutRunning: boolean = false;
   @observable public adminAuthorizationModalVisible: boolean = false;
   @observable public userPassword: string = '';
 
@@ -107,28 +108,47 @@ export default class TerminalModel {
     if (dir !== this.currentExecPath || force) {
       this.initPty(dir);
       this.currentExecPath = dir;
+    } else {
+      this.shell('');
+      this.clear();
     }
   }
 
   private initPty(cwd?: string) {
+    let curCwd = null;
+
     if (this.ptyProcess) {
-      this.clear();
       this.ptyProcess.destroy();
+      this.clear();
     }
+
+    if (cwd && cwd.length > 3) {
+      curCwd = cwd;
+    } else {
+      curCwd = process.env.PWD;
+    }
+
     const rowscols = this.getRowsCols();
     const ptyProcess = spawn(xshell, [], {
       name: 'xterm-color',
-      cwd: cwd || process.env.PWD,
+      cwd: curCwd,
       env: process.env,
       experimentalUseConpty: useConpty,
       conptyInheritCursor: true,
       ...rowscols,
     });
 
+    let clearTimer: any = null;
     ptyProcess.on('data', (data: string) => {
       if (data === 'Password:') {
         this.setAdminAuthorizationModalVisible(true);
       }
+      this.stdoutRunning = true;
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(() => {
+        this.stdoutRunning = false;
+        clearTimeout(clearTimer);
+      }, 3000);
       this.term.write(data);
     });
 
@@ -164,7 +184,7 @@ export default class TerminalModel {
   }
 
   public kill() {
-    this.clear();
+    message.info('当前进程已结束！');
     this.initPty(this.currentExecPath);
   }
 

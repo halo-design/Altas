@@ -6,6 +6,19 @@
   color: #b2b3b6;
   transition: opacity .3s;
 
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #262a35;
+    border-radius: 2px;
+  }
+
+  *::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+
   &.hide {
     opacity: 0;
     z-index: -1;

@@ -13,6 +13,7 @@ import './index.scss';
     userDefaultProjectPath,
     showTerm: () => stores.terminal.show(),
     hideRadar: () => stores.radar.hide(),
+    resetStateBar: () => stores.workStation.resetStateBar(),
   };
 })
 @observer
@@ -20,6 +21,10 @@ class ProjectView extends React.Component<any, any> {
   public componentDidMount() {
     this.props.showTerm();
     this.props.hideRadar();
+  }
+
+  public componentWillUnmount() {
+    this.props.resetStateBar();
   }
 
   public render() {

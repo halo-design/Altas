@@ -5,7 +5,7 @@ import { configureDevtool } from 'mobx-react-devtools';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import createStores from '../store';
+import createStores from '../stores';
 import App from './App';
 import RPC from '../utils/rpc';
 
