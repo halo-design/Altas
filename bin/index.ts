@@ -15,18 +15,18 @@ program
 
 program
   .command('febuild')
-  .option('-p --production', 'Production mode build frontend bundles.')
+  .option('-p --production', 'Production mode build web bundles.')
   .action((cmd: any) => {
     if (cmd.production) {
-      createBundle('../src/frontend/core/index.tsx', {
-        cacheDir: '.cache/frontend_build_production',
+      createBundle('../src/web/core/index.tsx', {
+        cacheDir: '.cache/web_build_production',
         minify: true,
         sourceMaps: false,
         watch: false,
       }).bundle();
     } else {
-      createBundle('../src/frontend/core/index.tsx', {
-        cacheDir: '.cache/frontend_build_development',
+      createBundle('../src/web/core/index.tsx', {
+        cacheDir: '.cache/web_build_development',
         minify: false,
         sourceMaps: true,
         watch: false,
@@ -36,11 +36,11 @@ program
 
 program
   .command('bebuild')
-  .option('-p --production', 'Production mode build backend bundles.')
+  .option('-p --production', 'Production mode build native bundles.')
   .action((cmd: any) => {
     if (cmd.production) {
-      createBundle('../src/backend/main.ts', {
-        cacheDir: '.cache/backend_build_production',
+      createBundle('../src/native/main.ts', {
+        cacheDir: '.cache/native_build_production',
         outDir: './renderer',
         outFile: 'main.js',
         minify: true,
@@ -48,8 +48,8 @@ program
         watch: false,
       }).bundle();
     } else {
-      createBundle('../src/backend/main.ts', {
-        cacheDir: '.cache/backend_build_development',
+      createBundle('../src/native/main.ts', {
+        cacheDir: '.cache/native_build_development',
         outDir: './renderer',
         outFile: 'main.js',
         minify: false,
@@ -60,16 +60,16 @@ program
   });
 
 program.command('serve').action(async () => {
-  await createBundle('../src/frontend/core/index.tsx', {
-    cacheDir: '.cache/frontend_serve_development',
+  await createBundle('../src/web/core/index.tsx', {
+    cacheDir: '.cache/web_serve_development',
     detailedReport: false,
     minify: false,
     sourceMaps: true,
     watch: true,
   }).bundle();
 
-  await createBundle('../src/backend/main.ts', {
-    cacheDir: '.cache/backend_serve_development',
+  await createBundle('../src/native/main.ts', {
+    cacheDir: '.cache/native_serve_development',
     outDir: './renderer',
     outFile: 'main.js',
     detailedReport: false,
