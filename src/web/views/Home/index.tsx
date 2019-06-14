@@ -1,6 +1,6 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { createWindow, closeWindow } from '../../bridge/createWindow';
+import { openDeviceDebug, closeWindow } from '../../bridge/createWindow';
 
 import './index.scss';
 
@@ -24,23 +24,9 @@ class HomeView extends React.Component<IProps> {
   public win_uid: string = '';
 
   public createWin() {
-    createWindow(
-      {
-        pathname: 'renderer/info.html',
-        hash: '',
-      },
-      {
-        width: 300,
-        height: 200,
-        resizable: false,
-        movable: true,
-        maximizable: false,
-        minimizable: false,
-      },
-      params => {
-        this.win_uid = params.win_uid;
-      }
-    );
+    openDeviceDebug('https://www.baidu.com/#aaa', (params: any) => {
+      this.win_uid = params.win_uid;
+    });
   }
 
   public closeWin() {

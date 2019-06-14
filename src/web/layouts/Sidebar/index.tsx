@@ -70,7 +70,7 @@ function Sidebar({ initPath }: ISidebarProps) {
           className="iconfont"
           activeClassName="active"
         >
-          &#xe6ab;
+          &#xe624;
         </NavLink>
         <NavLink
           exact={true}

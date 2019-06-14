@@ -20,6 +20,7 @@ const winCreate = (
     webPreferences: {
       nodeIntegration: true,
       scrollBounce: true,
+      webviewTag: true,
     },
     resizable: true,
   };
@@ -45,15 +46,18 @@ const winCreate = (
     mainWindow = winStateKeeper(options);
   }
 
-  const entryUrl = url.format({
-    pathname: file.path(entry.pathname),
-    protocol: 'file:',
-    slashes: true,
-    hash: entry.hash,
-  });
+  const entryUrl =
+    typeof entry === 'string'
+      ? entry
+      : url.format({
+          pathname: file.path(entry.pathname),
+          protocol: 'file:',
+          slashes: true,
+          hash: entry.hash,
+        });
 
   mainWindow.loadURL(entryUrl);
-
+  mainWindow.hide();
   return mainWindow;
 };
 

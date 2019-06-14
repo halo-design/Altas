@@ -5,11 +5,15 @@ import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
 const { spawn } = require('node-pty');
-import xtermConfig from '../utils/xtermConfig';
+import xtermConfig from '../config/xterm';
 import { isMac, isWin } from '../bridge/env';
 import * as storage from '../bridge/storage';
 import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
+import Modal from 'antd/lib/modal';
+import { openDeviceDebug } from '../bridge/createWindow';
+
+const { confirm } = Modal;
 
 if (isMac) {
   process.env.PATH = process.env.PATH + ':/usr/local/bin';
@@ -30,7 +34,7 @@ const is32ProcessOn64Windows = process.env.hasOwnProperty(
 const useConpty =
   isWin && !is32ProcessOn64Windows && getWindowsBuildNumber() >= 18309;
 
-const xshell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
+const xshell = process.env[isWin ? 'COMSPEC' : 'SHELL'];
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
@@ -56,6 +60,7 @@ export default class TerminalModel {
 
     storage.read('user_default_project_path', (data: any) => {
       const { user_default_project_path } = data;
+      this.currentExecPath = user_default_project_path;
       this.initPty(user_default_project_path);
       this.initTerm();
 
@@ -127,7 +132,6 @@ export default class TerminalModel {
     } else {
       curCwd = process.env.PWD;
     }
-
     const rowscols = this.getRowsCols();
     const ptyProcess = spawn(xshell, [], {
       name: 'xterm-color',
@@ -176,7 +180,19 @@ export default class TerminalModel {
   }
 
   private handleLink(event: any, uri: string) {
-    shell.openExternal(uri);
+    confirm({
+      title: '选择打开方式',
+      content: '是否打开应用内置调试工具？',
+      okText: '是',
+      cancelText: '否',
+      onOk() {
+        openDeviceDebug(uri, () => {});
+        message.info('打开本地调试！');
+      },
+      onCancel() {
+        shell.openExternal(uri);
+      },
+    });
   }
 
   public clear() {

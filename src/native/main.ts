@@ -35,8 +35,6 @@ const init = () => {
     }
   });
 
-  mainWindow.hide();
-
   if (!app.isPackaged) {
     require('devtron').install();
   }

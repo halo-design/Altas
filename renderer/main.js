@@ -1,4 +1,4 @@
-process.env.HMR_PORT=54731;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=53206;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -243,7 +243,8 @@ var winCreate = function winCreate(opts, entry, parentWindow, isChild) {
     transparent: false,
     webPreferences: {
       nodeIntegration: true,
-      scrollBounce: true
+      scrollBounce: true,
+      webviewTag: true
     },
     resizable: true
   };
@@ -269,13 +270,14 @@ var winCreate = function winCreate(opts, entry, parentWindow, isChild) {
     mainWindow = (0, _winStateKeeper.default)(options);
   }
 
-  var entryUrl = url.format({
+  var entryUrl = typeof entry === 'string' ? entry : url.format({
     pathname: _file.default.path(entry.pathname),
     protocol: 'file:',
     slashes: true,
     hash: entry.hash
   });
   mainWindow.loadURL(entryUrl);
+  mainWindow.hide();
   return mainWindow;
 };
 
@@ -1213,7 +1215,6 @@ var init = function init() {
       mainWindow.hide();
     }
   });
-  mainWindow.hide();
 
   if (!_electron.app.isPackaged) {
     require('devtron').install();
