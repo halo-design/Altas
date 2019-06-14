@@ -24,9 +24,19 @@ class HomeView extends React.Component<IProps> {
   public win_uid: string = '';
 
   public createWin() {
-    openDeviceDebug('https://www.baidu.com/#aaa', (params: any) => {
-      this.win_uid = params.win_uid;
-    });
+    openDeviceDebug(
+      {
+        target: 'https://www.baidu.com',
+        width: 414,
+        height: 736,
+        useragent:
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+        preload: './devTools/dev-tools.js',
+      },
+      (params: any) => {
+        this.win_uid = params.win_uid;
+      }
+    );
   }
 
   public closeWin() {

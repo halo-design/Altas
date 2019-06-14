@@ -1,14 +1,15 @@
 import RPC from './rpc';
+import * as qs from 'qs';
 const { dispatch } = RPC;
 
 export const createWindow = (
   entry: object | string,
   options: object,
-  callback: Function
+  callback?: Function
 ): void => {
   dispatch('create-window', { entry, options });
   RPC.once('get-window-id', (params: { win_uid: string }) => {
-    callback(params);
+    callback && callback(params);
   });
 };
 
@@ -16,16 +17,25 @@ export const closeWindow = (uid: string): void => {
   dispatch('close-window', { uid });
 };
 
-export const openDeviceDebug = (target: string, callback: Function) => {
+interface Idebug {
+  target: string;
+  width: number;
+  height: number;
+  useragent?: string;
+  preload?: string;
+}
+
+export const openDeviceDebug = (options: Idebug, callback?: Function) => {
+  const { width, height } = options;
   createWindow(
     {
-      pathname: 'renderer/device.html',
-      hash: target,
+      pathname: 'renderer/debug-mobile.html',
+      hash: qs.stringify(options),
     },
     {
-      width: 414,
-      height: 736,
-      resizable: true,
+      width,
+      height,
+      resizable: false,
       movable: true,
       maximizable: false,
       minimizable: false,

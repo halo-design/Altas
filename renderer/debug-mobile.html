@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dev-tools</title>
+    <title>Debug Mobile</title>
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no">
   </head>
   <style>
@@ -46,6 +46,9 @@
     .portal {
       border-top: 1px solid #dedede;
       border-bottom: none;
+      position: fixed;
+      left: 0;
+      bottom: 0;
     }
     
     .portal .ipt {
@@ -152,10 +155,11 @@
     <div class="panel">
       <div class="btn" id="backBtn">&#xe7ef;</div>
       <div class="btn" id="nextBtn">&#xe7ee;</div>
+      <div class="btn" id="reloadBtn">&#xe788;</div>
       <div class="btn" id="debugBtn">&#xe8e8;</div>
       <div class="btn" id="closeBtn">&#xe7fc;</div>
     </div>
-    <webview preload="./devTools/dev-tools.js" useragent="Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1" style="width: 414px; height: 656px;"></webview>
+    <webview></webview>
     <div class="portal">
       <div class="ipt">
         <input type="text" value="" id="tarIpt">
@@ -203,11 +207,13 @@
       </div>
     </div>
     <script>
+      const qs = require('qs');
       const win = require('electron').remote.getCurrentWindow();
       const webview = document.querySelector('webview');
-      const target = location.hash.substr(1);
+      const options = qs.parse(location.hash.substr(1));
       const closeBtn = document.getElementById('closeBtn');
       const debugBtn = document.getElementById('debugBtn');
+      const reloadBtn = document.getElementById('reloadBtn');
       const nextBtn = document.getElementById('nextBtn');
       const backBtn = document.getElementById('backBtn');
       const porBtn = document.getElementById('porBtn');
@@ -216,6 +222,18 @@
       const debugClass = debugBtn.classList;
       const maskClass = mask.classList;
       let devtoolState = false;
+
+      const { target, width, height, useragent, preload  } = options;
+
+      const setSize = (w, h) => {
+        webview.style.cssText = `width: ${w}px; height: ${h - 80}px`
+      }
+
+      const init = () => {
+        webview.setAttribute('preload', preload);
+        webview.setAttribute('useragent', useragent);
+        setSize(width, height);
+      }
 
       const invite = (lnk) => {
         if (lnk) {
@@ -228,6 +246,7 @@
         }
       }
 
+      init();
       invite(target);
 
       webview.addEventListener('devtools-opened', () => {
@@ -244,6 +263,10 @@
 
       backBtn.addEventListener('click', () => {
         webview.goBack();
+      }, false);
+
+      reloadBtn.addEventListener('click', () => {
+        webview.reload();
       }, false);
 
       closeBtn.addEventListener('click', () => {

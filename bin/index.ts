@@ -14,7 +14,7 @@ program
   });
 
 program
-  .command('febuild')
+  .command('Wbuild')
   .option('-p --production', 'Production mode build web bundles.')
   .action((cmd: any) => {
     if (cmd.production) {
@@ -35,7 +35,7 @@ program
   });
 
 program
-  .command('bebuild')
+  .command('Nbuild')
   .option('-p --production', 'Production mode build native bundles.')
   .action((cmd: any) => {
     if (cmd.production) {
