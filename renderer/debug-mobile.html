@@ -79,6 +79,7 @@
       -moz-osx-font-smoothing: grayscale;
       color: #666;
       cursor: pointer;
+      -webkit-app-region: no-drag;
     }
 
     .panel .btn.active {
@@ -159,7 +160,7 @@
       <div class="btn" id="debugBtn">&#xe8e8;</div>
       <div class="btn" id="closeBtn">&#xe7fc;</div>
     </div>
-    <webview></webview>
+    <webview id="view"></webview>
     <div class="portal">
       <div class="ipt">
         <input type="text" value="" id="tarIpt">
@@ -209,24 +210,49 @@
     <script>
       const qs = require('qs');
       const win = require('electron').remote.getCurrentWindow();
-      const webview = document.querySelector('webview');
+      const getEl = id => document.getElementById(id);
       const options = qs.parse(location.hash.substr(1));
-      const closeBtn = document.getElementById('closeBtn');
-      const debugBtn = document.getElementById('debugBtn');
-      const reloadBtn = document.getElementById('reloadBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const backBtn = document.getElementById('backBtn');
-      const porBtn = document.getElementById('porBtn');
-      const mask = document.getElementById('mask');
-      const tarIpt = document.getElementById('tarIpt');
+      const { target, width, height, useragent, preload  } = options;
+
+      const webview = getEl('view');
+      const closeBtn = getEl('closeBtn');
+      const debugBtn = getEl('debugBtn');
+      const reloadBtn = getEl('reloadBtn');
+      const nextBtn = getEl('nextBtn');
+      const backBtn = getEl('backBtn');
+      const porBtn = getEl('porBtn');
+      const mask = getEl('mask');
+      const tarIpt = getEl('tarIpt');
+
       const debugClass = debugBtn.classList;
       const maskClass = mask.classList;
-      let devtoolState = false;
 
-      const { target, width, height, useragent, preload  } = options;
+      let devtoolState = false;
 
       const setSize = (w, h) => {
         webview.style.cssText = `width: ${w}px; height: ${h - 80}px`
+      }
+
+      const bindClick = (el, fn) => {
+        el.addEventListener('click', fn, false);
+      }
+
+      const webviewBind = (event, fn) => {
+        webview.addEventListener(event, fn);
+      }
+
+      const bindInit = () => {
+        bindClick(nextBtn, () => webview.goForward());
+        bindClick(backBtn, () => webview.goBack());
+        bindClick(reloadBtn, () => webview.reload());
+        bindClick(closeBtn, () => win.close());
+        bindClick(porBtn, () => invite());
+        bindClick(debugBtn, () => {
+        if (maskClass.contains('hide')) {
+          devtoolState ? webview.closeDevTools() : webview.openDevTools();
+          devtoolState = !devtoolState;
+        }
+      });
       }
 
       const init = () => {
@@ -249,50 +275,18 @@
       init();
       invite(target);
 
-      webview.addEventListener('devtools-opened', () => {
-        debugClass.add('active');
-      })
-
-      webview.addEventListener('devtools-closed', () => {
-        debugClass.remove('active');
-      })
-
-      nextBtn.addEventListener('click', () => {
-        webview.goForward();
-      }, false);
-
-      backBtn.addEventListener('click', () => {
-        webview.goBack();
-      }, false);
-
-      reloadBtn.addEventListener('click', () => {
-        webview.reload();
-      }, false);
-
-      closeBtn.addEventListener('click', () => {
-        win.close();
-      }, false);
-
-      porBtn.addEventListener('click', () => {
-        invite();
-      }, false);
-
-      webview.addEventListener('dom-ready', () => {
-        maskClass.add('hide');
-      });
-
-      webview.addEventListener('did-navigate-in-page', (ev) => {
+      webviewBind('devtools-opened', () => { debugClass.add('active'); });
+      webviewBind('devtools-closed', () => { debugClass.remove('active'); });
+      webviewBind('did-navigate-in-page', ev => {
         if (ev) {
           tarIpt.value = ev.url;
         }
-      })
+      });
 
-      debugBtn.addEventListener('click', () => {
-        if (maskClass.contains('hide')) {
-          devtoolState ? webview.closeDevTools() : webview.openDevTools();
-          devtoolState = !devtoolState;
-        }
-      }, false);
+      webview.addEventListener('dom-ready', () => {
+        maskClass.add('hide');
+        bindInit();
+      });
 
       win.show();
     </script>

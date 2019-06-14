@@ -1,5 +1,6 @@
 import RPC from './rpc';
 import * as qs from 'qs';
+import { isMac } from './env';
 const { dispatch } = RPC;
 
 export const createWindow = (
@@ -41,7 +42,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
       minimizable: false,
       transparent: false,
       backgroundColor: '#fff',
-      titleBarStyle: 'hiddenInset',
+      titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
     },
     callback
   );
