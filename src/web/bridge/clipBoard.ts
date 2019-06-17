@@ -11,3 +11,10 @@ export const read = (cb: (args: string) => void): void => {
 export const write = (txt: string) => {
   dispatch('write-clipboard', txt);
 };
+
+export const readSync = () =>
+  new Promise((resolve, reject) => {
+    read((args: string) => {
+      resolve(args);
+    });
+  });

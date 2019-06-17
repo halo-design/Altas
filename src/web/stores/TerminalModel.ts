@@ -12,6 +12,7 @@ import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
 import Modal from 'antd/lib/modal';
 import { openDeviceDebug } from '../bridge/createWindow';
+import { encodeSync, decodeSync } from '../bridge/aes';
 
 const { confirm } = Modal;
 
@@ -46,33 +47,52 @@ export default class TerminalModel {
   public ptyProcess: any = null;
   public resizeTerm: any = null;
   public currentExecPath: string = '';
+  public encodeUserPassword: string = '';
 
   @observable public stdoutRunning: boolean = false;
   @observable public adminAuthorizationModalVisible: boolean = false;
   @observable public userPassword: string = '';
 
-  public init(el: HTMLElement) {
+  public async init(el: HTMLElement) {
     this.terminalEl = el;
     const parent: any = el.parentNode;
     if (parent && parent.className.toLowerCase().indexOf('terminal') != -1) {
       this.terminalParentEl = parent;
     }
 
-    storage.read('user_default_project_path', (data: any) => {
-      const { user_default_project_path } = data;
-      this.currentExecPath = user_default_project_path;
-      this.initPty(user_default_project_path);
-      this.initTerm();
+    const localDataProject: any = await storage.readSync(
+      'user_default_project_path'
+    );
 
-      if (this.term) {
-        this.resizeTerm = debounce(() => {
-          const { rows, cols } = this.getRowsCols();
-          this.term.resize(cols, rows);
-        }, 100);
+    const { user_default_project_path } = localDataProject;
+    this.currentExecPath = user_default_project_path;
+    this.initPty(user_default_project_path);
+    this.initTerm();
 
-        window.addEventListener('resize', this.resizeTerm, false);
+    if (this.term) {
+      this.resizeTerm = debounce(() => {
+        const { rows, cols } = this.getRowsCols();
+        this.term.resize(cols, rows);
+      }, 100);
+
+      window.addEventListener('resize', this.resizeTerm, false);
+    }
+
+    const localDataShellPassword: any = await storage.readSync(
+      'user_shell_password'
+    );
+    const { user_shell_password } = localDataShellPassword;
+    if (user_shell_password) {
+      this.encodeUserPassword = user_shell_password;
+      const aesPswd: any = await decodeSync(
+        user_shell_password,
+        'shell_password'
+      );
+
+      if (aesPswd) {
+        this.userPassword = aesPswd;
       }
-    });
+    }
   }
 
   public show() {
@@ -189,10 +209,6 @@ export default class TerminalModel {
         openDeviceDebug(
           {
             target: uri,
-            width: 414,
-            height: 736,
-            useragent:
-              'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
             preload: './devTools/dev-tools.js',
           },
           () => {
@@ -237,12 +253,22 @@ export default class TerminalModel {
   }
 
   @action
-  public adminAuthorization() {
+  public async adminAuthorization() {
     if (!this.userPassword) {
       message.warn('密码不能为空！');
     } else {
       this.shell(this.userPassword);
       this.setAdminAuthorizationModalVisible(false);
+      const aesPswd: any = await encodeSync(
+        this.userPassword,
+        'shell_password'
+      );
+
+      if (aesPswd !== this.encodeUserPassword) {
+        storage.write('user_shell_password', {
+          user_shell_password: aesPswd,
+        });
+      }
     }
   }
 }

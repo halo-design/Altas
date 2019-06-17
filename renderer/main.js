@@ -1,4 +1,4 @@
-process.env.HMR_PORT=49797;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=61382;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -698,17 +698,17 @@ module.exports = {
     "@types/node": "^12.0.8",
     "@types/object-hash": "^1.3.0",
     "@types/qs": "^6.5.3",
-    "@types/react": "^16.8.19",
+    "@types/react": "^16.8.20",
     "@types/react-dom": "^16.8.4",
-    "@types/react-router": "^5.0.1",
-    "@types/react-router-dom": "^4.3.3",
+    "@types/react-router": "^5.0.2",
+    "@types/react-router-dom": "^4.3.4",
     "@types/uuid": "^3.4.4",
     "autoprefixer": "^9.6.0",
     "babel-plugin-import": "^1.12.0",
     "commander": "^2.20.0",
     "cross-env": "^5.2.0",
     "devtron": "^1.4.0",
-    "electron": "^5.0.3",
+    "electron": "^5.0.4",
     "electron-builder": "20.43.0",
     "electron-rebuild": "^1.8.5",
     "node-sass": "^4.12.0",
@@ -721,14 +721,14 @@ module.exports = {
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-scss": "^3.8.0",
-    "ts-node": "^8.2.0",
+    "ts-node": "^8.3.0",
     "tslint": "^5.17.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
-    "antd": "^3.19.3",
+    "antd": "^3.19.4",
     "classnames": "^2.2.6",
     "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",

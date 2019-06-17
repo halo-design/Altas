@@ -1,6 +1,11 @@
+import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { openDeviceDebug, closeWindow } from '../../bridge/createWindow';
+import allDevices, { allDeviceObject } from '../../config/DeviceDescriptors';
+import Select from 'antd/lib/select';
+
+const { Option } = Select;
 
 import './index.scss';
 
@@ -22,15 +27,12 @@ interface IProps {
 @observer
 class HomeView extends React.Component<IProps> {
   public win_uid: string = '';
+  @observable public defaultDevice = 'iPhone 8 Plus';
 
   public createWin() {
     openDeviceDebug(
       {
         target: 'https://www.baidu.com',
-        width: 414,
-        height: 736,
-        useragent:
-          'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
         preload: './devTools/dev-tools.js',
       },
       (params: any) => {
@@ -45,12 +47,34 @@ class HomeView extends React.Component<IProps> {
     }
   }
 
+  @action
+  public deviceOnChange(val: string) {
+    console.log(allDeviceObject[val]);
+  }
+
   public render() {
     return (
       <div className="page-home">
         <br />
         <br />
         <br />
+        <div className="form-table">
+          <div className="form-item project-type-selection">
+            <div className="label">选择调试设备</div>
+            <Select
+              style={{ width: 360 }}
+              defaultValue={this.defaultDevice}
+              size="large"
+              onChange={(val: string) => this.deviceOnChange(val)}
+            >
+              {allDevices.map(({ name }: any) => (
+                <Option value={name} key={name}>
+                  {name}
+                </Option>
+              ))}
+            </Select>
+          </div>
+        </div>
         <button
           onClick={e => {
             this.createWin();

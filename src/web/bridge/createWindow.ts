@@ -1,6 +1,7 @@
 import RPC from './rpc';
 import * as qs from 'qs';
 import { isMac } from './env';
+import { allDeviceObject } from '../config/DeviceDescriptors';
 const { dispatch } = RPC;
 
 export const createWindow = (
@@ -20,14 +21,28 @@ export const closeWindow = (uid: string): void => {
 
 interface Idebug {
   target: string;
-  width: number;
-  height: number;
-  useragent?: string;
+  descriptors?: {
+    name: string;
+    userAgent: string;
+    viewport: {
+      width: number;
+      height: number;
+      deviceScaleFactor: number;
+      isMobile: boolean;
+      hasTouch: boolean;
+      isLandscape: boolean;
+    };
+  };
   preload?: string;
 }
 
 export const openDeviceDebug = (options: Idebug, callback?: Function) => {
-  const { width, height } = options;
+  let { descriptors }: any = options;
+  if (!descriptors) {
+    descriptors = allDeviceObject['iPhone 8 Plus'];
+    options['descriptors'] = descriptors;
+  }
+  const { width, height } = descriptors.viewport;
   createWindow(
     {
       pathname: 'renderer/debug-mobile.html',

@@ -34,26 +34,24 @@ export default class WorkStationModel {
   }
 
   @action
-  getLocalUserProjectPath() {
-    storage.read('user_default_project_path', (data: any) => {
-      const { user_default_project_path } = data;
-      if (user_default_project_path) {
-        this.userDefaultProjectPath = user_default_project_path;
-        getProjectRunnerConfig(user_default_project_path, (data: object) => {
-          this.projectRunnerConfig = data;
-        });
-      }
-    });
+  async getLocalUserProjectPath() {
+    const localData: any = await storage.readSync('user_default_project_path');
+    const { user_default_project_path } = localData;
+    if (user_default_project_path) {
+      this.userDefaultProjectPath = user_default_project_path;
+      getProjectRunnerConfig(user_default_project_path, (data: object) => {
+        this.projectRunnerConfig = data;
+      });
+    }
   }
 
   @action
-  getLocalSystemEnvData() {
-    storage.read('system_support_environment', (data: any) => {
-      const { system_support_environment } = data;
-      if (system_support_environment) {
-        this.systemEnv = system_support_environment;
-      }
-    });
+  async getLocalSystemEnvData() {
+    const localData: any = await storage.readSync('system_support_environment');
+    const { system_support_environment } = localData;
+    if (system_support_environment) {
+      this.systemEnv = system_support_environment;
+    }
   }
 
   @computed get systemEnvObject() {

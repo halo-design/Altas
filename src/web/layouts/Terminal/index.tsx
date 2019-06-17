@@ -64,6 +64,7 @@ class TerminalView extends React.Component<any> {
               placeholder="请输入密码"
               type="password"
               size="large"
+              defaultValue={this.props.userPassword}
               onChange={(e: any) => {
                 this.props.handleChangeUserPassword(e.target.value);
               }}

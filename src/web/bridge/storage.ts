@@ -15,3 +15,10 @@ export const read = (key: string, cb: (args: object) => void): void => {
 export const remove = (key: string): void => {
   dispatch('remove-storage', key);
 };
+
+export const readSync = (key: string) =>
+  new Promise((resolve, reject) => {
+    read(key, (args: object) => {
+      resolve(args);
+    });
+  });

@@ -212,7 +212,7 @@
       const win = require('electron').remote.getCurrentWindow();
       const getEl = id => document.getElementById(id);
       const options = qs.parse(location.hash.substr(1));
-      const { target, width, height, useragent, preload  } = options;
+      const { target, descriptors: { viewport: { width, height }, userAgent }, preload  } = options;
 
       const webview = getEl('view');
       const closeBtn = getEl('closeBtn');
@@ -257,7 +257,7 @@
 
       const init = () => {
         webview.setAttribute('preload', preload);
-        webview.setAttribute('useragent', useragent);
+        webview.setAttribute('useragent', userAgent);
         setSize(width, height);
       }
 

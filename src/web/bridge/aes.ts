@@ -22,3 +22,17 @@ export const decode = (
     callback(params);
   });
 };
+
+export const encodeSync = (data: string, pswd: string) =>
+  new Promise((resolve, reject) => {
+    encode(data, pswd, (params: string) => {
+      resolve(params);
+    });
+  });
+
+export const decodeSync = (data: string, pswd: string) =>
+  new Promise((resolve, reject) => {
+    decode(data, pswd, (params: string) => {
+      resolve(params);
+    });
+  });
