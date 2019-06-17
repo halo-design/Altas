@@ -1,4 +1,3 @@
-import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { openDeviceDebug, closeWindow } from '../../bridge/createWindow';
@@ -9,31 +8,27 @@ const { Option } = Select;
 
 import './index.scss';
 
-interface IProps {
-  shell: (s: string) => void;
-  clear: () => void;
-  kill: () => void;
-  scrollToBottom: () => void;
-}
-
 @inject((stores: any) => {
   return {
+    useDebugDevice: stores.terminal.useDebugDevice,
     shell: (s: string) => stores.terminal.shell(s),
     clear: () => stores.terminal.clear(),
     kill: () => stores.terminal.kill(),
     scrollToBottom: () => stores.terminal.scrollToBottom(),
+    setUseDebugDevice: (type: string) =>
+      stores.terminal.setUseDebugDevice(type),
   };
 })
 @observer
-class HomeView extends React.Component<IProps> {
+class HomeView extends React.Component<any> {
   public win_uid: string = '';
-  @observable public defaultDevice = 'iPhone 8 Plus';
 
   public createWin() {
     openDeviceDebug(
       {
         target: 'https://www.baidu.com',
         preload: './devTools/dev-tools.js',
+        descriptors: allDeviceObject[this.props.useDebugDevice],
       },
       (params: any) => {
         this.win_uid = params.win_uid;
@@ -47,9 +42,8 @@ class HomeView extends React.Component<IProps> {
     }
   }
 
-  @action
   public deviceOnChange(val: string) {
-    console.log(allDeviceObject[val]);
+    this.props.setUseDebugDevice(val);
   }
 
   public render() {
@@ -63,7 +57,7 @@ class HomeView extends React.Component<IProps> {
             <div className="label">选择调试设备</div>
             <Select
               style={{ width: 360 }}
-              defaultValue={this.defaultDevice}
+              defaultValue={this.props.useDebugDevice}
               size="large"
               onChange={(val: string) => this.deviceOnChange(val)}
             >

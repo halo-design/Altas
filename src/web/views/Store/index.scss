@@ -17,6 +17,17 @@
         }
       }
     }
+
+    .search-filter-input {
+      position: fixed;
+      right: 40px;
+      top: 32px;
+
+      .ant-input {
+        box-shadow: none;
+        border-radius: 16px;
+      }
+    }
   }
 
   .content-list {

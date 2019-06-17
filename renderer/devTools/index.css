@@ -1,0 +1,148 @@
+html {
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+  font-size: 14px;
+  background-color: #fff;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('iconfont.ttf') format('truetype');
+}
+
+.panel, .portal {
+  width: 100%;
+  height: 40px;
+  background: #fdfdfd;
+  border-bottom: 1px solid #dedede;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel {
+  -webkit-app-region: drag;
+}
+
+.portal {
+  border-top: 1px solid #dedede;
+  border-bottom: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+.portal .ipt {
+  flex-grow: 1;
+  padding: 5px 0 5px 15px;
+}
+
+.portal .ipt input {
+  height: 29px;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  background-color: #f1f3f4;
+  outline: none;
+  display: block;
+  padding: 0 10px;
+}
+
+.btn {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-family: "iconfont" !important;
+  font-size: 18px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #666;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.panel .btn.active {
+  color: rgb(228, 85, 19);
+}
+
+.panel .btn.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.panel .btn:not(.active):not(.disabled):hover {
+  color: #333;
+}
+
+.mask {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  right: 0;
+  bottom: 40px;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  perspective: 19em;
+  background: #bce1f3;
+}
+
+.mask div {
+  transform-style: preserve-3d;
+}
+
+.mask .rot {
+  position: absolute;
+  transform: rotate(calc(var(--k)*1turn)) translatey(23vmin);
+}
+
+.mask .rot:before,
+.mask .rot:after {
+  --i: 0;
+  position: absolute;
+  margin: -1.2vmin;
+  padding: 1.2vmin;
+  border-radius: 50%;
+  background: hsl(0, 0%, calc(var(--i)*100%));
+  animation: r 2s linear calc((.5*var(--i) + 6*var(--k))*-2s) infinite;
+  content: "";
+}
+.mask .rot:after {
+  --i: 1;
+}
+
+@keyframes r {
+  0% {
+    transform: perspective(9em) rotatex(0deg) translatez(2.625vmin) rotatex(0deg);
+  }
+  100% {
+    transform: perspective(9em) rotatex(1turn) translatez(2.625vmin) rotatex(-1turn);
+  }
+}
+
+@keyframes h {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.mask.hide {
+  animation: h .6s both;
+}

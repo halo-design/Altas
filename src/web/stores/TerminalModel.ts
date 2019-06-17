@@ -13,6 +13,7 @@ const debounce = require('lodash/debounce');
 import Modal from 'antd/lib/modal';
 import { openDeviceDebug } from '../bridge/createWindow';
 import { encodeSync, decodeSync } from '../bridge/aes';
+import { allDeviceObject } from '../config/DeviceDescriptors';
 
 const { confirm } = Modal;
 
@@ -52,6 +53,12 @@ export default class TerminalModel {
   @observable public stdoutRunning: boolean = false;
   @observable public adminAuthorizationModalVisible: boolean = false;
   @observable public userPassword: string = '';
+  @observable public useDebugDevice: string = 'iPhone 8 Plus';
+
+  constructor() {
+    this.setUseDebugDevice = this.setUseDebugDevice.bind(this);
+    this.handleLink = this.handleLink.bind(this);
+  }
 
   public async init(el: HTMLElement) {
     this.terminalEl = el;
@@ -199,24 +206,30 @@ export default class TerminalModel {
     }
   }
 
+  @action
+  public setUseDebugDevice(type: string) {
+    this.useDebugDevice = type;
+  }
+
   private handleLink(event: any, uri: string) {
     confirm({
       title: '选择打开方式',
       content: '是否打开应用内置调试工具？',
       okText: '是',
       cancelText: '否',
-      onOk() {
+      onOk: () => {
         openDeviceDebug(
           {
             target: uri,
             preload: './devTools/dev-tools.js',
+            descriptors: allDeviceObject[this.useDebugDevice],
           },
           () => {
             message.info('已打开本地调试！');
           }
         );
       },
-      onCancel() {
+      onCancel: () => {
         shell.openExternal(uri);
       },
     });

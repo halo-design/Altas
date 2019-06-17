@@ -11,8 +11,10 @@ import Drawer from 'antd/lib/drawer';
 import Select from 'antd/lib/select';
 import Input from 'antd/lib/input';
 import Icon from 'antd/lib/icon';
+
 const { Option } = Select;
 const InputGroup = Input.Group;
+const Search = Input.Search;
 
 import './index.scss';
 
@@ -94,6 +96,13 @@ class StoreView extends React.Component<any, any> {
             >
               工具
             </NavLink>
+          </div>
+          <div className="search-filter-input">
+            <Search
+              style={{ width: 200 }}
+              placeholder="请输入搜索关键字"
+              onSearch={value => console.log(value)}
+            />
           </div>
         </div>
         <Switch>

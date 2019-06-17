@@ -34,6 +34,7 @@ interface Idebug {
     };
   };
   preload?: string;
+  insertCSS?: string;
 }
 
 export const openDeviceDebug = (options: Idebug, callback?: Function) => {
@@ -45,7 +46,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
   const { width, height } = descriptors.viewport;
   createWindow(
     {
-      pathname: 'renderer/debug-mobile.html',
+      pathname: 'renderer/debug-device.html',
       hash: qs.stringify(options),
     },
     {
