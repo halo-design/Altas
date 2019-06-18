@@ -385,5 +385,24 @@ export default (RPC: IServer) => {
     }
   });
 
+  RPC.on('detect-process-pid', (args: any) => {
+    if (os.platform() === 'darwin') {
+      const exec = require('child_process').exec;
+      exec('ps -ax | grep node', (err: any, stdout: string) => {
+        if (err) {
+          return;
+        }
+        const pidList: string[] = [];
+        stdout.split('\n').filter((line: string) => {
+          if (line.indexOf(path.basename(args.dirname)) >= 0) {
+            const col = line.trim().split(/\s+/);
+            pidList.push(col[0]);
+          }
+        });
+        dispatch('get-process-pid', { pidList });
+      });
+    }
+  });
+
   return { tray };
 };

@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 import { Terminal } from 'xterm';
-import { shell } from 'electron';
+import { openLink, getProcessPid } from '../bridge/system';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
@@ -146,7 +146,7 @@ export default class TerminalModel {
     }
   }
 
-  private initPty(cwd?: string) {
+  private initPty(cwd?: string, cb?: Function) {
     let curCwd = null;
 
     if (this.ptyProcess) {
@@ -184,6 +184,7 @@ export default class TerminalModel {
     });
 
     this.ptyProcess = ptyProcess;
+    cb && cb();
   }
 
   private initTerm() {
@@ -230,7 +231,7 @@ export default class TerminalModel {
         );
       },
       onCancel: () => {
-        shell.openExternal(uri);
+        openLink(uri);
       },
     });
   }
@@ -241,7 +242,15 @@ export default class TerminalModel {
 
   public kill() {
     message.info('当前进程已结束！');
-    this.initPty(this.currentExecPath);
+    this.initPty(this.currentExecPath, () => {
+      if (isMac) {
+        getProcessPid(this.currentExecPath, ({ pidList }: any) => {
+          pidList.forEach((num: string) => {
+            this.shell(`sudo kill -9 ${num}`);
+          });
+        });
+      }
+    });
   }
 
   public scrollToBottom() {

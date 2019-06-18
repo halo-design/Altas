@@ -19,12 +19,26 @@ export const getAppDir = (cb: (args: object) => void): void => {
   });
 };
 
+export const getAppDirSync = () =>
+  new Promise((resolve, reject) => {
+    getAppDir((params: object) => {
+      resolve(params);
+    });
+  });
+
 export const getIpAddress = (cb: (args: object) => void): void => {
   dispatch('get-ip-address', '');
   RPC.once('ip-address', (args: object) => {
     cb(args);
   });
 };
+
+export const getIpAddressSync = () =>
+  new Promise((resolve, reject) => {
+    getIpAddress((params: object) => {
+      resolve(params);
+    });
+  });
 
 export const getDeviceOS = (cb: (args: object) => void): void => {
   dispatch('get-device-os', '');
@@ -33,6 +47,23 @@ export const getDeviceOS = (cb: (args: object) => void): void => {
   });
 };
 
+export const getDeviceOSSync = () =>
+  new Promise((resolve, reject) => {
+    getDeviceOS((params: object) => {
+      resolve(params);
+    });
+  });
+
 export const openLink = (url: string): void => {
   shell.openExternal(url);
+};
+
+export const getProcessPid = (
+  dirname: string,
+  cb: (args: object) => void
+): void => {
+  dispatch('detect-process-pid', { dirname });
+  RPC.once('get-process-pid', (args: object) => {
+    cb(args);
+  });
 };
