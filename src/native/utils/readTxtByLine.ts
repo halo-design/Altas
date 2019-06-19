@@ -7,7 +7,7 @@ export default (
   cb: (i: number, s: string) => void,
   done: () => void
 ) => {
-  log.debug(filePath);
+  log.info(filePath);
   const rl = readline.createInterface({
     input: fs.createReadStream(filePath),
   });

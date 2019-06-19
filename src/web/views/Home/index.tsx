@@ -26,9 +26,22 @@ class HomeView extends React.Component<any> {
   public createWin() {
     openDeviceDebug(
       {
-        target: 'https://www.baidu.com',
+        target: 'https://mobile.ant.design/kitchen-sink/',
         preload: './devTools/dev-tools.js',
         descriptors: allDeviceObject[this.props.useDebugDevice],
+        insertCSS: `
+          body::-webkit-scrollbar {
+            width: 4px;
+          }
+          
+          body::-webkit-scrollbar-thumb {
+            background-color: rgb(220, 220, 220);
+          }
+          
+          body::-webkit-scrollbar-track-piece {
+            background-color: transparent;
+          }
+        `,
       },
       (params: any) => {
         this.win_uid = params.win_uid;

@@ -1,5 +1,5 @@
 import { remote } from 'electron';
-const { shell } = remote;
+const { shell, getCurrentWindow } = remote;
 
 import RPC from './rpc';
 const { dispatch } = RPC;
@@ -67,3 +67,5 @@ export const getProcessPid = (
     cb(args);
   });
 };
+
+export const getWindow = () => getCurrentWindow();

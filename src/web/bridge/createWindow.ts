@@ -46,7 +46,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
   const { width, height } = descriptors.viewport;
   createWindow(
     {
-      pathname: 'renderer/debug-device.html',
+      pathname: 'renderer/devtools.html',
       hash: qs.stringify(options),
     },
     {

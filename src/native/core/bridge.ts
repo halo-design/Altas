@@ -147,7 +147,7 @@ export default (RPC: IServer) => {
         if (timer) {
           clearTimeout(timer);
         }
-        log.debug(dl.getSavePath());
+        log.info(dl.getSavePath());
         dispatch('on-download-state', {
           index: args.index || 0,
           progress: 1,
@@ -363,7 +363,7 @@ export default (RPC: IServer) => {
           filter: (file: any) => file.type !== 'SymbolicLink',
         });
 
-        log.debug(optputDir);
+        log.info(optputDir);
       })
       .catch(() => {
         dispatch('get-repo', {

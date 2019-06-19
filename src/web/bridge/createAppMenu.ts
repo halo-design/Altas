@@ -167,9 +167,9 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
     submenu: [
       {
         click: () => {
-          shell.openExternal('http://owlaford.gitee.io');
+          shell.openExternal('https://owlaford.gitee.io/#/home/message');
         },
-        label: '作者博客',
+        label: '给作者留言',
       },
     ],
   };
@@ -184,7 +184,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
         click: (item: any, win: any) => {
           win.toggleDevTools();
         },
-        label: 'Developer Tools',
+        label: '应用调试器',
       }
     );
   }

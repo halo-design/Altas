@@ -29,11 +29,13 @@
   .info-content {
     margin: 0 15px;
     border-radius: 6px;
-    background-image: -webkit-linear-gradient(160deg, #1389ff, #5f43ff);
+    background: url(./img/bg.png) no-repeat;
+    background-size: 100% 100%;
     box-shadow: 0 2px 6px -2px rgba(85, 85, 150, .16);
     overflow: hidden;
     padding: 5px;
     color: #fff;
+    position: relative;
 
     .iconfont {
       vertical-align: middle;

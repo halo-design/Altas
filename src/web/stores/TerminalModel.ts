@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 import { Terminal } from 'xterm';
-import { openLink, getProcessPid } from '../bridge/system';
+import { openLink, getProcessPid, getWindow } from '../bridge/system';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
@@ -173,6 +173,9 @@ export default class TerminalModel {
     ptyProcess.on('data', (data: string) => {
       if (data === 'Password:') {
         this.setAdminAuthorizationModalVisible(true);
+      }
+      if (data.indexOf('hello altas') >= 0) {
+        getWindow().webContents.toggleDevTools();
       }
       this.stdoutRunning = true;
       clearTimeout(clearTimer);

@@ -1,4 +1,5 @@
 const qs = require('qs');
+const QRcode = require('qrcode');
 const win = require('electron').remote.getCurrentWindow();
 const getEl = id => document.getElementById(id);
 const options = qs.parse(location.hash.substr(1));
@@ -11,16 +12,26 @@ const reloadBtn = getEl('reloadBtn');
 const nextBtn = getEl('nextBtn');
 const backBtn = getEl('backBtn');
 const porBtn = getEl('porBtn');
+const qrBtn = getEl('qrBtn');
 const mask = getEl('mask');
 const tarIpt = getEl('tarIpt');
+const qrcode = getEl('qrcode');
+const qrCanvas = qrcode.getElementsByTagName('canvas')[0];
 
 const backClass = backBtn.classList;
 const nextClass = nextBtn.classList;
 const debugClass = debugBtn.classList;
 const maskClass = mask.classList;
+const qrcodeClass = qrcode.classList;
+const qrBtnClass = qrBtn.classList;
 
 let devtoolState = false;
 let panelReady = false;
+
+document.addEventListener('click', () => {
+  qrcodeClass.remove('show');
+  qrBtnClass.remove('active');
+}, false);
 
 const setSize = (w, h) => {
   webview.style.cssText = `width: ${w}px; height: ${h - 80}px`
@@ -56,14 +67,27 @@ const bindInit = () => {
   bindClick(backBtn, () => webview.goBack());
   bindClick(reloadBtn, () => webview.reloadIgnoringCache());
   bindClick(closeBtn, () => win.close());
-  bindClick(porBtn, () => invite());
+  bindClick(porBtn, () => visit());
   bindClick(debugBtn, () => {
-    console.log(devtoolState);
     if (maskClass.contains('hide')) {
-    devtoolState ? webview.closeDevTools() : webview.openDevTools();
-    devtoolState = !devtoolState;
-  }
-});
+      devtoolState ? webview.closeDevTools() : webview.openDevTools();
+      devtoolState = !devtoolState;
+    }
+  });
+  bindClick(qrBtn, () => {
+    if (qrBtnClass.contains('active')) {
+      qrcodeClass.remove('show');
+      qrBtnClass.remove('active');
+    } else if (tarIpt.value) {
+      QRcode.toCanvas(qrCanvas, tarIpt.value, {
+        width: 180,
+        margin: 0,
+      }).then(() => {
+        qrcodeClass.add('show');
+        qrBtnClass.add('active');
+      });
+    }
+  });
 }
 
 const init = () => {
@@ -72,19 +96,19 @@ const init = () => {
   setSize(width, height);
 }
 
-const invite = (lnk) => {
+const visit = (lnk) => {
   if (lnk) {
     tarIpt.value = lnk;
   }
 
   if (tarIpt.value) {
-    maskClass.remove('hide');
+    !panelReady && maskClass.remove('hide');
     webview.setAttribute('src', tarIpt.value);
   }
 }
 
 init();
-invite(target);
+visit(target);
 
 webviewBind('devtools-opened', () => { debugClass.add('active'); });
 webviewBind('devtools-closed', () => { debugClass.remove('active'); });
