@@ -1,6 +1,9 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { openDeviceDebug } from '../../bridge/createWindow';
+import {
+  openDeviceDebug,
+  openMarkdownPreview,
+} from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
 import './index.scss';
@@ -17,7 +20,7 @@ class ToolsView extends React.Component<any> {
   public openDebugDevice() {
     openDeviceDebug({
       target: 'https://mobile.ant.design/kitchen-sink/',
-      preload: './devTools/dev-tools.js',
+      preload: './dev-tools.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
       insertCSS: `
           body::-webkit-scrollbar {
@@ -60,7 +63,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              this.openDebugDevice();
+              openMarkdownPreview();
             }}
           >
             <i className="markdown" />

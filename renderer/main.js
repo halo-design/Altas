@@ -1,4 +1,4 @@
-process.env.HMR_PORT=59006;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=63590;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -157,6 +157,9 @@ var saveFile = function saveFile(filePath, fileDataBuffer) {
 };
 
 var _default = {
+  read: function read(filename) {
+    return fs.readFileSync(filename, 'utf-8');
+  },
   JSON2File: function JSON2File(fileName, data) {
     var buf = Buffer.from(JSON.stringify(data, null, 2), 'utf8');
     saveFile(fileName, buf);
@@ -259,9 +262,9 @@ var winCreate = function winCreate(opts, entry, parentWindow, isChild) {
   var mainWindow;
 
   if (isChild) {
-    Object.assign(options, {
-      parent: parentWindow
-    });
+    // Object.assign(options, {
+    //   parent: parentWindow,
+    // });
     mainWindow = new _electron.BrowserWindow(options);
     mainWindow.once('ready-to-show', function () {
       mainWindow.show();
@@ -731,8 +734,12 @@ module.exports = {
     "electron-window-state": "^5.0.3",
     "face-api.js": "^0.20.0",
     "fs-extra": "^8.0.1",
+    "github-markdown-css": "^3.0.1",
+    "highlight.js": "^9.15.8",
     "ip": "^1.1.5",
     "lodash": "^4.17.11",
+    "markdown-it": "^8.4.2",
+    "markdown-it-attrs": "^2.4.1",
     "mobx": "^5.10.1",
     "mobx-react": "^6.1.1",
     "mobx-react-devtools": "6.1.1",
@@ -801,6 +808,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var pkg = require('../../../package.json');
+
+_electron.ipcMain.on('read-local-file', function (event) {
+  _electron.dialog.showOpenDialog({
+    defaultPath: _electron.app.getPath('home'),
+    buttonLabel: '打开',
+    properties: ['openFile'],
+    filters: [{
+      name: '*',
+      extensions: ['md', 'markdown']
+    }],
+    title: '选择要预览的markdown文件'
+  }, function (filepath) {
+    if (filepath && filepath[0]) {
+      var fpath = filepath[0];
+
+      var content = _file.default.read(fpath);
+
+      event.sender.send('get-local-file-content', {
+        directory: path.join(fpath, '../'),
+        content: content,
+        filepath: fpath
+      });
+    }
+  });
+});
 
 var _default = function _default(RPC) {
   var dispatch = RPC.dispatch,

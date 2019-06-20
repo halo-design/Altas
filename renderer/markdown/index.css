@@ -1,0 +1,92 @@
+html {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.main-content {
+  position: absolute;
+  left: 0;
+  top: 30px;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background-color: rgb(220, 220, 220);
+}
+
+.main-content::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('iconfont.ttf') format('truetype');
+}
+
+.control {
+  height: 30px;
+  font-size: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  background-color: rgb(44, 42, 59);
+  -webkit-app-region: drag;
+}
+
+.control .wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.control button {
+  height: 30px;
+  width: 40px;
+  line-height: 30px;
+  text-align: center;
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: #898c97;
+  font-family: 'iconfont' !important;
+  font-size: 12px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.control button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.control button.min:after {
+  content: '\e607';
+}
+
+.control button.toogle:after {
+  content: '\e604';
+}
+
+.control button.toogle.back:after {
+  content: '\e625';
+}
+
+.control button.close:after {
+  content: '\e762';
+}
+
+.control button.close:hover {
+  background-color: #e73e28;
+  color: #fff;
+}
+
+.main-content {
+  padding: 30px 15px 15px 15px;
+}

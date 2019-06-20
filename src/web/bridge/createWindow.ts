@@ -46,7 +46,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
   const { width, height } = descriptors.viewport;
   createWindow(
     {
-      pathname: 'renderer/devtools.html',
+      pathname: 'renderer/devtools/index.html',
       hash: qs.stringify(options),
     },
     {
@@ -55,11 +55,31 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
       resizable: false,
       movable: true,
       maximizable: false,
-      minimizable: false,
+      minimizable: true,
       transparent: false,
       backgroundColor: '#fff',
       titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
     },
     callback
+  );
+};
+
+export const openMarkdownPreview = () => {
+  createWindow(
+    {
+      pathname: 'renderer/markdown/index.html',
+      hash: '',
+    },
+    {
+      width: 800,
+      height: 600,
+      resizable: true,
+      movable: true,
+      maximizable: true,
+      minimizable: true,
+      transparent: false,
+      backgroundColor: '#fff',
+      titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
+    }
   );
 };

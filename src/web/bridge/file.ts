@@ -27,7 +27,7 @@ export const selectFile = (
 ): void => {
   dialog.showOpenDialog(
     {
-      defaultPath: '../Desktop',
+      defaultPath: app.getPath('documents'),
       ...args,
     },
     cb

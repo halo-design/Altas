@@ -28,6 +28,7 @@ const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
 };
 
 export default {
+  read: (filename: string) => fs.readFileSync(filename, 'utf-8'),
   JSON2File: (fileName: string, data: object) => {
     const buf = Buffer.from(JSON.stringify(data, null, 2), 'utf8');
     saveFile(fileName, buf);

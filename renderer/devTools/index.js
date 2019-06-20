@@ -1,7 +1,7 @@
 const qs = require('qs');
 const QRcode = require('qrcode');
 const win = require('electron').remote.getCurrentWindow();
-const getEl = id => document.getElementById(id);
+const { getEl, bindClick } = require('../public/utils');
 const options = qs.parse(location.hash.substr(1));
 const { target, descriptors: { viewport: { width, height }, userAgent }, preload, insertCSS, insertText  } = options;
 
@@ -37,13 +37,6 @@ const setSize = (w, h) => {
   webview.style.cssText = `width: ${w}px; height: ${h - 80}px`
 }
 
-const bindClick = (el, fn) => {
-  el.addEventListener('click', e => {
-    fn();
-    e.stopPropagation();
-  }, false);
-}
-
 const webviewBind = (event, fn) => {
   webview.addEventListener(event, fn);
 }
@@ -62,7 +55,7 @@ const bindInit = () => {
     webview.insertCSS(insertCSS);
   }
   maskClass.add('hide');
-  // webview.setZoomFactor(1);
+
   bindClick(nextBtn, () => webview.goForward());
   bindClick(backBtn, () => webview.goBack());
   bindClick(reloadBtn, () => webview.reloadIgnoringCache());

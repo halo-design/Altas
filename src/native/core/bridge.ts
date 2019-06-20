@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { app, clipboard } from 'electron';
+import { app, clipboard, ipcMain, dialog } from 'electron';
 import { IServer } from './rpc';
 import file from '../utils/file';
 import readTxtByLine from '../utils/readTxtByLine';
@@ -19,6 +19,34 @@ import projectRunner from '../utils/projectRunner';
 import * as fs from 'fs-extra';
 
 const pkg = require('../../../package.json');
+
+ipcMain.on('read-local-file', (event: any) => {
+  dialog.showOpenDialog(
+    {
+      defaultPath: app.getPath('home'),
+      buttonLabel: '打开',
+      properties: ['openFile'],
+      filters: [
+        {
+          name: '*',
+          extensions: ['md', 'markdown'],
+        },
+      ],
+      title: '选择要预览的markdown文件',
+    },
+    (filepath: string[] | undefined) => {
+      if (filepath && filepath[0]) {
+        const fpath = filepath[0];
+        const content = file.read(fpath);
+        event.sender.send('get-local-file-content', {
+          directory: path.join(fpath, '../'),
+          content,
+          filepath: fpath,
+        });
+      }
+    }
+  );
+});
 
 export default (RPC: IServer) => {
   const { dispatch, win } = RPC;
