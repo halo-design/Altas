@@ -1,3 +1,37 @@
 .page-tools {
   position: relative;
+  padding: 20px;
+
+  h1.title {
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding: 0 10px 10px;
+  }
+  
+  .tools-list {
+    display: flex;
+
+    .item {
+      text-align: center;
+      margin: 5px 10px;
+      cursor: pointer;
+
+      i {
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 8px auto;
+
+        &.debug {
+          background-image: url(./img/devices.svg);
+        }
+
+        &.markdown {
+          background-image: url(./img/markdown.svg);
+        }
+      }
+    }
+  }
 }

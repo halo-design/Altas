@@ -33,21 +33,24 @@ class SettingsView extends React.Component<any> {
   public render() {
     return (
       <div className="page-settings">
+        <h1 className="title">基本设置</h1>
         <div className="form-table">
           <div className="form-item project-type-selection">
             <div className="label">选择调试设备</div>
-            <Select
-              style={{ width: 360 }}
-              defaultValue={this.props.useDebugDevice}
-              size="default"
-              onChange={(val: string) => this.deviceOnChange(val)}
-            >
-              {allDevices.map(({ name }: any) => (
-                <Option value={name} key={name}>
-                  {name}
-                </Option>
-              ))}
-            </Select>
+            <div className="item">
+              <Select
+                style={{ width: 280 }}
+                defaultValue={this.props.useDebugDevice}
+                size="default"
+                onChange={(val: string) => this.deviceOnChange(val)}
+              >
+                {allDevices.map(({ name }: any) => (
+                  <Option value={name} key={name}>
+                    {name}
+                  </Option>
+                ))}
+              </Select>
+            </div>
           </div>
         </div>
       </div>

@@ -70,7 +70,7 @@ function Sidebar({ initPath }: ISidebarProps) {
           className="iconfont"
           activeClassName="active"
         >
-          <Tooltip placement="right" title="实用工具">
+          <Tooltip placement="right" title="常用工具">
             &#xe83d;
           </Tooltip>
         </NavLink>
