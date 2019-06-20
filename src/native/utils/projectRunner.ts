@@ -1,6 +1,5 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import log from 'electron-log';
 const readYaml = require('read-yaml');
 import { cmdIsAvailable } from '../utils/env';
 
@@ -38,7 +37,6 @@ export default (projectPath: string) => {
         noConfig: false,
         configList: config,
       };
-      log.info(result);
       return result;
     } else {
       return {

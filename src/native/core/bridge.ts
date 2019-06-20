@@ -53,15 +53,14 @@ export default (RPC: IServer) => {
         throw err;
       } else {
         log.info(data);
-        log.info(`[${key}]：数据已写入`);
+        log.info(`[${key}]：写入数据.`);
       }
     });
   });
 
   RPC.on('read-storage', (key: string) => {
     storage.get(key, (err, data) => {
-      log.info(data);
-      log.info(`[${key}]：数据已读取`);
+      log.info(`[${key}]：读取数据.`);
       dispatch('get-storage' + key, data);
     });
   });
@@ -70,7 +69,7 @@ export default (RPC: IServer) => {
     storage.remove(key, err => {
       log.error(err);
     });
-    log.info(`[${key}]：数据已删除`);
+    log.info(`[${key}]：删除数据.`);
   });
 
   RPC.on('on-dialog-message', (args: any) => {

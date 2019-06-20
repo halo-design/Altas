@@ -1,4 +1,4 @@
-process.env.HMR_PORT=64275;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=59006;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -490,7 +490,7 @@ var _default = function _default(RPC) {
 
   var menu = _electron.Menu.buildFromTemplate([{
     click: function click() {
-      RPC.dispatch('history-push', '/sync');
+      RPC.dispatch('history-push', '/settings');
       RPC.win.show();
       RPC.win.focus();
     },
@@ -579,11 +579,7 @@ var fs = _interopRequireWildcard(require("fs-extra"));
 
 var path = _interopRequireWildcard(require("path"));
 
-var _electronLog = _interopRequireDefault(require("electron-log"));
-
 var _env = require("../utils/env");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -620,9 +616,6 @@ var _default = function _default(projectPath) {
         noConfig: false,
         configList: config
       };
-
-      _electronLog.default.info(result);
-
       return result;
     } else {
       return {
@@ -698,7 +691,7 @@ module.exports = {
     "@types/node": "^12.0.8",
     "@types/object-hash": "^1.3.0",
     "@types/qs": "^6.5.3",
-    "@types/react": "^16.8.20",
+    "@types/react": "^16.8.21",
     "@types/react-dom": "^16.8.4",
     "@types/react-router": "^5.0.2",
     "@types/react-router-dom": "^4.3.4",
@@ -709,7 +702,7 @@ module.exports = {
     "cross-env": "^5.2.0",
     "devtron": "^1.4.0",
     "electron": "^5.0.4",
-    "electron-builder": "20.43.0",
+    "electron-builder": "20.44.2",
     "electron-rebuild": "^1.8.5",
     "node-sass": "^4.12.0",
     "node-ssh": "^6.0.0",
@@ -728,7 +721,7 @@ module.exports = {
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "antd": "^3.19.4",
+    "antd": "^3.19.6",
     "classnames": "^2.2.6",
     "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",
@@ -741,7 +734,7 @@ module.exports = {
     "ip": "^1.1.5",
     "lodash": "^4.17.11",
     "mobx": "^5.10.1",
-    "mobx-react": "^6.0.3",
+    "mobx-react": "^6.1.1",
     "mobx-react-devtools": "6.1.1",
     "mobx-react-router": "^4.0.7",
     "node-pty": "0.9.0-beta13",
@@ -843,15 +836,13 @@ var _default = function _default(RPC) {
       } else {
         _electronLog.default.info(data);
 
-        _electronLog.default.info("[".concat(key, "]\uFF1A\u6570\u636E\u5DF2\u5199\u5165"));
+        _electronLog.default.info("[".concat(key, "]\uFF1A\u5199\u5165\u6570\u636E."));
       }
     });
   });
   RPC.on('read-storage', function (key) {
     storage.get(key, function (err, data) {
-      _electronLog.default.info(data);
-
-      _electronLog.default.info("[".concat(key, "]\uFF1A\u6570\u636E\u5DF2\u8BFB\u53D6"));
+      _electronLog.default.info("[".concat(key, "]\uFF1A\u8BFB\u53D6\u6570\u636E."));
 
       dispatch('get-storage' + key, data);
     });
@@ -861,7 +852,7 @@ var _default = function _default(RPC) {
       _electronLog.default.error(err);
     });
 
-    _electronLog.default.info("[".concat(key, "]\uFF1A\u6570\u636E\u5DF2\u5220\u9664"));
+    _electronLog.default.info("[".concat(key, "]\uFF1A\u5220\u9664\u6570\u636E."));
   });
   RPC.on('on-dialog-message', function (args) {
     win && (0, _electronBetterDialog.showBetterMessageBox)(win, args);

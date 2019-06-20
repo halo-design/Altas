@@ -13,7 +13,7 @@ export default (RPC: any) => {
   const menu = Menu.buildFromTemplate([
     {
       click: () => {
-        RPC.dispatch('history-push', '/sync');
+        RPC.dispatch('history-push', '/settings');
         RPC.win.show();
         RPC.win.focus();
       },

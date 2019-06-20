@@ -100,6 +100,15 @@ export default class TerminalModel {
         this.userPassword = aesPswd;
       }
     }
+
+    const devToolsDebugDevice: any = await storage.readSync(
+      'devtools_debug_device'
+    );
+
+    const { devtools_debug_device } = devToolsDebugDevice;
+    if (devtools_debug_device) {
+      this.useDebugDevice = devtools_debug_device;
+    }
   }
 
   public show() {
@@ -213,6 +222,9 @@ export default class TerminalModel {
   @action
   public setUseDebugDevice(type: string) {
     this.useDebugDevice = type;
+    storage.write('devtools_debug_device', {
+      devtools_debug_device: type,
+    });
   }
 
   private handleLink(event: any, uri: string) {

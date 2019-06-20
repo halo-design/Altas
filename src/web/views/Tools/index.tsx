@@ -1,10 +1,7 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { openDeviceDebug, closeWindow } from '../../bridge/createWindow';
-import allDevices, { allDeviceObject } from '../../config/DeviceDescriptors';
-import Select from 'antd/lib/select';
-
-const { Option } = Select;
+import { allDeviceObject } from '../../config/DeviceDescriptors';
 
 import './index.scss';
 
@@ -15,12 +12,12 @@ import './index.scss';
     clear: () => stores.terminal.clear(),
     kill: () => stores.terminal.kill(),
     scrollToBottom: () => stores.terminal.scrollToBottom(),
-    setUseDebugDevice: (type: string) =>
-      stores.terminal.setUseDebugDevice(type),
+    setMonitorVisible: (state: boolean) =>
+      stores.workStation.setMonitorVisible(state),
   };
 })
 @observer
-class HomeView extends React.Component<any> {
+class ToolsView extends React.Component<any> {
   public win_uid: string = '';
 
   public createWin() {
@@ -55,33 +52,20 @@ class HomeView extends React.Component<any> {
     }
   }
 
-  public deviceOnChange(val: string) {
-    this.props.setUseDebugDevice(val);
+  public componentDidMount() {
+    this.props.setMonitorVisible(false);
+  }
+
+  public componentWillUnmount() {
+    this.props.setMonitorVisible(true);
   }
 
   public render() {
     return (
-      <div className="page-home">
+      <div className="page-tools">
         <br />
         <br />
         <br />
-        <div className="form-table">
-          <div className="form-item project-type-selection">
-            <div className="label">选择调试设备</div>
-            <Select
-              style={{ width: 360 }}
-              defaultValue={this.props.useDebugDevice}
-              size="large"
-              onChange={(val: string) => this.deviceOnChange(val)}
-            >
-              {allDevices.map(({ name }: any) => (
-                <Option value={name} key={name}>
-                  {name}
-                </Option>
-              ))}
-            </Select>
-          </div>
-        </div>
         <button
           onClick={e => {
             this.createWin();
@@ -122,4 +106,4 @@ class HomeView extends React.Component<any> {
   }
 }
 
-export default HomeView;
+export default ToolsView;

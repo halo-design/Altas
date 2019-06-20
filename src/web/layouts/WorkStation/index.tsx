@@ -10,10 +10,11 @@ import './index.scss';
 import Scan from '../../views/Scan';
 import Project from '../../views/Project';
 import Store from '../../views/Store';
-
-import Home from '../../views/Home';
-import Face from '../../views/Face';
+import Tools from '../../views/Tools';
+import Settings from '../../views/Settings';
 import Refresh from '../../views/Refresh';
+
+import Face from '../../views/Face';
 import Sync from '../../views/Sync';
 import Upload from '../../views/Upload';
 
@@ -60,9 +61,10 @@ export default class WorkStation extends React.Component<any> {
             <Route path="/scan" component={Scan} />
             <Route path="/project" component={Project} />
             <Route path="/store" component={Store} />
+            <Route path="/tools" component={Tools} />
+            <Route path="/settings" component={Settings} />
             <Route path="/face" component={Face} />
             <Route path="/upload" component={Upload} />
-            <Route path="/device" component={Home} />
             <Route path="/sync" component={Sync} />
             <Route path="/refresh" component={Refresh} />
             <Route component={() => <Redirect to={this.props.initPath} />} />

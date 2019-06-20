@@ -66,11 +66,13 @@ function Sidebar({ initPath }: ISidebarProps) {
         </NavLink>
         <NavLink
           exact={true}
-          to="/device"
+          to="/tools"
           className="iconfont"
           activeClassName="active"
         >
-          &#xe624;
+          <Tooltip placement="right" title="实用工具">
+            &#xe83d;
+          </Tooltip>
         </NavLink>
         <NavLink
           exact={true}
@@ -82,11 +84,11 @@ function Sidebar({ initPath }: ISidebarProps) {
         </NavLink>
         <NavLink
           exact={true}
-          to="/tools"
+          to="/safe"
           className="iconfont"
           activeClassName="active"
         >
-          &#xe83d;
+          &#xe670;
         </NavLink>
         <NavLink
           exact={true}
@@ -97,7 +99,11 @@ function Sidebar({ initPath }: ISidebarProps) {
           &#xe703;
         </NavLink>
       </div>
-      <i className="iconfont setting">&#xe626;</i>
+      <NavLink exact={true} to="/settings" className="iconfont setting">
+        <Tooltip placement="right" title="基本设置">
+          &#xe626;
+        </Tooltip>
+      </NavLink>
     </footer>
   );
 }
