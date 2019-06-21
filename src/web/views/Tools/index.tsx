@@ -1,5 +1,8 @@
-import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import { action, observable } from 'mobx';
+import { inject, observer } from 'mobx-react';
+import Drawer from 'antd/lib/drawer';
+import Upload from '../../layouts/Upload';
 import {
   openDeviceDebug,
   openMarkdownPreview,
@@ -9,14 +12,25 @@ import { allDeviceObject } from '../../config/DeviceDescriptors';
 import './index.scss';
 
 @inject((stores: any) => {
+  const {
+    terminal: { useDebugDevice },
+  } = stores;
+
   return {
-    useDebugDevice: stores.terminal.useDebugDevice,
+    useDebugDevice,
     setMonitorVisible: (state: boolean) =>
       stores.workStation.setMonitorVisible(state),
   };
 })
 @observer
 class ToolsView extends React.Component<any> {
+  @observable public uploadDrawerVisible: boolean = false;
+
+  @action
+  public handleUploadDrawerVisible(state: boolean): void {
+    this.uploadDrawerVisible = state;
+  }
+
   public openDebugDevice() {
     openDeviceDebug({
       target: 'https://mobile.ant.design/kitchen-sink/',
@@ -69,7 +83,28 @@ class ToolsView extends React.Component<any> {
             <i className="markdown" />
             <div className="tit">MD文档预览</div>
           </div>
+          <div
+            className="item"
+            onClick={e => {
+              this.handleUploadDrawerVisible(true);
+            }}
+          >
+            <i className="imgupload" />
+            <div className="tit">图片图床</div>
+          </div>
         </div>
+        <Drawer
+          title="图片图床"
+          placement="right"
+          closable={true}
+          width={420}
+          onClose={() => {
+            this.handleUploadDrawerVisible(false);
+          }}
+          visible={this.uploadDrawerVisible}
+        >
+          <Upload />
+        </Drawer>
       </div>
     );
   }

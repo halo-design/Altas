@@ -3,9 +3,9 @@ const { Menu, MenuItem, getCurrentWindow } = remote;
 
 export default class CreateContextMenu {
   public menu: any = null;
-  public target: Window | HTMLHtmlElement = window;
+  public target: Window | HTMLElement = window;
 
-  constructor(target: Window | HTMLHtmlElement, settings: Array<{}>) {
+  constructor(target: Window | HTMLElement, settings: Array<{}>) {
     this.init = this.init.bind(this);
     const menu = new Menu();
     settings.forEach((item: object) => {

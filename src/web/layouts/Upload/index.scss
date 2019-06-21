@@ -1,0 +1,66 @@
+.app-upload {
+  button.btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #1bca8f;
+    border-radius: 2px;
+    font-size: 14px;
+    position: relative;
+
+    &.blue {
+      background-color: #4d8afb;
+    }
+
+    &.yellow {
+      background-color: #fdb00a;
+    }
+
+    &.red {
+      background-color: #e64c4c;
+    }
+
+    &.disabled {
+      background-color: #dcdde8;
+    }
+  }
+
+  input[type=file] {
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .upload-btn {
+    width: 140px;
+    padding-top: 90px;
+    margin: 80px auto;
+    background: url(./img/upload.svg) no-repeat center top;
+    background-size: 80px auto;
+    position: relative;
+    text-align: center;
+
+    span.tit {
+      color: rgb(86, 85, 90);
+    }
+  }
+
+  .control-panel {
+    position: fixed;
+    width: 420px;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+}

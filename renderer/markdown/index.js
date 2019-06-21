@@ -5,10 +5,33 @@ const markdownItAttrs = require('markdown-it-attrs');
 const { getEl, bindClick } = require('../public/utils');
 const $content = getEl('content');
 const $readBtn = getEl('readBtn');
+const $minBtn = getEl('minBtn');
+const $toogleBtn = getEl('toogleBtn');
+const $closeBtn = getEl('closeBtn');
+
+const toogleClass = $toogleBtn.classList;
 
 bindClick($readBtn, () => {
   ipcRenderer.send('read-local-file');
 });
+
+bindClick($minBtn, () => {
+  win.minimize();
+});
+
+bindClick($closeBtn, () => {
+  win.close();
+});
+
+bindClick($toogleBtn, () => {
+  if (win.isMaximized()) {
+    win.unmaximize();
+    toogleClass.remove('back');
+  } else {
+    win.maximize();
+    toogleClass.add('back');
+  }
+})
 
 const md = require('markdown-it')({
   html: true,

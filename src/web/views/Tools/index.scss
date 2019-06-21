@@ -13,7 +13,7 @@
 
     .item {
       text-align: center;
-      margin: 5px 10px;
+      margin: 10px 15px;
       cursor: pointer;
 
       i {
@@ -30,6 +30,10 @@
 
         &.markdown {
           background-image: url(./img/markdown.svg);
+        }
+
+        &.imgupload {
+          background-image: url(./img/imgupload.svg);
         }
       }
     }

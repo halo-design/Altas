@@ -16,7 +16,6 @@ import Refresh from '../../views/Refresh';
 
 import Face from '../../views/Face';
 import Sync from '../../views/Sync';
-import Upload from '../../views/Upload';
 
 @inject((stores: any) => {
   const {
@@ -64,7 +63,6 @@ export default class WorkStation extends React.Component<any> {
             <Route path="/tools" component={Tools} />
             <Route path="/settings" component={Settings} />
             <Route path="/face" component={Face} />
-            <Route path="/upload" component={Upload} />
             <Route path="/sync" component={Sync} />
             <Route path="/refresh" component={Refresh} />
             <Route component={() => <Redirect to={this.props.initPath} />} />

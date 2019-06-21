@@ -1,4 +1,4 @@
-process.env.HMR_PORT=63590;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=62740;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -746,6 +746,7 @@ module.exports = {
     "mobx-react-router": "^4.0.7",
     "node-pty": "0.9.0-beta13",
     "object-hash": "^1.3.1",
+    "pretty-bytes": "^5.2.0",
     "qrcode": "^1.3.3",
     "qs": "^6.7.0",
     "react": "^16.8.6",

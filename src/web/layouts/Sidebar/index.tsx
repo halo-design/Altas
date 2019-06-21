@@ -84,7 +84,7 @@ function Sidebar({ initPath }: ISidebarProps) {
         </NavLink>
         <NavLink
           exact={true}
-          to="/safe"
+          to="/upload"
           className="iconfont"
           activeClassName="active"
         >

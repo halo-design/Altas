@@ -1,13 +1,85 @@
 import { action, computed, observable } from 'mobx';
 import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
-import { setTrayTitle } from '../bridge/system';
+import message from 'antd/lib/message';
+import * as storage from '../bridge/storage';
+import * as uuid from 'uuid';
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
   @observable public xhrQueue: object = {};
   @observable public uploadListStatus: object = {};
+  @observable public uploadHistoryList: any[] = [];
   @observable public remoteImageArray: any[] = [];
+  public readLocal: boolean = false;
+
+  public writeLocalHistory() {
+    storage.write('upload_image_history', {
+      upload_image_history: this.uploadHistoryList,
+    });
+  }
+
+  @action
+  public getLocalHistory() {
+    if (this.readLocal) {
+      return;
+    }
+    this.readLocal = true;
+    storage.read('upload_image_history', (data: any) => {
+      let { upload_image_history } = data;
+      if (upload_image_history) {
+        upload_image_history = Object.keys(upload_image_history).map(
+          (key: any) => upload_image_history[key]
+        );
+        console.log(upload_image_history);
+        this.uploadHistoryList = upload_image_history;
+      }
+    });
+  }
+
+  @action
+  public deleteHistoryItem(order: number) {
+    getData(this.uploadHistoryList[order].delete)
+      .then(param => {
+        console.log(param);
+      })
+      .catch(() => {
+        message.error('图片服务端删除失败！');
+      });
+
+    this.uploadHistoryList = this.uploadHistoryList.filter(
+      (item: any, index: number) => index !== order
+    );
+    this.writeLocalHistory();
+  }
+
+  @action
+  public deleteAllHistory() {
+    this.uploadHistoryList.map((item: any) => {
+      getData(item.delete)
+        .then(param => {
+          console.log(param);
+        })
+        .catch(() => {
+          message.error('图片服务端删除失败！');
+        });
+    });
+    this.uploadHistoryList = [];
+    this.writeLocalHistory();
+  }
+
+  @action
+  public resetData() {
+    if (!this.isXhrQueueEmpty) {
+      message.warn('上传队列尚未完成！');
+      return false;
+    } else {
+      this.postFiles = [];
+      this.xhrQueue = {};
+      this.uploadListStatus = {};
+      return true;
+    }
+  }
 
   @action
   public getFileList = (node: HTMLInputElement) => {
@@ -22,8 +94,8 @@ export default class UploadModel {
 
     const addFiles = rawFiles.filter((file: any, index: number): boolean => {
       const fileType = file.type.split('/')[1];
-      if (baseType.indexOf(fileType) > -1) {
-        const uid = `${Date.now()}${index}`;
+      if (baseType.indexOf(fileType) > -1 && file.size <= 4 * Math.pow(2, 20)) {
+        const uid = uuid.v4();
         file.uid = uid;
         file.addIndex = index;
 
@@ -36,6 +108,7 @@ export default class UploadModel {
 
         return true;
       } else {
+        message.error('文件格式或大小错误（不得超过4MB）！');
         return false;
       }
     });
@@ -49,10 +122,16 @@ export default class UploadModel {
   }
 
   @computed
+  get isAllEmpty(): boolean {
+    const upNum = Object.keys(this.uploadListStatus).length;
+    const xhrNum = Object.keys(this.xhrQueue).length;
+    return upNum + xhrNum === 0;
+  }
+
+  @computed
   get isXhrQueueEmpty(): boolean {
     const num = Object.keys(this.xhrQueue).length;
     if (num > 0) {
-      console.log('上传队列尚未完成！');
       return false;
     } else {
       return true;
@@ -67,6 +146,7 @@ export default class UploadModel {
 
   public clearUploadHistory() {
     getData(API.clearUploadHistory).then(param => {
+      message.success('上传历史清除成功！');
       console.log(param);
     });
   }
@@ -110,11 +190,12 @@ export default class UploadModel {
   @action
   public doUpload = () => {
     if (!this.isXhrQueueEmpty) {
+      message.warn('上传队列尚未完成！');
       return;
     }
 
-    if (this.postFiles.length > 0) {
-      setTrayTitle(this.postFiles.length.toString());
+    if (this.postFiles.length === 0) {
+      message.info('请选择上传图片文件！');
     }
 
     this.postFiles.forEach((file: any, index: number) => {
@@ -142,8 +223,10 @@ export default class UploadModel {
           }
           this.remoteImageArray.push(e.data);
           delete this.xhrQueue[uid];
+          this.uploadHistoryList.push(itemStatus.remote);
+          delete this.postFiles[index];
+          this.writeLocalHistory();
           if (this.isXhrQueueEmpty) {
-            setTrayTitle('');
             this.postFiles = [];
           }
         },
