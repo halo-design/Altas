@@ -82,6 +82,11 @@ export const openMarkdownPreview = () => {
       transparent: false,
       backgroundColor: '#fff',
       titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
+      webPreferences: {
+        nodeIntegration: true,
+        scrollBounce: false,
+        webviewTag: false,
+      },
     }
   );
 };

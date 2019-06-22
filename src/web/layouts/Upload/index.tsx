@@ -315,8 +315,8 @@ class UploadView extends React.Component<any> {
                       }}
                       key={index}
                     >
+                      name: {item.filename} <br />
                       size: {prettyBytes(item.size)} <br />
-                      name: {item.name} <br />
                       link:{item.url}
                       <button
                         onClick={e => {

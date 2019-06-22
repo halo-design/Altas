@@ -1044,10 +1044,10 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-10.14.7.tgz#1854f0a9aa8d2cd6818d607b3d091346c6730362"
   integrity sha512-on4MmIDgHXiuJDELPk1NFaKVUxxCFr37tm8E9yN6rAiF5Pzp/9bBfBHkoexqRiY+hk/Z04EJU9kKEb59YqJ82A==
 
-"@types/node@^12.0.8":
-  version "12.0.8"
-  resolved "https://registry.npmjs.org/@types/node/-/node-12.0.8.tgz#551466be11b2adc3f3d47156758f610bd9f6b1d8"
-  integrity sha512-b8bbUOTwzIY3V5vDTY1fIJ+ePKDUBqt2hC2woVGotdQQhG/2Sh62HOKHrT7ab+VerXAcPyAiTEipPu/FsreUtg==
+"@types/node@^12.0.10":
+  version "12.0.10"
+  resolved "https://registry.npmjs.org/@types/node/-/node-12.0.10.tgz#51babf9c7deadd5343620055fc8aff7995c8b031"
+  integrity sha512-LcsGbPomWsad6wmMNv7nBLw7YYYyfdYcz6xryKYQhx89c3XXan+8Q6AJ43G5XDIaklaVkK3mE4fCb0SBvMiPSQ==
 
 "@types/node@^8.0.24":
   version "8.10.48"
@@ -1123,10 +1123,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@^16.8.21":
-  version "16.8.21"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.8.21.tgz#aefb32519a4111964993be5b2bd3f172f81c34ff"
-  integrity sha512-+jAtgtJ3htE+VEP/bMzBBOANGkaTbMOGYWVrmhCVtp2WE//lNG6Irw9kBEaLR7lQGjjkt/BlSSHPgArFNOKhkg==
+"@types/react@^16.8.22":
+  version "16.8.22"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.8.22.tgz#7f18bf5ea0c1cad73c46b6b1c804a3ce0eec6d54"
+  integrity sha512-C3O1yVqk4sUXqWyx0wlys76eQfhrQhiDhDlHBrjER76lR2S2Agiid/KpOU9oCqj1dISStscz7xXz1Cg8+sCQeA==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -1286,10 +1286,10 @@ ansi-to-html@^0.6.4:
   dependencies:
     entities "^1.1.1"
 
-antd@^3.19.6:
-  version "3.19.6"
-  resolved "https://registry.npmjs.org/antd/-/antd-3.19.6.tgz#6eabfc5fdf650c9e72f0cdcd573d5015f60e11f2"
-  integrity sha512-erx+kFEPWEdRRZzF2j9GvCRnMzeXMXtcr6GaR4OG5XP75CCcy6Yll8PVxUtFlnYD6WKiKa7CnXK1W4s9RgaeuA==
+antd@^3.19.7:
+  version "3.19.7"
+  resolved "https://registry.npmjs.org/antd/-/antd-3.19.7.tgz#bd1e33c76f3d2b6cc95c9b7c862726e8a55b2f9e"
+  integrity sha512-xc1AematIhMenb5aFk5J0vXUxIRKoIqQxjYJbv6bzL0iiFxoZBxplXR0zs0rMTILKFGWXeUuLPt9Id71t5rLzw==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.0.0"
@@ -1352,27 +1352,27 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-app-builder-bin@2.6.16:
-  version "2.6.16"
-  resolved "https://registry.npmjs.org/app-builder-bin/-/app-builder-bin-2.6.16.tgz#5b27f74e52112cfefb10a841d222812af9599ec8"
-  integrity sha512-TSq2/AwXbFI+jK4SPRRASZEpZ32HsrugxuCzHshnZ3Wj5LDVIAMU3EGXfaciXWx7TV047G69RlA4/Y8OiHBn3w==
+app-builder-bin@2.7.1:
+  version "2.7.1"
+  resolved "https://registry.npmjs.org/app-builder-bin/-/app-builder-bin-2.7.1.tgz#9f690af65093821b8a6149aa29ce9f8c81fc554c"
+  integrity sha512-ubIBeiL9XysjMW4HETBKxj3DC8ika6dGyC0vftPc0kZwGh1iXQ5bycsjoAqY/3t3BBEEIg0VruicvBaUl1pOSQ==
 
-app-builder-lib@20.44.2, app-builder-lib@~20.44.2:
-  version "20.44.2"
-  resolved "https://registry.npmjs.org/app-builder-lib/-/app-builder-lib-20.44.2.tgz#013a35d22bde35778262664232e9220b719e5f0a"
-  integrity sha512-84AEt+k/edrwHwFtaXx8SGAC9ZdMJabx5xf2VGM8L8sFYbBPJppl4G6TieHqpPhDURbPXqL710HKEA/lyiEIRQ==
+app-builder-lib@20.44.4, app-builder-lib@~20.44.4:
+  version "20.44.4"
+  resolved "https://registry.npmjs.org/app-builder-lib/-/app-builder-lib-20.44.4.tgz#39ac20b3155e1b0c2499862bcdea879b50389573"
+  integrity sha512-1K1xfrhyqDgnibwyuYMgvfwGilGLMF31YwOUJ8IXreyjRef9lUjWW+BZuBXqk4Uqd0C0EYPjhofgpuN0WoAQ+A==
   dependencies:
     "7zip-bin" "~4.1.0"
-    app-builder-bin "2.6.16"
+    app-builder-bin "2.7.1"
     async-exit-hook "^2.0.1"
     bluebird-lst "^1.0.9"
-    builder-util "10.1.0"
+    builder-util "10.1.2"
     builder-util-runtime "8.2.5"
     chromium-pickle-js "^0.2.0"
     debug "^4.1.1"
     ejs "^2.6.2"
     electron-osx-sign "0.4.11"
-    electron-publish "20.44.2"
+    electron-publish "20.44.4"
     fs-extra-p "^8.0.2"
     hosted-git-info "^2.7.1"
     is-ci "^2.0.0"
@@ -1915,14 +1915,14 @@ builder-util-runtime@8.2.5, builder-util-runtime@^8.2.5:
     fs-extra-p "^8.0.2"
     sax "^1.2.4"
 
-builder-util@10.1.0, builder-util@~10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/builder-util/-/builder-util-10.1.0.tgz#99e4b31138e83d2cfe6aeb28736768865f8f39dd"
-  integrity sha512-M+XnPGbVKSssgxgejtcrCPr7BcJfTyZZYf9yJ8r3o3kDJfBcF0ShaxyuOk956PnAUuanRGtfhZb4cD6dx+x1jA==
+builder-util@10.1.2, builder-util@~10.1.2:
+  version "10.1.2"
+  resolved "https://registry.npmjs.org/builder-util/-/builder-util-10.1.2.tgz#29e631025aa4c837411d5e4ef425d14e320eb2d0"
+  integrity sha512-LQMh36Cg0r4ZfKqNlaUclndS/IXxZ3OdCgmXvw1vdP3QwYT2NkyE7LfMikAFIHpXOs6zsVH+iW+Fe/AX1jfFag==
   dependencies:
     "7zip-bin" "~4.1.0"
     "@types/debug" "^4.1.4"
-    app-builder-bin "2.6.16"
+    app-builder-bin "2.7.1"
     bluebird-lst "^1.0.9"
     builder-util-runtime "^8.2.5"
     chalk "^2.4.2"
@@ -2991,14 +2991,14 @@ dir-glob@^2.2.2:
   dependencies:
     path-type "^3.0.0"
 
-dmg-builder@6.7.0:
-  version "6.7.0"
-  resolved "https://registry.npmjs.org/dmg-builder/-/dmg-builder-6.7.0.tgz#3b64e9df7f5c092fe9627fea8acb7deeb52e5816"
-  integrity sha512-YluV5KM2sbqKZ0SeL+K7Q0E37EAeV64UmdUtnV4CZqe7TYaVa5j2K5zpfoMZyg+sekxAN8utfmrvaLf9V6SNeA==
+dmg-builder@6.7.2:
+  version "6.7.2"
+  resolved "https://registry.npmjs.org/dmg-builder/-/dmg-builder-6.7.2.tgz#4ba4955e7f35f159ce53c68d74d3ea74875f9afd"
+  integrity sha512-xfYOwhHjOSOIqkk8A0h8zcaio/WyzrAWpMTu9hzV3Z5PI4tOG0Pq6a9Lh/mHr1r3bydif8R21qGvKU1Re9CpUg==
   dependencies:
-    app-builder-lib "~20.44.2"
+    app-builder-lib "~20.44.4"
     bluebird-lst "^1.0.9"
-    builder-util "~10.1.0"
+    builder-util "~10.1.2"
     fs-extra-p "^8.0.2"
     iconv-lite "^0.4.24"
     js-yaml "^3.13.1"
@@ -3143,17 +3143,17 @@ electron-better-dialog@^1.0.6:
   resolved "https://registry.npmjs.org/electron-better-dialog/-/electron-better-dialog-1.0.6.tgz#49805fdb38146eaf7e39cf90cb9493ae12a67c58"
   integrity sha512-CiiZneTqChk2S+7LPlyO5g6bgUGMtsqIOOvD16n5gw8krvnH0uxbqOX1RD4SwIWGVyNmAlv9fYHj3+5WRHpzqg==
 
-electron-builder@20.44.2:
-  version "20.44.2"
-  resolved "https://registry.npmjs.org/electron-builder/-/electron-builder-20.44.2.tgz#5029677fc4d6251cef65320750cbea36020bcb14"
-  integrity sha512-4n7s8gfmMuNr3IbVLXo/XzcdaWcOFxu+VeC0FUjl90lU8H8pvuQ/LZS+yD7k0zVw98p4+GvMg0nIwjdF+BbwTA==
+electron-builder@20.44.4:
+  version "20.44.4"
+  resolved "https://registry.npmjs.org/electron-builder/-/electron-builder-20.44.4.tgz#c47981ddf486d582c0ae0f4d530c831010aacad7"
+  integrity sha512-H8zzP01albkKh2Ec1zc0A7RGriUkHb5M99NJskaYtgKtGATTAGH+r9OIWVk5Hk9c1dLMVudbqEeaSlygMF2asw==
   dependencies:
-    app-builder-lib "20.44.2"
+    app-builder-lib "20.44.4"
     bluebird-lst "^1.0.9"
-    builder-util "10.1.0"
+    builder-util "10.1.2"
     builder-util-runtime "8.2.5"
     chalk "^2.4.2"
-    dmg-builder "6.7.0"
+    dmg-builder "6.7.2"
     fs-extra-p "^8.0.2"
     is-ci "^2.0.0"
     lazy-val "^1.0.4"
@@ -3230,13 +3230,13 @@ electron-osx-sign@0.4.11:
     minimist "^1.2.0"
     plist "^3.0.1"
 
-electron-publish@20.44.2:
-  version "20.44.2"
-  resolved "https://registry.npmjs.org/electron-publish/-/electron-publish-20.44.2.tgz#0e029dc70d54c99b0e49d07b1f6aef483f49637f"
-  integrity sha512-GRzmMFdVG63zKip2wY+fa5Vmw6bHz1OaGemz3Ebfzm60CfaPOw8o3iWa49JuxYYPobi2BbZrbr76a0flECmAzg==
+electron-publish@20.44.4:
+  version "20.44.4"
+  resolved "https://registry.npmjs.org/electron-publish/-/electron-publish-20.44.4.tgz#f826de3788c4e3848b7f6ebd2c3acb910a1d66cc"
+  integrity sha512-50NzsKOnNqOpGJzPl04vMyitdguUvp15FWKWtu4KISsHfgdLMWGgxHGZwfMphc/vf364zXvPHsYQza3MASgaEQ==
   dependencies:
     bluebird-lst "^1.0.9"
-    builder-util "~10.1.0"
+    builder-util "~10.1.2"
     builder-util-runtime "^8.2.5"
     chalk "^2.4.2"
     fs-extra-p "^8.0.2"
@@ -3285,10 +3285,10 @@ electron@^1.7.5:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
-electron@^5.0.4:
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/electron/-/electron-5.0.4.tgz#2e0d09055363e983f4a73317cde4821c39617b02"
-  integrity sha512-7QaKorvANvP+azMT7wElx33oLlqw8QxmLs7/outfH7LC5amErk4EUtWDesQ6Zgr+s5pYFbykl8ZtJ4ZGXER05g==
+electron@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.npmjs.org/electron/-/electron-5.0.5.tgz#2d04499064d3f6c89c4642e47cfe9ea151d794eb"
+  integrity sha512-GzVQhImBX3rSCFPyJ1u1KbxquoidAHzGeCH2FTs3lzAh1H8m4vd7xh6CNC111mT/I8pxFk5D8s3atJlJQLPAeg==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -9286,10 +9286,10 @@ tslint-react@^4.0.0:
   dependencies:
     tsutils "^3.9.1"
 
-tslint@^5.17.0:
-  version "5.17.0"
-  resolved "https://registry.npmjs.org/tslint/-/tslint-5.17.0.tgz#f9f0ce2011d8e90debaa6e9b4975f24cd16852b8"
-  integrity sha512-pflx87WfVoYepTet3xLfDOLDm9Jqi61UXIKePOuca0qoAZyrGWonDG9VTbji58Fy+8gciUn8Bt7y69+KEVjc/w==
+tslint@^5.18.0:
+  version "5.18.0"
+  resolved "https://registry.npmjs.org/tslint/-/tslint-5.18.0.tgz#f61a6ddcf372344ac5e41708095bbf043a147ac6"
+  integrity sha512-Q3kXkuDEijQ37nXZZLKErssQVnwCV/+23gFEMROi8IlbaBG6tXqLPQJ5Wjcyt/yHPKBC+hD5SzuGaMora+ZS6w==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     builtin-modules "^1.1.1"
