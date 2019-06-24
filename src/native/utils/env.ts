@@ -26,3 +26,5 @@ export const langIsAvailable = (cmd: string, argArr: string[]) => {
     return false;
   }
 };
+
+export const pkg = require('../../../package.json');

@@ -87,6 +87,11 @@ body {
 }
 
 .mask {
+  top: 40px;
+  bottom: 40px;
+}
+
+/* .mask {
   position: absolute;
   left: 0;
   top: 40px;
@@ -130,22 +135,7 @@ body {
   100% {
     transform: perspective(9em) rotatex(1turn) translatez(2.625vmin) rotatex(-1turn);
   }
-}
-
-@keyframes h {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
-.mask.hide {
-  animation: h .6s both;
-}
+} */
 
 .qrcode {
   width: 200px;

@@ -270,7 +270,7 @@ class UploadView extends React.Component<any> {
                   >
                     path: {item.file.path} <br />
                     size: {prettyBytes(item.file.size)} <br />
-                    name: {item.filename} <br />
+                    name: {item.file.name} <br />
                     status: {item.status} <br />
                     progress: {item.progress ? item.progress.percent : '0'}{' '}
                     <br />

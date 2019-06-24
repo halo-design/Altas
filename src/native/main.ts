@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import winCreate from './core/winCreate';
 import createRPC from './core/rpc';
-import createBridge from './core/bridge';
+import createBridge from './core/bridge/';
 
 let mainWindow: any;
 let forceQuit: boolean = false;

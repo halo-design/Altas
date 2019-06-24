@@ -1,8 +1,12 @@
+const qs = require('qs');
 const { ipcRenderer, remote } = require('electron');
 const win = remote.getCurrentWindow();
 const hljs = require('highlight.js');
 const markdownItAttrs = require('markdown-it-attrs');
 const { getEl, bindClick } = require('../public/utils');
+const options = qs.parse(location.hash.substr(1));
+const { remoteUrl } = options;
+
 const $content = getEl('content');
 const $readBtn = getEl('readBtn');
 const $minBtn = getEl('minBtn');
@@ -60,5 +64,15 @@ ipcRenderer.on('get-local-file-content', (event, { content, directory, filepath 
   $content.innerHTML = result;
 })
 
-// win.maximize();
+if (remoteUrl) {
+  console.log(remoteUrl);
+  $content.innerHTML = '<div class="mask" id="mask"></div>';
+  
+  fetch(remote)
+    .then(response => {
+      console.log(response);
+    });
+
+  win.maximize();
+}
 win.show();

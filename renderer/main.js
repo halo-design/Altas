@@ -1,4 +1,4 @@
-process.env.HMR_PORT=55096;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=64366;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -401,247 +401,7 @@ var _default = function _default(win) {
 };
 
 exports.default = _default;
-},{}],"utils/readTxtByLine.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _electronLog = _interopRequireDefault(require("electron-log"));
-
-var fs = _interopRequireWildcard(require("fs"));
-
-var readline = _interopRequireWildcard(require("readline"));
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = function _default(filePath, cb, done) {
-  _electronLog.default.info(filePath);
-
-  var rl = readline.createInterface({
-    input: fs.createReadStream(filePath)
-  });
-  var i = 1;
-  rl.on('line', function (line) {
-    cb(i, line);
-    i++;
-  });
-  rl.on('close', done);
-};
-
-exports.default = _default;
-},{}],"utils/crypto.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.aseDecode = exports.aseEncode = void 0;
-
-var crypto = _interopRequireWildcard(require("crypto"));
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-var aseEncode = function aseEncode(data, password, iv) {
-  if (password.length !== 16 || iv.length !== 16) {
-    return '';
-  }
-
-  var cipher = crypto.createCipheriv('aes-128-cbc', password, iv);
-  var crypted = cipher.update(data, 'utf8', 'hex');
-  crypted += cipher.final('hex');
-  return crypted;
-};
-
-exports.aseEncode = aseEncode;
-
-var aseDecode = function aseDecode(data, password, iv) {
-  if (password.length !== 16 || iv.length !== 16) {
-    return '';
-  }
-
-  var decipher = crypto.createDecipheriv('aes-128-cbc', password, iv);
-  var decrypted = decipher.update(data, 'hex', 'utf8');
-  decrypted += decipher.final('utf-8');
-  return decrypted;
-};
-
-exports.aseDecode = aseDecode;
-},{}],"utils/tray.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _electron = require("electron");
-
-var _file = _interopRequireDefault(require("./file"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var isWin = process.platform === 'win32';
-
-var _default = function _default(RPC) {
-  var img = isWin ? _file.default.path('resources/dock.ico') : _file.default.path('resources/icon.png');
-  var appIcon = new _electron.Tray(img);
-
-  var menu = _electron.Menu.buildFromTemplate([{
-    click: function click() {
-      RPC.dispatch('history-push', '/settings');
-      RPC.win.show();
-      RPC.win.focus();
-    },
-    label: '设置'
-  }, {
-    type: 'separator'
-  }, {
-    click: function click() {
-      _electron.shell.openExternal('https://github.com/halo-design/Altas');
-    },
-    label: '关于'
-  }, {
-    click: function click() {
-      _electron.app.quit();
-    },
-    label: '退出'
-  }]);
-
-  appIcon.setContextMenu(menu);
-  return appIcon;
-};
-
-exports.default = _default;
-},{"./file":"utils/file.ts"}],"utils/env.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.langIsAvailable = exports.cmdIsAvailable = void 0;
-
-var _electronLog = _interopRequireDefault(require("electron-log"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _require = require('child_process'),
-    execSync = _require.execSync,
-    spawnSync = _require.spawnSync;
-
-if (process.platform === 'darwin') {
-  process.env.PATH = process.env.PATH + ':/usr/local/bin';
-}
-
-var cmdIsAvailable = function cmdIsAvailable(cmd) {
-  try {
-    var outBuffer = execSync(cmd, {
-      stdio: 'pipe'
-    });
-    var outText = outBuffer.toString('utf8').replace(/\n/g, '');
-
-    _electronLog.default.info(outText);
-
-    return outText;
-  } catch (e) {
-    return false;
-  }
-};
-
-exports.cmdIsAvailable = cmdIsAvailable;
-
-var langIsAvailable = function langIsAvailable(cmd, argArr) {
-  try {
-    var out = spawnSync(cmd, argArr, {
-      stdio: 'pipe'
-    });
-    var outText = out.stderr.toString('utf8').replace(/\n/g, '');
-
-    _electronLog.default.info(outText);
-
-    return outText;
-  } catch (e) {
-    return false;
-  }
-};
-
-exports.langIsAvailable = langIsAvailable;
-},{}],"utils/projectRunner.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var fs = _interopRequireWildcard(require("fs-extra"));
-
-var path = _interopRequireWildcard(require("path"));
-
-var _env = require("../utils/env");
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-var readYaml = require('read-yaml');
-
-var hasYarn = (0, _env.cmdIsAvailable)('yarn -v');
-var isMac = process.platform === 'darwin';
-
-var _default = function _default(projectPath) {
-  var projectIsExists = fs.existsSync(projectPath);
-
-  if (projectIsExists) {
-    var configPath = path.join(projectPath, 'altas.yml');
-    var isConfigExists = fs.existsSync(configPath);
-    var isNodeModulesExists = fs.existsSync(path.join(projectPath, 'node_modules'));
-    var commander = hasYarn ? 'yarn ' : 'npm ';
-    var sudo = isMac ? 'sudo ' : '';
-    var commandLine = sudo + commander + 'install';
-    var commandConfig = {
-      name: '安装npm依赖包',
-      shell: commandLine,
-      needCancel: false
-    };
-
-    if (isConfigExists) {
-      var config = readYaml.sync(configPath);
-
-      if (!isNodeModulesExists) {
-        config.command.unshift(commandConfig);
-      }
-
-      var result = {
-        noProject: false,
-        noConfig: false,
-        configList: config
-      };
-      return result;
-    } else {
-      return {
-        noProject: false,
-        noConfig: true,
-        configList: {
-          command: []
-        }
-      };
-    }
-  } else {
-    return {
-      noProject: true,
-      noConfig: true,
-      configList: {
-        command: []
-      }
-    };
-  }
-};
-
-exports.default = _default;
-},{"../utils/env":"utils/env.ts"}],"../../package.json":[function(require,module,exports) {
+},{}],"../../package.json":[function(require,module,exports) {
 module.exports = {
   "name": "altas",
   "version": "0.2.7",
@@ -760,7 +520,64 @@ module.exports = {
     "yaml": "^1.6.0"
   }
 };
-},{}],"core/bridge.ts":[function(require,module,exports) {
+},{}],"utils/env.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.pkg = exports.langIsAvailable = exports.cmdIsAvailable = void 0;
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _require = require('child_process'),
+    execSync = _require.execSync,
+    spawnSync = _require.spawnSync;
+
+if (process.platform === 'darwin') {
+  process.env.PATH = process.env.PATH + ':/usr/local/bin';
+}
+
+var cmdIsAvailable = function cmdIsAvailable(cmd) {
+  try {
+    var outBuffer = execSync(cmd, {
+      stdio: 'pipe'
+    });
+    var outText = outBuffer.toString('utf8').replace(/\n/g, '');
+
+    _electronLog.default.info(outText);
+
+    return outText;
+  } catch (e) {
+    return false;
+  }
+};
+
+exports.cmdIsAvailable = cmdIsAvailable;
+
+var langIsAvailable = function langIsAvailable(cmd, argArr) {
+  try {
+    var out = spawnSync(cmd, argArr, {
+      stdio: 'pipe'
+    });
+    var outText = out.stderr.toString('utf8').replace(/\n/g, '');
+
+    _electronLog.default.info(outText);
+
+    return outText;
+  } catch (e) {
+    return false;
+  }
+};
+
+exports.langIsAvailable = langIsAvailable;
+
+var pkg = require('../../../package.json');
+
+exports.pkg = pkg;
+},{"../../../package.json":"../../package.json"}],"utils/tray.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -768,98 +585,334 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var path = _interopRequireWildcard(require("path"));
+var _electron = require("electron");
+
+var _file = _interopRequireDefault(require("./file"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var isWin = process.platform === 'win32';
+
+var _default = function _default(RPC) {
+  var img = isWin ? _file.default.path('resources/dock.ico') : _file.default.path('resources/icon.png');
+  var appIcon = new _electron.Tray(img);
+
+  var menu = _electron.Menu.buildFromTemplate([{
+    click: function click() {
+      RPC.dispatch('history-push', '/settings');
+      RPC.win.show();
+      RPC.win.focus();
+    },
+    label: '设置'
+  }, {
+    type: 'separator'
+  }, {
+    click: function click() {
+      _electron.shell.openExternal('https://github.com/halo-design/Altas');
+    },
+    label: '关于'
+  }, {
+    click: function click() {
+      _electron.app.quit();
+    },
+    label: '退出'
+  }]);
+
+  appIcon.setContextMenu(menu);
+  return appIcon;
+};
+
+exports.default = _default;
+},{"./file":"utils/file.ts"}],"core/bridge/global.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
 var _electron = require("electron");
 
-var _file = _interopRequireDefault(require("../utils/file"));
+var _file = _interopRequireDefault(require("../../utils/file"));
 
-var _readTxtByLine = _interopRequireDefault(require("../utils/readTxtByLine"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _electronLog = _interopRequireDefault(require("electron-log"));
+var _default = function _default() {
+  _electron.ipcMain.on('read-local-file', function (event) {
+    _electron.dialog.showOpenDialog({
+      defaultPath: _electron.app.getPath('home'),
+      buttonLabel: '打开',
+      properties: ['openFile'],
+      filters: [{
+        name: '*',
+        extensions: ['md', 'markdown']
+      }],
+      title: '选择要预览的markdown文件'
+    }, function (filepath) {
+      if (filepath && filepath[0]) {
+        var fpath = filepath[0];
 
-var storage = _interopRequireWildcard(require("electron-json-storage"));
+        var content = _file.default.read(fpath);
 
-var ip = _interopRequireWildcard(require("ip"));
+        event.sender.send('get-local-file-content', {
+          directory: path.join(fpath, '../'),
+          content: content,
+          filepath: fpath
+        });
+      }
+    });
+  });
+};
 
-var os = _interopRequireWildcard(require("os"));
+exports.default = _default;
+},{"../../utils/file":"utils/file.ts"}],"utils/projectRunner.ts":[function(require,module,exports) {
+"use strict";
 
-var hash = _interopRequireWildcard(require("object-hash"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-var crypto = _interopRequireWildcard(require("../utils/crypto"));
+var fs = _interopRequireWildcard(require("fs-extra"));
 
-var _tray = _interopRequireDefault(require("../utils/tray"));
-
-var _winCreate = _interopRequireDefault(require("./winCreate"));
-
-var _electronBetterDialog = require("electron-better-dialog");
-
-var _electronDl = _interopRequireDefault(require("electron-dl"));
-
-var uuid = _interopRequireWildcard(require("uuid"));
+var path = _interopRequireWildcard(require("path"));
 
 var _env = require("../utils/env");
 
-var _projectRunner = _interopRequireDefault(require("../utils/projectRunner"));
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var fs = _interopRequireWildcard(require("fs-extra"));
+var readYaml = require('read-yaml');
+
+var hasYarn = (0, _env.cmdIsAvailable)('yarn -v');
+var isMac = process.platform === 'darwin';
+
+var _default = function _default(projectPath) {
+  var projectIsExists = fs.existsSync(projectPath);
+
+  if (projectIsExists) {
+    var configPath = path.join(projectPath, 'altas.yml');
+    var isConfigExists = fs.existsSync(configPath);
+    var isNodeModulesExists = fs.existsSync(path.join(projectPath, 'node_modules'));
+    var commander = hasYarn ? 'yarn ' : 'npm ';
+    var sudo = isMac ? 'sudo ' : '';
+    var commandLine = sudo + commander + 'install';
+    var commandConfig = {
+      name: '安装npm依赖包',
+      shell: commandLine,
+      needCancel: false
+    };
+
+    if (isConfigExists) {
+      var config = readYaml.sync(configPath);
+
+      if (!isNodeModulesExists) {
+        config.command.unshift(commandConfig);
+      }
+
+      var result = {
+        noProject: false,
+        noConfig: false,
+        configList: config
+      };
+      return result;
+    } else {
+      return {
+        noProject: false,
+        noConfig: true,
+        configList: {
+          command: []
+        }
+      };
+    }
+  } else {
+    return {
+      noProject: true,
+      noConfig: true,
+      configList: {
+        command: []
+      }
+    };
+  }
+};
+
+exports.default = _default;
+},{"../utils/env":"utils/env.ts"}],"core/bridge/detector.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var os = _interopRequireWildcard(require("os"));
+
+var ip = _interopRequireWildcard(require("ip"));
+
+var path = _interopRequireWildcard(require("path"));
+
+var _file = _interopRequireDefault(require("../../utils/file"));
+
+var _projectRunner = _interopRequireDefault(require("../../utils/projectRunner"));
+
+var _env = require("../../utils/env");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var pkg = require('../../../package.json');
-
-_electron.ipcMain.on('read-local-file', function (event) {
-  _electron.dialog.showOpenDialog({
-    defaultPath: _electron.app.getPath('home'),
-    buttonLabel: '打开',
-    properties: ['openFile'],
-    filters: [{
-      name: '*',
-      extensions: ['md', 'markdown']
-    }],
-    title: '选择要预览的markdown文件'
-  }, function (filepath) {
-    if (filepath && filepath[0]) {
-      var fpath = filepath[0];
-
-      var content = _file.default.read(fpath);
-
-      event.sender.send('get-local-file-content', {
-        directory: path.join(fpath, '../'),
-        content: content,
-        filepath: fpath
-      });
-    }
-  });
-});
-
 var _default = function _default(RPC) {
-  var dispatch = RPC.dispatch,
-      win = RPC.win;
-  var windowContainer = {};
-  var tray = null;
-
-  if (win) {
-    tray = (0, _tray.default)(RPC);
-    tray.setToolTip('Altas ' + pkg.version);
-    RPC.on('read-app-info', function () {
-      dispatch('get-app-info', pkg);
-    });
-    RPC.on('set-tray-title', function (args) {
-      tray.setTitle(args);
-    });
-    tray.on('click', function () {
-      win.isVisible() ? win.hide() : win.show();
-    });
-  }
-
+  var dispatch = RPC.dispatch;
+  RPC.on('read-app-info', function () {
+    dispatch('get-app-info', _env.pkg);
+  });
   RPC.on('get-appdir', function () {
     dispatch('appdir', {
       root: _file.default.root
     });
   });
+  RPC.on('detect-support-env', function (args) {
+    var es = [{
+      name: 'Node.js',
+      icon_name: 'node',
+      version: (0, _env.cmdIsAvailable)('node -v'),
+      download_lnk: 'http://nodejs.cn/download/'
+    }, {
+      name: 'NPM',
+      icon_name: 'npm',
+      version: (0, _env.cmdIsAvailable)('npm -v'),
+      download_lnk: 'http://caibaojian.com/npm/all.html'
+    }, {
+      icon_name: 'vue',
+      name: 'Vue CLI',
+      version: (0, _env.cmdIsAvailable)('vue -V'),
+      download_lnk: 'https://cli.vuejs.org/zh/guide/prototyping.html'
+    }, {
+      icon_name: 'yarn',
+      name: 'Yarn',
+      version: (0, _env.cmdIsAvailable)('yarn -v'),
+      download_lnk: 'https://yarn.bootcss.com/docs/install/'
+    }, {
+      name: 'Python',
+      icon_name: 'python',
+      version: (0, _env.langIsAvailable)('python', ['-V']),
+      download_lnk: 'https://www.python.org/getit/'
+    }];
+    dispatch('get-support-env', {
+      env_support: es
+    });
+  });
+  RPC.on('detect-runner-config', function (args) {
+    var projectPath = args.projectPath;
+
+    if (projectPath) {
+      var config = (0, _projectRunner.default)(projectPath);
+      dispatch('get-runner-config', config);
+    }
+  });
+  RPC.on('detect-process-pid', function (args) {
+    if (os.platform() === 'darwin') {
+      var exec = require('child_process').exec;
+
+      exec('ps -ax | grep node', function (err, stdout) {
+        if (err) {
+          return;
+        }
+
+        var pidList = [];
+        stdout.split('\n').filter(function (line) {
+          if (line.indexOf(path.basename(args.dirname)) >= 0) {
+            var col = line.trim().split(/\s+/);
+            pidList.push(col[0]);
+          }
+        });
+        dispatch('get-process-pid', {
+          pidList: pidList
+        });
+      });
+    }
+  });
+  RPC.on('get-ip-address', function () {
+    var network = {
+      ip: ''
+    };
+    network.ip = ip.address();
+    dispatch('ip-address', network);
+  });
+  RPC.on('get-device-os', function () {
+    var deviceInfo = {
+      arch: os.arch(),
+      cpu: os.cpus(),
+      homedir: os.homedir(),
+      hostname: os.hostname(),
+      memory: os.totalmem(),
+      network: os.networkInterfaces(),
+      platform: os.platform(),
+      release: os.release(),
+      tmpdir: os.tmpdir(),
+      type: os.type(),
+      uptime: os.uptime(),
+      userInfo: os.userInfo()
+    };
+    dispatch('device-os', deviceInfo);
+  });
+};
+
+exports.default = _default;
+},{"../../utils/file":"utils/file.ts","../../utils/projectRunner":"utils/projectRunner.ts","../../utils/env":"utils/env.ts"}],"utils/readTxtByLine.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
+var fs = _interopRequireWildcard(require("fs"));
+
+var readline = _interopRequireWildcard(require("readline"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(filePath, cb, done) {
+  _electronLog.default.info(filePath);
+
+  var rl = readline.createInterface({
+    input: fs.createReadStream(filePath)
+  });
+  var i = 1;
+  rl.on('line', function (line) {
+    cb(i, line);
+    i++;
+  });
+  rl.on('close', done);
+};
+
+exports.default = _default;
+},{}],"core/bridge/readWrite.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
+var _electron = require("electron");
+
+var storage = _interopRequireWildcard(require("electron-json-storage"));
+
+var _readTxtByLine = _interopRequireDefault(require("../../utils/readTxtByLine"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(RPC) {
+  var dispatch = RPC.dispatch;
   RPC.on('write-storage', function (_ref) {
     var key = _ref.key,
         data = _ref.data;
@@ -887,9 +940,6 @@ var _default = function _default(RPC) {
 
     _electronLog.default.info("[".concat(key, "]\uFF1A\u5220\u9664\u6570\u636E."));
   });
-  RPC.on('on-dialog-message', function (args) {
-    win && (0, _electronBetterDialog.showBetterMessageBox)(win, args);
-  });
   RPC.on('read-text', function (args) {
     (0, _readTxtByLine.default)(args, function (index, line) {
       var params = {
@@ -904,10 +954,36 @@ var _default = function _default(RPC) {
       });
     });
   });
+  RPC.on('read-clipboard', function () {
+    dispatch('get-clipboard-text', _electron.clipboard.readText());
+  });
+  RPC.on('write-clipboard', function (args) {
+    _electron.clipboard.writeText(args);
+  });
+};
+
+exports.default = _default;
+},{"../../utils/readTxtByLine":"utils/readTxtByLine.ts"}],"core/bridge/download.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _electronDl = _interopRequireDefault(require("electron-dl"));
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(RPC) {
+  var dispatch = RPC.dispatch,
+      win = RPC.win;
   var dlItem;
-  RPC.on('file-download', function (_ref2) {
-    var url = _ref2.url,
-        args = _ref2.args;
+  RPC.on('file-download', function (_ref) {
+    var url = _ref.url,
+        args = _ref.args;
     var timer;
 
     var createTimer = function createTimer() {
@@ -990,36 +1066,62 @@ var _default = function _default(RPC) {
       dlItem.cancel();
     }
   });
-  RPC.on('read-clipboard', function () {
-    dispatch('get-clipboard-text', _electron.clipboard.readText());
-  });
-  RPC.on('write-clipboard', function (args) {
-    _electron.clipboard.writeText(args);
-  });
-  RPC.on('get-ip-address', function () {
-    var network = {
-      ip: ''
-    };
-    network.ip = ip.address();
-    dispatch('ip-address', network);
-  });
-  RPC.on('get-device-os', function () {
-    var deviceInfo = {
-      arch: os.arch(),
-      cpu: os.cpus(),
-      homedir: os.homedir(),
-      hostname: os.hostname(),
-      memory: os.totalmem(),
-      network: os.networkInterfaces(),
-      platform: os.platform(),
-      release: os.release(),
-      tmpdir: os.tmpdir(),
-      type: os.type(),
-      uptime: os.uptime(),
-      userInfo: os.userInfo()
-    };
-    dispatch('device-os', deviceInfo);
-  });
+};
+
+exports.default = _default;
+},{}],"utils/crypto.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.aseDecode = exports.aseEncode = void 0;
+
+var crypto = _interopRequireWildcard(require("crypto"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var aseEncode = function aseEncode(data, password, iv) {
+  if (password.length !== 16 || iv.length !== 16) {
+    return '';
+  }
+
+  var cipher = crypto.createCipheriv('aes-128-cbc', password, iv);
+  var crypted = cipher.update(data, 'utf8', 'hex');
+  crypted += cipher.final('hex');
+  return crypted;
+};
+
+exports.aseEncode = aseEncode;
+
+var aseDecode = function aseDecode(data, password, iv) {
+  if (password.length !== 16 || iv.length !== 16) {
+    return '';
+  }
+
+  var decipher = crypto.createDecipheriv('aes-128-cbc', password, iv);
+  var decrypted = decipher.update(data, 'hex', 'utf8');
+  decrypted += decipher.final('utf-8');
+  return decrypted;
+};
+
+exports.aseDecode = aseDecode;
+},{}],"core/bridge/crypto.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var hash = _interopRequireWildcard(require("object-hash"));
+
+var crypto = _interopRequireWildcard(require("../../utils/crypto"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default(RPC) {
+  var dispatch = RPC.dispatch;
   RPC.on('aes-encode', function (args) {
     var mdString = hash.MD5(args.pswd);
     var key = mdString.slice(0, 16);
@@ -1032,58 +1134,32 @@ var _default = function _default(RPC) {
     var iv = mdString.slice(16);
     dispatch('get-aes-decode', crypto.aseDecode(args.data, key, iv));
   });
-  RPC.on('create-window', function (args) {
-    if (!win) {
-      return;
-    }
+};
 
-    var childWin = (0, _winCreate.default)(args.options, args.entry, win, true);
-    var uid = uuid.v4();
-    windowContainer[uid] = childWin;
-    dispatch('get-window-id', {
-      win_uid: uid
-    });
-  });
-  RPC.on('close-window', function (args) {
-    if (args.uid in windowContainer) {
-      var targetWin = windowContainer[args.uid];
+exports.default = _default;
+},{"../../utils/crypto":"utils/crypto.ts"}],"core/bridge/createProject.ts":[function(require,module,exports) {
+"use strict";
 
-      if (!targetWin.isDestroyed()) {
-        targetWin.close();
-      }
-    }
-  });
-  RPC.on('detect-support-env', function (args) {
-    var es = [{
-      name: 'Node.js',
-      icon_name: 'node',
-      version: (0, _env.cmdIsAvailable)('node -v'),
-      download_lnk: 'http://nodejs.cn/download/'
-    }, {
-      name: 'NPM',
-      icon_name: 'npm',
-      version: (0, _env.cmdIsAvailable)('npm -v'),
-      download_lnk: 'http://caibaojian.com/npm/all.html'
-    }, {
-      icon_name: 'vue',
-      name: 'Vue CLI',
-      version: (0, _env.cmdIsAvailable)('vue -V'),
-      download_lnk: 'https://cli.vuejs.org/zh/guide/prototyping.html'
-    }, {
-      icon_name: 'yarn',
-      name: 'Yarn',
-      version: (0, _env.cmdIsAvailable)('yarn -v'),
-      download_lnk: 'https://yarn.bootcss.com/docs/install/'
-    }, {
-      name: 'Python',
-      icon_name: 'python',
-      version: (0, _env.langIsAvailable)('python', ['-V']),
-      download_lnk: 'https://www.python.org/getit/'
-    }];
-    dispatch('get-support-env', {
-      env_support: es
-    });
-  });
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _electron = require("electron");
+
+var _electronDl = _interopRequireDefault(require("electron-dl"));
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
+var fs = _interopRequireWildcard(require("fs-extra"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(RPC) {
+  var dispatch = RPC.dispatch,
+      win = RPC.win;
   RPC.on('create-project', function (args) {
     var optputDir = path.join(args.projectPath, args.projectName);
 
@@ -1185,35 +1261,86 @@ var _default = function _default(RPC) {
       });
     });
   });
-  RPC.on('detect-runner-config', function (args) {
-    var projectPath = args.projectPath;
+};
 
-    if (projectPath) {
-      var config = (0, _projectRunner.default)(projectPath);
-      dispatch('get-runner-config', config);
+exports.default = _default;
+},{}],"core/bridge/index.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var uuid = _interopRequireWildcard(require("uuid"));
+
+var _winCreate = _interopRequireDefault(require("../winCreate"));
+
+var _env = require("../../utils/env");
+
+var _tray = _interopRequireDefault(require("../../utils/tray"));
+
+var _electronBetterDialog = require("electron-better-dialog");
+
+var _global = _interopRequireDefault(require("./global"));
+
+var _detector = _interopRequireDefault(require("./detector"));
+
+var _readWrite = _interopRequireDefault(require("./readWrite"));
+
+var _download = _interopRequireDefault(require("./download"));
+
+var _crypto = _interopRequireDefault(require("./crypto"));
+
+var _createProject = _interopRequireDefault(require("./createProject"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default(RPC) {
+  var dispatch = RPC.dispatch,
+      win = RPC.win;
+  var windowContainer = {};
+  var tray = null;
+
+  if (win) {
+    tray = (0, _tray.default)(RPC);
+    tray.setToolTip('Altas ' + _env.pkg.version);
+    RPC.on('set-tray-title', function (args) {
+      tray.setTitle(args);
+    });
+    tray.on('click', function () {
+      win.isVisible() ? win.hide() : win.show();
+    });
+  }
+
+  RPC.on('on-dialog-message', function (args) {
+    win && (0, _electronBetterDialog.showBetterMessageBox)(win, args);
+  });
+  RPC.on('create-window', function (args) {
+    if (!win) {
+      return;
+    }
+
+    var childWin = (0, _winCreate.default)(args.options, args.entry, win, true);
+    var uid = uuid.v4();
+    windowContainer[uid] = childWin;
+    dispatch('get-window-id', {
+      win_uid: uid
+    });
+  });
+  RPC.on('close-window', function (args) {
+    if (args.uid in windowContainer) {
+      var targetWin = windowContainer[args.uid];
+
+      if (!targetWin.isDestroyed()) {
+        targetWin.close();
+      }
     }
   });
-  RPC.on('detect-process-pid', function (args) {
-    if (os.platform() === 'darwin') {
-      var exec = require('child_process').exec;
-
-      exec('ps -ax | grep node', function (err, stdout) {
-        if (err) {
-          return;
-        }
-
-        var pidList = [];
-        stdout.split('\n').filter(function (line) {
-          if (line.indexOf(path.basename(args.dirname)) >= 0) {
-            var col = line.trim().split(/\s+/);
-            pidList.push(col[0]);
-          }
-        });
-        dispatch('get-process-pid', {
-          pidList: pidList
-        });
-      });
-    }
+  [_global.default, _detector.default, _readWrite.default, _download.default, _crypto.default, _createProject.default].forEach(function (item) {
+    item(RPC);
   });
   return {
     tray: tray
@@ -1221,7 +1348,7 @@ var _default = function _default(RPC) {
 };
 
 exports.default = _default;
-},{"../utils/file":"utils/file.ts","../utils/readTxtByLine":"utils/readTxtByLine.ts","../utils/crypto":"utils/crypto.ts","../utils/tray":"utils/tray.ts","./winCreate":"core/winCreate.ts","../utils/env":"utils/env.ts","../utils/projectRunner":"utils/projectRunner.ts","../../../package.json":"../../package.json"}],"main.ts":[function(require,module,exports) {
+},{"../winCreate":"core/winCreate.ts","../../utils/env":"utils/env.ts","../../utils/tray":"utils/tray.ts","./global":"core/bridge/global.ts","./detector":"core/bridge/detector.ts","./readWrite":"core/bridge/readWrite.ts","./download":"core/bridge/download.ts","./crypto":"core/bridge/crypto.ts","./createProject":"core/bridge/createProject.ts"}],"main.ts":[function(require,module,exports) {
 "use strict";
 
 var _electron = require("electron");
@@ -1230,7 +1357,7 @@ var _winCreate = _interopRequireDefault(require("./core/winCreate"));
 
 var _rpc = _interopRequireDefault(require("./core/rpc"));
 
-var _bridge = _interopRequireDefault(require("./core/bridge"));
+var _bridge = _interopRequireDefault(require("./core/bridge/"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1289,7 +1416,7 @@ _electron.app.on('activate', function () {
     mainWindow.show();
   }
 });
-},{"./core/winCreate":"core/winCreate.ts","./core/rpc":"core/rpc.ts","./core/bridge":"core/bridge.ts"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./core/winCreate":"core/winCreate.ts","./core/rpc":"core/rpc.ts","./core/bridge/":"core/bridge/index.ts"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
 

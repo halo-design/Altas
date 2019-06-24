@@ -64,11 +64,11 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
   );
 };
 
-export const openMarkdownPreview = () => {
+export const openMarkdownPreview = (remoteUrl?: string) => {
   createWindow(
     {
       pathname: 'renderer/markdown/index.html',
-      hash: '',
+      hash: qs.stringify({ remoteUrl }),
     },
     {
       width: 800,
