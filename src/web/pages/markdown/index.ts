@@ -1,44 +1,24 @@
 import * as qs from 'qs';
-const { ipcRenderer, remote } = require('electron');
+import { remote } from 'electron';
 const win = remote.getCurrentWindow();
-const hljs = require('highlight.js');
+import * as hljs from 'highlight.js';
+import { getEl, bindClick } from '../public/utils';
+import RPC from '../../bridge/rpc';
+import { readLocalFileSync, downloadPreviewFile } from '../bridge/global';
 const markdownItAttrs = require('markdown-it-attrs');
-const { getEl, bindClick } = require('../public/utils');
 const options = qs.parse(location.hash.substr(1));
 const { remoteUrl } = options;
 
 import '../public/loading.scss';
 import './index.scss';
 
-const $content = getEl('content');
-const $readBtn = getEl('readBtn');
-const $minBtn = getEl('minBtn');
-const $toogleBtn = getEl('toogleBtn');
-const $closeBtn = getEl('closeBtn');
+const $content: any = getEl('content');
+const $readBtn: any = getEl('readBtn');
+const $minBtn: any = getEl('minBtn');
+const $toogleBtn: any = getEl('toogleBtn');
+const $closeBtn: any = getEl('closeBtn');
 
 const toogleClass = $toogleBtn.classList;
-
-bindClick($readBtn, () => {
-  ipcRenderer.send('read-local-file');
-});
-
-bindClick($closeBtn, () => {
-  win.close();
-});
-
-bindClick($minBtn, () => {
-  win.minimize();
-});
-
-bindClick($toogleBtn, () => {
-  if (win.isMaximized()) {
-    win.unmaximize();
-    toogleClass.remove('back');
-  } else {
-    win.maximize();
-    toogleClass.add('back');
-  }
-});
 
 const md = require('markdown-it')({
   html: true,
@@ -62,33 +42,46 @@ md.use(markdownItAttrs, {
   allowedAttributes: [],
 });
 
-if (remoteUrl) {
-  $content.innerHTML = '<div class="mask" id="mask"></div>';
-  ipcRenderer.send('download-preview-file', { url: remoteUrl });
-  ipcRenderer.once(
-    'download-preview-file-result',
-    (event: any, { content, result }: any) => {
-      if (result === 'completed') {
-        const result = md.render(content);
-        $content.innerHTML = result;
-      } else {
-        $content.innerHTML = '<h3 class="error-title">文档获取失败！</h3>';
-      }
-    }
-  );
-
-  win.on('closed', () => {
-    ipcRenderer.send('download-preview-file-cancel');
-  });
-
-  win.maximize();
-} else {
-  ipcRenderer.once(
-    'get-local-file-content',
-    (event: any, { content, directory, filepath }: any) => {
+RPC.on('ready', () => {
+  bindClick($readBtn, () => {
+    readLocalFileSync().then(({ content, directory, filepath }: any) => {
       const result = md.render(content);
       $content.innerHTML = result;
+    });
+  });
+
+  bindClick($closeBtn, () => {
+    win.close();
+  });
+
+  bindClick($minBtn, () => {
+    win.minimize();
+  });
+
+  bindClick($toogleBtn, () => {
+    if (win.isMaximized()) {
+      win.unmaximize();
+      toogleClass.remove('back');
+    } else {
+      win.maximize();
+      toogleClass.add('back');
     }
-  );
-}
-win.show();
+  });
+
+  if (remoteUrl) {
+    $content.innerHTML = '<div class="mask" id="mask"></div>';
+    downloadPreviewFile(
+      remoteUrl,
+      ({ content }: any) => {
+        const result = md.render(content);
+        $content.innerHTML = result;
+        win.maximize();
+      },
+      () => {
+        $content.innerHTML = '<h3 class="error-title">文档获取失败！</h3>';
+      }
+    );
+  }
+
+  win.show();
+});

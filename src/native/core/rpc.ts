@@ -12,7 +12,7 @@ export interface IServer {
   id: string;
 }
 
-class Server extends EventEmitter {
+export class Server extends EventEmitter {
   public win: Electron.BrowserWindow | null = null;
   public destroyed: boolean = false;
   public id: string = '';

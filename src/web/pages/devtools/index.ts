@@ -1,7 +1,7 @@
 import * as qs from 'qs';
 const QRcode = require('qrcode');
+import { getEl, bindClick } from '../public/utils';
 const win = require('electron').remote.getCurrentWindow();
-const { getEl, bindClick } = require('../public/utils');
 const options = qs.parse(location.hash.substr(1));
 const {
   target,

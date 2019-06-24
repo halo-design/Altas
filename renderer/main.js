@@ -1,4 +1,4 @@
-process.env.HMR_PORT=50998;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=51626;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -235,7 +235,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var winCreate = function winCreate(opts, entry, parentWindow, isChild) {
+var winCreate = function winCreate(opts, entry, // parentWindow?: Electron.BrowserWindow,
+isChild) {
   var options = {
     appIcon: _file.default.path('resources/dock.png'),
     center: true,
@@ -292,7 +293,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = exports.Server = void 0;
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -396,6 +397,8 @@ function (_EventEmitter) {
   return Server;
 }(_events.EventEmitter);
 
+exports.Server = Server;
+
 var _default = function _default(win) {
   return new Server(win);
 };
@@ -452,6 +455,7 @@ module.exports = {
     "@types/classnames": "^2.2.8",
     "@types/electron-json-storage": "^4.0.0",
     "@types/fs-extra": "^7.0.0",
+    "@types/highlight.js": "^9.12.3",
     "@types/ip": "^1.1.0",
     "@types/node": "^12.0.10",
     "@types/object-hash": "^1.3.0",
@@ -648,9 +652,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _default = function _default(RPC) {
-  var win = _electron.BrowserWindow.getFocusedWindow() || RPC.win;
-
-  _electron.ipcMain.on('read-local-file', function (event) {
+  var dispatch = RPC.dispatch,
+      win = RPC.win;
+  RPC.on('read-local-file', function () {
     _electron.dialog.showOpenDialog({
       defaultPath: _electron.app.getPath('home'),
       buttonLabel: '打开',
@@ -666,7 +670,7 @@ var _default = function _default(RPC) {
 
         var content = _file.default.read(fpath);
 
-        event.sender.send('get-local-file-content', {
+        dispatch('get-local-file-content', {
           directory: path.join(fpath, '../'),
           content: content,
           filepath: fpath
@@ -674,26 +678,25 @@ var _default = function _default(RPC) {
       }
     });
   });
-
   var dlItem;
   var timer;
-
-  _electron.ipcMain.on('download-preview-file', function (event, _ref) {
+  RPC.on('download-preview-file', function (_ref) {
     var url = _ref.url;
 
     var createTimer = function createTimer() {
+      timer && clearTimeout(timer);
       timer = setTimeout(function () {
         if (dlItem && dlItem.getState() === 'progressing') {
           dlItem.cancel();
 
           _electronLog.default.error(url + '[下载超时，已取消]');
 
-          event.sender.send('download-preview-file-result', {
+          dispatch('download-preview-file-result', {
             result: 'timeout',
             content: ''
           });
         }
-      }, 30000);
+      }, 3000);
     };
 
     _electronDl.default.download(win, url, {
@@ -718,28 +721,25 @@ var _default = function _default(RPC) {
       if (dl && dl.getState()) {
         _electronLog.default.info(dl.getSavePath());
 
-        if (event.sender) {
-          event.sender.send('download-preview-file-result', {
-            result: dl.getState(),
-            content: _file.default.read(dl.getSavePath())
-          });
-        }
+        dispatch('download-preview-file-result', {
+          result: dl.getState(),
+          content: _file.default.read(dl.getSavePath())
+        });
       }
     }).catch(function () {
       timer && clearTimeout(timer);
-
-      if (event.sender) {
-        event.sender.send('download-preview-file-result', {
-          result: dlItem.getState(),
-          content: ''
-        });
-      }
+      dispatch('download-preview-file-result', {
+        result: dlItem.getState(),
+        content: ''
+      });
     });
   });
+  win.on('close', function (e) {
+    _electronLog.default.info('当前子窗口关闭！');
 
-  _electron.ipcMain.on('download-preview-file-cancel', function (event) {
     timer && clearTimeout(timer);
     dlItem && dlItem.getState() === 'progressing' && dlItem.cancel();
+    win.removeAllListeners();
   });
 };
 
@@ -1357,6 +1357,8 @@ var _winCreate = _interopRequireDefault(require("../winCreate"));
 
 var _env = require("../../utils/env");
 
+var _rpc = require("../rpc");
+
 var _tray = _interopRequireDefault(require("../../utils/tray"));
 
 var _electronBetterDialog = require("electron-better-dialog");
@@ -1397,12 +1399,17 @@ var _default = function _default(RPC) {
   RPC.on('on-dialog-message', function (args) {
     win && (0, _electronBetterDialog.showBetterMessageBox)(win, args);
   });
-  RPC.on('create-window', function (args) {
+  RPC.on('create-window', function (_ref) {
+    var options = _ref.options,
+        entry = _ref.entry;
+
     if (!win) {
       return;
     }
 
-    var childWin = (0, _winCreate.default)(args.options, args.entry, win, true);
+    var childWin = (0, _winCreate.default)(options, entry, true);
+    var childRPC = new _rpc.Server(childWin);
+    (0, _global.default)(childRPC);
     var uid = uuid.v4();
     windowContainer[uid] = childWin;
     dispatch('get-window-id', {
@@ -1418,7 +1425,7 @@ var _default = function _default(RPC) {
       }
     }
   });
-  [_global.default, _detector.default, _readWrite.default, _download.default, _crypto.default, _createProject.default].forEach(function (item) {
+  [_detector.default, _readWrite.default, _download.default, _crypto.default, _createProject.default].forEach(function (item) {
     item(RPC);
   });
   return {
@@ -1427,7 +1434,7 @@ var _default = function _default(RPC) {
 };
 
 exports.default = _default;
-},{"../winCreate":"core/winCreate.ts","../../utils/env":"utils/env.ts","../../utils/tray":"utils/tray.ts","./global":"core/bridge/global.ts","./detector":"core/bridge/detector.ts","./readWrite":"core/bridge/readWrite.ts","./download":"core/bridge/download.ts","./crypto":"core/bridge/crypto.ts","./createProject":"core/bridge/createProject.ts"}],"main.ts":[function(require,module,exports) {
+},{"../winCreate":"core/winCreate.ts","../../utils/env":"utils/env.ts","../rpc":"core/rpc.ts","../../utils/tray":"utils/tray.ts","./global":"core/bridge/global.ts","./detector":"core/bridge/detector.ts","./readWrite":"core/bridge/readWrite.ts","./download":"core/bridge/download.ts","./crypto":"core/bridge/crypto.ts","./createProject":"core/bridge/createProject.ts"}],"main.ts":[function(require,module,exports) {
 "use strict";
 
 var _electron = require("electron");

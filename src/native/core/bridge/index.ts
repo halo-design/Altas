@@ -1,11 +1,11 @@
 import * as uuid from 'uuid';
-import { IServer } from '../rpc';
 import winCreate from '../winCreate';
 import { pkg } from '../../utils/env';
+import { IServer, Server } from '../rpc';
 import createAppTray from '../../utils/tray';
 import { showBetterMessageBox } from 'electron-better-dialog';
 
-import globalFn from './global';
+import globalBridge from './global';
 import detector from './detector';
 import readWrite from './readWrite';
 import download from './download';
@@ -35,11 +35,14 @@ export default (RPC: IServer) => {
     win && showBetterMessageBox(win, args);
   });
 
-  RPC.on('create-window', (args: any) => {
+  RPC.on('create-window', ({ options, entry }: any) => {
     if (!win) {
       return;
     }
-    const childWin = winCreate(args.options, args.entry, win, true);
+    const childWin = winCreate(options, entry, true);
+    const childRPC = new Server(childWin);
+    globalBridge(childRPC);
+
     const uid = uuid.v4();
     windowContainer[uid] = childWin;
     dispatch('get-window-id', { win_uid: uid });
@@ -54,7 +57,7 @@ export default (RPC: IServer) => {
     }
   });
 
-  [globalFn, detector, readWrite, download, crypto, createProject].forEach(
+  [detector, readWrite, download, crypto, createProject].forEach(
     (item: any) => {
       item(RPC);
     }

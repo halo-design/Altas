@@ -6,7 +6,7 @@ import { BrowserWindow } from 'electron';
 const winCreate = (
   opts: any,
   entry: any,
-  parentWindow?: Electron.BrowserWindow,
+  // parentWindow?: Electron.BrowserWindow,
   isChild?: boolean
 ) => {
   const options: any = {
