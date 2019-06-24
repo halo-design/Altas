@@ -1,4 +1,4 @@
-const qs = require('qs');
+import * as qs from 'qs';
 const { ipcRenderer, remote } = require('electron');
 const win = remote.getCurrentWindow();
 const hljs = require('highlight.js');
@@ -6,6 +6,9 @@ const markdownItAttrs = require('markdown-it-attrs');
 const { getEl, bindClick } = require('../public/utils');
 const options = qs.parse(location.hash.substr(1));
 const { remoteUrl } = options;
+
+import '../public/loading.scss';
+import './index.scss';
 
 const $content = getEl('content');
 const $readBtn = getEl('readBtn');
@@ -19,12 +22,12 @@ bindClick($readBtn, () => {
   ipcRenderer.send('read-local-file');
 });
 
-bindClick($minBtn, () => {
-  win.minimize();
-});
-
 bindClick($closeBtn, () => {
   win.close();
+});
+
+bindClick($minBtn, () => {
+  win.minimize();
 });
 
 bindClick($toogleBtn, () => {
@@ -35,13 +38,13 @@ bindClick($toogleBtn, () => {
     win.maximize();
     toogleClass.add('back');
   }
-})
+});
 
 const md = require('markdown-it')({
   html: true,
   linkify: true,
   typographer: true,
-  highlight: (str, lang) => {
+  highlight: (str: string, lang: string) => {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, str).value;
@@ -50,29 +53,42 @@ const md = require('markdown-it')({
       }
     }
     return '';
-  }
+  },
 });
 
 md.use(markdownItAttrs, {
   leftDelimiter: '{',
   rightDelimiter: '}',
-  allowedAttributes: []
+  allowedAttributes: [],
 });
 
-ipcRenderer.on('get-local-file-content', (event, { content, directory, filepath }) => {
-  const result = md.render(content);
-  $content.innerHTML = result;
-})
-
 if (remoteUrl) {
-  console.log(remoteUrl);
   $content.innerHTML = '<div class="mask" id="mask"></div>';
-  
-  fetch(remote)
-    .then(response => {
-      console.log(response);
-    });
+  ipcRenderer.send('download-preview-file', { url: remoteUrl });
+  ipcRenderer.once(
+    'download-preview-file-result',
+    (event: any, { content, result }: any) => {
+      if (result === 'completed') {
+        const result = md.render(content);
+        $content.innerHTML = result;
+      } else {
+        $content.innerHTML = '<h3 class="error-title">文档获取失败！</h3>';
+      }
+    }
+  );
+
+  win.on('closed', () => {
+    ipcRenderer.send('download-preview-file-cancel');
+  });
 
   win.maximize();
+} else {
+  ipcRenderer.once(
+    'get-local-file-content',
+    (event: any, { content, directory, filepath }: any) => {
+      const result = md.render(content);
+      $content.innerHTML = result;
+    }
+  );
 }
 win.show();

@@ -1,4 +1,4 @@
-process.env.HMR_PORT=64366;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
+process.env.HMR_PORT=50998;process.env.HMR_HOSTNAME="localhost";// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -413,10 +413,12 @@ module.exports = {
     "serve": "ts-node ./bin serve",
     "Wbuild": "ts-node ./bin Wbuild",
     "Wbuild:p": "ts-node ./bin Wbuild -p",
+    "Pbuild": "ts-node ./bin Pbuild",
+    "Pbuild:p": "ts-node ./bin Pbuild -p",
     "Nbuild": "ts-node ./bin Nbuild",
     "Nbuild:p": "ts-node ./bin Nbuild -p",
-    "build": "npm run clear && npm run Wbuild && npm run Nbuild",
-    "build:p": "npm run clear && npm run Wbuild:p && npm run Nbuild:p",
+    "build": "npm run clear && npm run Wbuild && npm run Pbuild && npm run Nbuild",
+    "build:p": "npm run clear && npm run Wbuild:p && npm run Pbuild:p && npm run Nbuild:p",
     "start": "ts-node ./bin app",
     "preview": "ts-node ./bin app --with-build",
     "postinstall": "electron-builder install-app-deps && npm run rebuild",
@@ -631,13 +633,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var path = _interopRequireWildcard(require("path"));
+
 var _electron = require("electron");
 
 var _file = _interopRequireDefault(require("../../utils/file"));
 
+var _electronDl = _interopRequireDefault(require("electron-dl"));
+
+var _electronLog = _interopRequireDefault(require("electron-log"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = function _default() {
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default(RPC) {
+  var win = _electron.BrowserWindow.getFocusedWindow() || RPC.win;
+
   _electron.ipcMain.on('read-local-file', function (event) {
     _electron.dialog.showOpenDialog({
       defaultPath: _electron.app.getPath('home'),
@@ -661,6 +673,73 @@ var _default = function _default() {
         });
       }
     });
+  });
+
+  var dlItem;
+  var timer;
+
+  _electron.ipcMain.on('download-preview-file', function (event, _ref) {
+    var url = _ref.url;
+
+    var createTimer = function createTimer() {
+      timer = setTimeout(function () {
+        if (dlItem && dlItem.getState() === 'progressing') {
+          dlItem.cancel();
+
+          _electronLog.default.error(url + '[下载超时，已取消]');
+
+          event.sender.send('download-preview-file-result', {
+            result: 'timeout',
+            content: ''
+          });
+        }
+      }, 30000);
+    };
+
+    _electronDl.default.download(win, url, {
+      directory: _electron.app.getPath('temp'),
+      showBadge: false,
+      onCancel: function onCancel() {
+        timer && clearTimeout(timer);
+
+        _electronLog.default.info('本次下载取消.');
+      },
+      onStarted: function onStarted(e) {
+        dlItem = e;
+        createTimer();
+      },
+      onProgress: function onProgress(e) {
+        timer && clearTimeout(timer);
+        createTimer();
+      }
+    }).then(function (dl) {
+      timer && clearTimeout(timer);
+
+      if (dl && dl.getState()) {
+        _electronLog.default.info(dl.getSavePath());
+
+        if (event.sender) {
+          event.sender.send('download-preview-file-result', {
+            result: dl.getState(),
+            content: _file.default.read(dl.getSavePath())
+          });
+        }
+      }
+    }).catch(function () {
+      timer && clearTimeout(timer);
+
+      if (event.sender) {
+        event.sender.send('download-preview-file-result', {
+          result: dlItem.getState(),
+          content: ''
+        });
+      }
+    });
+  });
+
+  _electron.ipcMain.on('download-preview-file-cancel', function (event) {
+    timer && clearTimeout(timer);
+    dlItem && dlItem.getState() === 'progressing' && dlItem.cancel();
   });
 };
 
@@ -991,7 +1070,7 @@ var _default = function _default(RPC) {
 
       if (timeout) {
         timer = setTimeout(function () {
-          if (dlItem) {
+          if (dlItem && dlItem.getState() === 'progressing') {
             dlItem.cancel();
 
             _electronLog.default.error(url + '[下载超时，已取消]');
@@ -1062,7 +1141,7 @@ var _default = function _default(RPC) {
     });
   });
   RPC.on('file-download-cancel', function () {
-    if (dlItem) {
+    if (dlItem && dlItem.getState() === 'progressing') {
       dlItem.cancel();
     }
   });

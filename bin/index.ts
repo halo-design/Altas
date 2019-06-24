@@ -2,6 +2,11 @@ const program = require('commander');
 const { clear, createBundle } = require('./utils');
 const { execSync } = require('child_process');
 
+const pages = [
+  './src/web/pages/devtools/index.ts',
+  './src/web/pages/markdown/index.ts',
+];
+
 program
   .command('clear')
   .option('-d --dir', 'Delete the specified directory.')
@@ -27,6 +32,27 @@ program
     } else {
       createBundle('../src/web/core/index.tsx', {
         cacheDir: '.cache/web_build_development',
+        minify: false,
+        sourceMaps: true,
+        watch: false,
+      }).bundle();
+    }
+  });
+
+program
+  .command('Pbuild')
+  .option('-p --production', 'Production mode build pages bundles.')
+  .action((cmd: any) => {
+    if (cmd.production) {
+      createBundle(pages, {
+        cacheDir: '.cache/pages_build_production',
+        minify: true,
+        sourceMaps: false,
+        watch: false,
+      }).bundle();
+    } else {
+      createBundle(pages, {
+        cacheDir: '.cache/pages_build_development',
         minify: false,
         sourceMaps: true,
         watch: false,
@@ -63,6 +89,13 @@ program.command('serve').action(async () => {
   await createBundle('../src/web/core/index.tsx', {
     cacheDir: '.cache/web_serve_development',
     detailedReport: false,
+    minify: false,
+    sourceMaps: true,
+    watch: true,
+  }).bundle();
+
+  await createBundle(pages, {
+    cacheDir: '.cache/pages_serve_development',
     minify: false,
     sourceMaps: true,
     watch: true,

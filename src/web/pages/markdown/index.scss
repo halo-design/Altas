@@ -1,0 +1,122 @@
+html {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.main-content {
+  position: absolute;
+  left: 0;
+  top: 30px;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  padding: 30px 15px 15px 15px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(220, 220, 220);
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('../../assets/font/iconfont.ttf') format('truetype');
+}
+
+.control {
+  height: 30px;
+  font-size: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(44, 42, 59);
+  -webkit-app-region: drag;
+  display: flex;
+  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+
+  .tit {
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    font-size: 12px;
+    padding: 0 15px;
+    flex-grow: 1;
+  }
+
+  .win {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  button {
+    height: 30px;
+    width: 40px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
+    color: #898c97;
+    font-family: 'iconfont' !important;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .2);
+    }
+
+    &.min:after {
+      content: '\e607';
+    }
+
+    &.toogle:after {
+      content: '\e604';
+    }
+
+    &.toogle.back:after {
+      content: '\e625';
+    }
+
+    &.close:after {
+      content: '\e762';
+    }
+
+    &.close:hover {
+      background-color: #e73e28;
+      color: #fff;
+    }
+
+    &.file:after {
+      content: '\e754';
+      font-size: 14px;
+    }
+  }
+}
+
+.readBtn {
+  position: fixed;
+  left: 50%;
+  top: 200px;
+  width: 240px;
+  margin-left: -120px;
+  background: url(./img/search.svg) no-repeat center top;
+  background-size: 120px auto;
+  padding-top: 160px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  color: #9a98a0;
+  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+}

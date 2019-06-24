@@ -18,10 +18,11 @@ body {
 
 @font-face {
   font-family: 'iconfont';
-  src: url('iconfont.ttf') format('truetype');
+  src: url('./iconfont-devtools.ttf') format('truetype');
 }
 
-.panel, .portal {
+.panel,
+.portal {
   width: 100%;
   height: 40px;
   background: #fdfdfd;
@@ -40,22 +41,22 @@ body {
   position: fixed;
   left: 0;
   bottom: 0;
-}
 
-.portal .ipt {
-  flex-grow: 1;
-  padding: 5px 0;
-}
+  .ipt {
+    flex-grow: 1;
+    padding: 5px 0;
 
-.portal .ipt input {
-  height: 29px;
-  width: 100%;
-  border: none;
-  border-radius: 15px;
-  background-color: #f1f3f4;
-  outline: none;
-  display: block;
-  padding: 0 10px;
+    input {
+      height: 29px;
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      background-color: #f1f3f4;
+      outline: none;
+      display: block;
+      padding: 0 10px;
+    }
+  }
 }
 
 .btn {
@@ -71,19 +72,19 @@ body {
   color: #666;
   cursor: pointer;
   -webkit-app-region: no-drag;
-}
 
-.btn.active {
-  color: rgb(228, 85, 19);
-}
+  &.active {
+    color: rgb(228, 85, 19);
+  }
 
-.btn.disabled {
-  color: #ccc;
-  cursor: not-allowed;
-}
+  &.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
 
-.btn:not(.active):not(.disabled):hover {
-  color: #222;
+  &:not(.active):not(.disabled):hover {
+    color: #222;
+  }
 }
 
 .mask {
@@ -102,30 +103,30 @@ body {
   overflow: hidden;
   perspective: 19em;
   background: #bce1f3;
-}
 
-.mask div {
-  transform-style: preserve-3d;
-}
+  div {
+    transform-style: preserve-3d;
+  }
 
-.mask .rot {
-  position: absolute;
-  transform: rotate(calc(var(--k)*1turn)) translatey(23vmin);
-}
+  .rot {
+    position: absolute;
+    transform: rotate(calc(var(--k)*1turn)) translatey(23vmin);
+  }
 
-.mask .rot:before,
-.mask .rot:after {
-  --i: 0;
-  position: absolute;
-  margin: -1.2vmin;
-  padding: 1.2vmin;
-  border-radius: 50%;
-  background: hsl(0, 0%, calc(var(--i)*100%));
-  animation: r 2s linear calc((.5*var(--i) + 6*var(--k))*-2s) infinite;
-  content: "";
-}
-.mask .rot:after {
-  --i: 1;
+  .rot:before,
+  .rot:after {
+    --i: 0;
+    position: absolute;
+    margin: -1.2vmin;
+    padding: 1.2vmin;
+    border-radius: 50%;
+    background: hsl(0, 0%, calc(var(--i)*100%));
+    animation: r 2s linear calc((.5*var(--i) + 6*var(--k))*-2s) infinite;
+    content: "";
+  }
+  .rot:after {
+    --i: 1;
+  }
 }
 
 @keyframes r {
@@ -145,17 +146,17 @@ body {
   bottom: 60px;
   margin-left: -100px;
   background: #fdfdfd;
-  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, .22);
   box-sizing: border-box;
   padding: 10px;
   display: none;
-}
 
-.qrcode.show {
-  display: block;
-}
+  &.show {
+    display: block;
+  }
 
-.qrcode canvas {
-  width: 100%;
-  height: 100%;
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
 }

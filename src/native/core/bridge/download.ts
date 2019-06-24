@@ -12,7 +12,7 @@ export default (RPC: any) => {
       const { timeout } = args;
       if (timeout) {
         timer = setTimeout(() => {
-          if (dlItem) {
+          if (dlItem && dlItem.getState() === 'progressing') {
             dlItem.cancel();
             log.error(url + '[下载超时，已取消]');
           }
@@ -35,7 +35,7 @@ export default (RPC: any) => {
           status: 'cancel',
         });
       },
-      onProgress: e => {
+      onProgress: (e: any) => {
         if (timer) {
           clearTimeout(timer);
         }
@@ -46,7 +46,7 @@ export default (RPC: any) => {
           status: 'running',
         });
       },
-      onStarted: e => {
+      onStarted: (e: any) => {
         dlItem = e;
         createTimer();
         dispatch('on-download-state', {
@@ -57,7 +57,7 @@ export default (RPC: any) => {
       },
       ...args,
     })
-      .then(dl => {
+      .then((dl: any) => {
         if (timer) {
           clearTimeout(timer);
         }
@@ -81,7 +81,7 @@ export default (RPC: any) => {
   });
 
   RPC.on('file-download-cancel', () => {
-    if (dlItem) {
+    if (dlItem && dlItem.getState() === 'progressing') {
       dlItem.cancel();
     }
   });

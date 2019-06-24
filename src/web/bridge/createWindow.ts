@@ -46,7 +46,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
   const { width, height } = descriptors.viewport;
   createWindow(
     {
-      pathname: 'renderer/devtools/index.html',
+      pathname: 'renderer/devtools.html',
       hash: qs.stringify(options),
     },
     {
@@ -67,7 +67,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
 export const openMarkdownPreview = (remoteUrl?: string) => {
   createWindow(
     {
-      pathname: 'renderer/markdown/index.html',
+      pathname: 'renderer/markdown.html',
       hash: qs.stringify({ remoteUrl }),
     },
     {

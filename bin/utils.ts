@@ -36,7 +36,7 @@ exports.ssh = (auth: object, files: any[]): Promise<string> => {
   });
 };
 
-exports.createBundle = (file: string, opts: object) => {
+exports.createBundle = (file: string | string[], opts: object) => {
   const baseOpts = {
     cache: true,
     detailedReport: true,
@@ -57,5 +57,14 @@ exports.createBundle = (file: string, opts: object) => {
     options = _.merge(baseOpts, opts);
   }
 
-  return new Bundler(path.join(__dirname, file), options);
+  if (Array.isArray(file)) {
+    options = _.merge(options, {
+      outDir: './renderer/static/pages',
+      publicUrl: '../../pages',
+      outFile: '',
+    });
+    return new Bundler(file, options);
+  } else {
+    return new Bundler(path.join(__dirname, file), options);
+  }
 };

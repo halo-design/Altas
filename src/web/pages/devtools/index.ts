@@ -1,9 +1,21 @@
-const qs = require('qs');
+import * as qs from 'qs';
 const QRcode = require('qrcode');
 const win = require('electron').remote.getCurrentWindow();
 const { getEl, bindClick } = require('../public/utils');
 const options = qs.parse(location.hash.substr(1));
-const { target, descriptors: { viewport: { width, height }, userAgent }, preload, insertCSS, insertText  } = options;
+const {
+  target,
+  descriptors: {
+    viewport: { width, height },
+    userAgent,
+  },
+  preload,
+  insertCSS,
+  // insertText,
+} = options;
+
+import '../public/loading.scss';
+import './index.scss';
 
 const webview = getEl('view');
 const closeBtn = getEl('closeBtn');
@@ -28,23 +40,31 @@ const qrBtnClass = qrBtn.classList;
 let devtoolState = false;
 let panelReady = false;
 
-document.addEventListener('click', () => {
-  qrcodeClass.remove('show');
-  qrBtnClass.remove('active');
-}, false);
+document.addEventListener(
+  'click',
+  () => {
+    qrcodeClass.remove('show');
+    qrBtnClass.remove('active');
+  },
+  false
+);
 
-const setSize = (w, h) => {
-  webview.style.cssText = `width: ${w}px; height: ${h - 80}px`
-}
+const setSize = (w: number, h: number) => {
+  webview.style.cssText = `width: ${w}px; height: ${h - 80}px`;
+};
 
-const webviewBind = (event, fn) => {
+const webviewBind = (event: any, fn: Function) => {
   webview.addEventListener(event, fn);
-}
+};
 
-const isClickabled = (state) => {
-  webview.canGoBack() ? backClass.remove('disabled') : backClass.add('disabled');
-  webview.canGoForward() ? nextClass.remove('disabled') : nextClass.add('disabled');
-}
+const isClickabled = () => {
+  webview.canGoBack()
+    ? backClass.remove('disabled')
+    : backClass.add('disabled');
+  webview.canGoForward()
+    ? nextClass.remove('disabled')
+    : nextClass.add('disabled');
+};
 
 const bindInit = () => {
   if (panelReady) {
@@ -81,15 +101,15 @@ const bindInit = () => {
       });
     }
   });
-}
+};
 
 const init = () => {
   webview.setAttribute('preload', preload);
   webview.setAttribute('useragent', userAgent);
   setSize(width, height);
-}
+};
 
-const visit = (lnk) => {
+const visit = (lnk?: string) => {
   if (lnk) {
     tarIpt.value = lnk;
   }
@@ -98,14 +118,18 @@ const visit = (lnk) => {
     !panelReady && maskClass.remove('hide');
     webview.setAttribute('src', tarIpt.value);
   }
-}
+};
 
 init();
 visit(target);
 
-webviewBind('devtools-opened', () => { debugClass.add('active'); });
-webviewBind('devtools-closed', () => { debugClass.remove('active'); });
-webviewBind('did-navigate-in-page', ev => {
+webviewBind('devtools-opened', () => {
+  debugClass.add('active');
+});
+webviewBind('devtools-closed', () => {
+  debugClass.remove('active');
+});
+webviewBind('did-navigate-in-page', (ev: any) => {
   if (ev) {
     isClickabled();
     tarIpt.value = ev.url;

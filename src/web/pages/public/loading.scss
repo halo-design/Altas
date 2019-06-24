@@ -1,0 +1,29 @@
+@keyframes mask-hide {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  perspective: 19em;
+  background: #ff3053 url(./img/zero_to_infinity.gif) no-repeat center center;
+  background-size: 280px auto;
+
+  &.hide {
+    animation: mask-hide .6s both;
+  }
+}

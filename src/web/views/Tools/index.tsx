@@ -34,7 +34,7 @@ class ToolsView extends React.Component<any> {
   public openDebugDevice() {
     openDeviceDebug({
       target: 'https://mobile.ant.design/kitchen-sink/',
-      preload: './dev-tools.js',
+      preload: './public/dev-tools.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
       insertCSS: `
           body::-webkit-scrollbar {
