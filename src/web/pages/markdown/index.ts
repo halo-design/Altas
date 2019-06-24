@@ -47,6 +47,7 @@ RPC.on('ready', () => {
     readLocalFileSync().then(({ content, directory, filepath }: any) => {
       const result = md.render(content);
       $content.innerHTML = result;
+      win.maximize();
     });
   });
 
