@@ -77,9 +77,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              openMarkdownPreview(
-                'https://raw.githubusercontent.com/matteocrippa/awesome-swift/master/README.md'
-              );
+              openMarkdownPreview();
             }}
           >
             <i className="markdown" />

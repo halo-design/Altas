@@ -15,6 +15,7 @@ program
       clear(cmd.dir);
     } else {
       clear('renderer/static');
+      clear('.cache');
     }
   });
 

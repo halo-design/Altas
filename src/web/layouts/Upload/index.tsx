@@ -143,7 +143,10 @@ class UploadView extends React.Component<any> {
 
   public loadImage(el: any, url: string) {
     const temp = setTimeout(() => {
-      el.src = url;
+      if (!el.loaded) {
+        el.src = url;
+      }
+      el.loaded = true;
       clearTimeout(temp);
     }, 300);
   }
@@ -261,9 +264,10 @@ class UploadView extends React.Component<any> {
                   <Icon type="loading" />
                 </Tooltip>
               ) : (
-                <Tooltip placement="top" title="点击开始上传">
-                  &#xe606;
-                </Tooltip>
+                <div>
+                  <span>&#xe606;</span>
+                  <span className="txt">点击开始上传</span>
+                </div>
               )}
             </button>
           </div>
@@ -278,56 +282,63 @@ class UploadView extends React.Component<any> {
 
                 return (
                   <div className="card-item" key={uid}>
-                    <div className="row">
-                      <div className="col">{file.name}</div>
-                      <div className="progress">
-                        <div className="percent">已完成{progressPercent}</div>
-                        <div className="surplus">
-                          {prettyBytes((file.size * per) / 100)}/
-                          {prettyBytes(file.size)}
+                    <div className="inner">
+                      <div className="row">
+                        <div className="col filename">{file.name}</div>
+                        <div className="progress">
+                          <div className="percent">
+                            已完成 {progressPercent}
+                          </div>
+                          <div className="surplus">
+                            {prettyBytes((file.size * per) / 100)}
+                            <span> / </span>
+                            {prettyBytes(file.size)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="row">
-                      {status === 'ready' && (
-                        <div className="info">准备上传</div>
-                      )}
-                      {status === 'error' && (
-                        <div className="error">上传出错</div>
-                      )}
-                      {status === 'done' && (
-                        <div className="info">完成上传</div>
-                      )}
-                      {status === 'pending' && (
-                        <div className="progressTrack">
+                      <div className="row status">
+                        {status === 'ready' && (
+                          <div className="info">准备上传</div>
+                        )}
+                        {status === 'error' && (
+                          <div className="error">上传出错</div>
+                        )}
+                        {status === 'done' && [
+                          <div className="col done" key="tit">
+                            完成上传
+                          </div>,
                           <div
-                            className="bar"
-                            style={{ width: progressPercent }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                    {status === 'done' && (
+                            key="copy"
+                            className="copyBtn"
+                            onClick={e => {
+                              this.saveClipboard(remote.url);
+                            }}
+                          >
+                            <Tooltip placement="bottom" title="复制图片链接">
+                              <Icon type="copy" />
+                              <span className="txt">复制链接</span>
+                            </Tooltip>
+                          </div>,
+                        ]}
+                        {status === 'pending' && (
+                          <div className="progress-track">
+                            <div
+                              className="bar"
+                              style={{ width: progressPercent }}
+                            />
+                          </div>
+                        )}
+                      </div>
                       <div
-                        className="copyBtn"
+                        className="delBtn"
                         onClick={e => {
-                          this.saveClipboard(remote.url);
+                          deleteUploadListStatusItem(uid, file.addIndex);
                         }}
                       >
-                        <Tooltip placement="top" title="复制图片链接">
-                          <Icon type="copy" />
+                        <Tooltip placement="top" title="删除">
+                          <Icon type="delete" />
                         </Tooltip>
                       </div>
-                    )}
-                    <div
-                      className="delBtn"
-                      onClick={e => {
-                        deleteUploadListStatusItem(uid, file.addIndex);
-                      }}
-                    >
-                      <Tooltip placement="top" title="删除">
-                        <Icon type="delete" />
-                      </Tooltip>
                     </div>
                   </div>
                 );
@@ -345,33 +356,56 @@ class UploadView extends React.Component<any> {
                 {uploadHistoryList.map((item: any, index: number) => {
                   return (
                     <div className="card-item" key={index}>
-                      <img
-                        src="public/image.svg"
-                        onLoad={e => {
-                          this.loadImage(e.target, item.localThumb);
-                        }}
-                        onError={e => {
-                          this.loadImageError(e.target);
-                        }}
-                        alt={item.filename}
-                      />
-                      name: {item.filename} <br />
-                      size: {prettyBytes(item.size)} <br />
-                      link:{item.url}
-                      <button
-                        onClick={e => {
-                          deleteHistoryItem(index);
-                        }}
-                      >
-                        删除该条记录
-                      </button>
-                      <button
-                        onClick={e => {
-                          this.saveClipboard(item.url);
-                        }}
-                      >
-                        🔗点击复制链接
-                      </button>
+                      <div className="inner">
+                        <div className="row">
+                          <div className="thumb">
+                            <img
+                              src="public/image.svg"
+                              onLoad={e => {
+                                this.loadImage(e.target, item.localThumb);
+                              }}
+                              onError={e => {
+                                this.loadImageError(e.target);
+                              }}
+                              alt={item.filename}
+                            />
+                          </div>
+                          <div className="col">
+                            <div className="row filename">{item.filename}</div>
+                            <div className="row surplus">
+                              {prettyBytes(item.size)}
+                            </div>
+                            <div className="row">
+                              <div className="col" />
+                              <div
+                                key="copy"
+                                className="copyBtn"
+                                onClick={e => {
+                                  this.saveClipboard(item.url);
+                                }}
+                              >
+                                <Tooltip
+                                  placement="bottom"
+                                  title="复制图片链接"
+                                >
+                                  <Icon type="copy" />
+                                  <span className="txt">复制链接</span>
+                                </Tooltip>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="delBtn"
+                          onClick={e => {
+                            deleteHistoryItem(index);
+                          }}
+                        >
+                          <Tooltip placement="top" title="删除该条记录">
+                            <Icon type="delete" />
+                          </Tooltip>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

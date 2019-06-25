@@ -1,8 +1,10 @@
 import log from 'electron-log';
+const fs = require('fs-extra');
 import { clipboard } from 'electron';
 import * as storage from 'electron-json-storage';
 import readTxtByLine from '../../utils/readTxtByLine';
 import file from '../../utils/file';
+import { appCacheFullPath } from '../constants';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;
@@ -55,5 +57,10 @@ export default (RPC: any) => {
 
   RPC.on('write-clipboard', (args: string) => {
     clipboard.writeText(args);
+  });
+
+  RPC.on('clean-app-cache', () => {
+    fs.emptyDirSync(appCacheFullPath);
+    dispatch('clean-app-cache-done', { path: appCacheFullPath });
   });
 };

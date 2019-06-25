@@ -206,6 +206,9 @@ export default class UploadModel {
     }
 
     this.postFiles.forEach((file: any, index: number) => {
+      if (!file) {
+        return;
+      }
       const uid = file.uid;
       this.xhrQueue[uid] = upload({
         action: API.upload,
@@ -222,28 +225,33 @@ export default class UploadModel {
             itemStatus.status = 'pending';
           }
         },
-        onSuccess: e => {
-          const itemStatus = this.uploadListStatus[uid];
-          if (itemStatus) {
-            itemStatus.status = 'done';
-            itemStatus.remote = e.data;
-            itemStatus.remote.uid = uid;
-            itemStatus.remote.localThumb =
-              appCacheFullPath + '/' + uid + '.png';
-          }
-          this.remoteImageArray.push(e.data);
-          createCache({
-            url: file.path,
-            saveName: uid + '.png',
-            width: 200,
-            height: 200,
-          });
-          delete this.xhrQueue[uid];
-          this.uploadHistoryList.push(itemStatus.remote);
-          delete this.postFiles[index];
-          this.writeLocalHistory();
-          if (this.isXhrQueueEmpty) {
-            this.postFiles = [];
+        onSuccess: ({ code, data }: any) => {
+          if (code === 'success') {
+            const itemStatus = this.uploadListStatus[uid];
+            if (itemStatus) {
+              itemStatus.status = 'done';
+              itemStatus.remote = data;
+              itemStatus.remote.uid = uid;
+              itemStatus.remote.localThumb =
+                appCacheFullPath + '/' + uid + '.png';
+            }
+            this.remoteImageArray.push(data);
+            createCache({
+              url: file.path,
+              saveName: uid + '.png',
+              width: 200,
+              height: 200,
+            });
+            delete this.xhrQueue[uid];
+            this.uploadHistoryList.push(itemStatus.remote);
+            delete this.postFiles[index];
+            this.writeLocalHistory();
+            if (this.isXhrQueueEmpty) {
+              this.postFiles = [];
+            }
+          } else {
+            this.uploadListStatus[uid].status = 'error';
+            delete this.xhrQueue[uid];
           }
         },
       });

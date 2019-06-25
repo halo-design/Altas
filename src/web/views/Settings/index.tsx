@@ -2,6 +2,8 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import allDevices from '../../config/DeviceDescriptors';
 import Select from 'antd/lib/select';
+import { cleanAppCache } from '../../bridge/file';
+import message from 'antd/lib/message';
 
 const { Option } = Select;
 
@@ -30,6 +32,13 @@ class SettingsView extends React.Component<any> {
     this.props.setMonitorVisible(true);
   }
 
+  public cleanAppCache() {
+    cleanAppCache((args: any) => {
+      console.log(args);
+      message.info('缓存清理完成！');
+    });
+  }
+
   public render() {
     return (
       <div className="page-settings">
@@ -50,6 +59,19 @@ class SettingsView extends React.Component<any> {
                   </Option>
                 ))}
               </Select>
+            </div>
+          </div>
+          <div className="form-item">
+            <div className="label">清理缓存</div>
+            <div className="item">
+              <div
+                className="btn-default"
+                onClick={() => {
+                  this.cleanAppCache();
+                }}
+              >
+                一键清理缓应用缓存
+              </div>
             </div>
           </div>
         </div>

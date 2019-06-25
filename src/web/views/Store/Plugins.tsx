@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Tooltip from 'antd/lib/tooltip';
+import { openMarkdownPreview } from '../../bridge/createWindow';
 
 class PluginsView extends React.Component<any, any> {
   public render() {
@@ -43,7 +44,15 @@ class PluginsView extends React.Component<any, any> {
                   </div>
                 </div>
                 <div className="control-btn-wrap">
-                  <button>查看文档</button>
+                  <button
+                    onClick={() => {
+                      openMarkdownPreview(
+                        'https://raw.githubusercontent.com/matteocrippa/awesome-swift/master/README.md'
+                      );
+                    }}
+                  >
+                    查看文档
+                  </button>
                   <button>下载使用</button>
                 </div>
               </div>

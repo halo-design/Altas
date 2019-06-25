@@ -50,3 +50,10 @@ export const readTxtByLine = (
 export const removeFile = (filePath: string) => {
   dispatch('remove-file', filePath);
 };
+
+export const cleanAppCache = (cb?: Function) => {
+  dispatch('clean-app-cache', '');
+  RPC.once('clean-app-cache-done', (args: any) => {
+    cb && cb(args);
+  });
+};
