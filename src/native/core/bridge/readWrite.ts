@@ -2,6 +2,7 @@ import log from 'electron-log';
 import { clipboard } from 'electron';
 import * as storage from 'electron-json-storage';
 import readTxtByLine from '../../utils/readTxtByLine';
+import file from '../../utils/file';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;
@@ -29,6 +30,10 @@ export default (RPC: any) => {
       log.error(err);
     });
     log.info(`[${key}]：删除数据.`);
+  });
+
+  RPC.on('remove-file', (url: string) => {
+    file.del(url);
   });
 
   RPC.on('read-text', (args: string) => {

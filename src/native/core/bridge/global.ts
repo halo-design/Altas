@@ -3,6 +3,7 @@ import { app, dialog } from 'electron';
 import file from '../../utils/file';
 import DL from 'electron-dl';
 import log from 'electron-log';
+import { appCacheFullPath } from '../constants';
 
 export default (RPC: any) => {
   const { dispatch, win } = RPC;
@@ -53,7 +54,7 @@ export default (RPC: any) => {
     };
 
     DL.download(win, url, {
-      directory: app.getPath('temp'),
+      directory: appCacheFullPath,
       showBadge: false,
       onCancel: () => {
         timer && clearTimeout(timer);

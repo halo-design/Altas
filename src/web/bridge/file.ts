@@ -46,3 +46,7 @@ export const readTxtByLine = (
     }
   });
 };
+
+export const removeFile = (filePath: string) => {
+  dispatch('remove-file', filePath);
+};

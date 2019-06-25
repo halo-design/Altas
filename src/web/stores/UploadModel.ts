@@ -3,6 +3,9 @@ import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
 import message from 'antd/lib/message';
 import * as storage from '../bridge/storage';
+import { removeFile } from '../bridge/file';
+import { createCache } from '../bridge/createImageCache';
+import { appCacheFullPath } from '../constants/API';
 import * as uuid from 'uuid';
 
 export default class UploadModel {
@@ -39,7 +42,9 @@ export default class UploadModel {
 
   @action
   public deleteHistoryItem(order: number) {
-    getData(this.uploadHistoryList[order].delete)
+    const item = this.uploadHistoryList[order];
+    removeFile(item.localThumb);
+    getData(item.delete)
       .then(param => {
         console.log(param);
       })
@@ -56,6 +61,7 @@ export default class UploadModel {
   @action
   public deleteAllHistory() {
     this.uploadHistoryList.map((item: any) => {
+      removeFile(item.localThumb);
       getData(item.delete)
         .then(param => {
           console.log(param);
@@ -114,6 +120,7 @@ export default class UploadModel {
     });
 
     this.postFiles = this.postFiles.concat(addFiles);
+    node.value = '';
   };
 
   @action
@@ -220,8 +227,17 @@ export default class UploadModel {
           if (itemStatus) {
             itemStatus.status = 'done';
             itemStatus.remote = e.data;
+            itemStatus.remote.uid = uid;
+            itemStatus.remote.localThumb =
+              appCacheFullPath + '/' + uid + '.png';
           }
           this.remoteImageArray.push(e.data);
+          createCache({
+            url: file.path,
+            saveName: uid + '.png',
+            width: 200,
+            height: 200,
+          });
           delete this.xhrQueue[uid];
           this.uploadHistoryList.push(itemStatus.remote);
           delete this.postFiles[index];

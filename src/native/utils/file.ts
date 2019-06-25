@@ -3,7 +3,7 @@ import * as path from 'path';
 
 const root = path.join(__dirname, '../');
 
-const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
+export const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
   return new Promise((resolve, reject) => {
     const wstream = fs.createWriteStream(filePath);
     wstream.on('open', () => {
@@ -27,16 +27,22 @@ const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
   });
 };
 
+export const createDir = (dir: string, cb?: Function) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  cb && cb();
+};
+
 export default {
   read: (filename: string) => fs.readFileSync(filename, 'utf-8'),
   JSON2File: (fileName: string, data: object) => {
     const buf = Buffer.from(JSON.stringify(data, null, 2), 'utf8');
     saveFile(fileName, buf);
   },
-  del: (filename: string): void => {
-    const fileRelPath = path.join(root, filename);
-    if (fs.existsSync(fileRelPath)) {
-      fs.unlinkSync(fileRelPath);
+  del: (filepath: string): void => {
+    if (fs.existsSync(filepath)) {
+      fs.unlinkSync(filepath);
     }
   },
   exist: (filename: string): boolean =>

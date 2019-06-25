@@ -11,6 +11,7 @@ import readWrite from './readWrite';
 import download from './download';
 import crypto from './crypto';
 import createProject from './createProject';
+import createImageCache from './createImageCache';
 
 export default (RPC: IServer) => {
   const { dispatch, win } = RPC;
@@ -57,11 +58,16 @@ export default (RPC: IServer) => {
     }
   });
 
-  [detector, readWrite, download, crypto, createProject].forEach(
-    (item: any) => {
-      item(RPC);
-    }
-  );
+  [
+    detector,
+    readWrite,
+    download,
+    crypto,
+    createProject,
+    createImageCache,
+  ].forEach((item: any) => {
+    item(RPC);
+  });
 
   return { tray };
 };

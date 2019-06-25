@@ -1,7 +1,8 @@
-import { app } from 'electron';
 import DL from 'electron-dl';
 import log from 'electron-log';
 import * as fs from 'fs-extra';
+import * as path from 'path';
+import { appCacheFullPath } from '../constants';
 
 export default (RPC: any) => {
   const { dispatch, win } = RPC;
@@ -14,7 +15,7 @@ export default (RPC: any) => {
       return;
     }
     DL.download(win, url, {
-      directory: app.getPath('temp'),
+      directory: appCacheFullPath,
       onProgress: e => {
         dispatch('get-repo', {
           step: 'download',

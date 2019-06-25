@@ -141,6 +141,17 @@ class UploadView extends React.Component<any> {
     }
   }
 
+  public loadImage(el: any, url: string) {
+    const temp = setTimeout(() => {
+      el.src = url;
+      clearTimeout(temp);
+    }, 300);
+  }
+
+  public loadImageError(el: any) {
+    el.src = 'public/image.svg';
+  }
+
   public componentWillUnmount() {
     this.contextMenu.unbind();
   }
@@ -256,43 +267,68 @@ class UploadView extends React.Component<any> {
               )}
             </button>
           </div>
-          <div style={{ background: '#8aa7d2' }}>
+          <div className="upload-list">
             {uploadListStatusUids.length > 0 &&
               uploadListStatusUids.map(uid => {
                 const item = uploadListStatus[uid];
+                const { progress, file, status, remote } = item;
+
+                const per = progress ? progress.percent : 0;
+                const progressPercent = `${~~per}%`;
+
                 return (
-                  <div
-                    style={{
-                      borderBottom: '1px solid #51637d',
-                      fontSize: '12px',
-                    }}
-                    key={uid}
-                  >
-                    path: {item.file.path} <br />
-                    size: {prettyBytes(item.file.size)} <br />
-                    name: {item.file.name} <br />
-                    status: {item.status} <br />
-                    progress: {item.progress ? item.progress.percent : '0'}{' '}
-                    <br />
-                    link:{' '}
-                    {item.remote ? (
-                      <button
+                  <div className="card-item" key={uid}>
+                    <div className="row">
+                      <div className="col">{file.name}</div>
+                      <div className="progress">
+                        <div className="percent">已完成{progressPercent}</div>
+                        <div className="surplus">
+                          {prettyBytes((file.size * per) / 100)}/
+                          {prettyBytes(file.size)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      {status === 'ready' && (
+                        <div className="info">准备上传</div>
+                      )}
+                      {status === 'error' && (
+                        <div className="error">上传出错</div>
+                      )}
+                      {status === 'done' && (
+                        <div className="info">完成上传</div>
+                      )}
+                      {status === 'pending' && (
+                        <div className="progressTrack">
+                          <div
+                            className="bar"
+                            style={{ width: progressPercent }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    {status === 'done' && (
+                      <div
+                        className="copyBtn"
                         onClick={e => {
-                          this.saveClipboard(item.remote.url);
+                          this.saveClipboard(remote.url);
                         }}
                       >
-                        🔗点击复制链接
-                      </button>
-                    ) : (
-                      'null'
+                        <Tooltip placement="top" title="复制图片链接">
+                          <Icon type="copy" />
+                        </Tooltip>
+                      </div>
                     )}
-                    <button
+                    <div
+                      className="delBtn"
                       onClick={e => {
-                        deleteUploadListStatusItem(uid, item.file.addIndex);
+                        deleteUploadListStatusItem(uid, file.addIndex);
                       }}
                     >
-                      删除
-                    </button>
+                      <Tooltip placement="top" title="删除">
+                        <Icon type="delete" />
+                      </Tooltip>
+                    </div>
                   </div>
                 );
               })}
@@ -308,13 +344,17 @@ class UploadView extends React.Component<any> {
               <div className="upload-list">
                 {uploadHistoryList.map((item: any, index: number) => {
                   return (
-                    <div
-                      style={{
-                        borderBottom: '1px solid #51637d',
-                        fontSize: '12px',
-                      }}
-                      key={index}
-                    >
+                    <div className="card-item" key={index}>
+                      <img
+                        src="public/image.svg"
+                        onLoad={e => {
+                          this.loadImage(e.target, item.localThumb);
+                        }}
+                        onError={e => {
+                          this.loadImageError(e.target);
+                        }}
+                        alt={item.filename}
+                      />
                       name: {item.filename} <br />
                       size: {prettyBytes(item.size)} <br />
                       link:{item.url}
