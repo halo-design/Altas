@@ -72,7 +72,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="debug" />
-            <div className="tit">移动调试器</div>
+            <div className="tit">设备调试器</div>
           </div>
           <div
             className="item"
@@ -91,6 +91,33 @@ class ToolsView extends React.Component<any> {
           >
             <i className="imgupload" />
             <div className="tit">图片图床</div>
+          </div>
+          <div
+            className="item"
+            onClick={e => {
+              // this.handleUploadDrawerVisible(true);
+            }}
+          >
+            <i className="server" />
+            <div className="tit">模拟本地服务</div>
+          </div>
+          <div
+            className="item"
+            onClick={e => {
+              // this.handleUploadDrawerVisible(true);
+            }}
+          >
+            <i className="zip" />
+            <div className="tit">ZIP文件压缩</div>
+          </div>
+          <div
+            className="item"
+            onClick={e => {
+              // this.handleUploadDrawerVisible(true);
+            }}
+          >
+            <i className="calculator" />
+            <div className="tit">计算文件MD5</div>
           </div>
         </div>
         <Drawer

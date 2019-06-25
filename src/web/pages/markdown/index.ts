@@ -4,7 +4,7 @@ const win = remote.getCurrentWindow();
 import * as hljs from 'highlight.js';
 import { getEl, bindClick } from '../public/utils';
 import RPC from '../../bridge/rpc';
-import { readLocalFileSync, downloadPreviewFile } from '../bridge/global';
+import { readLocalFileSync, downloadPreviewFile } from '../../bridge/markdown';
 const markdownItAttrs = require('markdown-it-attrs');
 const options = qs.parse(location.hash.substr(1));
 const { remoteUrl } = options;

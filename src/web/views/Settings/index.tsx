@@ -4,7 +4,9 @@ import allDevices from '../../config/DeviceDescriptors';
 import Select from 'antd/lib/select';
 import { cleanAppCache } from '../../bridge/file';
 import message from 'antd/lib/message';
+import Modal from 'antd/lib/modal';
 
+const { confirm } = Modal;
 const { Option } = Select;
 
 import './index.scss';
@@ -33,9 +35,19 @@ class SettingsView extends React.Component<any> {
   }
 
   public cleanAppCache() {
-    cleanAppCache((args: any) => {
-      console.log(args);
-      message.info('缓存清理完成！');
+    confirm({
+      title: '清除应用',
+      content: '是否清除全部应用缓存？',
+      okText: '是',
+      okType: 'danger',
+      cancelText: '否',
+      onOk: () => {
+        cleanAppCache((args: any) => {
+          console.log(args);
+          message.info('缓存清理完成！');
+        });
+      },
+      onCancel: () => {},
     });
   }
 

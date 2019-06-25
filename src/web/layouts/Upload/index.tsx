@@ -76,6 +76,7 @@ class UploadView extends React.Component<any> {
       title: '清除上传',
       content: '是否清除全部上传？',
       okText: '是',
+      okType: 'danger',
       cancelText: '否',
       onOk: () => {
         this.props.resetData();
@@ -92,6 +93,7 @@ class UploadView extends React.Component<any> {
       title: '清除上传',
       content: '该操作不可撤销，是否清除全部上传记录？',
       okText: '是',
+      okType: 'danger',
       cancelText: '否',
       onOk: () => {
         this.props.deleteAllHistory();
@@ -152,6 +154,7 @@ class UploadView extends React.Component<any> {
   }
 
   public loadImageError(el: any) {
+    el.loaded = true;
     el.src = 'public/image.svg';
   }
 
@@ -417,7 +420,7 @@ class UploadView extends React.Component<any> {
                   }}
                   className="iconfont btn"
                 >
-                  <Tooltip placement="top" title="删除全部上传记录">
+                  <Tooltip placement="left" title="删除全部上传记录">
                     &#xe601;
                   </Tooltip>
                 </button>

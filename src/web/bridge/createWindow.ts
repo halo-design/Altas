@@ -7,9 +7,10 @@ const { dispatch } = RPC;
 export const createWindow = (
   entry: object | string,
   options: object,
+  injectBridges?: string[],
   callback?: Function
 ): void => {
-  dispatch('create-window', { entry, options });
+  dispatch('create-window', { entry, options, injectBridges });
   RPC.once('get-window-id', (params: { win_uid: string }) => {
     callback && callback(params);
   });
@@ -60,6 +61,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
       backgroundColor: '#fff',
       titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
     },
+    [],
     callback
   );
 };
@@ -87,6 +89,7 @@ export const openMarkdownPreview = (remoteUrl?: string) => {
         scrollBounce: false,
         webviewTag: false,
       },
-    }
+    },
+    ['markdown']
   );
 };

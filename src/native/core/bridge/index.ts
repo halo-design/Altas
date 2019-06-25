@@ -4,14 +4,7 @@ import { pkg } from '../../utils/env';
 import { IServer, Server } from '../rpc';
 import createAppTray from '../../utils/tray';
 import { showBetterMessageBox } from 'electron-better-dialog';
-
-import globalBridge from './global';
-import detector from './detector';
-import readWrite from './readWrite';
-import download from './download';
-import crypto from './crypto';
-import createProject from './createProject';
-import createImageCache from './createImageCache';
+import inject from './inject';
 
 export default (RPC: IServer) => {
   const { dispatch, win } = RPC;
@@ -36,13 +29,13 @@ export default (RPC: IServer) => {
     win && showBetterMessageBox(win, args);
   });
 
-  RPC.on('create-window', ({ options, entry }: any) => {
+  RPC.on('create-window', ({ options, entry, injectBridges }: any) => {
     if (!win) {
       return;
     }
     const childWin = winCreate(options, entry, true);
     const childRPC = new Server(childWin);
-    globalBridge(childRPC);
+    inject(childRPC, injectBridges);
 
     const uid = uuid.v4();
     windowContainer[uid] = childWin;
@@ -58,16 +51,14 @@ export default (RPC: IServer) => {
     }
   });
 
-  [
-    detector,
-    readWrite,
-    download,
-    crypto,
-    createProject,
-    createImageCache,
-  ].forEach((item: any) => {
-    item(RPC);
-  });
+  inject(RPC, [
+    'detector',
+    'readWrite',
+    'download',
+    'crypto',
+    'createProject',
+    'createImageCache',
+  ]);
 
   return { tray };
 };
