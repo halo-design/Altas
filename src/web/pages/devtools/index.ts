@@ -17,18 +17,18 @@ const {
 import '../public/loading.scss';
 import './index.scss';
 
-const webview = getEl('view');
-const closeBtn = getEl('closeBtn');
-const debugBtn = getEl('debugBtn');
-const reloadBtn = getEl('reloadBtn');
-const nextBtn = getEl('nextBtn');
-const backBtn = getEl('backBtn');
-const porBtn = getEl('porBtn');
-const qrBtn = getEl('qrBtn');
-const mask = getEl('mask');
-const tarIpt = getEl('tarIpt');
-const qrcode = getEl('qrcode');
-const qrCanvas = qrcode.getElementsByTagName('canvas')[0];
+const webview: any = getEl('view');
+const closeBtn: any = getEl('closeBtn');
+const debugBtn: any = getEl('debugBtn');
+const reloadBtn: any = getEl('reloadBtn');
+const nextBtn: any = getEl('nextBtn');
+const backBtn: any = getEl('backBtn');
+const porBtn: any = getEl('porBtn');
+const qrBtn: any = getEl('qrBtn');
+const mask: any = getEl('mask');
+const tarIpt: any = getEl('tarIpt');
+const qrcode: any = getEl('qrcode');
+const qrCanvas: any = qrcode.getElementsByTagName('canvas')[0];
 
 const backClass = backBtn.classList;
 const nextClass = nextBtn.classList;

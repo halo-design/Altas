@@ -1,0 +1,10 @@
+.app-webview {
+  overflow: hidden;
+  position: relative;
+
+  .app-webview-wrapper {
+    width: 500vw;
+    height: 100%;
+    display: flex;
+  }
+}

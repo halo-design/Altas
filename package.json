@@ -77,7 +77,7 @@
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "prettier": "^1.18.2",
-    "sass": "^1.21.0",
+    "sass": "^1.22.0",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-scss": "^3.8.0",
@@ -88,7 +88,7 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "antd": "^3.19.7",
+    "antd": "^3.19.8",
     "classnames": "^2.2.6",
     "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",

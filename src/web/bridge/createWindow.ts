@@ -38,7 +38,11 @@ interface Idebug {
   insertCSS?: string;
 }
 
-export const openDeviceDebug = (options: Idebug, callback?: Function) => {
+export const deviceDevtools = (
+  entryPath: string,
+  options: Idebug,
+  callback?: Function
+) => {
   let { descriptors }: any = options;
   if (!descriptors) {
     descriptors = allDeviceObject['iPhone 8 Plus'];
@@ -47,7 +51,7 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
   const { width, height } = descriptors.viewport;
   createWindow(
     {
-      pathname: 'renderer/devtools.html',
+      pathname: entryPath,
       hash: qs.stringify(options),
     },
     {
@@ -64,6 +68,14 @@ export const openDeviceDebug = (options: Idebug, callback?: Function) => {
     [],
     callback
   );
+};
+
+export const openDeviceDebug = (options: Idebug, callback?: Function) => {
+  deviceDevtools('renderer/devtools.html', options, callback);
+};
+
+export const openCheetahDebug = (options: Idebug, callback?: Function) => {
+  deviceDevtools('renderer/cheetah.html', options, callback);
 };
 
 export const openMarkdownPreview = (remoteUrl?: string) => {

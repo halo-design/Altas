@@ -8,6 +8,7 @@
   transition: opacity .3s;
 
   &.hide {
+    display: block;
     opacity: 0;
     z-index: -1;
   }

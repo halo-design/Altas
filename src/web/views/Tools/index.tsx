@@ -5,6 +5,7 @@ import Drawer from 'antd/lib/drawer';
 import Upload from '../../layouts/Upload';
 import {
   openDeviceDebug,
+  openCheetahDebug,
   openMarkdownPreview,
 } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
@@ -52,6 +53,14 @@ class ToolsView extends React.Component<any> {
     });
   }
 
+  public openCheetahDevice() {
+    openCheetahDebug({
+      target: 'https://mobile.ant.design/kitchen-sink/',
+      preload: './public/dev-tools.js',
+      descriptors: allDeviceObject[this.props.useDebugDevice],
+    });
+  }
+
   public componentDidMount() {
     this.props.setMonitorVisible(false);
   }
@@ -72,7 +81,16 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="debug" />
-            <div className="tit">设备调试器</div>
+            <div className="tit">Web应用调试器</div>
+          </div>
+          <div
+            className="item"
+            onClick={e => {
+              this.openCheetahDevice();
+            }}
+          >
+            <i className="cheetah" />
+            <div className="tit">猎豹App调试器</div>
           </div>
           <div
             className="item"

@@ -5,6 +5,7 @@ const { execSync } = require('child_process');
 const pages = [
   './src/web/pages/devtools/index.ts',
   './src/web/pages/markdown/index.ts',
+  './src/web/pages/cheetah/index.tsx',
 ];
 
 program
