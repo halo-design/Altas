@@ -1,6 +1,34 @@
 import * as React from 'react';
+import classnames from 'classnames';
+import { inject, observer } from 'mobx-react';
 import { DeviceContext } from '../context';
 
+@inject((stores: any) => {
+  const {
+    webviewList,
+    focusIndex,
+    webviewCount,
+    focusOnFisrt,
+    focusOnLast,
+    focusDevtoolsState,
+  } = stores.webview;
+
+  return {
+    webviewList,
+    focusIndex,
+    webviewCount,
+    focusOnFisrt,
+    focusOnLast,
+    focusDevtoolsState,
+    createNewWebview: (url: string) => stores.webview.createNewWebview(url),
+    focusToNextWebview: () => stores.webview.focusToNextWebview(),
+    focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
+    debugFocusWebview: () => stores.webview.debugFocusWebview(),
+    getWebviewDOM: (index: number, el: any, uid: string) =>
+      stores.webview.getWebviewDOM(index, el, uid),
+  };
+})
+@observer
 class HeaderView extends React.Component<any, any> {
   static contextType = DeviceContext;
 
@@ -10,13 +38,49 @@ class HeaderView extends React.Component<any, any> {
 
   public render() {
     const { currentWindow } = this.context;
+    const {
+      focusOnFisrt,
+      focusOnLast,
+      focusToNextWebview,
+      focusToPrevWebview,
+      debugFocusWebview,
+      focusDevtoolsState,
+    } = this.props;
+
     return (
       <div className="app-header">
         <div className="panel">
-          <div className="btn">&#xe7ef;</div>
-          <div className="btn">&#xe7ee;</div>
+          <div
+            className={classnames('btn', {
+              disabled: focusOnFisrt,
+            })}
+            onClick={() => {
+              focusToPrevWebview();
+            }}
+          >
+            &#xe7ef;
+          </div>
+          <div
+            className={classnames('btn', {
+              disabled: focusOnLast,
+            })}
+            onClick={() => {
+              focusToNextWebview();
+            }}
+          >
+            &#xe7ee;
+          </div>
           <div className="btn">&#xe788;</div>
-          <div className="btn">&#xe8e8;</div>
+          <div
+            className={classnames('btn', {
+              active: focusDevtoolsState,
+            })}
+            onClick={() => {
+              debugFocusWebview();
+            }}
+          >
+            &#xe8e8;
+          </div>
           <div
             className="btn"
             onClick={() => {

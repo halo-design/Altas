@@ -1,6 +1,21 @@
 import * as React from 'react';
 import { DeviceContext } from '../context';
+import { toJS } from 'mobx';
+import { inject, observer } from 'mobx-react';
 
+@inject((stores: any) => {
+  const { webviewList, focusIndex, webviewCount } = stores.webview;
+
+  return {
+    webviewList,
+    focusIndex,
+    webviewCount,
+    createNewWebview: (url: string) => stores.webview.createNewWebview(url),
+    getWebviewDOM: (index: number, el: any, uid: string) =>
+      stores.webview.getWebviewDOM(index, el, uid),
+  };
+})
+@observer
 class WebviewView extends React.Component<any, any> {
   static contextType = DeviceContext;
   public webview: any = null;
@@ -8,42 +23,16 @@ class WebviewView extends React.Component<any, any> {
   public componentDidMount() {
     const { target } = this.context;
 
-    if (this.webview) {
-      this.webview.src = target;
-      this.webview.addEventListener('dom-ready', () => {
-        this.webview.insertCSS(`
-          body::-webkit-scrollbar {
-            width: 4px;
-          }
-          
-          body::-webkit-scrollbar-thumb {
-            background-color: rgb(220, 220, 220);
-          }
-          
-          body::-webkit-scrollbar-track-piece {
-            background-color: transparent;
-          }
-        `);
+    this.props.createNewWebview(target);
 
-        this.webview.openDevTools();
-
-        setTimeout(() => {
-          this.webview.send('ping');
-          console.log('send ping');
-        }, 3000);
-
-        this.webview.addEventListener('ipc-message', (event: any) => {
-          console.log(event.channel);
-        });
-      });
-    }
+    setTimeout(() => {
+      this.props.createNewWebview('https://www.baidu.com/');
+    }, 5000);
   }
 
   public render() {
     const {
-      preload,
       descriptors: {
-        userAgent,
         viewport: { width, height },
       },
     } = this.context;
@@ -53,17 +42,28 @@ class WebviewView extends React.Component<any, any> {
       height: height - 80 + 'px',
     };
 
+    const { webviewCount, webviewList, getWebviewDOM, focusIndex } = this.props;
+
     return (
       <div className="app-webview" style={wvSize}>
-        <div className="app-webview-wrapper">
-          <webview
-            ref={node => {
-              this.webview = node;
-            }}
-            useragent={userAgent}
-            preload={preload}
-            style={wvSize}
-          />
+        <div
+          className="app-webview-wrapper"
+          style={{
+            width: `${webviewCount * 100}vw`,
+            transform: `translateX(-${focusIndex * 100}vw)`,
+          }}
+        >
+          {webviewList.map((item: any, index: number) => {
+            return (
+              <webview
+                {...toJS(item.attr)}
+                key={item.uid}
+                ref={node => {
+                  getWebviewDOM(index, node, item.uid);
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     );
