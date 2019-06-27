@@ -62,6 +62,14 @@ export default class WebviewModel {
     }
   }
 
+  @computed get focusWebviewUrl() {
+    if (this.webviewCount > 0) {
+      return this.webviewList[this.focusIndex].attr.src;
+    } else {
+      return '';
+    }
+  }
+
   @action
   getDirective(name: string, params: object) {
     this.directive = { name, params };
@@ -124,8 +132,8 @@ export default class WebviewModel {
       currnet['ready'] = true;
     });
 
-    el.addEventListener('ipc-message', (event: any, args: object) => {
-      this.getDirective(event.channel, args);
+    el.addEventListener('ipc-message', ({ channel, args }: any) => {
+      this.getDirective(channel, args[0]);
     });
   }
 
@@ -176,6 +184,15 @@ export default class WebviewModel {
       const dom = current.dom;
       current.devtools ? dom.closeDevTools() : dom.openDevTools();
       current.devtools = !current.devtools;
+    }
+  }
+
+  @action
+  public reloadFocusWebview() {
+    const current = this.webviewList[this.focusIndex];
+    if (current && current.ready) {
+      const dom = current.dom;
+      dom.reloadIgnoringCache();
     }
   }
 }

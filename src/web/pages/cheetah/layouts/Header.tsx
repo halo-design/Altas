@@ -24,6 +24,7 @@ import { DeviceContext } from '../context';
     focusToNextWebview: () => stores.webview.focusToNextWebview(),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
     debugFocusWebview: () => stores.webview.debugFocusWebview(),
+    reloadFocusWebview: () => stores.webview.reloadFocusWebview(),
     getWebviewDOM: (index: number, el: any, uid: string) =>
       stores.webview.getWebviewDOM(index, el, uid),
   };
@@ -45,6 +46,7 @@ class HeaderView extends React.Component<any, any> {
       focusToPrevWebview,
       debugFocusWebview,
       focusDevtoolsState,
+      reloadFocusWebview,
     } = this.props;
 
     return (
@@ -70,7 +72,14 @@ class HeaderView extends React.Component<any, any> {
           >
             &#xe7ee;
           </div>
-          <div className="btn">&#xe788;</div>
+          <div
+            className="btn"
+            onClick={() => {
+              reloadFocusWebview();
+            }}
+          >
+            &#xe788;
+          </div>
           <div
             className={classnames('btn', {
               active: focusDevtoolsState,

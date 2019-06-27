@@ -1,19 +1,114 @@
 import * as React from 'react';
-import { DeviceContext } from '../context';
+import classnames from 'classnames';
+import { inject, observer } from 'mobx-react';
+import { reaction, observable, action } from 'mobx';
+const QRcode = require('qrcode');
 
+@inject((stores: any) => {
+  const { focusWebviewUrl } = stores.webview;
+
+  return {
+    focusWebviewUrl,
+    createNewWebview: (url: string) => stores.webview.createNewWebview(url),
+  };
+})
+@observer
 class FooterView extends React.Component<any, any> {
-  static contextType = DeviceContext;
+  public ipt: any = null;
+  public canvas: any = null;
+  public currentUrl: string = '';
+  @observable public showQRcode: boolean = false;
+
+  @action
+  public setQRcodeVisible(state: boolean) {
+    this.showQRcode = state;
+  }
+
+  public genQrcode() {
+    if (this.showQRcode) {
+      this.setQRcodeVisible(false);
+    } else if (this.canvas) {
+      QRcode.toCanvas(
+        this.canvas,
+        this.currentUrl || this.props.focusWebviewUrl,
+        {
+          width: 180,
+          margin: 0,
+        }
+      ).then(() => {
+        this.setQRcodeVisible(true);
+      });
+    }
+  }
+
+  public setCurrentUrl(url: string) {
+    this.currentUrl = url;
+  }
+
+  public componentDidMount() {
+    this.currentUrl = this.props.focusWebviewUrl;
+    reaction(
+      () => this.props.focusWebviewUrl,
+      (url: string) => {
+        this.setQRcodeVisible(false);
+        this.ipt.value = url;
+      }
+    );
+  }
 
   public render() {
-    const { target } = this.context;
     return (
-      <div className="app-footer">
+      <div
+        className="app-footer"
+        onClick={(e: any) => {
+          this.setQRcodeVisible(false);
+          e.stopPropagation();
+        }}
+      >
         <div className="portal">
-          <div className="btn">&#xe7dd;</div>
-          <div className="ipt">
-            <input type="text" defaultValue={target} />
+          <div
+            className={classnames('btn', {
+              active: this.showQRcode,
+            })}
+            onClick={() => {
+              this.genQrcode();
+            }}
+          >
+            &#xe7dd;
           </div>
-          <div className="btn">&#xe7ee;</div>
+          <div className="ipt">
+            <input
+              type="text"
+              defaultValue=""
+              ref={node => {
+                this.ipt = node;
+              }}
+              onChange={(e: any) => {
+                this.setCurrentUrl(e.target.value);
+              }}
+            />
+          </div>
+          <div
+            className="btn"
+            onClick={() => {
+              this.props.createNewWebview(this.currentUrl);
+            }}
+          >
+            &#xe7ee;
+          </div>
+        </div>
+        <div
+          className={classnames('qrcode', {
+            show: this.showQRcode,
+          })}
+        >
+          <canvas
+            width="180"
+            height="180"
+            ref={node => {
+              this.canvas = node;
+            }}
+          />
         </div>
       </div>
     );

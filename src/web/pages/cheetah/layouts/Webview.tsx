@@ -11,6 +11,8 @@ import { inject, observer } from 'mobx-react';
     focusIndex,
     webviewCount,
     createNewWebview: (url: string) => stores.webview.createNewWebview(url),
+    clearAllThenCreateNewWebview: (url: string) =>
+      stores.webview.clearAllThenCreateNewWebview(url),
     getWebviewDOM: (index: number, el: any, uid: string) =>
       stores.webview.getWebviewDOM(index, el, uid),
   };
@@ -28,6 +30,10 @@ class WebviewView extends React.Component<any, any> {
     setTimeout(() => {
       this.props.createNewWebview('https://www.baidu.com/');
     }, 5000);
+
+    // setTimeout(() => {
+    //   this.props.clearAllThenCreateNewWebview('https://gitee.com/');
+    // }, 10000);
   }
 
   public render() {
