@@ -27,7 +27,7 @@ before_install:
 script:
   - npm run lint
   - npm run pack
-  - npm run upload
+  # - npm run upload
 
 after_script:
   - cd ./packages

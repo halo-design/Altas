@@ -10,7 +10,8 @@ export default class WebviewModel {
   public domList: any[] = [];
 
   @action
-  public webviewCreater(url: string) {
+  public webviewCreater(url: string, params?: object) {
+    const src = params ? url + '?' + qs.stringify(params) : url;
     const {
       preload,
       descriptors: {
@@ -27,7 +28,7 @@ export default class WebviewModel {
         },
         preload,
         useragent: userAgent,
-        src: url,
+        src,
       },
       devtools: false,
       uid: uuid.v4(),
@@ -77,7 +78,7 @@ export default class WebviewModel {
   }
 
   @action
-  public createNewWebview(url: string): number {
+  public createNewWebview(url: string, params?: object): number {
     this.closeFocusDevtools();
     if (this.focusIndex !== this.maxIndex) {
       this.webviewList.splice(
@@ -85,21 +86,21 @@ export default class WebviewModel {
         this.maxIndex - this.focusIndex
       );
     }
-    this.webviewList.push(this.webviewCreater(url));
+    this.webviewList.push(this.webviewCreater(url, params));
     this.focusIndex = this.maxIndex;
     return this.focusIndex;
   }
 
   @action
-  public replaceWebview(url: string): number {
+  public replaceWebview(url: string, params?: object): number {
     this.webviewList.pop();
-    return this.createNewWebview(url);
+    return this.createNewWebview(url, params);
   }
 
   @action
-  public clearAllThenCreateNewWebview(url: string) {
+  public clearAllThenCreateNewWebview(url: string, params?: object) {
     this.webviewList = [];
-    return this.createNewWebview(url);
+    return this.createNewWebview(url, params);
   }
 
   @action
