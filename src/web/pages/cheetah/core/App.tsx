@@ -3,7 +3,7 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import Webview from '../layouts/Webview';
 
-const App = (): any => {
+const App = ({ children }: any): any => {
   return (
     <div className="app">
       <Header />

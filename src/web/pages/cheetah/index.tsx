@@ -23,7 +23,7 @@ if (isDev) {
   configureDevtool({
     graphEnabled: false,
     logEnabled: true,
-    logFilter: ({ type }: any) => /(update)/.test(type),
+    logFilter: ({ type }: any) => /(action|update)/.test(type),
     updatesEnabled: false,
   });
 }

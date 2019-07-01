@@ -89,6 +89,7 @@
   },
   "dependencies": {
     "antd": "^3.20.0",
+    "antd-mobile": "^2.2.14",
     "classnames": "^2.2.6",
     "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",

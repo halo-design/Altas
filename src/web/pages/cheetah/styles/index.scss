@@ -9,3 +9,8 @@
     transition: transform linear .3s;
   }
 }
+
+.am-toast.am-toast-mask {
+  top: 40px;
+  height: calc(100% - 80px);
+}

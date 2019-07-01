@@ -1,6 +1,7 @@
 import * as qs from 'qs';
 import * as uuid from 'uuid';
 import { action, observable, computed } from 'mobx';
+import interaction from '../utils/interaction';
 const options: any = qs.parse(location.hash.substr(1));
 
 export default class WebviewModel {
@@ -86,6 +87,8 @@ export default class WebviewModel {
       /focusToNextWebview|focusToPrevWebview|reloadFocusWebview/.test(name)
     ) {
       this[name]();
+    } else {
+      interaction(name, params);
     }
   }
 
