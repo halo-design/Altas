@@ -104,8 +104,8 @@ const bindInit = () => {
 };
 
 const init = () => {
-  webview.setAttribute('preload', preload);
-  webview.setAttribute('useragent', userAgent);
+  preload && webview.setAttribute('preload', preload);
+  userAgent && webview.setAttribute('useragent', userAgent);
   setSize(width, height);
 };
 

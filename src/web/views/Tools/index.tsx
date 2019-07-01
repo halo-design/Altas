@@ -35,7 +35,7 @@ class ToolsView extends React.Component<any> {
   public openDebugDevice() {
     openDeviceDebug({
       target: 'https://mobile.ant.design/kitchen-sink/',
-      preload: './public/dev-tools.js',
+      // preload: './public/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
       insertCSS: `
           body::-webkit-scrollbar {
@@ -56,7 +56,7 @@ class ToolsView extends React.Component<any> {
   public openCheetahDevice() {
     openCheetahDebug({
       target: 'https://mobile.ant.design/kitchen-sink/',
-      preload: './public/dev-tools.js',
+      preload: './public/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
     });
   }

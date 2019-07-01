@@ -237,7 +237,7 @@ export default class TerminalModel {
         openDeviceDebug(
           {
             target: uri,
-            preload: './dev-tools.js',
+            // preload: './public/devtools-inject.js',
             descriptors: allDeviceObject[this.useDebugDevice],
           },
           () => {

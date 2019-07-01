@@ -72,9 +72,21 @@ export default class WebviewModel {
   }
 
   @action
-  getDirective(name: string, params: object) {
+  getDirective(name: string, params: any) {
     this.directive = { name, params };
     console.log(this.directive);
+    if (
+      /createNewWebview|replaceWebview|clearAllThenCreateNewWebview/.test(name)
+    ) {
+      const { url, options } = params;
+      this[name](url, options);
+    } else if (name === 'goToAnyWebview' && !isNaN(params)) {
+      this.goToAnyWebview(params);
+    } else if (
+      /focusToNextWebview|focusToPrevWebview|reloadFocusWebview/.test(name)
+    ) {
+      this[name]();
+    }
   }
 
   @action

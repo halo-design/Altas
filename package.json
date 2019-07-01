@@ -52,7 +52,7 @@
     "@babel/runtime": "^7.4.5",
     "@types/classnames": "^2.2.8",
     "@types/electron-json-storage": "^4.0.0",
-    "@types/fs-extra": "^7.0.0",
+    "@types/fs-extra": "^8.0.0",
     "@types/highlight.js": "^9.12.3",
     "@types/ip": "^1.1.0",
     "@types/node": "^12.0.10",
@@ -68,7 +68,7 @@
     "commander": "^2.20.0",
     "cross-env": "^5.2.0",
     "devtron": "^1.4.0",
-    "electron": "^5.0.5",
+    "electron": "^5.0.6",
     "electron-builder": "20.44.4",
     "electron-rebuild": "^1.8.5",
     "node-sass": "^4.12.0",
@@ -77,7 +77,7 @@
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "prettier": "^1.18.2",
-    "sass": "^1.22.0",
+    "sass": "^1.22.1",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "stylelint-scss": "^3.8.0",
@@ -88,7 +88,7 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "antd": "^3.19.8",
+    "antd": "^3.20.0",
     "classnames": "^2.2.6",
     "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",
@@ -96,8 +96,8 @@
     "electron-json-storage": "^4.1.6",
     "electron-log": "^3.0.6",
     "electron-window-state": "^5.0.3",
-    "face-api.js": "^0.20.0",
-    "fs-extra": "^8.0.1",
+    "face-api.js": "^0.20.1",
+    "fs-extra": "^8.1.0",
     "github-markdown-css": "^3.0.1",
     "highlight.js": "^9.15.8",
     "ip": "^1.1.5",
@@ -120,7 +120,7 @@
     "read-yaml": "^1.1.0",
     "tslib": "^1.10.0",
     "uuid": "^3.3.2",
-    "xterm": "^3.14.2",
+    "xterm": "^3.14.4",
     "yaml": "^1.6.0"
   }
 }
