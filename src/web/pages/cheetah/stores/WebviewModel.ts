@@ -81,7 +81,7 @@ export default class WebviewModel {
   @action
   getDirective(name: string, params: any) {
     this.directive = { name, params };
-    console.log(this.directive);
+    // console.log(this.directive);
     if (
       /createNewWebview|replaceWebview|clearAllThenCreateNewWebview/.test(name)
     ) {
@@ -90,7 +90,9 @@ export default class WebviewModel {
     } else if (name === 'goToAnyWebview' && !isNaN(params)) {
       this.goToAnyWebview(params);
     } else if (
-      /focusToNextWebview|focusToPrevWebview|reloadFocusWebview/.test(name)
+      /focusToNextWebview|focusToPrevWebview|reloadFocusWebview|clearWebviewHistory/.test(
+        name
+      )
     ) {
       this[name]();
     } else {
@@ -120,8 +122,8 @@ export default class WebviewModel {
     if (!reg.url.test(url)) {
       return null;
     }
-    this.webviewList.pop();
-    return this.createNewWebview(url, params);
+    this.webviewList[this.focusIndex] = this.webviewCreater(url, params);
+    return this.focusIndex;
   }
 
   @action
@@ -131,6 +133,12 @@ export default class WebviewModel {
     }
     this.webviewList = [];
     return this.createNewWebview(url, params);
+  }
+
+  @action
+  public clearWebviewHistory() {
+    this.focusIndex = 0;
+    this.webviewList = this.webviewList.slice(-1);
   }
 
   @action

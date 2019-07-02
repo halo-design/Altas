@@ -56,15 +56,19 @@ class WebviewView extends React.Component<any, any> {
 
     const { webviewCount, webviewList, getWebviewDOM, focusIndex } = this.props;
 
-    return (
-      <div className="app-webview" style={wvSize}>
-        <div
-          className="app-webview-wrapper"
-          style={{
+    const trans =
+      webviewCount > 1
+        ? {
             width: `${webviewCount * 100}vw`,
             transform: `translateX(-${focusIndex * 100}vw)`,
-          }}
-        >
+          }
+        : {
+            transitionProperty: 'none',
+          };
+
+    return (
+      <div className="app-webview" style={wvSize}>
+        <div className="app-webview-wrapper" style={trans}>
           {webviewList.map((item: any, index: number) => {
             return (
               <webview

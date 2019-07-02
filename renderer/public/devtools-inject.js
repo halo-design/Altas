@@ -3,26 +3,8 @@ const { ipcRenderer } = require('electron');
 
 class IPC {
   constructor() {
-    this.isReady = false;
     this.ipc = ipcRenderer;
     this.emit = this.emit.bind(this);
-    this.ipc.on('dom-ready', () => {
-      this.isReady = true;
-      console.info('IPC Ready.');
-    });
-
-  }
-  
-  ready(fn) {
-    if (this.isReady) {
-      fn && fn();
-    } else {
-      this.ipc.on('dom-ready', () => {
-        this.isReady = true;
-        console.info('IPC Ready.');
-        fn && fn();
-      });
-    }
   }
 
   on(ev, fn) {
@@ -30,9 +12,6 @@ class IPC {
   }
 
   emit(ev, data) {
-    if (!this.isReady) {
-      throw new Error('IPC Not Ready.');
-    }
     this.ipc.sendToHost(ev, data);
   }
 }

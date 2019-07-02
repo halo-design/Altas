@@ -25,3 +25,36 @@
   top: 40px;
   height: calc(100% - 80px);
 }
+
+.panel,
+.portal {
+  background-color: #1f2126;
+  border-top: none;
+  border-bottom: none;
+}
+
+.portal {
+  .ipt {
+    input {
+      background-color: #2b2b2d;
+      color: #fff;
+    }
+  }
+}
+
+.btn {
+  color: #abaab3;
+
+  &.active {
+    color: #ff8350;
+    text-shadow: 0 0 5px #ff4c027a;
+  }
+
+  &.disabled {
+    color: #33363b;
+  }
+
+  &:not(.active):not(.disabled):hover {
+    color: #fff;
+  }
+}
