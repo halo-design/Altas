@@ -36,9 +36,9 @@ import { DeviceContext } from '../context';
 class HeaderView extends React.Component<any, any> {
   static contextType = DeviceContext;
 
-  public componentDidMount() {
-    console.log(this.context);
-  }
+  // public componentDidMount() {
+  //   console.log(this.context);
+  // }
 
   public render() {
     const { currentWindow } = this.context;

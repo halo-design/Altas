@@ -10,7 +10,6 @@ export default class WebviewModel {
   @observable public directive: object = {};
   @observable public focusIndex: number = 0;
   @observable public showLinkBar: boolean = false;
-  public domList: any[] = [];
 
   @action
   public toogleLinkBar() {
@@ -118,12 +117,18 @@ export default class WebviewModel {
 
   @action
   public replaceWebview(url: string, params?: object): number | null {
+    if (!reg.url.test(url)) {
+      return null;
+    }
     this.webviewList.pop();
     return this.createNewWebview(url, params);
   }
 
   @action
   public clearAllThenCreateNewWebview(url: string, params?: object) {
+    if (!reg.url.test(url)) {
+      return null;
+    }
     this.webviewList = [];
     return this.createNewWebview(url, params);
   }
