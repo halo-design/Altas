@@ -7,6 +7,7 @@ import { removeFile } from '../bridge/file';
 import { createCache } from '../bridge/createImageCache';
 import { appCacheFullPath } from '../constants/API';
 import * as uuid from 'uuid';
+import * as path from 'path';
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
@@ -232,8 +233,10 @@ export default class UploadModel {
               itemStatus.status = 'done';
               itemStatus.remote = data;
               itemStatus.remote.uid = uid;
-              itemStatus.remote.localThumb =
-                appCacheFullPath + '/' + uid + '.png';
+              itemStatus.remote.localThumb = path.join(
+                appCacheFullPath,
+                uid + '.png'
+              );
             }
             this.remoteImageArray.push(data);
             createCache({

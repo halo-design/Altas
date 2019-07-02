@@ -27,13 +27,13 @@ html {
 
 @font-face {
   font-family: 'iconfont';
-  src: url('../../assets/font/iconfont.ttf') format('truetype');
+  src: url('../../main/assets/font/iconfont.ttf') format('truetype');
 }
 
 .control {
   height: 30px;
   font-size: 0;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   left: 0;
@@ -72,6 +72,7 @@ html {
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-app-region: no-drag;
 
     &:hover {
       background-color: rgba(0, 0, 0, .2);

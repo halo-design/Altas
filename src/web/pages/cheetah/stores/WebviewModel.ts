@@ -2,7 +2,7 @@ import * as qs from 'qs';
 import * as uuid from 'uuid';
 import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
-import * as reg from '../../../constants/Reg';
+import * as reg from '../../../main/constants/Reg';
 const options: any = qs.parse(location.hash.substr(1));
 
 export default class WebviewModel {

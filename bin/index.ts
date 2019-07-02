@@ -2,6 +2,9 @@ const program = require('commander');
 const { clear, createBundle } = require('./utils');
 const { execSync } = require('child_process');
 
+const mainEntry = '../src/web/main/core/index.tsx';
+const nativeEntry = '../src/native/main.ts';
+
 const pages = [
   './src/web/pages/devtools/index.ts',
   './src/web/pages/markdown/index.ts',
@@ -25,14 +28,14 @@ program
   .option('-p --production', 'Production mode build web bundles.')
   .action((cmd: any) => {
     if (cmd.production) {
-      createBundle('../src/web/core/index.tsx', {
+      createBundle(mainEntry, {
         cacheDir: '.cache/web_build_production',
         minify: true,
         sourceMaps: false,
         watch: false,
       }).bundle();
     } else {
-      createBundle('../src/web/core/index.tsx', {
+      createBundle(mainEntry, {
         cacheDir: '.cache/web_build_development',
         minify: false,
         sourceMaps: true,
@@ -67,7 +70,7 @@ program
   .option('-p --production', 'Production mode build native bundles.')
   .action((cmd: any) => {
     if (cmd.production) {
-      createBundle('../src/native/main.ts', {
+      createBundle(nativeEntry, {
         cacheDir: '.cache/native_build_production',
         outDir: './renderer',
         outFile: 'main.js',
@@ -76,7 +79,7 @@ program
         watch: false,
       }).bundle();
     } else {
-      createBundle('../src/native/main.ts', {
+      createBundle(nativeEntry, {
         cacheDir: '.cache/native_build_development',
         outDir: './renderer',
         outFile: 'main.js',
@@ -88,7 +91,7 @@ program
   });
 
 program.command('serve').action(async () => {
-  await createBundle('../src/web/core/index.tsx', {
+  await createBundle(mainEntry, {
     cacheDir: '.cache/web_serve_development',
     detailedReport: false,
     minify: false,
@@ -103,7 +106,7 @@ program.command('serve').action(async () => {
     watch: true,
   }).bundle();
 
-  await createBundle('../src/native/main.ts', {
+  await createBundle(nativeEntry, {
     cacheDir: '.cache/native_serve_development',
     outDir: './renderer',
     outFile: 'main.js',
