@@ -81,7 +81,6 @@ export default class WebviewModel {
   @action
   getDirective(name: string, params: any) {
     this.directive = { name, params };
-    // console.log(this.directive);
     if (
       /createNewWebview|replaceWebview|clearAllThenCreateNewWebview/.test(name)
     ) {
@@ -101,8 +100,21 @@ export default class WebviewModel {
   }
 
   @action
-  public createNewWebview(url: string, params?: object): number | null {
-    if (!reg.url.test(url)) {
+  public testUrl(url: string) {
+    const isBlank = url === 'about:blank';
+    if (isBlank) {
+      this.showLinkBar = true;
+    }
+    return reg.url.test(url) || isBlank;
+  }
+
+  @action
+  public createNewWebview(
+    url: string,
+    params?: object,
+    force?: boolean
+  ): number | null {
+    if (!this.testUrl(url) && !force) {
       return null;
     }
     this.closeFocusDevtools();
@@ -119,7 +131,7 @@ export default class WebviewModel {
 
   @action
   public replaceWebview(url: string, params?: object): number | null {
-    if (!reg.url.test(url)) {
+    if (!this.testUrl(url)) {
       return null;
     }
     this.webviewList[this.focusIndex] = this.webviewCreater(url, params);
@@ -128,11 +140,12 @@ export default class WebviewModel {
 
   @action
   public clearAllThenCreateNewWebview(url: string, params?: object) {
-    if (!reg.url.test(url)) {
+    if (!this.testUrl(url)) {
       return null;
     }
     this.webviewList = [];
-    return this.createNewWebview(url, params);
+    this.focusIndex = 0;
+    return this.createNewWebview(url, params, true);
   }
 
   @action

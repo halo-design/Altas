@@ -10,7 +10,7 @@ const QRcode = require('qrcode');
   return {
     focusWebviewUrl,
     showLinkBar,
-    createNewWebview: (url: string) => stores.webview.createNewWebview(url),
+    replaceWebview: (url: string) => stores.webview.replaceWebview(url),
   };
 })
 @observer
@@ -96,7 +96,7 @@ class FooterView extends React.Component<any, any> {
           <div
             className="btn"
             onClick={() => {
-              this.props.createNewWebview(this.currentUrl);
+              this.props.replaceWebview(this.currentUrl);
             }}
           >
             &#xe7ee;

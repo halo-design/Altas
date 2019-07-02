@@ -29,7 +29,7 @@ class WebviewView extends React.Component<any, any> {
     this.props.createNewWebview(target);
 
     setTimeout(() => {
-      this.props.clearAllThenCreateNewWebview('https://gitee.com/');
+      this.props.clearAllThenCreateNewWebview('https://mobile.ant.design/');
     }, 3000);
 
     setTimeout(() => {

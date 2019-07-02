@@ -55,7 +55,7 @@ class ToolsView extends React.Component<any> {
 
   public openCheetahDevice() {
     openCheetahDebug({
-      target: 'https://mobile.ant.design/kitchen-sink/',
+      target: 'about:blank',
       preload: './public/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
     });
