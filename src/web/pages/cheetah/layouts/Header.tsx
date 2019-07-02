@@ -11,6 +11,7 @@ import { DeviceContext } from '../context';
     focusOnFisrt,
     focusOnLast,
     focusDevtoolsState,
+    showLinkBar,
   } = stores.webview;
 
   return {
@@ -20,11 +21,13 @@ import { DeviceContext } from '../context';
     focusOnFisrt,
     focusOnLast,
     focusDevtoolsState,
+    showLinkBar,
     createNewWebview: (url: string) => stores.webview.createNewWebview(url),
     focusToNextWebview: () => stores.webview.focusToNextWebview(),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
     debugFocusWebview: () => stores.webview.debugFocusWebview(),
     reloadFocusWebview: () => stores.webview.reloadFocusWebview(),
+    toogleLinkBar: () => stores.webview.toogleLinkBar(),
     getWebviewDOM: (index: number, el: any, uid: string) =>
       stores.webview.getWebviewDOM(index, el, uid),
   };
@@ -47,6 +50,8 @@ class HeaderView extends React.Component<any, any> {
       debugFocusWebview,
       focusDevtoolsState,
       reloadFocusWebview,
+      showLinkBar,
+      toogleLinkBar,
     } = this.props;
 
     return (
@@ -71,6 +76,16 @@ class HeaderView extends React.Component<any, any> {
             }}
           >
             &#xe7ee;
+          </div>
+          <div
+            className={classnames('btn', {
+              active: showLinkBar,
+            })}
+            onClick={() => {
+              toogleLinkBar();
+            }}
+          >
+            &#xe7e2;
           </div>
           <div
             className="btn"

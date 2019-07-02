@@ -5,10 +5,11 @@ import { reaction, observable, action } from 'mobx';
 const QRcode = require('qrcode');
 
 @inject((stores: any) => {
-  const { focusWebviewUrl } = stores.webview;
+  const { focusWebviewUrl, showLinkBar } = stores.webview;
 
   return {
     focusWebviewUrl,
+    showLinkBar,
     createNewWebview: (url: string) => stores.webview.createNewWebview(url),
   };
 })
@@ -65,7 +66,11 @@ class FooterView extends React.Component<any, any> {
           e.stopPropagation();
         }}
       >
-        <div className="portal">
+        <div
+          className={classnames('portal', {
+            show: this.showQRcode || this.props.showLinkBar,
+          })}
+        >
           <div
             className={classnames('btn', {
               active: this.showQRcode,

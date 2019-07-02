@@ -2,13 +2,20 @@ import * as qs from 'qs';
 import * as uuid from 'uuid';
 import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
+import * as reg from '../../../constants/Reg';
 const options: any = qs.parse(location.hash.substr(1));
 
 export default class WebviewModel {
   @observable public webviewList: any[] = [];
   @observable public directive: object = {};
   @observable public focusIndex: number = 0;
+  @observable public showLinkBar: boolean = false;
   public domList: any[] = [];
+
+  @action
+  public toogleLinkBar() {
+    this.showLinkBar = !this.showLinkBar;
+  }
 
   @action
   public webviewCreater(url: string, params?: object) {
@@ -25,7 +32,7 @@ export default class WebviewModel {
       attr: {
         style: {
           width: width + 'px',
-          height: height - 80 + 'px',
+          height: height - 40 + 'px',
         },
         preload,
         useragent: userAgent,
@@ -93,7 +100,10 @@ export default class WebviewModel {
   }
 
   @action
-  public createNewWebview(url: string, params?: object): number {
+  public createNewWebview(url: string, params?: object): number | null {
+    if (!reg.url.test(url)) {
+      return null;
+    }
     this.closeFocusDevtools();
     if (this.focusIndex !== this.maxIndex) {
       this.webviewList.splice(
@@ -107,7 +117,7 @@ export default class WebviewModel {
   }
 
   @action
-  public replaceWebview(url: string, params?: object): number {
+  public replaceWebview(url: string, params?: object): number | null {
     this.webviewList.pop();
     return this.createNewWebview(url, params);
   }

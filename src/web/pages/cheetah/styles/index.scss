@@ -10,6 +10,17 @@
   }
 }
 
+.app-footer {
+  .portal {
+    transform: translateY(40px);
+    transition: all 0.3s;
+
+    &.show {
+      transform: translateY(0);
+    }
+  }
+}
+
 .am-toast.am-toast-mask {
   top: 40px;
   height: calc(100% - 80px);

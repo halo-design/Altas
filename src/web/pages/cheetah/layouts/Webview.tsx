@@ -51,7 +51,7 @@ class WebviewView extends React.Component<any, any> {
 
     const wvSize = {
       width: width + 'px',
-      height: height - 80 + 'px',
+      height: height - 40 + 'px',
     };
 
     const { webviewCount, webviewList, getWebviewDOM, focusIndex } = this.props;
