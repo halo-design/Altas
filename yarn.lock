@@ -1155,10 +1155,10 @@
   resolved "https://registry.npmjs.org/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
 
-"@types/uuid@^3.4.4":
-  version "3.4.4"
-  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-3.4.4.tgz#7af69360fa65ef0decb41fd150bf4ca5c0cefdf5"
-  integrity sha512-tPIgT0GUmdJQNSHxp0X2jnpQfBSTfGxUMc/2CXBU2mnyTFVYVa2ojpoQ74w0U2yn2vw3jnC640+77lkFFpdVDw==
+"@types/uuid@^3.4.5":
+  version "3.4.5"
+  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-3.4.5.tgz#d4dc10785b497a1474eae0ba7f0cb09c0ddfd6eb"
+  integrity sha512-MNL15wC3EKyw1VLF+RoVO4hJJdk9t/Hlv3rt1OL65Qvuadm4BYo6g9ZJQqoq7X8NBFSsQXgAujWciovh2lpVjA==
   dependencies:
     "@types/node" "*"
 
@@ -8546,10 +8546,10 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass@^1.22.1:
-  version "1.22.1"
-  resolved "https://registry.npmjs.org/sass/-/sass-1.22.1.tgz#9dc3cb2ea37d12fec94ef5c0e1112055f23e5bc8"
-  integrity sha512-VsWrNdfIzCLbD2TO2bq9tCaUzEE0UUSGtP3r9IhHi8ypAPCb3FOVP99kMRil+ZROEcTnKReZcQP9vk6ArV2eLw==
+sass@^1.22.2:
+  version "1.22.2"
+  resolved "https://registry.npmjs.org/sass/-/sass-1.22.2.tgz#ed9abee7a3e409fe2ccfdc1b66c64c7c841e0c62"
+  integrity sha512-enuQuy/CbfrZLA2vOy9tB7CK7pP5bZllnMbr5nPGWCFelwt0EMUVGC11gsv9rybkWc8pp/NKVY/c5+AKyjbnXg==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 

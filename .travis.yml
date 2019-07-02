@@ -1,13 +1,13 @@
 os: osx
 osx_image: xcode10.2
 language: node_js
-node_js: '10'
+node_js: '12'
 
 dist: trusty
 sudo: required
 
 env:
-  # - ELECTRON_CACHE=$HOME/.cache/electron
+  - ELECTRON_CACHE=$HOME/.cache/electron
   - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
 branchs:
@@ -15,7 +15,7 @@ branchs:
     - DaVinci
 
 cache:
-  # yarn: true
+  yarn: true
   directories:
     - node_modules
     - $HOME/.cache/electron
