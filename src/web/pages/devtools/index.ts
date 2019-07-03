@@ -133,7 +133,6 @@ webviewBind('devtools-closed', () => {
 });
 
 webviewBind('new-window', (ev: any) => {
-  // console.log(ev.url);
   visit(ev.url);
 });
 

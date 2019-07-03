@@ -4,8 +4,8 @@ import { inject, observer } from 'mobx-react';
 import Drawer from 'antd/lib/drawer';
 import Upload from '../../layouts/Upload';
 import {
-  openDeviceDebug,
-  openCheetahDebug,
+  deviceSimulator,
+  cheetahSimulator,
   openMarkdownPreview,
 } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
@@ -32,10 +32,9 @@ class ToolsView extends React.Component<any> {
     this.uploadDrawerVisible = state;
   }
 
-  public openDebugDevice() {
-    openDeviceDebug({
+  public openDeviceSimulator() {
+    deviceSimulator({
       target: 'about:blank',
-      // preload: './public/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
       insertCSS: `
           body::-webkit-scrollbar {
@@ -54,7 +53,7 @@ class ToolsView extends React.Component<any> {
   }
 
   public openCheetahDevice() {
-    openCheetahDebug({
+    cheetahSimulator({
       target: 'about:blank',
       preload: './public/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
@@ -77,7 +76,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              this.openDebugDevice();
+              this.openDeviceSimulator();
             }}
           >
             <i className="debug" />

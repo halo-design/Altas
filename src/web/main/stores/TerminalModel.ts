@@ -11,7 +11,7 @@ import * as storage from '../bridge/storage';
 import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
 import Modal from 'antd/lib/modal';
-import { openDeviceDebug } from '../bridge/createWindow';
+import { deviceSimulator } from '../bridge/createWindow';
 import { encodeSync, decodeSync } from '../bridge/aes';
 import { allDeviceObject } from '../config/DeviceDescriptors';
 
@@ -234,7 +234,7 @@ export default class TerminalModel {
       okText: '是',
       cancelText: '否',
       onOk: () => {
-        openDeviceDebug(
+        deviceSimulator(
           {
             target: uri,
             // preload: './public/devtools-inject.js',

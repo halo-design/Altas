@@ -51,9 +51,19 @@ const originImages = [
   },
 ];
 
+const prettyBytes = (num: number) => {
+  const unit = Math.pow(2, 10);
+  let size = ~~(num / unit / unit);
+  if (size < unit) {
+    return size + 'MB ';
+  } else {
+    return (size / unit).toFixed(2) + 'GB ';
+  }
+};
+
 @inject((stores: any) => {
   const { systemEnv, appInfo, isFreeze } = stores.workStation;
-  const { ipAddress, os } = stores.device;
+  const { ipAddress, os, hardware } = stores.device;
 
   return {
     systemEnv,
@@ -61,6 +71,8 @@ const originImages = [
     isFreeze,
     ipAddress,
     os,
+    hardware,
+    getDeviceInfo: () => stores.device.getDeviceInfo(),
     showTerm: () => stores.terminal.show(),
     hideTerm: () => stores.terminal.hide(),
     radarStart: () => stores.radar.start(),
@@ -81,14 +93,26 @@ const originImages = [
 @observer
 class ScanView extends React.Component<any> {
   public fresh: boolean = false;
+  public timer: any = null;
+
+  public loop() {
+    this.timer && clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.props.getDeviceInfo();
+      this.timer && clearTimeout(this.timer);
+      this.loop();
+    }, 3000);
+  }
 
   public componentWillMount() {
     this.props.getIpAddress();
+    this.loop();
   }
 
   public componentWillUnmount() {
     this.props.showTerm();
     this.props.radarHide();
+    this.timer && clearTimeout(this.timer);
   }
 
   public componentDidMount() {
@@ -127,8 +151,11 @@ class ScanView extends React.Component<any> {
       systemEnv,
       isFreeze,
       ipAddress,
-      os: { cpu, memory },
+      os: {
+        hardware: { cpu, mem },
+      },
     } = this.props;
+
     return (
       <div className="page-scan">
         <div className="title">
@@ -136,21 +163,31 @@ class ScanView extends React.Component<any> {
           <span className="sub">Hardware Information</span>
         </div>
         <div className="info-content">
-          {Array.isArray(cpu) && (
-            <div className="row">
-              <div className="row-item">
-                <i className="iconfont">&#xe652;</i>
-                <span className="label">处理器：{cpu.length}核心/线程</span>
-              </div>
-              <div className="row-item">
-                <span>{cpu[0].model}</span>
-              </div>
-            </div>
-          )}
+          <div className="row">
+            <i className="iconfont">&#xe652;</i>
+            <span className="label">处理器：</span>
+            {cpu && [
+              <span key="brand">{cpu.brand}</span>,
+              <span key="speed"> @{cpu.speed}GHz</span>,
+              <span className="label" key="core">
+                （{cpu.physicalCores}核心）
+              </span>,
+            ]}
+          </div>
           <div className="row">
             <i className="iconfont">&#xe842;</i>
             <span className="label">内存：</span>
-            <span>{(memory / 1024 / 1024 / 1024).toFixed(2)}GB</span>
+            <div className="track">
+              <div
+                className="bar"
+                style={{ width: (mem.used * 100) / mem.total + '%' }}
+              />
+            </div>
+            {mem && (
+              <span>
+                {prettyBytes(mem.used)}/{prettyBytes(mem.total)}
+              </span>
+            )}
           </div>
           <div className="row">
             <i className="iconfont">&#xe729;</i>

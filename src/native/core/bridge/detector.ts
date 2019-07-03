@@ -1,6 +1,7 @@
 import * as os from 'os';
 import * as ip from 'ip';
 import * as path from 'path';
+import * as si from 'systeminformation';
 import file from '../../utils/file';
 import projectRunner from '../../utils/projectRunner';
 import { cmdIsAvailable, langIsAvailable, pkg } from '../../utils/env';
@@ -90,11 +91,10 @@ export default (RPC: any) => {
 
   RPC.on('get-device-os', () => {
     const deviceInfo = {
+      hardware: {},
       arch: os.arch(),
-      cpu: os.cpus(),
       homedir: os.homedir(),
       hostname: os.hostname(),
-      memory: os.totalmem(),
       network: os.networkInterfaces(),
       platform: os.platform(),
       release: os.release(),
@@ -103,6 +103,11 @@ export default (RPC: any) => {
       uptime: os.uptime(),
       userInfo: os.userInfo(),
     };
-    dispatch('device-os', deviceInfo);
+
+    Promise.all([si.cpu(), si.mem()]).then(([cpu, mem]: any[]) => {
+      deviceInfo.hardware['cpu'] = cpu;
+      deviceInfo.hardware['mem'] = mem;
+      dispatch('device-os', deviceInfo);
+    });
   });
 };

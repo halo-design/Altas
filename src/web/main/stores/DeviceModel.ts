@@ -5,7 +5,26 @@ import { getDeviceOS, getIpAddress } from '../bridge/system';
 
 export default class DeviceModel {
   @observable public ipAddress: any = {};
-  @observable public os: object = {};
+  @observable public os: object = {
+    hardware: {
+      cpu: {
+        brand: '未知处理器',
+        speed: 0,
+        physicalCores: 0,
+      },
+      mem: {
+        used: 0,
+        total: 0,
+      },
+    },
+  };
+
+  @action
+  public getDeviceInfo() {
+    getDeviceOS((info: any) => {
+      this.os = info;
+    });
+  }
 
   @action
   public getIpAddress(cb?: (data: object) => void) {
@@ -15,10 +34,6 @@ export default class DeviceModel {
 
     getIpAddress((addr: any) => {
       this.ipAddress.local = addr.ip;
-    });
-
-    getDeviceOS((info: any) => {
-      this.os = info;
     });
 
     getData(API.ipAddress).then((param: any) => {

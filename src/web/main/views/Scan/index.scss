@@ -49,7 +49,26 @@
       line-height: 24px;
 
       span.label {
-        font-weight: 600;
+        font-weight: 500;
+      }
+
+      .track {
+        width: 140px;
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.1);
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        border-radius: 2px;
+        overflow: hidden;
+
+        .bar {
+          background-color: #75ffcf;
+          height: 100%;
+          width: 0;
+          transition: width .3s;
+          border-radius: 2px;
+        }
       }
 
       .row-item {

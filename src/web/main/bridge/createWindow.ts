@@ -70,11 +70,11 @@ export const deviceDevtools = (
   );
 };
 
-export const openDeviceDebug = (options: Idebug, callback?: Function) => {
+export const deviceSimulator = (options: Idebug, callback?: Function) => {
   deviceDevtools('renderer/devtools.html', options, callback);
 };
 
-export const openCheetahDebug = (options: Idebug, callback?: Function) => {
+export const cheetahSimulator = (options: Idebug, callback?: Function) => {
   deviceDevtools('renderer/cheetah.html', options, callback);
 };
 
