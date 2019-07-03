@@ -30,6 +30,10 @@ class WebviewView extends React.Component<any, any> {
 
     setTimeout(() => {
       this.props.clearAllThenCreateNewWebview('https://mobile.ant.design/');
+    }, 1000);
+
+    setTimeout(() => {
+      this.props.createNewWebview('https://juejin.im/');
     }, 3000);
 
     setTimeout(() => {
@@ -39,7 +43,7 @@ class WebviewView extends React.Component<any, any> {
         isMarried: true,
         times: [1, 2, 3, 4],
       });
-    }, 6000);
+    }, 5000);
   }
 
   public render() {
