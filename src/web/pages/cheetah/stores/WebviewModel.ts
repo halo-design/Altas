@@ -41,6 +41,7 @@ export default class WebviewModel {
       uid: uuid.v4(),
       dom: null,
       ready: false,
+      spinner: false,
     };
 
     return webviewItem;
@@ -75,6 +76,14 @@ export default class WebviewModel {
       return this.webviewList[this.focusIndex].attr.src;
     } else {
       return '';
+    }
+  }
+
+  @computed get focusWebviewSpinner() {
+    if (this.webviewCount > 0) {
+      return this.webviewList[this.focusIndex].spinner;
+    } else {
+      return false;
     }
   }
 
@@ -159,8 +168,17 @@ export default class WebviewModel {
     if (!el) {
       return;
     }
-    const currnet = this.webviewList[index];
-    currnet['dom'] = el;
+    const current = this.webviewList[index];
+    current['dom'] = el;
+
+    el.addEventListener('did-start-loading', () => {
+      current['spinner'] = true;
+    });
+
+    el.addEventListener('did-stop-loading', () => {
+      current['spinner'] = false;
+    });
+
     el.addEventListener('dom-ready', () => {
       el.insertCSS(`
         body::-webkit-scrollbar {
@@ -177,11 +195,11 @@ export default class WebviewModel {
       `);
 
       el.addEventListener('devtools-closed', () => {
-        currnet['devtools'] = false;
+        current['devtools'] = false;
       });
 
       el.send('dom-ready');
-      currnet['ready'] = true;
+      current['ready'] = true;
     });
 
     el.addEventListener('ipc-message', ({ channel, args }: any) => {

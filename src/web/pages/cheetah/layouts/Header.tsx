@@ -12,6 +12,7 @@ import { DeviceContext } from '../context';
     focusOnLast,
     focusDevtoolsState,
     showLinkBar,
+    focusWebviewSpinner,
   } = stores.webview;
 
   return {
@@ -22,6 +23,7 @@ import { DeviceContext } from '../context';
     focusOnLast,
     focusDevtoolsState,
     showLinkBar,
+    focusWebviewSpinner,
     createNewWebview: (url: string) => stores.webview.createNewWebview(url),
     focusToNextWebview: () => stores.webview.focusToNextWebview(),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
@@ -52,11 +54,29 @@ class HeaderView extends React.Component<any, any> {
       reloadFocusWebview,
       showLinkBar,
       toogleLinkBar,
+      focusWebviewSpinner,
     } = this.props;
 
     return (
       <div className="app-header">
         <div className="panel">
+          <div
+            className={classnames('spinner', {
+              hide: !focusWebviewSpinner,
+            })}
+          >
+            <svg className="circular" viewBox="25 25 50 50">
+              <circle
+                className="path"
+                cx="50"
+                cy="50"
+                r="20"
+                fill="none"
+                strokeWidth="2"
+                strokeMiterlimit="10"
+              />
+            </svg>
+          </div>
           <div
             className={classnames('btn', {
               disabled: focusOnFisrt,
