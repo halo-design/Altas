@@ -28,6 +28,7 @@ const qrBtn: any = getEl('qrBtn');
 const mask: any = getEl('mask');
 const tarIpt: any = getEl('tarIpt');
 const qrcode: any = getEl('qrcode');
+const spin: any = getEl('spinner');
 const qrCanvas: any = qrcode.getElementsByTagName('canvas')[0];
 
 const backClass = backBtn.classList;
@@ -36,9 +37,11 @@ const debugClass = debugBtn.classList;
 const maskClass = mask.classList;
 const qrcodeClass = qrcode.classList;
 const qrBtnClass = qrBtn.classList;
+const spinClass = spin.classList;
 
-let devtoolState = false;
-let panelReady = false;
+let devtoolState: boolean = false;
+let panelReady: boolean = false;
+let hideTimer: any = null;
 
 document.addEventListener(
   'click',
@@ -66,6 +69,8 @@ const isClickabled = () => {
     : nextClass.add('disabled');
 };
 
+maskClass.remove('hide');
+
 const bindInit = () => {
   if (panelReady) {
     return;
@@ -74,7 +79,6 @@ const bindInit = () => {
   if (insertCSS) {
     webview.insertCSS(insertCSS);
   }
-  maskClass.add('hide');
 
   bindClick(nextBtn, () => webview.goForward());
   bindClick(backBtn, () => webview.goBack());
@@ -82,7 +86,7 @@ const bindInit = () => {
   bindClick(closeBtn, () => win.close());
   bindClick(porBtn, () => visit());
   bindClick(debugBtn, () => {
-    if (maskClass.contains('hide')) {
+    if (panelReady) {
       devtoolState ? webview.closeDevTools() : webview.openDevTools();
       devtoolState = !devtoolState;
     }
@@ -111,11 +115,8 @@ const init = () => {
 
 const visit = (lnk?: string) => {
   if (lnk) {
-    tarIpt.value = lnk;
-  }
-
-  if (tarIpt.value) {
-    !panelReady && maskClass.remove('hide');
+    webview.setAttribute('src', lnk);
+  } else if (tarIpt.value !== webview.src) {
     webview.setAttribute('src', tarIpt.value);
   }
 };
@@ -126,19 +127,41 @@ visit(target);
 webviewBind('devtools-opened', () => {
   debugClass.add('active');
 });
+
 webviewBind('devtools-closed', () => {
   debugClass.remove('active');
 });
-webviewBind('did-navigate-in-page', (ev: any) => {
-  if (ev) {
-    isClickabled();
-    tarIpt.value = ev.url;
-  }
+
+webviewBind('new-window', (ev: any) => {
+  // console.log(ev.url);
+  visit(ev.url);
 });
 
-webview.addEventListener('dom-ready', () => {
+webviewBind('did-navigate', (ev: any) => {
   isClickabled();
+  tarIpt.value = ev.url;
+});
+
+webviewBind('did-navigate-in-page', (ev: any) => {
+  isClickabled();
+  tarIpt.value = ev.url;
+});
+
+webviewBind('did-start-loading', () => {
+  spinClass.remove('hide');
+});
+
+webviewBind('did-stop-loading', () => {
+  spinClass.add('hide');
+});
+
+webviewBind('dom-ready', () => {
   bindInit();
+  hideTimer && clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => {
+    maskClass.add('hide');
+    clearTimeout(hideTimer);
+  }, 30);
 });
 
 win.show();

@@ -34,7 +34,7 @@ class ToolsView extends React.Component<any> {
 
   public openDebugDevice() {
     openDeviceDebug({
-      target: 'https://mobile.ant.design/kitchen-sink/',
+      target: 'about:blank',
       // preload: './public/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
       insertCSS: `

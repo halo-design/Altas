@@ -13,7 +13,8 @@ html {
 body {
   font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
   font-size: 14px;
-  background-color: #fff;
+  background: #fff url(./logo.svg) no-repeat center center;
+  background-size: 120px;
 }
 
 @font-face {
@@ -93,51 +94,56 @@ body {
   bottom: 40px;
 }
 
-/* .mask {
+.spinner {
+  height: 24px;
+  width: 24px;
   position: absolute;
-  left: 0;
-  top: 40px;
-  right: 0;
-  bottom: 40px;
-  display: grid;
-  place-content: center;
-  overflow: hidden;
-  perspective: 19em;
-  background: #bce1f3;
+  left: 10px;
+  top: 8px;
+  transition: opacity .3s;
 
-  div {
-    transform-style: preserve-3d;
+  &.hide {
+    opacity: 0;
   }
 
-  .rot {
-    position: absolute;
-    transform: rotate(calc(var(--k)*1turn)) translatey(23vmin);
+  .circular {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
   }
-
-  .rot:before,
-  .rot:after {
-    --i: 0;
-    position: absolute;
-    margin: -1.2vmin;
-    padding: 1.2vmin;
-    border-radius: 50%;
-    background: hsl(0, 0%, calc(var(--i)*100%));
-    animation: r 2s linear calc((.5*var(--i) + 6*var(--k))*-2s) infinite;
-    content: "";
+  
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+    stroke: #000;
   }
-  .rot:after {
-    --i: 1;
+  
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+  
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+  
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
   }
 }
-
-@keyframes r {
-  0% {
-    transform: perspective(9em) rotatex(0deg) translatez(2.625vmin) rotatex(0deg);
-  }
-  100% {
-    transform: perspective(9em) rotatex(1turn) translatez(2.625vmin) rotatex(-1turn);
-  }
-} */
 
 .qrcode {
   width: 200px;

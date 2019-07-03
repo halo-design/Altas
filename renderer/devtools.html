@@ -9,6 +9,19 @@
   </head>
   <body>
     <div class="panel">
+      <div class="spinner hide" id="spinner">
+        <svg class="circular" viewBox="25 25 50 50">
+          <circle
+            class="path"
+            cx="50"
+            cy="50"
+            r="20"
+            fill="none"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+          />
+        </svg>
+      </div>
       <div class="btn" id="backBtn">&#xe7ef;</div>
       <div class="btn" id="nextBtn">&#xe7ee;</div>
       <div class="btn" id="reloadBtn">&#xe788;</div>
@@ -24,46 +37,7 @@
       <div class="btn" id="porBtn">&#xe7ee;</div>
     </div>
     <div class="qrcode" id="qrcode"><canvas width="180" height="180"></canvas></div>
-    <div class="mask" id="mask">
-      <!-- <div class="helix">
-        <div class="rot" style="--k: 0;"></div>
-        <div class="rot" style="--k: 0.02778;"></div>
-        <div class="rot" style="--k: 0.05556;"></div>
-        <div class="rot" style="--k: 0.08333;"></div>
-        <div class="rot" style="--k: 0.11111;"></div>
-        <div class="rot" style="--k: 0.13889;"></div>
-        <div class="rot" style="--k: 0.16667;"></div>
-        <div class="rot" style="--k: 0.19444;"></div>
-        <div class="rot" style="--k: 0.22222;"></div>
-        <div class="rot" style="--k: 0.25;"></div>
-        <div class="rot" style="--k: 0.27778;"></div>
-        <div class="rot" style="--k: 0.30556;"></div>
-        <div class="rot" style="--k: 0.33333;"></div>
-        <div class="rot" style="--k: 0.36111;"></div>
-        <div class="rot" style="--k: 0.38889;"></div>
-        <div class="rot" style="--k: 0.41667;"></div>
-        <div class="rot" style="--k: 0.44444;"></div>
-        <div class="rot" style="--k: 0.47222;"></div>
-        <div class="rot" style="--k: 0.5;"></div>
-        <div class="rot" style="--k: 0.52778;"></div>
-        <div class="rot" style="--k: 0.55556;"></div>
-        <div class="rot" style="--k: 0.58333;"></div>
-        <div class="rot" style="--k: 0.61111;"></div>
-        <div class="rot" style="--k: 0.63889;"></div>
-        <div class="rot" style="--k: 0.66667;"></div>
-        <div class="rot" style="--k: 0.69444;"></div>
-        <div class="rot" style="--k: 0.72222;"></div>
-        <div class="rot" style="--k: 0.75;"></div>
-        <div class="rot" style="--k: 0.77778;"></div>
-        <div class="rot" style="--k: 0.80556;"></div>
-        <div class="rot" style="--k: 0.83333;"></div>
-        <div class="rot" style="--k: 0.86111;"></div>
-        <div class="rot" style="--k: 0.88889;"></div>
-        <div class="rot" style="--k: 0.91667;"></div>
-        <div class="rot" style="--k: 0.94444;"></div>
-        <div class="rot" style="--k: 0.97222;"></div>
-      </div> -->
-    </div>
+    <div class="mask" id="mask"></div>
     <script>
       require('./static/pages/devtools/index.js')
     </script>
