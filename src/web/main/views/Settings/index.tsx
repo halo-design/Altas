@@ -14,8 +14,11 @@ import './index.scss';
 @inject((stores: any) => {
   return {
     useDebugDevice: stores.terminal.useDebugDevice,
+    useDebugSimulator: stores.terminal.useDebugSimulator,
     setUseDebugDevice: (type: string) =>
       stores.terminal.setUseDebugDevice(type),
+    setUseDebugSimulator: (type: string) =>
+      stores.terminal.setUseDebugSimulator(type),
     setMonitorVisible: (state: boolean) =>
       stores.workStation.setMonitorVisible(state),
   };
@@ -24,6 +27,10 @@ import './index.scss';
 class SettingsView extends React.Component<any> {
   public deviceOnChange(val: string) {
     this.props.setUseDebugDevice(val);
+  }
+
+  public simulatorOnChange(val: string) {
+    this.props.setUseDebugSimulator(val);
   }
 
   public componentDidMount() {
@@ -70,6 +77,20 @@ class SettingsView extends React.Component<any> {
                     {name}
                   </Option>
                 ))}
+              </Select>
+            </div>
+          </div>
+          <div className="form-item project-type-selection">
+            <div className="label">选择调试模拟器</div>
+            <div className="item">
+              <Select
+                style={{ width: 280 }}
+                defaultValue={this.props.useDebugSimulator}
+                size="default"
+                onChange={(val: string) => this.simulatorOnChange(val)}
+              >
+                <Option value="deviceSimulator">Web应用调试器</Option>
+                <Option value="cheetahSimulator">猎豹App调试器</Option>
               </Select>
             </div>
           </div>

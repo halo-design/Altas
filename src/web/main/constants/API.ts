@@ -1,6 +1,13 @@
 import { remote } from 'electron';
 import * as path from 'path';
 const { app } = remote;
+import node from '../assets/img/node.png';
+import npm from '../assets/img/npm.png';
+import vue from '../assets/img/vue.png';
+import yarn from '../assets/img/yarn.png';
+import eslint from '../assets/img/eslint.png';
+import webpack from '../assets/img/webpack.png';
+import python from '../assets/img/python.png';
 
 export const clearUploadHistory: string = 'https://sm.ms/api/clear';
 export const upload: string = 'https://sm.ms/api/upload?inajax=1&ssl=1';
@@ -10,3 +17,54 @@ export const appCacheFullPath: string = path.join(
   app.getPath('temp'),
   'altas_cache'
 );
+export const scrollbarStyleString = `
+  body::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: rgb(220, 220, 220);
+  }
+
+  body::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+`;
+
+export const scanAppImages = [
+  {
+    name: 'node',
+    lnk: 'static/' + node,
+    color: '#46b438',
+  },
+  {
+    name: 'npm',
+    lnk: 'static/' + npm,
+    color: '#d32e2d',
+  },
+  {
+    name: 'vue',
+    lnk: 'static/' + vue,
+    color: '#41b883',
+  },
+  {
+    name: 'yarn',
+    lnk: 'static/' + yarn,
+    color: '#2c8ebb',
+  },
+  {
+    name: 'eslint',
+    lnk: 'static/' + eslint,
+    color: '#4b32c3',
+  },
+  {
+    name: 'webpack',
+    lnk: 'static/' + webpack,
+    color: '#8ed6fb',
+  },
+  {
+    name: 'python',
+    lnk: 'static/' + python,
+    color: '#0075aa',
+  },
+];

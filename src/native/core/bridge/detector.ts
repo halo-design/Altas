@@ -91,7 +91,6 @@ export default (RPC: any) => {
 
   RPC.on('get-device-os', () => {
     const deviceInfo = {
-      hardware: {},
       arch: os.arch(),
       homedir: os.homedir(),
       hostname: os.hostname(),
@@ -104,10 +103,18 @@ export default (RPC: any) => {
       userInfo: os.userInfo(),
     };
 
-    Promise.all([si.cpu(), si.mem()]).then(([cpu, mem]: any[]) => {
-      deviceInfo.hardware['cpu'] = cpu;
-      deviceInfo.hardware['mem'] = mem;
+    si.cpu().then((cpu: any) => {
+      deviceInfo['cpu'] = cpu;
       dispatch('device-os', deviceInfo);
+    });
+  });
+
+  RPC.on('get-device-status', () => {
+    const hardware = {};
+
+    si.mem().then((mem: any) => {
+      hardware['mem'] = mem;
+      dispatch('device-status', hardware);
     });
   });
 };

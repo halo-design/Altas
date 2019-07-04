@@ -3,6 +3,7 @@ const { dispatch } = RPC;
 
 interface ICreateImageCache {
   url: string;
+  thumbType: string;
   saveName: string;
   width: number;
   height: number;

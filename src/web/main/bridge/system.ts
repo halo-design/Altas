@@ -47,6 +47,13 @@ export const getDeviceOS = (cb: (args: object) => void): void => {
   });
 };
 
+export const getDeviceStatus = (cb: (args: object) => void): void => {
+  dispatch('get-device-status', '');
+  RPC.once('device-status', (args: object) => {
+    cb(args);
+  });
+};
+
 export const getDeviceOSSync = () =>
   new Promise((resolve, reject) => {
     getDeviceOS((params: object) => {

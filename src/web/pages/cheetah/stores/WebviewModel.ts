@@ -3,6 +3,7 @@ import * as uuid from 'uuid';
 import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
 import { urlTest } from '../../../main/constants/Reg';
+import { scrollbarStyleString } from '../../../main/constants/API';
 const options: any = qs.parse(location.hash.substr(1));
 
 export default class WebviewModel {
@@ -184,19 +185,7 @@ export default class WebviewModel {
     });
 
     el.addEventListener('dom-ready', () => {
-      el.insertCSS(`
-        body::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        body::-webkit-scrollbar-thumb {
-          background-color: rgb(220, 220, 220);
-        }
-        
-        body::-webkit-scrollbar-track-piece {
-          background-color: transparent;
-        }
-      `);
+      el.insertCSS(scrollbarStyleString);
 
       el.addEventListener('devtools-closed', () => {
         current['devtools'] = false;

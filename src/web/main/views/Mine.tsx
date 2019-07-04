@@ -59,7 +59,7 @@ class MineView extends React.Component<object, IState> {
 
   public handlePaste = (event: any) => {
     event.preventDefault();
-    clipBoard.read((arg: string) => {
+    clipBoard.readText((arg: string) => {
       this.setPath(arg);
     });
   };

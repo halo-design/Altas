@@ -3,6 +3,7 @@ import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import Drawer from 'antd/lib/drawer';
 import Upload from '../../layouts/Upload';
+import { scrollbarStyleString } from '../../constants/API';
 import {
   deviceSimulator,
   cheetahSimulator,
@@ -36,19 +37,7 @@ class ToolsView extends React.Component<any> {
     deviceSimulator({
       target: 'about:blank',
       descriptors: allDeviceObject[this.props.useDebugDevice],
-      insertCSS: `
-          body::-webkit-scrollbar {
-            width: 4px;
-          }
-          
-          body::-webkit-scrollbar-thumb {
-            background-color: rgb(220, 220, 220);
-          }
-          
-          body::-webkit-scrollbar-track-piece {
-            background-color: transparent;
-          }
-        `,
+      insertCSS: scrollbarStyleString,
     });
   }
 

@@ -1,20 +1,20 @@
-import RPC from './rpc';
-const { dispatch } = RPC;
+import { remote } from 'electron';
+const { clipboard } = remote;
 
-export const read = (cb: (args: string) => void): void => {
-  dispatch('read-clipboard', '');
-  RPC.once('get-clipboard-text', (args: string) => {
-    cb(args);
-  });
+export const readText = (cb?: (args: string) => void): string => {
+  const txt: string = clipboard.readText();
+  cb && cb(txt);
+  return txt;
 };
 
-export const write = (txt: string) => {
-  dispatch('write-clipboard', txt);
+export const readImage = (
+  cb?: (args: Electron.nativeImage) => void
+): Electron.nativeImage => {
+  const ni = clipboard.readImage();
+  cb && cb(ni);
+  return ni;
 };
 
-export const readSync = () =>
-  new Promise((resolve, reject) => {
-    read((args: string) => {
-      resolve(args);
-    });
-  });
+export const writeText = (txt: string) => {
+  clipboard.writeText(txt);
+};

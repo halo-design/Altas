@@ -25,25 +25,7 @@ class WebviewView extends React.Component<any, any> {
 
   public componentDidMount() {
     const { target } = this.context;
-
     this.props.createNewWebview(target);
-
-    setTimeout(() => {
-      this.props.clearAllThenCreateNewWebview('https://mobile.ant.design/');
-    }, 1000);
-
-    setTimeout(() => {
-      this.props.createNewWebview('https://juejin.im/');
-    }, 3000);
-
-    setTimeout(() => {
-      this.props.createNewWebview('https://www.baidu.com/', {
-        author: 'aford',
-        id: 100342,
-        isMarried: true,
-        times: [1, 2, 3, 4],
-      });
-    }, 5000);
   }
 
   public render() {

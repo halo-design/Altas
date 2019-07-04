@@ -40,6 +40,9 @@ import './index.scss';
     getFileList: (node: HTMLInputElement) => {
       stores.upload.getFileList(node);
     },
+    getRawFileList: (files: File[]) => {
+      stores.upload.getRawFileList(files);
+    },
     getUploadHistory: () => {
       stores.upload.getUploadHistory();
     },
@@ -115,31 +118,48 @@ class UploadView extends React.Component<any> {
   };
 
   public saveClipboard(txt: string) {
-    clipBoard.write(txt);
+    clipBoard.writeText(txt);
     message.success('图片链接已复制到剪切板！');
+  }
+
+  public saveClipboardImage() {
+    const img = clipBoard.readImage();
+    if (!img.isEmpty()) {
+      const file = new File([img.toPNG()], `screenshot-${Date.now()}.png`, {
+        type: 'image/png',
+      });
+      file['url'] = img.resize({ width: 200, height: 200 }).toDataURL();
+      file['thumbType'] = 'base64';
+      console.log(file);
+      this.props.getRawFileList([file]);
+      message.success('粘贴成功！');
+    }
   }
 
   public componentDidMount() {
     this.props.getLocalHistory();
     if (this.fileIpt) {
-      this.contextMenu = new CreateContextMenu(this.fileIpt, [
+      const opts: any = [
         {
-          click: () => {
-            this.props.getUploadHistory();
+          // checked: true,
+          click: (e: any) => {
+            this.props.clearUploadHistory();
+            message.success('清除成功！');
           },
-          label: '获取上传记录',
+          label: '清除服务器上传历史',
         },
         {
           type: 'separator',
         },
         {
-          checked: true,
           click: (e: any) => {
-            this.props.clearUploadHistory();
+            this.saveClipboardImage();
           },
-          label: '清除上传历史',
+          label: '粘贴上传图片',
         },
-      ]);
+      ];
+
+      this.contextMenu = new CreateContextMenu(this.fileIpt, opts);
     }
   }
 
@@ -203,6 +223,9 @@ class UploadView extends React.Component<any> {
           className={classNames('upload-section', {
             hide: this.showSectionIndex !== 0,
           })}
+          onPaste={() => {
+            this.saveClipboardImage();
+          }}
         >
           <div className={classNames('upload-btn', { hide: !isAllEmpty })}>
             <input
@@ -216,7 +239,7 @@ class UploadView extends React.Component<any> {
               onChange={this.handleList}
               onDrop={this.handleList}
             />
-            <span className="tit">点击或拖拽至此处上传</span>
+            <span className="tit">点击、粘贴或拖拽至此处上传</span>
           </div>
           <div className="control-panel">
             <Tooltip placement="top" title="选择上传图片">

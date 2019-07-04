@@ -2,68 +2,23 @@ import { remote } from 'electron';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import notification from 'antd/lib/notification';
+import { scanAppImages } from '../../constants/API';
 
 import './index.scss';
-
-import node from '../../assets/img/node.png';
-import npm from '../../assets/img/npm.png';
-import vue from '../../assets/img/vue.png';
-import yarn from '../../assets/img/yarn.png';
-import eslint from '../../assets/img/eslint.png';
-import webpack from '../../assets/img/webpack.png';
-import python from '../../assets/img/python.png';
-
-const originImages = [
-  {
-    name: 'node',
-    lnk: 'static/' + node,
-    color: '#46b438',
-  },
-  {
-    name: 'npm',
-    lnk: 'static/' + npm,
-    color: '#d32e2d',
-  },
-  {
-    name: 'vue',
-    lnk: 'static/' + vue,
-    color: '#41b883',
-  },
-  {
-    name: 'yarn',
-    lnk: 'static/' + yarn,
-    color: '#2c8ebb',
-  },
-  {
-    name: 'eslint',
-    lnk: 'static/' + eslint,
-    color: '#4b32c3',
-  },
-  {
-    name: 'webpack',
-    lnk: 'static/' + webpack,
-    color: '#8ed6fb',
-  },
-  {
-    name: 'python',
-    lnk: 'static/' + python,
-    color: '#0075aa',
-  },
-];
 
 const prettyBytes = (num: number) => {
   const unit = Math.pow(2, 10);
   let size = ~~(num / unit / unit);
   if (size < unit) {
-    return size + 'MB ';
+    return ` ${size}MB `;
   } else {
-    return (size / unit).toFixed(2) + 'GB ';
+    return ` ${(size / unit).toFixed(2)}GB `;
   }
 };
 
 @inject((stores: any) => {
   const { systemEnv, appInfo, isFreeze } = stores.workStation;
-  const { ipAddress, os, hardware } = stores.device;
+  const { ipAddress, os, hardwareStatus } = stores.device;
 
   return {
     systemEnv,
@@ -71,8 +26,8 @@ const prettyBytes = (num: number) => {
     isFreeze,
     ipAddress,
     os,
-    hardware,
-    getDeviceInfo: () => stores.device.getDeviceInfo(),
+    hardwareStatus,
+    getDeviceStatus: () => stores.device.getDeviceStatus(),
     showTerm: () => stores.terminal.show(),
     hideTerm: () => stores.terminal.hide(),
     radarStart: () => stores.radar.start(),
@@ -98,7 +53,7 @@ class ScanView extends React.Component<any> {
   public loop() {
     this.timer && clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      this.props.getDeviceInfo();
+      this.props.getDeviceStatus();
       this.timer && clearTimeout(this.timer);
       this.loop();
     }, 3000);
@@ -112,13 +67,14 @@ class ScanView extends React.Component<any> {
   public componentWillUnmount() {
     this.props.showTerm();
     this.props.radarHide();
+    this.props.getDeviceStatus();
     this.timer && clearTimeout(this.timer);
   }
 
   public componentDidMount() {
     this.props.hideTerm();
     this.props.radarShow();
-    this.props.radarSetTarget(originImages);
+    this.props.radarSetTarget(scanAppImages);
   }
 
   public envScanHandle() {
@@ -151,9 +107,8 @@ class ScanView extends React.Component<any> {
       systemEnv,
       isFreeze,
       ipAddress,
-      os: {
-        hardware: { cpu, mem },
-      },
+      os: { cpu },
+      hardwareStatus: { mem },
     } = this.props;
 
     return (
@@ -164,15 +119,17 @@ class ScanView extends React.Component<any> {
         </div>
         <div className="info-content">
           <div className="row">
-            <i className="iconfont">&#xe652;</i>
-            <span className="label">处理器：</span>
-            {cpu && [
-              <span key="brand">{cpu.brand}</span>,
-              <span key="speed"> @{cpu.speed}GHz</span>,
-              <span className="label" key="core">
-                （{cpu.physicalCores}核心）
-              </span>,
-            ]}
+            <div className="row-item">
+              <i className="iconfont">&#xe652;</i>
+              <span className="label">处理器：</span>
+              {cpu && [
+                <span key="brand">{cpu.brand}</span>,
+                <span key="speed"> @{cpu.speed}GHz</span>,
+                <span className="label" key="core">
+                  （{cpu.physicalCores}核心）
+                </span>,
+              ]}
+            </div>
           </div>
           <div className="row">
             <i className="iconfont">&#xe842;</i>

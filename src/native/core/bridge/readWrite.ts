@@ -1,6 +1,5 @@
 import log from 'electron-log';
 const fs = require('fs-extra');
-import { clipboard } from 'electron';
 import * as storage from 'electron-json-storage';
 import readTxtByLine from '../../utils/readTxtByLine';
 import file from '../../utils/file';
@@ -49,14 +48,6 @@ export default (RPC: any) => {
         dispatch('get-text-line', { status: 'done' });
       }
     );
-  });
-
-  RPC.on('read-clipboard', () => {
-    dispatch('get-clipboard-text', clipboard.readText());
-  });
-
-  RPC.on('write-clipboard', (args: string) => {
-    clipboard.writeText(args);
   });
 
   RPC.on('clean-app-cache', () => {

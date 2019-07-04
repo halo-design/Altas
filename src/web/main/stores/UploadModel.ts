@@ -35,7 +35,7 @@ export default class UploadModel {
         upload_image_history = Object.keys(upload_image_history).map(
           (key: any) => upload_image_history[key]
         );
-        console.log(upload_image_history);
+        // console.log(upload_image_history);
         this.uploadHistoryList = upload_image_history;
       }
     });
@@ -89,13 +89,18 @@ export default class UploadModel {
   }
 
   @action
-  public getFileList = (node: HTMLInputElement) => {
+  public getFileList(node: HTMLInputElement) {
+    const files = node.files;
+    const rawFiles = Array.prototype.slice.call(files);
+    this.getRawFileList(rawFiles);
+    node.value = '';
+  }
+
+  @action
+  public getRawFileList(rawFiles: File[]) {
     if (!this.isXhrQueueEmpty) {
       return;
     }
-
-    const files = node.files;
-    const rawFiles = Array.prototype.slice.call(files);
 
     const baseType = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
 
@@ -105,6 +110,9 @@ export default class UploadModel {
         const uid = uuid.v4();
         file.uid = uid;
         file.addIndex = index;
+        if (!file.thumbType) {
+          file.thumbType = 'image';
+        }
 
         this.uploadListStatus[uid] = {
           file,
@@ -121,8 +129,7 @@ export default class UploadModel {
     });
 
     this.postFiles = this.postFiles.concat(addFiles);
-    node.value = '';
-  };
+  }
 
   @action
   public deletePostFile(index: number): void {
@@ -240,7 +247,8 @@ export default class UploadModel {
             }
             this.remoteImageArray.push(data);
             createCache({
-              url: file.path,
+              url: file.url,
+              thumbType: file['thumbType'],
               saveName: uid + '.png',
               width: 200,
               height: 200,

@@ -11,7 +11,7 @@ import * as storage from '../bridge/storage';
 import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
 import Modal from 'antd/lib/modal';
-import { deviceSimulator } from '../bridge/createWindow';
+import { deviceSimulator, cheetahSimulator } from '../bridge/createWindow';
 import { encodeSync, decodeSync } from '../bridge/aes';
 import { allDeviceObject } from '../config/DeviceDescriptors';
 
@@ -54,6 +54,7 @@ export default class TerminalModel {
   @observable public adminAuthorizationModalVisible: boolean = false;
   @observable public userPassword: string = '';
   @observable public useDebugDevice: string = 'iPhone 8 Plus';
+  @observable public useDebugSimulator: string = 'deviceSimulator';
 
   constructor() {
     this.setUseDebugDevice = this.setUseDebugDevice.bind(this);
@@ -108,6 +109,15 @@ export default class TerminalModel {
     const { devtools_debug_device } = devToolsDebugDevice;
     if (devtools_debug_device) {
       this.useDebugDevice = devtools_debug_device;
+    }
+
+    const devToolsDebugSimulator: any = await storage.readSync(
+      'devtools_debug_simulator'
+    );
+
+    const { devtools_debug_simulator } = devToolsDebugSimulator;
+    if (devtools_debug_simulator) {
+      this.useDebugSimulator = devtools_debug_simulator;
     }
   }
 
@@ -227,6 +237,14 @@ export default class TerminalModel {
     });
   }
 
+  @action
+  public setUseDebugSimulator(type: string) {
+    this.useDebugSimulator = type;
+    storage.write('devtools_debug_simulator', {
+      devtools_debug_simulator: type,
+    });
+  }
+
   private handleLink(event: any, uri: string) {
     confirm({
       title: '选择打开方式',
@@ -234,16 +252,27 @@ export default class TerminalModel {
       okText: '是',
       cancelText: '否',
       onOk: () => {
-        deviceSimulator(
-          {
-            target: uri,
-            // preload: './public/devtools-inject.js',
-            descriptors: allDeviceObject[this.useDebugDevice],
-          },
-          () => {
-            message.info('已打开本地调试！');
-          }
-        );
+        if (this.useDebugSimulator == 'deviceSimulator') {
+          deviceSimulator(
+            {
+              target: uri,
+              descriptors: allDeviceObject[this.useDebugDevice],
+            },
+            () => {
+              message.info('已打开Web应用调试器！');
+            }
+          );
+        } else if (this.useDebugSimulator == 'cheetahSimulator') {
+          cheetahSimulator(
+            {
+              target: uri,
+              descriptors: allDeviceObject[this.useDebugDevice],
+            },
+            () => {
+              message.info('已打开猎豹App调试器！');
+            }
+          );
+        }
       },
       onCancel: () => {
         openLink(uri);
