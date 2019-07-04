@@ -13,6 +13,7 @@ import './index.scss';
 
 @inject((stores: any) => {
   return {
+    appInfo: stores.workStation.appInfo,
     useDebugDevice: stores.terminal.useDebugDevice,
     useDebugSimulator: stores.terminal.useDebugSimulator,
     setUseDebugDevice: (type: string) =>
@@ -64,7 +65,7 @@ class SettingsView extends React.Component<any> {
         <h1 className="title">基本设置</h1>
         <div className="form-table">
           <div className="form-item project-type-selection">
-            <div className="label">选择调试设备</div>
+            <div className="label">调试设备</div>
             <div className="item">
               <Select
                 style={{ width: 280 }}
@@ -81,7 +82,7 @@ class SettingsView extends React.Component<any> {
             </div>
           </div>
           <div className="form-item project-type-selection">
-            <div className="label">选择调试模拟器</div>
+            <div className="label">默认调试模拟器</div>
             <div className="item">
               <Select
                 style={{ width: 280 }}
@@ -93,6 +94,10 @@ class SettingsView extends React.Component<any> {
                 <Option value="cheetahSimulator">猎豹App调试器</Option>
               </Select>
             </div>
+          </div>
+          <div className="form-item project-type-selection">
+            <div className="label">当前应用版本</div>
+            <div className="item">version {this.props.appInfo.version}</div>
           </div>
           <div className="form-item">
             <div className="label">清理缓存</div>

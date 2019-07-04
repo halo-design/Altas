@@ -17,12 +17,11 @@ const prettyBytes = (num: number) => {
 };
 
 @inject((stores: any) => {
-  const { systemEnv, appInfo, isFreeze } = stores.workStation;
+  const { systemEnv, isFreeze } = stores.workStation;
   const { ipAddress, os, hardwareStatus } = stores.device;
 
   return {
     systemEnv,
-    appInfo,
     isFreeze,
     ipAddress,
     os,
@@ -103,7 +102,6 @@ class ScanView extends React.Component<any> {
 
   public render() {
     const {
-      appInfo,
       systemEnv,
       isFreeze,
       ipAddress,
@@ -162,37 +160,10 @@ class ScanView extends React.Component<any> {
           <span className="sub">System Environment</span>
         </div>
         <div className="dashboard">
-          <div className="current-version">当前应用版本: {appInfo.version}</div>
           <div
-            className="btn-large scan-btn"
-            onClick={e => {
-              this.envScanHandle();
-            }}
+            className="support-list"
+            style={{ height: systemEnv.length * 52 + 'px' }}
           >
-            {!isFreeze ? (
-              <span>点击开始扫描</span>
-            ) : (
-              <span>
-                <div className="showbox">
-                  <div className="loader">
-                    <svg className="circular" viewBox="25 25 50 50">
-                      <circle
-                        className="path"
-                        cx="50"
-                        cy="50"
-                        r="20"
-                        fill="none"
-                        strokeWidth="2"
-                        strokeMiterlimit="10"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                正在扫描...
-              </span>
-            )}
-          </div>
-          <div className="support-list">
             {systemEnv.map((item: any, index: number) => (
               <div
                 className="item"
@@ -228,6 +199,35 @@ class ScanView extends React.Component<any> {
                 </div>
               </div>
             ))}
+          </div>
+          <div
+            className="btn-large scan-btn"
+            onClick={e => {
+              this.envScanHandle();
+            }}
+          >
+            {!isFreeze ? (
+              <span>点击开始扫描</span>
+            ) : (
+              <span>
+                <div className="showbox">
+                  <div className="loader">
+                    <svg className="circular" viewBox="25 25 50 50">
+                      <circle
+                        className="path"
+                        cx="50"
+                        cy="50"
+                        r="20"
+                        fill="none"
+                        strokeWidth="2"
+                        strokeMiterlimit="10"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                正在扫描...
+              </span>
+            )}
           </div>
         </div>
       </div>

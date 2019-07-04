@@ -242,14 +242,14 @@ class UploadView extends React.Component<any> {
             <span className="tit">点击、粘贴或拖拽至此处上传</span>
           </div>
           <div className="control-panel">
-            <Tooltip placement="top" title="选择上传图片">
+            <Tooltip placement="top" title="添加上传图片">
               <button
                 className={classNames('iconfont', 'btn', {
                   disabled: !isXhrQueueEmpty,
                   red: isXhrQueueEmpty,
                 })}
               >
-                <span>&#xe754;</span>
+                <span>&#xe610;</span>
                 <input
                   type="file"
                   multiple={true}

@@ -88,13 +88,9 @@
     padding: 0 15px;
     margin-bottom: 20px;
 
-    .current-version {
-      color: #b1b3c2;
-    }
-
     .scan-btn {
       width: 320px;
-      margin: 15px auto;
+      margin: 20px auto;
 
       body {
         background-color: #fff;
@@ -111,6 +107,9 @@
     }
 
     .support-list {
+      transition: height .3s;
+      overflow: hidden;
+
       .item {
         background-color: #fff;
         display: flex;

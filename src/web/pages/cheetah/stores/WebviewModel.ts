@@ -128,10 +128,11 @@ export default class WebviewModel {
   @action
   public testUrl(lnk: string) {
     const isBlank = lnk === 'about:blank';
+    const isLocal = lnk.indexOf('http://localhost') > -1;
     if (isBlank) {
       this.showLinkBar = true;
     }
-    return urlTest(lnk) || isBlank;
+    return urlTest(lnk) || isBlank || isLocal;
   }
 
   @action
