@@ -4,14 +4,10 @@ import * as path from 'path';
 import * as si from 'systeminformation';
 import file from '../../utils/file';
 import projectRunner from '../../utils/projectRunner';
-import { cmdIsAvailable, langIsAvailable, pkg } from '../../utils/env';
+import { cmdIsAvailable, langIsAvailable } from '../../utils/env';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;
-
-  RPC.on('read-app-info', () => {
-    dispatch('get-app-info', pkg);
-  });
 
   RPC.on('get-appdir', () => {
     dispatch('appdir', { root: file.root });

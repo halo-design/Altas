@@ -61,13 +61,13 @@ class ScanView extends React.Component<any> {
 
   public componentWillMount() {
     this.props.getIpAddress();
+    this.props.getDeviceStatus();
     this.loop();
   }
 
   public componentWillUnmount() {
     this.props.showTerm();
     this.props.radarHide();
-    this.props.getDeviceStatus();
     this.timer && clearTimeout(this.timer);
   }
 

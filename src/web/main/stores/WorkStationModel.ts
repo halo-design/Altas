@@ -1,9 +1,10 @@
 import { action, observable, computed } from 'mobx';
 import message from 'antd/lib/message';
-import { detectSupportEnv, getAppInfo } from '../bridge/env';
+import { detectSupportEnv } from '../bridge/env';
 import * as storage from '../bridge/storage';
 import { getProjectRunnerConfig } from '../bridge/project';
 import initEnvData from '../config/envScan';
+import { appVersion } from '../constants/API';
 
 export default class WorkStationModel {
   @observable public monitorVisible: boolean = true;
@@ -13,7 +14,7 @@ export default class WorkStationModel {
   @observable public stateBarStatus: number = 0; // -1: running 1: sucess; 0: normal; 2: warn; 3: error;
   @observable public systemEnv: object[] = initEnvData;
   @observable public appInfo: object = {
-    version: '0.0.0',
+    version: appVersion,
   };
   @observable public userDefaultProjectPath: string = '';
   @observable public projectRunnerConfig: any = {
@@ -25,9 +26,6 @@ export default class WorkStationModel {
   };
 
   constructor() {
-    getAppInfo((param: any) => {
-      this.appInfo = param;
-    });
     this.detectNetwork();
     this.getLocalUserProjectPath();
     this.getLocalSystemEnvData();

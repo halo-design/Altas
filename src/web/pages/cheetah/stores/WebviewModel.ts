@@ -1,4 +1,5 @@
 import * as qs from 'qs';
+import * as url from 'url';
 import * as uuid from 'uuid';
 import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
@@ -18,8 +19,8 @@ export default class WebviewModel {
   }
 
   @action
-  public webviewCreater(url: string, params?: object) {
-    const src = params ? url + '?' + qs.stringify(params) : url;
+  public webviewCreater(lnk: string, params?: object) {
+    const src = params ? lnk + '?' + qs.stringify(params) : lnk;
     const {
       preload,
       descriptors: {
@@ -80,6 +81,15 @@ export default class WebviewModel {
     }
   }
 
+  @computed get focusWebviewHost() {
+    if (this.focusWebviewUrl) {
+      const { host, protocol } = url.parse(this.focusWebviewUrl);
+      return url.format({ host, protocol });
+    } else {
+      return url.format({ hostname: 'localhost', protocol: 'http' });
+    }
+  }
+
   @computed get focusWebviewSpinner() {
     if (this.webviewCount > 0) {
       return this.webviewList[this.focusIndex].spinner;
@@ -109,18 +119,25 @@ export default class WebviewModel {
     }
   }
 
-  @action
-  public testUrl(url: string) {
-    const isBlank = url === 'about:blank';
-    if (isBlank) {
-      this.showLinkBar = true;
-    }
-    return urlTest(url) || isBlank;
+  public formatUrl(lnk: string) {
+    return lnk.indexOf('/') === 0
+      ? url.resolve(this.focusWebviewHost, lnk)
+      : lnk;
   }
 
   @action
-  public createNewWebview(url: string, params?: object, force?: boolean) {
-    if (!this.testUrl(url) && !force) {
+  public testUrl(lnk: string) {
+    const isBlank = lnk === 'about:blank';
+    if (isBlank) {
+      this.showLinkBar = true;
+    }
+    return urlTest(lnk) || isBlank;
+  }
+
+  @action
+  public createNewWebview(lnk: string, params?: object, force?: boolean) {
+    const src = this.formatUrl(lnk);
+    if (!this.testUrl(src) && !force) {
       return;
     }
     this.closeFocusDevtools();
@@ -130,26 +147,28 @@ export default class WebviewModel {
         this.maxIndex - this.focusIndex
       );
     }
-    this.webviewList.push(this.webviewCreater(url, params));
+    this.webviewList.push(this.webviewCreater(src, params));
     this.focusIndex = this.maxIndex;
   }
 
   @action
-  public replaceWebview(url: string, params?: object) {
-    if (!this.testUrl(url)) {
+  public replaceWebview(lnk: string, params?: object) {
+    const src = this.formatUrl(lnk);
+    if (!this.testUrl(src)) {
       return;
     }
-    this.webviewList[this.focusIndex] = this.webviewCreater(url, params);
+    this.webviewList[this.focusIndex] = this.webviewCreater(src, params);
   }
 
   @action
-  public clearAllThenCreateNewWebview(url: string, params?: object) {
-    if (!this.testUrl(url)) {
+  public clearAllThenCreateNewWebview(lnk: string, params?: object) {
+    const src = this.formatUrl(lnk);
+    if (!this.testUrl(src)) {
       return;
     }
     this.webviewList = [];
     this.focusIndex = 0;
-    this.createNewWebview(url, params, true);
+    this.createNewWebview(src, params, true);
   }
 
   @action

@@ -266,6 +266,7 @@ export default class TerminalModel {
           cheetahSimulator(
             {
               target: uri,
+              preload: './public/devtools-inject.js',
               descriptors: allDeviceObject[this.useDebugDevice],
             },
             () => {

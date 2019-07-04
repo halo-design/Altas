@@ -11,10 +11,3 @@ export const detectSupportEnv = (callback: Function): void => {
     callback(params);
   });
 };
-
-export const getAppInfo = (callback: Function): void => {
-  dispatch('read-app-info', {});
-  RPC.once('get-app-info', (params: string) => {
-    callback(params);
-  });
-};
