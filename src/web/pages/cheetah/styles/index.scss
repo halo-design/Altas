@@ -15,17 +15,6 @@ body {
   }
 }
 
-.app-footer {
-  .portal {
-    transform: translateY(40px);
-    transition: all .3s;
-
-    &.show {
-      transform: translateY(0);
-    }
-  }
-}
-
 .am-toast.am-toast-mask {
   top: 40px;
   height: calc(100% - 80px);
@@ -43,6 +32,17 @@ body {
     input {
       background-color: #2b2b2d;
       color: #fff;
+    }
+  }
+}
+
+.app-footer {
+  .portal {
+    transform: translateY(40px);
+    transition: all .3s;
+
+    &.show {
+      transform: translateY(0);
     }
   }
 }
