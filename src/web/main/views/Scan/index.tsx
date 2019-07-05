@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import notification from 'antd/lib/notification';
 import { scanAppImages } from '../../constants/API';
+import * as clipBoard from '../../bridge/clipBoard';
+import message from 'antd/lib/message';
 
 import './index.scss';
 
@@ -58,6 +60,11 @@ class ScanView extends React.Component<any> {
     }, 3000);
   }
 
+  public copyAddress(ip: string) {
+    clipBoard.writeText(ip);
+    message.success('地址已复制到剪切板！');
+  }
+
   public componentWillMount() {
     this.props.getIpAddress();
     this.props.getDeviceStatus();
@@ -105,7 +112,7 @@ class ScanView extends React.Component<any> {
       systemEnv,
       isFreeze,
       ipAddress,
-      os: { cpu },
+      os: { cpu, graphics },
       hardwareStatus: { mem },
     } = this.props;
 
@@ -118,8 +125,7 @@ class ScanView extends React.Component<any> {
         <div className="info-content">
           <div className="row">
             <div className="row-item">
-              <i className="iconfont">&#xe652;</i>
-              <span className="label">CPU：</span>
+              <i className="iconfont">&#xe60c;</i>
               {cpu && [
                 <span key="brand">{cpu.brand}</span>,
                 <span key="speed"> @{cpu.speed}GHz</span>,
@@ -130,8 +136,19 @@ class ScanView extends React.Component<any> {
             </div>
           </div>
           <div className="row">
+            {graphics.controllers.map(({ model }: any, index: number) => {
+              return model ? (
+                <div className="row-item" key={index}>
+                  <i className="iconfont">&#xe628;</i>
+                  <span className="model">{model}</span>
+                </div>
+              ) : (
+                ''
+              );
+            })}
+          </div>
+          <div className="row">
             <i className="iconfont">&#xe842;</i>
-            <span className="label">内存：</span>
             <div className="track">
               <div
                 className="bar"
@@ -145,14 +162,28 @@ class ScanView extends React.Component<any> {
             )}
           </div>
           <div className="row">
-            <i className="iconfont">&#xe729;</i>
-            <span className="label">网络：</span>
-            <span>{ipAddress.local}（本地）</span>
+            <i className="iconfont">&#xe746;</i>
+            <div
+              className="ip"
+              onClick={() => {
+                this.copyAddress(ipAddress.local);
+              }}
+            >
+              <div className="host">{ipAddress.local}</div>
+              <div className="type">（局域网）</div>
+            </div>
           </div>
           <div className="row">
             <i className="iconfont">&#xe729;</i>
-            <span className="label">网络：</span>
-            <span>{ipAddress.cip}（互联网）</span>
+            <div
+              className="ip"
+              onClick={() => {
+                this.copyAddress(ipAddress.cip);
+              }}
+            >
+              <div className="host">{ipAddress.cip}</div>
+              <div className="type">（互联网）</div>
+            </div>
           </div>
         </div>
         <div className="title">

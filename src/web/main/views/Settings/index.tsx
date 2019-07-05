@@ -97,7 +97,7 @@ class SettingsView extends React.Component<any> {
           </div>
           <div className="form-item project-type-selection">
             <div className="label">当前应用版本</div>
-            <div className="item">version {this.props.appInfo.version}</div>
+            <div className="item">Version {this.props.appInfo.version}</div>
           </div>
           <div className="form-item">
             <div className="label">清理缓存</div>

@@ -99,8 +99,9 @@ export default (RPC: any) => {
       userInfo: os.userInfo(),
     };
 
-    si.cpu().then((cpu: any) => {
+    Promise.all([si.cpu(), si.graphics()]).then(([cpu, graphics]: any[]) => {
       deviceInfo['cpu'] = cpu;
+      deviceInfo['graphics'] = graphics;
       dispatch('device-os', deviceInfo);
     });
   });

@@ -7,9 +7,16 @@ export default class DeviceModel {
   @observable public ipAddress: any = {};
   @observable public os: object = {
     cpu: {
-      brand: '未知处理器',
+      brand: '未知型号',
       speed: 0,
       physicalCores: 0,
+    },
+    graphics: {
+      controllers: [
+        {
+          model: '未知型号',
+        },
+      ],
     },
   };
   @observable public hardwareStatus = {
