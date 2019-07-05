@@ -130,7 +130,7 @@ class ToolsView extends React.Component<any> {
           title="图片图床"
           placement="right"
           closable={true}
-          width={420}
+          width={500}
           onClose={() => {
             this.handleUploadDrawerVisible(false);
           }}

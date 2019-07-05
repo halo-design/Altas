@@ -308,6 +308,12 @@ class UploadView extends React.Component<any> {
 
                 return (
                   <div className="card-item" key={uid}>
+                    <div className="thumb">
+                      <img
+                        src={file.thumbType === 'base64' ? file.url : file.path}
+                        alt={file.name}
+                      />
+                    </div>
                     <div className="inner">
                       <div className="row">
                         <div className="col filename">{file.name}</div>

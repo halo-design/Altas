@@ -195,4 +195,16 @@
       }
     }
   }
+
+  .upload-section {
+    .card-item {
+      padding-left: 90px;
+
+      .thumb {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+      }
+    }
+  }
 }
