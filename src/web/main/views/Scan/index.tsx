@@ -62,7 +62,7 @@ class ScanView extends React.Component<any> {
 
   public copyAddress(ip: string) {
     clipBoard.writeText(ip);
-    message.success('地址已复制到剪切板！');
+    message.success('IP地址已复制到剪切板！');
   }
 
   public componentWillMount() {
@@ -119,8 +119,8 @@ class ScanView extends React.Component<any> {
     return (
       <div className="page-scan">
         <div className="title">
-          <span>硬件信息 / </span>
-          <span className="sub">Hardware Information</span>
+          <span>系统信息 / </span>
+          <span className="sub">System Information</span>
         </div>
         <div className="info-content">
           <div className="row">
@@ -130,7 +130,7 @@ class ScanView extends React.Component<any> {
                 <span key="brand">{cpu.brand}</span>,
                 <span key="speed"> @{cpu.speed}GHz</span>,
                 <span className="label" key="core">
-                  （{cpu.physicalCores}核心）
+                  {cpu.physicalCores}核心
                 </span>,
               ]}
             </div>
@@ -193,7 +193,7 @@ class ScanView extends React.Component<any> {
         <div className="dashboard">
           <div
             className="support-list"
-            style={{ height: systemEnv.length * 52 + 'px' }}
+            style={{ height: systemEnv.length * 56 + 'px' }}
           >
             {systemEnv.map((item: any, index: number) => (
               <div

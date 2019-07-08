@@ -1,4 +1,5 @@
 const qs = require('qs');
+const uuid = require('uuid');
 const { ipcRenderer } = require('electron');
 
 class IPC {
@@ -9,6 +10,10 @@ class IPC {
 
   on(ev, fn) {
     this.ipc.on(ev, fn);
+  }
+
+  once(ev, fn) {
+    this.ipc.once(ev, fn);
   }
 
   emit(ev, data) {
@@ -42,3 +47,53 @@ deepFormat(appParams);
 
 window['ALTAS_APP_PARAMS'] = appParams;
 window['ALTAS_APP_IPC'] = new IPC();
+
+class JSBridge {
+  constructor() {
+    this.ipc = window.ALTAS_APP_IPC;
+  }
+
+  call(fnName, params, callback) {
+    if (fnName in this) {
+      this[fnName](params, callback);
+    } else {
+      throw Error('This method is not registered.');
+    }
+  }
+
+  alertEx(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('showAlert', {
+      title: params.title,
+      content: params.message,
+      okText: params.okButton,
+      cancelText: params.cancelButton,
+      uid,
+    })
+    if (callback) {
+      this.ipc.once(uid, (sender, res) => {
+        callback(res);
+      })
+    }
+  }
+
+  showInputAlert(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('showPrompt', {
+      title: params.title,
+      content: params.message,
+      okText: params.okButton,
+      cancelText: params.cancelButton,
+      defaultValue: params.presetInputContent,
+      placeholders: params.placeholder,
+      uid,
+    })
+    if (callback) {
+      this.ipc.once(uid, (sender, res) => {
+        callback(res);
+      })
+    }
+  }
+}
+
+window['AlipayJSBridge'] = new JSBridge();

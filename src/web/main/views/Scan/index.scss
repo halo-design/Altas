@@ -18,7 +18,7 @@
   .title {
     padding: 18px 15px 8px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
 
     .sub {
       font-size: 13px;
@@ -31,7 +31,7 @@
     border-radius: 6px;
     background: url(./img/bg.png) no-repeat;
     background-size: 100% 100%;
-    box-shadow: 0 2px 6px -2px rgba(85, 85, 150, .16);
+    box-shadow: 0 6px 12px -2px rgba(0, 30, 255, .34);
     overflow: hidden;
     padding: 10px;
     color: #fff;
@@ -41,7 +41,8 @@
       display: block;
       position: absolute;
       left: 0;
-      top: 3px;
+      top: 50%;
+      margin-top: -12px;
       color: #fff;
       font-size: 16px;
       height: 24px;
@@ -50,13 +51,17 @@
     }
 
     .row {
-      padding: 2px 0;
-      line-height: 24px;
+      // padding: 2px 0;
+      line-height: 26px;
       position: relative;
       padding-left: 24px;
 
       span.label {
-        font-weight: 500;
+        background-color: #12bdff;
+        padding: 2px 6px;
+        font-size: 10px;
+        border-radius: 4px;
+        margin: 0 6px;
       }
 
       .ip {
@@ -71,12 +76,11 @@
       .track {
         width: 160px;
         height: 4px;
-        background-color: rgba(255, 255, 255, .1);
+        background-color: rgba(255, 255, 255, .24);
         display: inline-block;
         vertical-align: middle;
         margin-right: 10px;
         border-radius: 2px;
-        overflow: hidden;
 
         .bar {
           background-color: #75ffcf;
@@ -84,6 +88,7 @@
           width: 0;
           transition: width .3s;
           border-radius: 2px;
+          // box-shadow: 0 0 5px #04aa6f, 0 0 10px #04aa6f;
         }
       }
     }
@@ -95,7 +100,7 @@
 
     .scan-btn {
       width: 320px;
-      margin: 20px auto;
+      margin: 25px auto;
 
       body {
         background-color: #fff;
@@ -113,14 +118,15 @@
 
     .support-list {
       transition: height .3s;
-      overflow: hidden;
+      margin-top: 5px;
 
       .item {
         background-color: #fff;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 10px 15px;
+        padding: 12px 15px;
+        box-shadow: 0 12px 12px -5px rgba(85, 85, 150, .12);
 
         &:first-child {
           border-top-left-radius: 6px;

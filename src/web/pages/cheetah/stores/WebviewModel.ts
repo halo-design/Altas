@@ -13,6 +13,10 @@ export default class WebviewModel {
   @observable public focusIndex: number = 0;
   @observable public showLinkBar: boolean = false;
 
+  constructor() {
+    this.focusWebviewSender = this.focusWebviewSender.bind(this);
+  }
+
   @action
   public toogleLinkBar() {
     this.showLinkBar = !this.showLinkBar;
@@ -99,6 +103,11 @@ export default class WebviewModel {
   }
 
   @action
+  public focusWebviewSender(name: string, params: object) {
+    this.webviewList[this.focusIndex].dom.send(name, params);
+  }
+
+  @action
   getDirective(name: string, params: any) {
     this.directive = { name, params };
     if (
@@ -115,7 +124,7 @@ export default class WebviewModel {
     ) {
       this[name]();
     } else {
-      interaction(name, params);
+      interaction(name, params, this.focusWebviewSender);
     }
   }
 

@@ -12,7 +12,7 @@ const init = () => {
       height: 648,
       width: 1050,
       minWidth: 980,
-      minHeight: 620,
+      minHeight: 640,
     },
     {
       pathname: 'renderer/index.html',
