@@ -94,6 +94,18 @@ class JSBridge {
       })
     }
   }
+
+  showLoadingEx(params) {
+    this.ipc.emit('showToastWithLoading', {
+      content: params.message,
+      duration: params.duration || 8,
+      mask: true,
+    })
+  }
+
+  hideLoadingEx() {
+    this.ipc.emit('hideToast');
+  }
 }
 
 window['AlipayJSBridge'] = new JSBridge();

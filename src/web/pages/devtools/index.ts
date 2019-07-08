@@ -107,6 +107,16 @@ const bindInit = () => {
   });
 };
 
+tarIpt.addEventListener(
+  'keyup',
+  (ev: any) => {
+    if (ev.keyCode === 13) {
+      visit();
+    }
+  },
+  false
+);
+
 const init = () => {
   preload && webview.setAttribute('preload', preload);
   userAgent && webview.setAttribute('useragent', userAgent);

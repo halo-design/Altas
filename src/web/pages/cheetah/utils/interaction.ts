@@ -22,13 +22,23 @@ export default (command: string, params: any, sender: Function) => {
         {
           text: cancelText,
           onPress: () => {
-            sender(uid, { ok: false });
+            sender(uid, {
+              ok: false,
+              dismissByClickBg: false,
+              error: '0',
+              errorMessage: '',
+            });
           },
         },
         {
           text: okText,
           onPress: () => {
-            sender(uid, { ok: true });
+            sender(uid, {
+              ok: true,
+              dismissByClickBg: false,
+              error: '0',
+              errorMessage: '',
+            });
           },
         },
       ]);
@@ -55,6 +65,9 @@ export default (command: string, params: any, sender: Function) => {
               sender(uid, {
                 ok: false,
                 inputContent: value,
+                dismissByClickBg: false,
+                error: '0',
+                errorMessage: '',
               });
             },
           },
@@ -64,6 +77,9 @@ export default (command: string, params: any, sender: Function) => {
               sender(uid, {
                 ok: true,
                 inputContent: value,
+                dismissByClickBg: false,
+                error: '0',
+                errorMessage: '',
               });
             },
           },

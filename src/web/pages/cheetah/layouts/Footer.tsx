@@ -91,6 +91,11 @@ class FooterView extends React.Component<any, any> {
               onChange={(e: any) => {
                 this.setCurrentUrl(e.target.value);
               }}
+              onKeyUp={(ev: any) => {
+                if (ev.keyCode === 13) {
+                  this.props.replaceWebview(this.currentUrl);
+                }
+              }}
             />
           </div>
           <div
