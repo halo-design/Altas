@@ -14,7 +14,6 @@ export default class UploadModel {
   @observable public xhrQueue: object = {};
   @observable public uploadListStatus: object = {};
   @observable public uploadHistoryList: any[] = [];
-  @observable public remoteImageArray: any[] = [];
   public readLocal: boolean = false;
 
   public writeLocalHistory() {
@@ -236,25 +235,25 @@ export default class UploadModel {
         onSuccess: ({ code, data }: any) => {
           if (code === 'success') {
             const itemStatus = this.uploadListStatus[uid];
-            if (itemStatus) {
-              itemStatus.status = 'done';
-              itemStatus.remote = data;
-              itemStatus.remote.uid = uid;
-              itemStatus.remote.localThumb = path.join(
-                appCacheFullPath,
-                uid + '.png'
-              );
+            if (!itemStatus) {
+              return;
             }
-            this.remoteImageArray.push(data);
+
+            let remote = data;
+            remote.uid = uid;
+            remote.localThumb = path.join(appCacheFullPath, uid + '.png');
+            itemStatus.remote = remote;
+            itemStatus.status = 'done';
+
             createCache({
-              url: file.url,
+              url: file.path || file.url,
               thumbType: file['thumbType'],
               saveName: uid + '.png',
               width: 200,
               height: 200,
             });
             delete this.xhrQueue[uid];
-            this.uploadHistoryList.push(itemStatus.remote);
+            this.uploadHistoryList.push(remote);
             delete this.postFiles[index];
             this.writeLocalHistory();
             if (this.isXhrQueueEmpty) {

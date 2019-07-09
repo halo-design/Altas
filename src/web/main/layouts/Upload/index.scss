@@ -53,11 +53,20 @@
     top: 0;
   }
 
+  .upload-area {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    right: 44px;
+    bottom: 20px;
+  }
+
   .upload-btn {
-    width: 190px;
-    padding-top: 90px;
-    margin: 80px auto;
-    background: url(./img/upload.svg) no-repeat center top;
+    width: 100%;
+    height: 100%;
+    background: url(./img/upload.svg) no-repeat center calc(50% - 80px);
+    padding-top: calc(50% - 10px);
+    box-sizing: border-box;
     background-size: 80px auto;
     position: relative;
     text-align: center;
@@ -69,7 +78,7 @@
 
   .control-panel {
     position: fixed;
-    width: 420px;
+    width: 500px;
     bottom: 0;
     right: 0;
     background-color: #fff;

@@ -45,12 +45,23 @@ md.use(markdownItAttrs, {
   allowedAttributes: [],
 });
 
+const toogleFn = () => {
+  if (win.isMaximized()) {
+    win.unmaximize();
+    toogleClass.remove('back');
+  } else {
+    win.maximize();
+    toogleClass.add('back');
+  }
+};
+
 RPC.on('ready', () => {
   bindClick($readBtn, () => {
     readLocalFileSync().then(({ content, directory, filepath }: any) => {
       const result = md.render(content);
       $content.innerHTML = result;
       win.maximize();
+      toogleClass.add('back');
     });
   });
 
@@ -62,15 +73,7 @@ RPC.on('ready', () => {
     win.minimize();
   });
 
-  bindClick($toogleBtn, () => {
-    if (win.isMaximized()) {
-      win.unmaximize();
-      toogleClass.remove('back');
-    } else {
-      win.maximize();
-      toogleClass.add('back');
-    }
-  });
+  bindClick($toogleBtn, toogleFn);
 
   if (remoteUrl) {
     $content.innerHTML = '<div class="mask" id="mask"></div>';
@@ -80,6 +83,7 @@ RPC.on('ready', () => {
         const result = md.render(content);
         $content.innerHTML = result;
         win.maximize();
+        toogleClass.add('back');
       },
       () => {
         $content.innerHTML = '<h3 class="error-title">文档获取失败！</h3>';

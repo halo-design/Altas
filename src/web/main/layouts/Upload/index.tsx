@@ -62,6 +62,7 @@ import './index.scss';
 class UploadView extends React.Component<any> {
   private fileIpt: HTMLInputElement | null = null;
   private fileIptBtn: HTMLInputElement | null = null;
+  private uploadArea: HTMLElement | null = null;
   public contextMenu: any = null;
 
   @observable showSectionIndex: number = 0;
@@ -125,12 +126,11 @@ class UploadView extends React.Component<any> {
   public saveClipboardImage() {
     const img = clipBoard.readImage();
     if (!img.isEmpty()) {
-      const file = new File([img.toPNG()], `screenshot-${Date.now()}.png`, {
+      const file = new File([img.toPNG()], `clipboard-${Date.now()}.png`, {
         type: 'image/png',
       });
       file['url'] = img.resize({ width: 200, height: 200 }).toDataURL();
       file['thumbType'] = 'base64';
-      console.log(file);
       this.props.getRawFileList([file]);
       message.success('粘贴成功！');
     }
@@ -138,7 +138,8 @@ class UploadView extends React.Component<any> {
 
   public componentDidMount() {
     this.props.getLocalHistory();
-    if (this.fileIpt) {
+
+    if (this.uploadArea) {
       const opts: any = [
         {
           // checked: true,
@@ -146,7 +147,7 @@ class UploadView extends React.Component<any> {
             this.props.clearUploadHistory();
             message.success('清除成功！');
           },
-          label: '清除服务器上传历史',
+          label: '清除服务器记录',
         },
         {
           type: 'separator',
@@ -158,8 +159,7 @@ class UploadView extends React.Component<any> {
           label: '粘贴上传图片',
         },
       ];
-
-      this.contextMenu = new CreateContextMenu(this.fileIpt, opts);
+      this.contextMenu = new CreateContextMenu(this.uploadArea, opts);
     }
   }
 
@@ -226,20 +226,25 @@ class UploadView extends React.Component<any> {
           onPaste={() => {
             this.saveClipboardImage();
           }}
+          ref={node => {
+            this.uploadArea = node;
+          }}
         >
-          <div className={classNames('upload-btn', { hide: !isAllEmpty })}>
-            <input
-              type="file"
-              multiple={true}
-              accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp,image/png"
-              name="smfile"
-              ref={node => {
-                this.fileIpt = node;
-              }}
-              onChange={this.handleList}
-              onDrop={this.handleList}
-            />
-            <span className="tit">点击、粘贴或拖拽至此处上传</span>
+          <div className={classNames('upload-area', { hide: !isAllEmpty })}>
+            <div className="upload-btn">
+              <input
+                type="file"
+                multiple={true}
+                accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp,image/png"
+                name="smfile"
+                ref={node => {
+                  this.fileIpt = node;
+                }}
+                onChange={this.handleList}
+                onDrop={this.handleList}
+              />
+              <span className="tit">点击、粘贴或拖拽至此处上传</span>
+            </div>
           </div>
           <div className="control-panel">
             <Tooltip placement="top" title="添加上传图片">
@@ -292,7 +297,7 @@ class UploadView extends React.Component<any> {
               ) : (
                 <div>
                   <span>&#xe606;</span>
-                  <span className="txt">点击开始上传</span>
+                  <span className="txt">点击批量上传</span>
                 </div>
               )}
             </button>
@@ -377,88 +382,90 @@ class UploadView extends React.Component<any> {
               })}
           </div>
         </div>
-        <div
-          className={classNames('history-section', {
-            hide: this.showSectionIndex !== 1,
-          })}
-        >
-          {uploadHistoryList.length > 0 ? (
-            <div className="upload-content">
-              <div className="upload-list">
-                {uploadHistoryList.map((item: any, index: number) => {
-                  return (
-                    <div className="card-item" key={index}>
-                      <div className="inner">
-                        <div className="row">
-                          <div className="thumb">
-                            <img
-                              src="public/image.svg"
-                              onLoad={e => {
-                                this.loadImage(e.target, item.localThumb);
-                              }}
-                              onError={e => {
-                                this.loadImageError(e.target);
-                              }}
-                              alt={item.filename}
-                            />
-                          </div>
-                          <div className="col">
-                            <div className="row filename">{item.filename}</div>
-                            <div className="row surplus">
-                              {prettyBytes(item.size)}
-                            </div>
+        {this.showSectionIndex === 1 && (
+          <div className="history-section">
+            {uploadHistoryList.length > 0 ? (
+              <div className="upload-content">
+                <div className="upload-list">
+                  {uploadHistoryList
+                    .reverse()
+                    .map((item: any, index: number) => {
+                      return (
+                        <div className="card-item" key={index}>
+                          <div className="inner">
                             <div className="row">
-                              <div className="col" />
-                              <div
-                                key="copy"
-                                className="copyBtn"
-                                onClick={e => {
-                                  this.saveClipboard(item.url);
-                                }}
-                              >
-                                <Tooltip
-                                  placement="bottom"
-                                  title="复制图片链接"
-                                >
-                                  <Icon type="copy" />
-                                  <span className="txt">复制链接</span>
-                                </Tooltip>
+                              <div className="thumb">
+                                <img
+                                  src="public/image.svg"
+                                  onLoad={e => {
+                                    this.loadImage(e.target, item.localThumb);
+                                  }}
+                                  onError={e => {
+                                    this.loadImageError(e.target);
+                                  }}
+                                  alt={item.filename}
+                                />
+                              </div>
+                              <div className="col">
+                                <div className="row filename">
+                                  {item.filename}
+                                </div>
+                                <div className="row surplus">
+                                  {prettyBytes(item.size)}
+                                </div>
+                                <div className="row">
+                                  <div className="col" />
+                                  <div
+                                    key="copy"
+                                    className="copyBtn"
+                                    onClick={e => {
+                                      this.saveClipboard(item.url);
+                                    }}
+                                  >
+                                    <Tooltip
+                                      placement="bottom"
+                                      title="复制图片链接"
+                                    >
+                                      <Icon type="copy" />
+                                      <span className="txt">复制链接</span>
+                                    </Tooltip>
+                                  </div>
+                                </div>
                               </div>
                             </div>
+                            <div
+                              className="delBtn"
+                              onClick={e => {
+                                deleteHistoryItem(index);
+                              }}
+                            >
+                              <Tooltip placement="top" title="删除该条记录">
+                                <Icon type="delete" />
+                              </Tooltip>
+                            </div>
                           </div>
                         </div>
-                        <div
-                          className="delBtn"
-                          onClick={e => {
-                            deleteHistoryItem(index);
-                          }}
-                        >
-                          <Tooltip placement="top" title="删除该条记录">
-                            <Icon type="delete" />
-                          </Tooltip>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                </div>
+                <div className="control-panel">
+                  <button
+                    onClick={() => {
+                      this.handleClearAllHistory();
+                    }}
+                    className="iconfont btn"
+                  >
+                    <Tooltip placement="left" title="删除全部上传记录">
+                      &#xe601;
+                    </Tooltip>
+                  </button>
+                </div>
               </div>
-              <div className="control-panel">
-                <button
-                  onClick={() => {
-                    this.handleClearAllHistory();
-                  }}
-                  className="iconfont btn"
-                >
-                  <Tooltip placement="left" title="删除全部上传记录">
-                    &#xe601;
-                  </Tooltip>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="no-result" data-info="暂无上传记录" />
-          )}
-        </div>
+            ) : (
+              <div className="no-result" data-info="暂无上传记录" />
+            )}
+          </div>
+        )}
       </div>
     );
   }
