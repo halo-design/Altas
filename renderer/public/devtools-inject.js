@@ -42,6 +42,11 @@ const deepFormat = (o) => {
   }
 };
 
+const deafultErrorRes = {
+  error: '0',
+  errorMessage: '',
+};
+
 const appParams = qs.parse(location.search.substr(1));
 deepFormat(appParams);
 
@@ -75,7 +80,10 @@ class JSBridge {
     })
     if (callback) {
       this.ipc.once(uid, (sender, res) => {
-        callback(res);
+        callback({
+          ...res,
+          ...deafultErrorRes,
+        });
       })
     }
   }
@@ -93,24 +101,33 @@ class JSBridge {
     })
     if (callback) {
       this.ipc.once(uid, (sender, res) => {
-        callback(res);
+        callback({
+          ...res,
+          ...deafultErrorRes,
+        });
       })
     }
   }
 
-  showLoadingEx(params) {
+  showLoadingEx(params, callback) {
     this.ipc.emit('showToastWithLoading', {
       content: params.message,
       duration: params.duration || 8,
       mask: true,
     })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  hideLoadingEx() {
+  hideLoadingEx(params, callback) {
     this.ipc.emit('hideToast');
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  closePage(params) {
+  closePage(params, callback) {
     const { closeType, urls } = params;
     if (closeType === 1) {
       this.ipc.emit('clearAllWebviews');
@@ -123,30 +140,48 @@ class JSBridge {
         url: urls,
       });
     }
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  closeToPage(params) {
+  closeToPage(params, callback) {
     this.ipc.emit('clearToSomeoneWebview', params);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  closeToHomePage() {
+  closeToHomePage(params, callback) {
     this.ipc.emit('clearAllWebviews');
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  pushWindow(params) {
+  pushWindow(params, callback) {
     const { url, param } = params;
     this.emit('createNewWebview', {
       url,
       options: param,
     })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  startH5App(params) {
+  startH5App(params, callback) {
     this.pushWindow(params);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
-  clearHistory() {
+  clearHistory(params, callback) {
     this.emit('clearFocusWebviewHistory');
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 }
 
