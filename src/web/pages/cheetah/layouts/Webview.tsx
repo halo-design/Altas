@@ -4,16 +4,15 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 @inject((stores: any) => {
-  const { webviewList, focusIndex, webviewCount } = stores.webview;
+  const { webviewList, focusIndex, webviewCount, behavior } = stores.webview;
 
   return {
     webviewList,
     focusIndex,
     webviewCount,
+    behavior,
     createNewWebview: (url: string, params: object) =>
       stores.webview.createNewWebview(url, params),
-    clearAllThenCreateNewWebview: (url: string) =>
-      stores.webview.clearAllThenCreateNewWebview(url),
     getWebviewDOM: (index: number, el: any, uid: string) =>
       stores.webview.getWebviewDOM(index, el, uid),
   };
@@ -26,6 +25,18 @@ class WebviewView extends React.Component<any, any> {
   public componentDidMount() {
     const { target } = this.context;
     this.props.createNewWebview(target);
+    setTimeout(() => {
+      this.props.createNewWebview('http://i.jandan.net/qa');
+    }, 1000);
+    setTimeout(() => {
+      this.props.createNewWebview('/treehole');
+    }, 2000);
+    setTimeout(() => {
+      this.props.createNewWebview('/ooxx');
+    }, 3000);
+    setTimeout(() => {
+      this.props.createNewWebview('/zoo');
+    }, 4000);
   }
 
   public render() {
@@ -40,17 +51,22 @@ class WebviewView extends React.Component<any, any> {
       height: height - 40 + 'px',
     };
 
-    const { webviewCount, webviewList, getWebviewDOM, focusIndex } = this.props;
+    const {
+      webviewCount,
+      webviewList,
+      getWebviewDOM,
+      focusIndex,
+      behavior,
+    } = this.props;
 
-    const trans =
-      webviewCount > 1
-        ? {
-            width: `${webviewCount * 100}vw`,
-            transform: `translateX(-${focusIndex * 100}vw)`,
-          }
-        : {
-            transitionProperty: 'none',
-          };
+    let trans: any = {
+      width: `${webviewCount * 100}vw`,
+      transform: `translateX(-${focusIndex * 100}vw)`,
+    };
+
+    if (webviewCount <= 1 || /replace|clear/.test(behavior)) {
+      trans.transitionProperty = 'none';
+    }
 
     return (
       <div className="app-webview" style={wvSize}>

@@ -54,6 +54,9 @@ class JSBridge {
   }
 
   call(fnName, params, callback) {
+    if (fnName === 'call') {
+      return;
+    }
     if (fnName in this) {
       this[fnName](params, callback);
     } else {
@@ -105,6 +108,45 @@ class JSBridge {
 
   hideLoadingEx() {
     this.ipc.emit('hideToast');
+  }
+
+  closePage(params) {
+    const { closeType, urls } = params;
+    if (closeType === 1) {
+      this.ipc.emit('clearAllWebviews');
+    } else if (closeType === 2) {
+      this.ipc.emit('clearOtherWebviews');
+    } else if (closeType === 3) {
+      this.ipc.emit('clearCurrentWebview');
+    } else if (closeType === 4) {
+      this.ipc.emit('clearWebviewByPathName', {
+        url: urls,
+      });
+    }
+  }
+
+  closeToPage(params) {
+    this.ipc.emit('clearToSomeoneWebview', params);
+  }
+
+  closeToHomePage() {
+    this.ipc.emit('clearAllWebviews');
+  }
+
+  pushWindow(params) {
+    const { url, param } = params;
+    this.emit('createNewWebview', {
+      url,
+      options: param,
+    })
+  }
+
+  startH5App(params) {
+    this.pushWindow(params);
+  }
+
+  clearHistory() {
+    this.emit('clearFocusWebviewHistory');
   }
 }
 

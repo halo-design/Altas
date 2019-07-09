@@ -12,6 +12,7 @@ export default class WebviewModel {
   @observable public directive: object = {};
   @observable public focusIndex: number = 0;
   @observable public showLinkBar: boolean = false;
+  @observable public behavior: string = 'none';
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
@@ -48,6 +49,7 @@ export default class WebviewModel {
       dom: null,
       ready: false,
       spinner: false,
+      regiestEvent: false,
     };
 
     return webviewItem;
@@ -62,24 +64,35 @@ export default class WebviewModel {
   }
 
   @computed get focusOnFisrt() {
-    return this.focusIndex === 0;
+    return this.focusIndex === 0 && this.webviewList.length > 0;
   }
 
   @computed get focusOnLast() {
-    return this.focusIndex === this.webviewList.length - 1;
+    return (
+      this.focusIndex === this.webviewList.length - 1 &&
+      this.webviewList.length > 0
+    );
+  }
+
+  @computed get focusWebview() {
+    if (this.webviewCount > 0) {
+      return this.webviewList[this.focusIndex];
+    } else {
+      return null;
+    }
   }
 
   @computed get focusDevtoolsState() {
-    if (this.webviewCount > 0) {
-      return this.webviewList[this.focusIndex].devtools;
+    if (this.focusWebview) {
+      return this.focusWebview.devtools;
     } else {
       return false;
     }
   }
 
   @computed get focusWebviewUrl() {
-    if (this.webviewCount > 0) {
-      return this.webviewList[this.focusIndex].attr.src;
+    if (this.focusWebview) {
+      return this.focusWebview.attr.src;
     } else {
       return '';
     }
@@ -95,8 +108,8 @@ export default class WebviewModel {
   }
 
   @computed get focusWebviewSpinner() {
-    if (this.webviewCount > 0) {
-      return this.webviewList[this.focusIndex].spinner;
+    if (this.focusWebview) {
+      return this.focusWebview.spinner;
     } else {
       return false;
     }
@@ -104,7 +117,9 @@ export default class WebviewModel {
 
   @action
   public focusWebviewSender(name: string, params: object) {
-    this.webviewList[this.focusIndex].dom.send(name, params);
+    if (this.focusWebview) {
+      this.focusWebview.dom.send(name, params);
+    }
   }
 
   @action
@@ -115,14 +130,17 @@ export default class WebviewModel {
     ) {
       const { url, options } = params;
       this[name](url, options);
-    } else if (name === 'goToAnyWebview' && !isNaN(params)) {
-      this.goToAnyWebview(params);
+    } else if (/goToAnyWebview/.test(name)) {
+      this[name](params);
     } else if (
-      /focusToNextWebview|focusToPrevWebview|reloadFocusWebview|clearWebviewHistory|clearOtherWebviews/.test(
+      /focusToNextWebview|focusToPrevWebview|reloadFocusWebview|clearOtherWebviews|clearAllWebviews|clearCurrentWebview|clearFocusWebviewHistory/.test(
         name
       )
     ) {
       this[name]();
+    } else if (/clearWebviewByPathName|clearToSomeoneWebview/.test(name)) {
+      const { url } = params;
+      this[name](url);
     } else {
       interaction(name, params, this.focusWebviewSender);
     }
@@ -150,6 +168,7 @@ export default class WebviewModel {
     if (!this.testUrl(src) && !force) {
       return;
     }
+    this.behavior = 'create';
     this.closeFocusDevtools();
     if (this.focusIndex !== this.maxIndex) {
       this.webviewList.splice(
@@ -163,6 +182,7 @@ export default class WebviewModel {
 
   @action
   public replaceWebview(lnk: string, params?: object) {
+    this.behavior = 'replace';
     const src = this.formatUrl(lnk);
     if (!this.testUrl(src)) {
       return;
@@ -171,26 +191,90 @@ export default class WebviewModel {
   }
 
   @action
+  public clearAllWebviews() {
+    this.behavior = 'clear';
+    this.webviewList = [];
+    this.focusIndex = 0;
+  }
+
+  @action
+  public clearCurrentWebview() {
+    this.behavior = 'clear';
+    if (this.focusIndex === 0) {
+      this.webviewList = [];
+      this.focusIndex = 0;
+    } else {
+      this.webviewList = this.webviewList.slice(0, this.focusIndex);
+      this.focusIndex--;
+    }
+  }
+
+  @action
   public clearAllThenCreateNewWebview(lnk: string, params?: object) {
     const src = this.formatUrl(lnk);
     if (!this.testUrl(src)) {
       return;
     }
-    this.webviewList = [];
-    this.focusIndex = 0;
+    this.clearAllWebviews();
     this.createNewWebview(src, params, true);
   }
 
   @action
-  public clearWebviewHistory() {
-    this.focusIndex = 0;
-    this.webviewList = this.webviewList.slice(-1);
+  public clearFocusWebviewHistory() {
+    if (this.focusWebview) {
+      this.focusWebview['dom'].clearHistory();
+    }
   }
 
   @action
   public clearOtherWebviews() {
-    this.webviewList = [this.webviewList[this.focusIndex]];
-    this.focusIndex = 0;
+    this.behavior = 'clear';
+    if (this.focusWebview) {
+      this.webviewList = [this.focusWebview];
+      this.focusIndex = 0;
+    }
+  }
+
+  private removeSlash(path: string | undefined) {
+    if (path) {
+      return path.slice(-1) === '/' ? path.slice(0, -1) : path;
+    } else {
+      return '';
+    }
+  }
+
+  @action
+  public clearWebviewByPathName(lnks: string[] | string) {
+    this.behavior = 'clear';
+    const urls: string[] = Array.isArray(lnks) ? lnks : [lnks];
+    this.webviewList = this.webviewList.filter((view: any) => {
+      const originSrc = view.attr.src;
+      let curPathName = url.parse(originSrc).pathname;
+      curPathName = curPathName || originSrc;
+      const hasOne = urls.some(
+        (lnk: string) => this.removeSlash(lnk) === this.removeSlash(curPathName)
+      );
+      return !hasOne;
+    });
+    this.focusIndex = this.maxIndex;
+  }
+
+  @action
+  public clearToSomeoneWebview(lnk: string) {
+    this.behavior = 'clear';
+    let targetIndex = null;
+    const isExistLnk = this.webviewList.some((view: any, index: number) => {
+      const originSrc = view.attr.src;
+      let curPathName = url.parse(originSrc).pathname;
+      curPathName = curPathName || originSrc;
+      const hasOne = this.removeSlash(lnk) === this.removeSlash(curPathName);
+      targetIndex = index;
+      return hasOne;
+    });
+    if (isExistLnk && targetIndex) {
+      this.webviewList = this.webviewList.slice(0, targetIndex + 1);
+      this.focusIndex = this.maxIndex;
+    }
   }
 
   @action
@@ -199,6 +283,10 @@ export default class WebviewModel {
       return;
     }
     const current = this.webviewList[index];
+    if (current.regiestEvent) {
+      return;
+    }
+
     current['dom'] = el;
 
     el.addEventListener('did-start-loading', () => {
@@ -206,7 +294,9 @@ export default class WebviewModel {
     });
 
     el.addEventListener('new-window', (ev: any) => {
-      this.webviewList[this.focusIndex].attr.src = ev.url;
+      if (this.focusWebview) {
+        this.focusWebview.attr.src = ev.url;
+      }
     });
 
     el.addEventListener('did-stop-loading', () => {
@@ -220,17 +310,19 @@ export default class WebviewModel {
         current['devtools'] = false;
       });
 
-      el.send('dom-ready');
       current['ready'] = true;
     });
 
     el.addEventListener('ipc-message', ({ channel, args }: any) => {
       this.getDirective(channel, args[0]);
     });
+
+    current.regiestEvent = true;
   }
 
   @action
   public focusToNextWebview() {
+    this.behavior = 'navigate';
     if (this.focusIndex < this.maxIndex) {
       this.closeFocusDevtools();
       this.focusIndex++;
@@ -239,6 +331,10 @@ export default class WebviewModel {
 
   @action
   public goToAnyWebview(count: number) {
+    if (isNaN(count)) {
+      return;
+    }
+    this.behavior = 'navigate';
     if (count < 0) {
       const num = Math.abs(count);
       if (this.focusIndex - num >= 0) {
@@ -253,6 +349,7 @@ export default class WebviewModel {
 
   @action
   public focusToPrevWebview() {
+    this.behavior = 'navigate';
     if (this.focusIndex > 0) {
       this.closeFocusDevtools();
       this.focusIndex--;
@@ -261,7 +358,7 @@ export default class WebviewModel {
 
   @action
   public closeFocusDevtools() {
-    const current = this.webviewList[this.focusIndex];
+    const current = this.focusWebview;
     if (current && current.ready) {
       const dom = current.dom;
       dom.closeDevTools();
@@ -271,7 +368,7 @@ export default class WebviewModel {
 
   @action
   public debugFocusWebview() {
-    const current = this.webviewList[this.focusIndex];
+    const current = this.focusWebview;
     if (current && current.ready) {
       const dom = current.dom;
       current.devtools ? dom.closeDevTools() : dom.openDevTools();
@@ -281,7 +378,7 @@ export default class WebviewModel {
 
   @action
   public reloadFocusWebview() {
-    const current = this.webviewList[this.focusIndex];
+    const current = this.focusWebview;
     if (current && current.ready) {
       const dom = current.dom;
       dom.reloadIgnoringCache();
