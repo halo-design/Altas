@@ -1,6 +1,7 @@
 import { remote } from 'electron';
 import { getAppDir } from './system';
 import { isDev, isMac } from './env';
+import { homePage, feedbackPage } from '../constants/API';
 
 const { app, Menu, shell } = remote;
 
@@ -10,7 +11,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
     submenu: [
       {
         click: () => {
-          shell.openExternal('https://github.com/halo-design/Altas');
+          shell.openExternal(homePage);
         },
         label: `关于Altas`,
       },
@@ -167,7 +168,7 @@ const createAppMenu = (editor?: (tpl: any[]) => any[]): void => {
     submenu: [
       {
         click: () => {
-          shell.openExternal('https://owlaford.gitee.io/#/home/message');
+          shell.openExternal(feedbackPage);
         },
         label: '给作者留言',
       },

@@ -90,5 +90,39 @@ export default (command: string, params: any, sender: Function) => {
       );
       break;
     }
+
+    case 'setStorage': {
+      const { host, key, data } = params;
+      localStorage.setItem(`${host}-${key}`, JSON.stringify({ data }));
+      // console.log(host, key, data);
+      break;
+    }
+
+    case 'getStorage': {
+      const { host, key, uid } = params;
+      const parseData =
+        localStorage.getItem(`${host}-${key}`) ||
+        JSON.stringify({ data: null });
+
+      sender(uid, JSON.parse(parseData));
+      break;
+    }
+
+    case 'setSessionStorage': {
+      const { host, key, data } = params;
+      sessionStorage.setItem(`${host}-${key}`, JSON.stringify({ data }));
+      // console.log(host, key, data);
+      break;
+    }
+
+    case 'getSessionStorage': {
+      const { host, key, uid } = params;
+      const parseData =
+        sessionStorage.getItem(`${host}-${key}`) ||
+        JSON.stringify({ data: null });
+
+      sender(uid, JSON.parse(parseData));
+      break;
+    }
   }
 };

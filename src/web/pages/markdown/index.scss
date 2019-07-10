@@ -6,7 +6,7 @@ html {
 .main-content {
   position: absolute;
   left: 0;
-  top: 30px;
+  top: 34px;
   bottom: 0;
   right: 0;
   overflow: auto;
@@ -31,7 +31,7 @@ html {
 }
 
 .control {
-  height: 30px;
+  height: 34px;
   font-size: 0;
   position: fixed;
   right: 0;
@@ -44,8 +44,8 @@ html {
   font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
 
   .tit {
-    height: 30px;
-    line-height: 30px;
+    height: 34px;
+    line-height: 34px;
     color: #fff;
     font-size: 12px;
     padding: 0 15px;
@@ -58,9 +58,9 @@ html {
   }
 
   button {
-    height: 30px;
+    height: 34px;
     width: 40px;
-    line-height: 30px;
+    line-height: 34px;
     text-align: center;
     padding: 0;
     background: none;

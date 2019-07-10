@@ -1,6 +1,9 @@
 const qs = require('qs');
+const url = require('url');
 const uuid = require('uuid');
 const { ipcRenderer } = require('electron');
+
+const urlElement = url.parse(location.href);
 
 class IPC {
   constructor() {
@@ -161,7 +164,7 @@ class JSBridge {
 
   pushWindow(params, callback) {
     const { url, param } = params;
-    this.emit('createNewWebview', {
+    this.ipc.emit('createNewWebview', {
       url,
       options: param,
     })
@@ -178,10 +181,81 @@ class JSBridge {
   }
 
   clearHistory(params, callback) {
-    this.emit('clearFocusWebviewHistory');
+    this.ipc.emit('clearFocusWebviewHistory');
     if (callback) {
       callback(deafultErrorRes);
     }
+  }
+
+  setStorageCache(params, callback) {
+    this.ipc.emit('setStorage', {
+      host: urlElement.host,
+      key: params.key,
+      data: params.data,
+    })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  getStorageCache(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('getStorage', {
+      host: urlElement.host,
+      key: params.key,
+      uid,
+    })
+    this.ipc.once(uid, (sender, res) => {
+      callback({
+        data: res.data,
+        ...deafultErrorRes,
+      });
+    })
+  }
+
+  setMemoryCache(params, callback) {
+    this.ipc.emit('setSessionStorage', {
+      host: urlElement.host,
+      key: params.key,
+      data: params.data,
+    })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  getMemoryCache(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('getSessionStorage', {
+      host: urlElement.host,
+      key: params.key,
+      uid,
+    })
+    this.ipc.once(uid, (sender, res) => {
+      callback({
+        data: res.data,
+        ...deafultErrorRes,
+      });
+    })
+  }
+
+  showDatePicker(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('showDatePicker', {
+      mode: params.type === '1' ? 'time' : 'date',
+      title: params.title,
+      minDate: params.minimumDate,
+      maxDate: params.maximumDate,
+      dateFormat: params.dateFormat,
+      value: params.currentDate,
+      uid,
+    })
+    this.ipc.once(uid, (sender, res) => {
+      callback({
+        ...res,
+        ...deafultErrorRes,
+      });
+    })
   }
 }
 

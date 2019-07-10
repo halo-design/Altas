@@ -2,13 +2,9 @@ import * as url from 'url';
 import file from '../utils/file';
 import winStateKeeper from './winStateKeeper';
 import { BrowserWindow } from 'electron';
+const isMac = process.platform === 'darwin';
 
-const winCreate = (
-  opts: any,
-  entry: any,
-  // parentWindow?: Electron.BrowserWindow,
-  isChild?: boolean
-) => {
+const winCreate = (opts: any, entry: any, isChild?: boolean) => {
   const options: any = {
     appIcon: file.path('resources/dock.png'),
     center: true,
@@ -25,7 +21,7 @@ const winCreate = (
     resizable: true,
   };
 
-  if (process.platform === 'darwin') {
+  if (isMac) {
     options.vibrancy = 'appearance-based';
   } else {
     options.backgroundColor = '#fff';
@@ -35,10 +31,12 @@ const winCreate = (
 
   let mainWindow: any;
   if (isChild) {
-    // Object.assign(options, {
-    //   parent: parentWindow,
-    // });
     mainWindow = new BrowserWindow(options);
+
+    if (isMac) {
+      mainWindow.setWindowButtonVisibility(false);
+    }
+
     mainWindow.once('ready-to-show', () => {
       mainWindow.show();
     });

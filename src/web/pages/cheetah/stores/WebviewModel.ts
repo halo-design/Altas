@@ -6,6 +6,7 @@ import interaction from '../utils/interaction';
 import { urlTest } from '../../../main/constants/Reg';
 import { scrollbarStyleString } from '../../../main/constants/API';
 const options: any = qs.parse(location.hash.substr(1));
+const moment = require('moment');
 
 export default class WebviewModel {
   @observable public webviewList: any[] = [];
@@ -13,6 +14,9 @@ export default class WebviewModel {
   @observable public focusIndex: number = 0;
   @observable public showLinkBar: boolean = false;
   @observable public behavior: string = 'none';
+
+  @observable public datepickerElement: any = null;
+  @observable public datepickerParams: any = {};
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
@@ -141,6 +145,28 @@ export default class WebviewModel {
     } else if (/clearWebviewByPathName|clearToSomeoneWebview/.test(name)) {
       const { url } = params;
       this[name](url);
+    } else if (/showDatePicker/.test(name)) {
+      const { mode, title, minDate, maxDate, dateFormat, value, uid } = params;
+      const fmt = dateFormat.toUpperCase();
+      this[name]({
+        mode,
+        title,
+        minDate: minDate ? moment(minDate, fmt).toDate() : null,
+        maxDate: maxDate ? moment(maxDate, fmt).toDate() : null,
+        value: value ? moment(value, fmt).toDate() : null,
+        onChange: (time: any) => {
+          this.focusWebviewSender(uid, {
+            currentDate: moment(time).format(fmt),
+            actionType: 1,
+          });
+        },
+        onDismiss: () => {
+          this.focusWebviewSender(uid, {
+            currentDate: '',
+            actionType: 0,
+          });
+        },
+      });
     } else {
       interaction(name, params, this.focusWebviewSender);
     }
@@ -382,6 +408,19 @@ export default class WebviewModel {
     if (current && current.ready) {
       const dom = current.dom;
       dom.reloadIgnoringCache();
+    }
+  }
+
+  @action
+  public initDatePicker(el: any) {
+    this.datepickerElement = el;
+  }
+
+  @action
+  public showDatePicker(opts: any) {
+    this.datepickerParams = opts;
+    if (this.datepickerElement) {
+      this.datepickerElement.click();
     }
   }
 }

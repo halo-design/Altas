@@ -1,6 +1,5 @@
 import RPC from './rpc';
 import * as qs from 'qs';
-import { isMac } from './env';
 import { allDeviceObject } from '../config/DeviceDescriptors';
 const { dispatch } = RPC;
 
@@ -63,7 +62,7 @@ export const deviceDevtools = (
       minimizable: false,
       transparent: false,
       backgroundColor: '#fff',
-      titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
+      titleBarStyle: 'hidden',
     },
     [],
     callback
@@ -95,7 +94,7 @@ export const openMarkdownPreview = (remoteUrl?: string) => {
       minimizable: false,
       transparent: false,
       backgroundColor: '#fff',
-      titleBarStyle: isMac ? 'customButtonsOnHover' : 'hidden',
+      titleBarStyle: 'hidden',
       webPreferences: {
         nodeIntegration: true,
         scrollBounce: false,

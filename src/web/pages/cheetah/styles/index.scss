@@ -1,11 +1,25 @@
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   background: #24272e url(./logo.svg) no-repeat center center;
   background-size: 120px;
 }
 
+.am-picker-popup-wrap {
+  overflow: hidden;
+}
+
 .app-webview {
   overflow: hidden;
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  bottom: 0;
 
   .app-webview-wrapper {
     width: 500vw;
@@ -68,4 +82,8 @@ body {
   .path {
     stroke: #fff;
   }
+}
+
+.hidden-element {
+  display: none;
 }
