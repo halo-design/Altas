@@ -18,6 +18,9 @@ export default class WebviewModel {
   @observable public datepickerElement: any = null;
   @observable public datepickerParams: any = {};
 
+  @observable public pickerElement: any = null;
+  @observable public pickerParams: any = {};
+
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
   }
@@ -163,6 +166,25 @@ export default class WebviewModel {
         onDismiss: () => {
           this.focusWebviewSender(uid, {
             currentDate: '',
+            actionType: 0,
+          });
+        },
+      });
+    } else if (/showPicker/.test(name)) {
+      const { data, value, title, uid } = params;
+      this[name]({
+        title,
+        data,
+        value,
+        onChange: (val: any) => {
+          this.focusWebviewSender(uid, {
+            result: val,
+            actionType: 1,
+          });
+        },
+        onDismiss: () => {
+          this.focusWebviewSender(uid, {
+            result: [],
             actionType: 0,
           });
         },
@@ -421,6 +443,19 @@ export default class WebviewModel {
     this.datepickerParams = opts;
     if (this.datepickerElement) {
       this.datepickerElement.click();
+    }
+  }
+
+  @action
+  public initPicker(el: any) {
+    this.pickerElement = el;
+  }
+
+  @action
+  public showPicker(opts: any) {
+    this.pickerParams = opts;
+    if (this.pickerElement) {
+      this.pickerElement.click();
     }
   }
 }

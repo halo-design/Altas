@@ -45,6 +45,19 @@ const deepFormat = (o) => {
   }
 };
 
+const deepReplaceKey = (o, sourceKeyName, targetKeyName) => {
+  for (let p in o) {
+    if (p == sourceKeyName) {
+      o[targetKeyName] = o[p];
+      delete o[p];
+    }
+
+    if (typeof(o[p]) === 'object') {
+      deepReplaceKey(o[p], sourceKeyName, targetKeyName);
+    }
+  }
+}
+
 const deafultErrorRes = {
   error: '0',
   errorMessage: '',
@@ -241,8 +254,27 @@ class JSBridge {
 
   showDatePicker(params, callback) {
     const uid = uuid.v4();
+    let pickerType = 'date';
+
+    switch (params.type) {
+      case '0': {
+        pickerType = 'date';
+        break;
+      }
+
+      case '1': {
+        pickerType = 'time';
+        break;
+      }
+
+      case '2': {
+        pickerType = 'datetime';
+        break;
+      }
+    }
+
     this.ipc.emit('showDatePicker', {
-      mode: params.type === '1' ? 'time' : 'date',
+      mode: pickerType,
       title: params.title,
       minDate: params.minimumDate,
       maxDate: params.maximumDate,
@@ -253,6 +285,35 @@ class JSBridge {
     this.ipc.once(uid, (sender, res) => {
       callback({
         ...res,
+        ...deafultErrorRes,
+      });
+    })
+  }
+
+  showPickerView(params, callback) {
+    const uid = uuid.v4();
+    const { dataSource, title, defaultValue } = params;
+
+    if (defaultValue) {
+      deepReplaceKey(defaultValue, 'name', 'label');
+    }
+
+    if (dataSource) {
+      deepReplaceKey(dataSource, 'name', 'label');
+    }
+
+    this.ipc.emit('showPicker', {
+      title: title,
+      data: dataSource,
+      value: defaultValue,
+      uid,
+    })
+
+    this.ipc.once(uid, (sender, { result, actionType }) => {
+      deepReplaceKey(result, 'name', 'label');
+      callback({
+        result,
+        actionType,
         ...deafultErrorRes,
       });
     })

@@ -5,6 +5,7 @@ import notification from 'antd/lib/notification';
 import { scanAppImages } from '../../constants/API';
 import * as clipBoard from '../../bridge/clipBoard';
 import message from 'antd/lib/message';
+import classNames from 'classnames';
 
 import './index.scss';
 
@@ -232,7 +233,9 @@ class ScanView extends React.Component<any> {
             ))}
           </div>
           <div
-            className="btn-large scan-btn"
+            className={classNames('btn-large', 'scan-btn', {
+              active: isFreeze,
+            })}
             onClick={e => {
               this.envScanHandle();
             }}

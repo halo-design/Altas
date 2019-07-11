@@ -90,6 +90,4 @@ RPC.on('ready', () => {
       }
     );
   }
-
-  win.show();
 });

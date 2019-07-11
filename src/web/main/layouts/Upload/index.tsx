@@ -163,16 +163,6 @@ class UploadView extends React.Component<any> {
     }
   }
 
-  public loadImage(el: any, url: string) {
-    const temp = setTimeout(() => {
-      if (!el.loaded) {
-        el.src = url;
-      }
-      el.loaded = true;
-      clearTimeout(temp);
-    }, 300);
-  }
-
   public loadImageError(el: any) {
     el.loaded = true;
     el.src = 'public/image.svg';
@@ -396,10 +386,7 @@ class UploadView extends React.Component<any> {
                             <div className="row">
                               <div className="thumb">
                                 <img
-                                  src="public/image.svg"
-                                  onLoad={e => {
-                                    this.loadImage(e.target, item.localThumb);
-                                  }}
+                                  src={item.localThumb}
                                   onError={e => {
                                     this.loadImageError(e.target);
                                   }}

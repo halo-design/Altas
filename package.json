@@ -103,7 +103,7 @@
     "github-markdown-css": "^3.0.1",
     "highlight.js": "^9.15.8",
     "ip": "^1.1.5",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.14",
     "markdown-it": "^9.0.0",
     "markdown-it-attrs": "^2.4.1",
     "mobx": "^5.11.0",
@@ -124,7 +124,7 @@
     "systeminformation": "^4.14.3",
     "tslib": "^1.10.0",
     "uuid": "^3.3.2",
-    "xterm": "^3.14.4",
+    "xterm": "^3.14.5",
     "yaml": "^1.6.0"
   }
 }

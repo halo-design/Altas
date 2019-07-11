@@ -29,7 +29,7 @@
   .info-content {
     margin: 0 15px;
     border-radius: 6px;
-    background: url(./img/bg.png) no-repeat;
+    background: #3563E4 url(./img/bg.png) no-repeat;
     background-size: 100% 100%;
     box-shadow: 0 6px 12px -2px rgba(0, 30, 255, .34);
     overflow: hidden;
@@ -101,6 +101,11 @@
     .scan-btn {
       width: 320px;
       margin: 25px auto;
+
+      &.active,
+      &:hover {
+        box-shadow: 0 6px 12px -2px rgba(44, 48, 255, .42);
+      }
 
       body {
         background-color: #fff;

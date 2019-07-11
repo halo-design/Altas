@@ -18,6 +18,7 @@ const winCreate = (opts: any, entry: any, isChild?: boolean) => {
       scrollBounce: true,
       webviewTag: true,
     },
+    show: false,
     resizable: true,
   };
 
@@ -36,13 +37,13 @@ const winCreate = (opts: any, entry: any, isChild?: boolean) => {
     if (isMac) {
       mainWindow.setWindowButtonVisibility(false);
     }
-
-    mainWindow.once('ready-to-show', () => {
-      mainWindow.show();
-    });
   } else {
     mainWindow = winStateKeeper(options);
   }
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
   const entryUrl =
     typeof entry === 'string'
@@ -55,7 +56,6 @@ const winCreate = (opts: any, entry: any, isChild?: boolean) => {
         });
 
   mainWindow.loadURL(entryUrl);
-  mainWindow.hide();
   return mainWindow;
 };
 

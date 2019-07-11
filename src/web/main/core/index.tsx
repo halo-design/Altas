@@ -1,5 +1,4 @@
 import message from 'antd/lib/message';
-import { remote } from 'electron';
 import { Provider } from 'mobx-react';
 import { configureDevtool } from 'mobx-react-devtools';
 import * as React from 'react';
@@ -50,7 +49,4 @@ RPC.on('ready', () => {
     </Provider>,
     document.getElementById('MOUNT_NODE') as HTMLElement
   );
-
-  // 页面节点渲染后显示窗口
-  remote.getCurrentWindow().show();
 });

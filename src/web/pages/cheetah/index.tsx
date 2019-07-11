@@ -36,5 +36,3 @@ ReactDOM.render(
   </DeviceContext.Provider>,
   document.getElementById('MOUNT_NODE') as HTMLElement
 );
-
-currentWindow.show();

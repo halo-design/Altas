@@ -172,5 +172,3 @@ webviewBind('dom-ready', () => {
     clearTimeout(hideTimer);
   }, 30);
 });
-
-win.show();
