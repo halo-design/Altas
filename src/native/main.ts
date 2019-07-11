@@ -2,9 +2,11 @@ import { app } from 'electron';
 import winCreate from './core/winCreate';
 import createRPC from './core/rpc';
 import createBridge from './core/bridge/';
+import { showBetterMessageBox } from 'electron-better-dialog';
 
 let mainWindow: any;
 let forceQuit: boolean = false;
+let restartTimer: any = null;
 
 const init = () => {
   mainWindow = winCreate(
@@ -33,6 +35,38 @@ const init = () => {
       e.preventDefault();
       mainWindow.hide();
     }
+  });
+
+  mainWindow.on('unresponsive', () => {
+    restartTimer = setTimeout(() => {
+      showBetterMessageBox(
+        mainWindow,
+        {
+          message: '您的应用长时间未响应，是否重新启动？',
+          betterButtons: [
+            {
+              label: '是',
+              isDefault: true,
+            },
+            {
+              label: '否',
+              isCancel: true,
+            },
+          ],
+        },
+        (response: any) => {
+          if (response.isDefault) {
+            app.relaunch();
+            app.exit(0);
+          }
+        }
+      );
+      clearTimeout(restartTimer);
+    }, 30 * 1000);
+  });
+
+  mainWindow.on('responsive', () => {
+    clearTimeout(restartTimer);
   });
 
   if (!app.isPackaged) {
