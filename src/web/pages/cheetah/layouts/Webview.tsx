@@ -1,9 +1,11 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { DeviceContext } from '../context';
 import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import DatePicker from 'antd-mobile/lib/date-picker';
 import Picker from 'antd-mobile/lib/picker';
+import Icon from 'antd-mobile/lib/icon';
 
 @inject((stores: any) => {
   const {
@@ -13,6 +15,7 @@ import Picker from 'antd-mobile/lib/picker';
     behavior,
     datepickerParams,
     pickerParams,
+    triggleRefresh,
   } = stores.webview;
 
   return {
@@ -22,6 +25,7 @@ import Picker from 'antd-mobile/lib/picker';
     behavior,
     datepickerParams,
     pickerParams,
+    triggleRefresh,
     createNewWebview: (url: string, params: object) =>
       stores.webview.createNewWebview(url, params),
     getWebviewDOM: (index: number, el: any, uid: string) =>
@@ -42,9 +46,9 @@ class WebviewView extends React.Component<any, any> {
     this.props.createNewWebview(target);
     this.props.initDatePicker(this.datepickerEl);
     this.props.initPicker(this.pickerEl);
-    // setTimeout(() => {
-    //   this.props.createNewWebview('http://i.jandan.net/qa');
-    // }, 1000);
+    setTimeout(() => {
+      this.props.createNewWebview('http://i.jandan.net/qa');
+    }, 1000);
     // setTimeout(() => {
     //   this.props.createNewWebview('/treehole');
     // }, 2000);
@@ -76,6 +80,7 @@ class WebviewView extends React.Component<any, any> {
       behavior,
       datepickerParams,
       pickerParams,
+      triggleRefresh,
     } = this.props;
 
     let trans: any = {
@@ -88,39 +93,50 @@ class WebviewView extends React.Component<any, any> {
     }
 
     return (
-      <div className="app-webview" style={wvSize}>
-        <div className="app-webview-wrapper" style={trans}>
-          {webviewList.map((item: any, index: number) => {
-            return (
-              <webview
-                {...toJS(item.attr)}
-                key={item.uid}
+      <div className="app-webview-container">
+        {triggleRefresh && (
+          <div className="load-status-bar">
+            <Icon type="loading" />
+            <span className="label">正在刷新</span>
+          </div>
+        )}
+        <div
+          className={classNames('app-webview', { loading: triggleRefresh })}
+          style={wvSize}
+        >
+          <div className="app-webview-wrapper" style={trans}>
+            {webviewList.map((item: any, index: number) => {
+              return (
+                <webview
+                  {...toJS(item.attr)}
+                  key={item.uid}
+                  ref={node => {
+                    getWebviewDOM(index, node, item.uid);
+                  }}
+                />
+              );
+            })}
+          </div>
+          <div className="hidden-element">
+            <DatePicker {...datepickerParams}>
+              <span
                 ref={node => {
-                  getWebviewDOM(index, node, item.uid);
+                  this.datepickerEl = node;
                 }}
-              />
-            );
-          })}
-        </div>
-        <div className="hidden-element">
-          <DatePicker {...datepickerParams}>
-            <span
-              ref={node => {
-                this.datepickerEl = node;
-              }}
-            >
-              datepicker
-            </span>
-          </DatePicker>
-          <Picker {...pickerParams}>
-            <span
-              ref={node => {
-                this.pickerEl = node;
-              }}
-            >
-              picker
-            </span>
-          </Picker>
+              >
+                datepicker
+              </span>
+            </DatePicker>
+            <Picker {...pickerParams}>
+              <span
+                ref={node => {
+                  this.pickerEl = node;
+                }}
+              >
+                picker
+              </span>
+            </Picker>
+          </div>
         </div>
       </div>
     );

@@ -95,6 +95,7 @@ class ScanView extends React.Component<any> {
         this.props.radarDispose();
         this.props.resetStateBar();
         this.props.setFreeze(false);
+        window['altasAppSpund'].play();
         notification.success({
           message: '完成',
           description: '已完成对系统开发环境的扫描.',

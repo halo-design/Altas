@@ -124,5 +124,16 @@ export default (command: string, params: any, sender: Function) => {
       sender(uid, JSON.parse(parseData));
       break;
     }
+
+    case 'showToast': {
+      const { message, showIcon } = params;
+      if (showIcon === '0') {
+        Toast.fail(message);
+      } else if (showIcon === '1') {
+        Toast.success(message);
+      } else {
+        Toast.info(message);
+      }
+    }
   }
 };

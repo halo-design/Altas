@@ -39,7 +39,7 @@ export default class WorkStation extends React.Component<any> {
     message.warning('当前操作正在进行！');
   }
 
-  render() {
+  public render() {
     const {
       monitorVisible,
       stateBarText,

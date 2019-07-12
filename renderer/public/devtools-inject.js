@@ -318,6 +318,27 @@ class JSBridge {
       });
     })
   }
+
+  startPullDownRefresh(params, callback) {
+    this.ipc.emit('toogleRefresh', true);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  stopPullDownRefresh(params, callback) {
+    this.ipc.emit('toogleRefresh', false);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  showToast(params, callback) {
+    this.ipc.emit('showToast', params);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
 }
 
 window['AlipayJSBridge'] = new JSBridge();

@@ -13,6 +13,24 @@ body {
   overflow: hidden;
 }
 
+.app-webview-container {
+  .load-status-bar {
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+
+    .am-icon {
+      vertical-align: middle;
+      margin-top: -3px;
+    }
+
+    .label {
+      margin: 2px 0 0 10px;
+    }
+  }
+}
+
 .app-webview {
   overflow: hidden;
   position: absolute;
@@ -20,6 +38,11 @@ body {
   right: 0;
   top: 40px;
   bottom: 0;
+  transition: all .3s;
+
+  &.loading {
+    transform: translateY(40px);
+  }
 
   .app-webview-wrapper {
     width: 500vw;

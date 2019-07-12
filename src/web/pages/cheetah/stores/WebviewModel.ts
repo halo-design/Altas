@@ -21,8 +21,15 @@ export default class WebviewModel {
   @observable public pickerElement: any = null;
   @observable public pickerParams: any = {};
 
+  @observable public triggleRefresh: boolean = false;
+
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
+  }
+
+  @action
+  public toogleRefresh(status: boolean) {
+    this.triggleRefresh = status;
   }
 
   @action
@@ -137,7 +144,7 @@ export default class WebviewModel {
     ) {
       const { url, options } = params;
       this[name](url, options);
-    } else if (/goToAnyWebview/.test(name)) {
+    } else if (/goToAnyWebview|toogleRefresh/.test(name)) {
       this[name](params);
     } else if (
       /focusToNextWebview|focusToPrevWebview|reloadFocusWebview|clearOtherWebviews|clearAllWebviews|clearCurrentWebview|clearFocusWebviewHistory/.test(
