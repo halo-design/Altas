@@ -1,4 +1,4 @@
-import { app, Menu, shell, Tray } from 'electron';
+import { app, Menu, Tray } from 'electron';
 import file from './file';
 
 const isWin = process.platform === 'win32';
@@ -17,22 +17,25 @@ export default (RPC: any) => {
         RPC.win.show();
         RPC.win.focus();
       },
-      label: '设置',
+      label: '参数设置',
     },
     {
       type: 'separator',
     },
     {
       click: () => {
-        shell.openExternal('https://github.com/halo-design/Altas');
+        RPC.win.show();
       },
-      label: '关于',
+      label: '打开应用',
+    },
+    {
+      type: 'separator',
     },
     {
       click: () => {
-        app.quit();
+        app.exit(0);
       },
-      label: '退出',
+      label: '退出应用',
     },
   ]);
 
