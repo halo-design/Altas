@@ -9,6 +9,10 @@
     font-size: 14px;
     position: relative;
 
+    input, span {
+      cursor: pointer;
+    }
+
     &.blue {
       background-color: #4d8afb;
     }
@@ -22,7 +26,12 @@
     }
 
     &.disabled {
+      cursor: default;
       background-color: #dcdde8;
+
+      input, span {
+        cursor: default;
+      }
     }
 
     .txt {

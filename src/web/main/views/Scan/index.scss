@@ -187,6 +187,7 @@
             cursor: pointer;
 
             &.done {
+              cursor: default;
               background-color: #dcdff0;
               color: #71769a;
             }
