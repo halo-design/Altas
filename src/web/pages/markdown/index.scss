@@ -1,3 +1,5 @@
+$font: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+
 html {
   min-width: 100%;
   min-height: 100%;
@@ -42,7 +44,7 @@ html {
   -webkit-app-region: drag;
   display: flex;
   justify-content: space-between;
-  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+  font-family: $font;
 
   .tit {
     height: 34px;
@@ -137,11 +139,19 @@ html {
   width: 240px;
   margin-left: -120px;
   background: url(./img/folder.svg) no-repeat center top;
-  background-size: 120px auto;
-  padding-top: 120px;
-  font-size: 16px;
+  background-size: 100px auto;
+  padding-top: 100px;
+  font-size: 15px;
   text-align: center;
   cursor: pointer;
-  color: #9a98a0;
-  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+  
+  .txt {
+    color: #727272;
+    font-family: $font;
+    font-size: 13px;
+    display: inline-block;
+    padding: 5px 20px;
+    background-color: #f5f5f5;
+    border-radius: 18px;
+  }
 }

@@ -83,6 +83,7 @@ RPC.on('ready', () => {
     downloadPreviewFile(
       remoteUrl,
       ({ content }: any) => {
+        $fileName.innerHTML = path.basename(remoteUrl);
         const result = md.render(content);
         $content.innerHTML = result;
         win.maximize();

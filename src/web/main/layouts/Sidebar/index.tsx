@@ -50,17 +50,17 @@ function Sidebar({ initPath }: ISidebarProps) {
           className="iconfont"
           activeClassName="active"
         >
-          <Tooltip placement="right" title="系统扫描">
+          <Tooltip placement="right" title="系统扫描" mouseEnterDelay={2}>
             &#xe63b;
           </Tooltip>
         </NavLink>
         <NavLink to="/project" className="iconfont" activeClassName="active">
-          <Tooltip placement="right" title="工程管理">
+          <Tooltip placement="right" title="工程管理" mouseEnterDelay={2}>
             &#xe754;
           </Tooltip>
         </NavLink>
         <NavLink to="/store" className="iconfont" activeClassName="active">
-          <Tooltip placement="right" title="组件商城">
+          <Tooltip placement="right" title="组件商城" mouseEnterDelay={2}>
             &#xe629;
           </Tooltip>
         </NavLink>
@@ -70,7 +70,7 @@ function Sidebar({ initPath }: ISidebarProps) {
           className="iconfont"
           activeClassName="active"
         >
-          <Tooltip placement="right" title="常用工具">
+          <Tooltip placement="right" title="常用工具" mouseEnterDelay={2}>
             &#xe83d;
           </Tooltip>
         </NavLink>

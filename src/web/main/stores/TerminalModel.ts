@@ -4,6 +4,7 @@ import { openLink, getProcessPid, getWindow } from '../bridge/system';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import * as os from 'os';
+import { Howl } from 'howler';
 const { spawn } = require('node-pty');
 import xtermConfig from '../config/xterm';
 import { isMac, isWin } from '../bridge/env';
@@ -14,6 +15,11 @@ import Modal from 'antd/lib/modal';
 import { deviceSimulator, cheetahSimulator } from '../bridge/createWindow';
 import { encodeSync, decodeSync } from '../bridge/aes';
 import { allDeviceObject } from '../config/DeviceDescriptors';
+
+const heroBgMusic = new Howl({
+  src: ['public/viva_la_vida.mp3'],
+  volume: 0.8,
+});
 
 const { confirm } = Modal;
 
@@ -49,6 +55,7 @@ export default class TerminalModel {
   public resizeTerm: any = null;
   public currentExecPath: string = '';
   public encodeUserPassword: string = '';
+  public bgMusicPlay: boolean = false;
 
   @observable public stdoutRunning: boolean = false;
   @observable public adminAuthorizationModalVisible: boolean = false;
@@ -190,18 +197,26 @@ export default class TerminalModel {
 
     let clearTimer: any = null;
     ptyProcess.on('data', (data: string) => {
-      if (data === 'Password:') {
+      if (data.trim() === 'Password:') {
         this.setAdminAuthorizationModalVisible(true);
       }
-      if (data.indexOf('hello altas') >= 0) {
+
+      if (data.trim().indexOf('hello altas') === 0) {
         getWindow().webContents.toggleDevTools();
       }
+
+      if (data.trim().indexOf('Viva La Vida') === 0) {
+        this.bgMusicPlay = !this.bgMusicPlay;
+        this.bgMusicPlay ? heroBgMusic.play() : heroBgMusic.stop();
+      }
+
       this.stdoutRunning = true;
       clearTimeout(clearTimer);
       clearTimer = setTimeout(() => {
         this.stdoutRunning = false;
         clearTimeout(clearTimer);
       }, 3000);
+
       this.term.write(data);
     });
 
