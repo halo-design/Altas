@@ -14,12 +14,15 @@ import './index.scss';
 @inject((stores: any) => {
   return {
     appInfo: stores.workStation.appInfo,
+    altasAppAudioStatus: stores.workStation.altasAppAudioStatus,
     useDebugDevice: stores.terminal.useDebugDevice,
     useDebugSimulator: stores.terminal.useDebugSimulator,
     setUseDebugDevice: (type: string) =>
       stores.terminal.setUseDebugDevice(type),
     setUseDebugSimulator: (type: string) =>
       stores.terminal.setUseDebugSimulator(type),
+    setAppAudioStatus: (status: string) =>
+      stores.workStation.setAppAudioStatus(status),
     setMonitorVisible: (state: boolean) =>
       stores.workStation.setMonitorVisible(state),
   };
@@ -92,6 +95,20 @@ class SettingsView extends React.Component<any> {
               >
                 <Option value="deviceSimulator">Web应用调试器</Option>
                 <Option value="cheetahSimulator">猎豹App调试器</Option>
+              </Select>
+            </div>
+          </div>
+          <div className="form-item project-type-selection">
+            <div className="label">开启/关闭提示音</div>
+            <div className="item">
+              <Select
+                style={{ width: 280 }}
+                defaultValue={this.props.altasAppAudioStatus}
+                size="default"
+                onChange={(val: string) => this.props.setAppAudioStatus(val)}
+              >
+                <Option value="on">开启</Option>
+                <Option value="off">关闭</Option>
               </Select>
             </div>
           </div>

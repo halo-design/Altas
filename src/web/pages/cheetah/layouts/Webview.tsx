@@ -46,9 +46,9 @@ class WebviewView extends React.Component<any, any> {
     this.props.createNewWebview(target);
     this.props.initDatePicker(this.datepickerEl);
     this.props.initPicker(this.pickerEl);
-    setTimeout(() => {
-      this.props.createNewWebview('http://i.jandan.net/qa');
-    }, 1000);
+    // setTimeout(() => {
+    //   this.props.createNewWebview('http://i.jandan.net/qa');
+    // }, 1000);
     // setTimeout(() => {
     //   this.props.createNewWebview('/treehole');
     // }, 2000);

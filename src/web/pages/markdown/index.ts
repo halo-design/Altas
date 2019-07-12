@@ -1,4 +1,5 @@
 import * as qs from 'qs';
+import * as path from 'path';
 import { remote } from 'electron';
 const win = remote.getCurrentWindow();
 import * as hljs from 'highlight.js';
@@ -20,6 +21,7 @@ const $readBtn: any = getEl('readBtn');
 const $minBtn: any = getEl('minBtn');
 const $toogleBtn: any = getEl('toogleBtn');
 const $closeBtn: any = getEl('closeBtn');
+const $fileName: any = getEl('fileName');
 
 const toogleClass = $toogleBtn.classList;
 
@@ -58,6 +60,7 @@ const toogleFn = () => {
 RPC.on('ready', () => {
   bindClick($readBtn, () => {
     readLocalFileSync().then(({ content, directory, filepath }: any) => {
+      $fileName.innerHTML = path.basename(filepath);
       const result = md.render(content);
       $content.innerHTML = result;
       win.maximize();

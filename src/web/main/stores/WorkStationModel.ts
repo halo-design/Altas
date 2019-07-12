@@ -1,5 +1,6 @@
 import { action, observable, computed } from 'mobx';
 import message from 'antd/lib/message';
+import { Howl } from 'howler';
 import { detectSupportEnv } from '../bridge/env';
 import * as storage from '../bridge/storage';
 import { getProjectRunnerConfig } from '../bridge/project';
@@ -25,14 +26,41 @@ export default class WorkStationModel {
     noConfig: true,
   };
 
+  public altasAppAudioStatus: string = 'on';
+  public altasAppSound: any = new Howl({
+    src: ['public/ding.mp3'],
+    volume: 0.2,
+  });
+
   constructor() {
     this.detectNetwork();
     this.getLocalUserProjectPath();
     this.getLocalSystemEnvData();
+    this.playAltasAppSound();
   }
 
   @action
-  async getLocalUserProjectPath() {
+  public setAppAudioStatus(status: string) {
+    this.altasAppAudioStatus = status;
+    storage.write('altas_app_sound', {
+      altas_app_sound: status,
+    });
+  }
+
+  @action
+  public async playAltasAppSound() {
+    const localData: any = await storage.readSync('altas_app_sound');
+    const { altas_app_sound } = localData;
+    if (altas_app_sound) {
+      this.altasAppAudioStatus = altas_app_sound;
+    }
+    if (this.altasAppAudioStatus === 'on') {
+      this.altasAppSound.play();
+    }
+  }
+
+  @action
+  public async getLocalUserProjectPath() {
     const localData: any = await storage.readSync('user_default_project_path');
     const { user_default_project_path } = localData;
     if (user_default_project_path) {
@@ -44,7 +72,7 @@ export default class WorkStationModel {
   }
 
   @action
-  async getLocalSystemEnvData() {
+  public async getLocalSystemEnvData() {
     const localData: any = await storage.readSync('system_support_environment');
     const { system_support_environment } = localData;
     if (system_support_environment) {

@@ -4,7 +4,6 @@ import { configureDevtool } from 'mobx-react-devtools';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
-import { Howl } from 'howler';
 import createStores from '../stores';
 import App from './App';
 import RPC from '../bridge/rpc';
@@ -23,13 +22,6 @@ import '../../../../node_modules/antd/es/drawer/style/index.css';
 import '../../../../node_modules/xterm/dist/xterm.css';
 
 import '../assets/style/app.scss';
-
-const sound = new Howl({
-  src: ['public/ding.mp3'],
-  volume: 0.2,
-});
-
-window['altasAppSpund'] = sound;
 
 message.config({
   top: 540,
@@ -57,5 +49,4 @@ RPC.on('ready', () => {
     </Provider>,
     document.getElementById('MOUNT_NODE') as HTMLElement
   );
-  sound.play();
 });

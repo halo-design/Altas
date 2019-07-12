@@ -41,6 +41,7 @@ html {
   background-color: rgb(44, 42, 59);
   -webkit-app-region: drag;
   display: flex;
+  justify-content: space-between;
   font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
 
   .tit {
@@ -49,7 +50,30 @@ html {
     color: #fff;
     font-size: 12px;
     padding: 0 15px;
-    flex-grow: 1;
+    flex-grow: 0;
+
+    &:before {
+      content: '';
+      height: 16px;
+      width: 16px;
+      display: inline-block;
+      background: url(./img/folder-thumb.svg) no-repeat;
+      background-size: 100% auto;
+      vertical-align: middle;
+      margin: -2px 5px 0 0;
+    }
+  }
+
+  .file-name {
+    text-align: center;
+    width: 460px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    font-size: 13px;
+    line-height: 34px;
+    color: #fff;
   }
 
   .win {
@@ -112,9 +136,9 @@ html {
   top: 200px;
   width: 240px;
   margin-left: -120px;
-  background: url(./img/search.svg) no-repeat center top;
+  background: url(./img/folder.svg) no-repeat center top;
   background-size: 120px auto;
-  padding-top: 160px;
+  padding-top: 120px;
   font-size: 16px;
   text-align: center;
   cursor: pointer;
