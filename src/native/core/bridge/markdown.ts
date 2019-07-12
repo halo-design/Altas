@@ -4,6 +4,8 @@ import file from '../../utils/file';
 import DL from 'electron-dl';
 import log from 'electron-log';
 import { appCacheFullPath } from '../constants';
+import { saveFile } from '../../utils/file';
+import mdTpl from '../../utils/mdTemplate';
 
 export default (RPC: any) => {
   const { dispatch, win } = RPC;
@@ -34,6 +36,11 @@ export default (RPC: any) => {
         }
       }
     );
+  });
+
+  RPC.on('markdown-save-as-html', ({ title, content, outputPath }: any) => {
+    const buf = Buffer.from(mdTpl(title, content), 'utf8');
+    saveFile(outputPath, buf);
   });
 
   let dlItem: any;

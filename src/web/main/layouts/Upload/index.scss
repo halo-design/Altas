@@ -9,7 +9,8 @@
     font-size: 14px;
     position: relative;
 
-    input, span {
+    input,
+    span {
       cursor: pointer;
     }
 
@@ -29,7 +30,8 @@
       cursor: default;
       background-color: #dcdde8;
 
-      input, span {
+      input,
+      span {
         cursor: default;
       }
     }

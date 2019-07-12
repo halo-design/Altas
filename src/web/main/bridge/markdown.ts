@@ -8,6 +8,18 @@ export const readLocalFile = (cb: (args: object) => void): void => {
   });
 };
 
+export const mdSaveAsHtml = (
+  title: string,
+  content: string,
+  outputPath: string
+) => {
+  dispatch('markdown-save-as-html', {
+    title,
+    content,
+    outputPath,
+  });
+};
+
 export const downloadPreviewFile = (
   url: string,
   success: Function,

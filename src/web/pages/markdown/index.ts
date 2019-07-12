@@ -5,9 +5,12 @@ const win = remote.getCurrentWindow();
 import * as hljs from 'highlight.js';
 import { getEl, bindClick } from '../public/utils';
 import RPC from '../../main/bridge/rpc';
+import { setSaveAs } from '../../main/bridge/file';
+import CreateContextMenu from '../../main/bridge/CreateContextMenu';
 import {
   readLocalFileSync,
   downloadPreviewFile,
+  mdSaveAsHtml,
 } from '../../main/bridge/markdown';
 const markdownItAttrs = require('markdown-it-attrs');
 const options = qs.parse(location.hash.substr(1));
@@ -57,14 +60,30 @@ const toogleFn = () => {
   }
 };
 
+const renderDoc = (filepath: string, content: string) => {
+  const fileName = path.basename(filepath);
+  $fileName.innerHTML = fileName;
+  const result = md.render(content);
+  $content.innerHTML = result;
+  win.maximize();
+  toogleClass.add('back');
+  new CreateContextMenu($content, [
+    {
+      click: () => {
+        const outputFileName = fileName.replace(/\.md/, '.html');
+        setSaveAs(outputFileName, (path: string) => {
+          mdSaveAsHtml(fileName.replace('.md', ''), result, path);
+        });
+      },
+      label: '导出到HTML',
+    },
+  ]);
+};
+
 RPC.on('ready', () => {
   bindClick($readBtn, () => {
     readLocalFileSync().then(({ content, directory, filepath }: any) => {
-      $fileName.innerHTML = path.basename(filepath);
-      const result = md.render(content);
-      $content.innerHTML = result;
-      win.maximize();
-      toogleClass.add('back');
+      renderDoc(filepath, content);
     });
   });
 
@@ -83,11 +102,7 @@ RPC.on('ready', () => {
     downloadPreviewFile(
       remoteUrl,
       ({ content }: any) => {
-        $fileName.innerHTML = path.basename(remoteUrl);
-        const result = md.render(content);
-        $content.innerHTML = result;
-        win.maximize();
-        toogleClass.add('back');
+        renderDoc(remoteUrl, content);
       },
       () => {
         $content.innerHTML = '<h3 class="error-title">文档获取失败！</h3>';
