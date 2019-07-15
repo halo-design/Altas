@@ -1,4 +1,5 @@
 import { remote } from 'electron';
+import * as path from 'path';
 const { app, dialog, getCurrentWindow } = remote;
 
 import RPC from './rpc';
@@ -11,7 +12,7 @@ export const setSaveAs = (
   dialog.showSaveDialog(
     getCurrentWindow(),
     {
-      defaultPath: app.getPath('downloads') + '/' + fileName,
+      defaultPath: path.join(app.getPath('documents'), fileName),
     },
     (filename: any) => {
       if (filename) {

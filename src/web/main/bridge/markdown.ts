@@ -11,12 +11,16 @@ export const readLocalFile = (cb: (args: object) => void): void => {
 export const mdSaveAsHtml = (
   title: string,
   content: string,
-  outputPath: string
+  outputPath: string,
+  callback?: Function
 ) => {
   dispatch('markdown-save-as-html', {
     title,
     content,
     outputPath,
+  });
+  RPC.once('markdown-save-as-html-done', ({ outputPath }: any) => {
+    callback && callback(outputPath);
   });
 };
 

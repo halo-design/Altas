@@ -62,21 +62,40 @@ const toogleFn = () => {
 
 const renderDoc = (filepath: string, content: string) => {
   const fileName = path.basename(filepath);
+  const fileNameWithoutSuffix = fileName.replace('.md', '');
+  const outputHtmlFileName = fileName.replace(/\.md/, '.html');
+
   $fileName.innerHTML = fileName;
   const result = md.render(content);
   $content.innerHTML = result;
   win.maximize();
   toogleClass.add('back');
+
   new CreateContextMenu($content, [
     {
       click: () => {
-        const outputFileName = fileName.replace(/\.md/, '.html');
-        setSaveAs(outputFileName, (path: string) => {
-          mdSaveAsHtml(fileName.replace('.md', ''), result, path);
+        setSaveAs(outputHtmlFileName, (path: string) => {
+          mdSaveAsHtml(
+            fileNameWithoutSuffix,
+            result,
+            path,
+            (optputDir: string) => {
+              remote.shell.showItemInFolder(optputDir);
+            }
+          );
         });
       },
       label: '导出到HTML',
     },
+    // {
+    //   type: 'separator',
+    // },
+    // {
+    //   click: () => {
+    //     //
+    //   },
+    //   label: '导出到PDF',
+    // },
   ]);
 };
 

@@ -13,7 +13,7 @@ export default (RPC: any) => {
   RPC.on('read-local-file', () => {
     dialog.showOpenDialog(
       {
-        defaultPath: app.getPath('home'),
+        defaultPath: app.getPath('documents'),
         buttonLabel: '打开',
         properties: ['openFile'],
         filters: [
@@ -40,7 +40,9 @@ export default (RPC: any) => {
 
   RPC.on('markdown-save-as-html', ({ title, content, outputPath }: any) => {
     const buf = Buffer.from(mdTpl(title, content), 'utf8');
-    saveFile(outputPath, buf);
+    saveFile(outputPath, buf).then(() => {
+      dispatch('markdown-save-as-html-done', { outputPath });
+    });
   });
 
   let dlItem: any;

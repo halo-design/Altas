@@ -8,6 +8,20 @@ import { scrollbarStyleString } from '../../../main/constants/API';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
 
+interface IMenu {
+  icon?: string;
+  icontype?: string;
+  text?: string;
+  color: string;
+  overrideClick?: boolean;
+}
+
+interface ITitle {
+  title?: string;
+  color?: string;
+  img?: string;
+}
+
 export default class WebviewModel {
   @observable public webviewList: any[] = [];
   @observable public directive: object = {};
@@ -23,8 +37,44 @@ export default class WebviewModel {
 
   @observable public triggleRefresh: boolean = false;
 
+  // navigator bar
+  @observable public leftMenus: IMenu[] = [];
+  @observable public leftMenusVisible: boolean = false;
+  @observable public rightMenus: IMenu[] = [];
+  @observable public rightMenusVisible: boolean = false;
+  @observable public middleTitle: ITitle = {};
+  @observable public navBarBottomLineColor: string = '';
+  @observable public navBarVisible: boolean = false;
+  @observable public navBarMaskVisible: boolean = false;
+  @observable public navBarMaskBgColor: string = '';
+  @observable public navBarBgColor: string = '';
+
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
+    this.setDefaultNavBar();
+  }
+
+  @action
+  public setTitle() {
+    if (this.focusWebview) {
+      this.middleTitle = {
+        title: this.focusWebview.title,
+      };
+    }
+  }
+
+  @action
+  public setDefaultNavBar() {
+    this.navBarVisible = true;
+    this.leftMenusVisible = true;
+    this.leftMenus = [
+      {
+        icontype: 'back',
+        text: '返回',
+        color: '#333',
+        overrideClick: false,
+      },
+    ];
   }
 
   @action
@@ -44,7 +94,7 @@ export default class WebviewModel {
       preload,
       descriptors: {
         userAgent,
-        viewport: { width, height },
+        viewport: { width },
       },
     } = options;
 
@@ -52,12 +102,13 @@ export default class WebviewModel {
       attr: {
         style: {
           width: width + 'px',
-          height: height - 40 + 'px',
+          height: '100%',
         },
         preload,
         useragent: userAgent,
         src,
       },
+      title: '',
       devtools: false,
       uid: uuid.v4(),
       dom: null,
@@ -67,6 +118,10 @@ export default class WebviewModel {
     };
 
     return webviewItem;
+  }
+
+  @computed get offsetTop() {
+    return this.navBarVisible ? 80 : 40;
   }
 
   @computed get webviewCount() {
@@ -196,6 +251,37 @@ export default class WebviewModel {
           });
         },
       });
+    } else if (/setNavBarMask/.test('name')) {
+      const { visible, color } = params;
+      this.navBarMaskVisible = visible;
+      this.navBarMaskBgColor = color;
+    } else if (/setMenu/.test('name')) {
+      const { diretion, menus } = params;
+      if (diretion === 'left') {
+        this.leftMenus = menus;
+      } else {
+        this.rightMenus = menus;
+      }
+    } else if (/setMenuVisible/.test('name')) {
+      const { direction, visible } = params;
+      if (direction === 'left') {
+        this.leftMenusVisible = visible;
+      } else {
+        this.rightMenusVisible = visible;
+      }
+    } else if (/setMiddleTitle/.test(name)) {
+      const { title, color, img } = params;
+      this.middleTitle = {
+        title,
+        color,
+        img,
+      };
+    } else if (/setNavBarBottomLineColor/.test(name)) {
+      const { color } = params;
+      this.navBarBottomLineColor = color;
+    } else if (/setNavBarVisible/.test(name)) {
+      const { visible } = params;
+      this.navBarVisible = visible;
     } else {
       interaction(name, params, this.focusWebviewSender);
     }
@@ -247,6 +333,7 @@ export default class WebviewModel {
       return;
     }
     this.webviewList[this.focusIndex] = this.webviewCreater(src, params);
+    this.setTitle();
   }
 
   @action
@@ -266,6 +353,7 @@ export default class WebviewModel {
       this.webviewList = this.webviewList.slice(0, this.focusIndex);
       this.focusIndex--;
     }
+    this.setTitle();
   }
 
   @action
@@ -276,6 +364,7 @@ export default class WebviewModel {
     }
     this.clearAllWebviews();
     this.createNewWebview(src, params, true);
+    this.setTitle();
   }
 
   @action
@@ -291,6 +380,7 @@ export default class WebviewModel {
     if (this.focusWebview) {
       this.webviewList = [this.focusWebview];
       this.focusIndex = 0;
+      this.setTitle();
     }
   }
 
@@ -316,6 +406,7 @@ export default class WebviewModel {
       return !hasOne;
     });
     this.focusIndex = this.maxIndex;
+    this.setTitle();
   }
 
   @action
@@ -333,6 +424,7 @@ export default class WebviewModel {
     if (isExistLnk && targetIndex) {
       this.webviewList = this.webviewList.slice(0, targetIndex + 1);
       this.focusIndex = this.maxIndex;
+      this.setTitle();
     }
   }
 
@@ -365,6 +457,10 @@ export default class WebviewModel {
     el.addEventListener('dom-ready', () => {
       el.insertCSS(scrollbarStyleString);
 
+      const tit = el.getTitle();
+      current['title'] = tit;
+      this.setTitle();
+
       el.addEventListener('devtools-closed', () => {
         current['devtools'] = false;
       });
@@ -385,6 +481,7 @@ export default class WebviewModel {
     if (this.focusIndex < this.maxIndex) {
       this.closeFocusDevtools();
       this.focusIndex++;
+      this.setTitle();
     }
   }
 
@@ -404,6 +501,7 @@ export default class WebviewModel {
       this.closeFocusDevtools();
       this.focusIndex = this.focusIndex + count;
     }
+    this.setTitle();
   }
 
   @action
@@ -412,6 +510,7 @@ export default class WebviewModel {
     if (this.focusIndex > 0) {
       this.closeFocusDevtools();
       this.focusIndex--;
+      this.setTitle();
     }
   }
 
