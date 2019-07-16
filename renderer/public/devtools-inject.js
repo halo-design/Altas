@@ -438,6 +438,58 @@ class JSBridge {
       callback(deafultErrorRes);
     }
   }
+
+  getStatusBarHeight(params, callback) {
+    if (callback) {
+      callback({
+        statusBarHeight: '0',
+        ...deafultErrorRes,
+      });
+    }
+  }
+
+  getTitleBarHeight(params, callback) {
+    if (callback) {
+      callback({
+        titleBarHeight: '40',
+        ...deafultErrorRes,
+      });
+    }
+  }
+
+  setStatusBarStyle(params, callback) {
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  showActionSheet(params, callback) {
+    const uid = uuid.v4();
+    const { title, items } = params;
+    const maxIndex = items.length - 1;
+    this.ipc.emit('showActionSheet', {
+      uid,
+      title,
+      items,
+    })
+    this.ipc.once(uid, (sender, res) => {
+      const { selectIndex } = res;
+      if (selectIndex > maxIndex) {
+        callback({
+          selectIndex: '',
+          selectItem: '',
+          error: '2000',
+          errorMessage: '',
+        });
+      } else {
+        callback({
+          selectItem: items[selectIndex],
+          selectIndex: String(selectIndex),
+          ...deafultErrorRes,
+        });
+      }
+    })
+  }
 }
 
 window['AlipayJSBridge'] = new JSBridge();

@@ -1,5 +1,6 @@
 import Toast from 'antd-mobile/lib/toast';
 import Modal from 'antd-mobile/lib/modal';
+import ActionSheet from 'antd-mobile/lib/action-sheet';
 const alert = Modal.alert;
 const prompt = Modal.prompt;
 
@@ -134,6 +135,24 @@ export default (command: string, params: any, sender: Function) => {
       } else {
         Toast.info(message);
       }
+      break;
+    }
+
+    case 'showActionSheet': {
+      const { title, items, uid } = params;
+      items.push('取消');
+      const lastIndex = items.length - 1;
+      ActionSheet.showActionSheetWithOptions(
+        {
+          options: items,
+          cancelButtonIndex: lastIndex,
+          title,
+        },
+        (selectIndex: number) => {
+          sender(uid, { selectIndex });
+        }
+      );
+      break;
     }
   }
 };
