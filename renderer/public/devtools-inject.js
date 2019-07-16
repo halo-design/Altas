@@ -339,6 +339,105 @@ class JSBridge {
       callback(deafultErrorRes);
     }
   }
+
+  showMask(params, callback) {
+    this.ipc.emit('setNavBarMask', {
+      visible: true,
+      color: params.maskColor,
+    })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  hideMask(params, callback) {
+    this.ipc.emit('setNavBarMask', {
+      visible: false,
+      color: '',
+    })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  setMenu(side, params, callback) {
+    const uid = uuid.v4();
+    let menuArr = [];
+    if ('menus' in params) {
+      menuArr = params.menus.map(item => {
+        item['uid'] = uid;
+        return item;
+      })
+    } else {
+      menuArr.push({
+        uid,
+        ...params,
+      })
+    }
+    this.ipc.emit('setMenu', {
+      diretion: side,
+      menus: menuArr,
+    })
+    this.ipc.on(uid, (sender, res) => {
+      callback({
+        index : res.index,
+        ...deafultErrorRes,
+      });
+    })
+  }
+
+  setLeftMenu(params, callback) {
+    this.setMenu('left', params, callback);
+  }
+
+  setRightMenu(params, callback) {
+    this.setMenu('right', params, callback);
+  }
+
+  showLeftMenu(params, callback) {
+    this.ipc.emit('setMenuVisible', {
+      direction: 'left',
+      visible: params.show,
+    })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  setMiddleTitle(params, callback) {
+    this.ipc.emit('setMiddleTitle', params);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  setBarBottomLineColor(params, callback) {
+    this.ipc.emit('setNavBarBottomLineColor', params);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  showTitleBar(params, callback) {
+    this.ipc.emit('setNavBarVisible', { visible: true, });
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  hideTitleBar(params, callback) {
+    this.ipc.emit('setNavBarVisible', { visible: false, });
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  setTitleBarColor(params, callback) {
+    this.ipc.emit('setNavBarBgColor', params);
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
 }
 
 window['AlipayJSBridge'] = new JSBridge();

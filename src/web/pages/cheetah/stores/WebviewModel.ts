@@ -39,12 +39,12 @@ export default class WebviewModel {
 
   // navigator bar
   @observable public leftMenus: IMenu[] = [];
-  @observable public leftMenusVisible: boolean = false;
+  @observable public leftMenusVisible: boolean = true;
   @observable public rightMenus: IMenu[] = [];
-  @observable public rightMenusVisible: boolean = false;
+  @observable public rightMenusVisible: boolean = true;
   @observable public middleTitle: ITitle = {};
   @observable public navBarBottomLineColor: string = '';
-  @observable public navBarVisible: boolean = false;
+  @observable public navBarVisible: boolean = true;
   @observable public navBarMaskVisible: boolean = false;
   @observable public navBarMaskBgColor: string = '';
   @observable public navBarBgColor: string = '';
@@ -65,8 +65,6 @@ export default class WebviewModel {
 
   @action
   public setDefaultNavBar() {
-    this.navBarVisible = true;
-    this.leftMenusVisible = true;
     this.leftMenus = [
       {
         icontype: 'back',
@@ -251,23 +249,22 @@ export default class WebviewModel {
           });
         },
       });
-    } else if (/setNavBarMask/.test('name')) {
+    } else if (/setNavBarMask/.test(name)) {
       const { visible, color } = params;
-      this.navBarMaskVisible = visible;
-      this.navBarMaskBgColor = color;
-    } else if (/setMenu/.test('name')) {
-      const { diretion, menus } = params;
-      if (diretion === 'left') {
-        this.leftMenus = menus;
-      } else {
-        this.rightMenus = menus;
-      }
-    } else if (/setMenuVisible/.test('name')) {
+      this[name](visible, color);
+    } else if (/setMenuVisible/.test(name)) {
       const { direction, visible } = params;
       if (direction === 'left') {
         this.leftMenusVisible = visible;
       } else {
         this.rightMenusVisible = visible;
+      }
+    } else if (/setMenu/.test(name)) {
+      const { diretion, menus } = params;
+      if (diretion === 'left') {
+        this.leftMenus = menus;
+      } else {
+        this.rightMenus = menus;
       }
     } else if (/setMiddleTitle/.test(name)) {
       const { title, color, img } = params;
@@ -279,6 +276,9 @@ export default class WebviewModel {
     } else if (/setNavBarBottomLineColor/.test(name)) {
       const { color } = params;
       this.navBarBottomLineColor = color;
+    } else if (/setNavBarBgColor/.test(name)) {
+      const { color } = params;
+      this.navBarBgColor = color;
     } else if (/setNavBarVisible/.test(name)) {
       const { visible } = params;
       this.navBarVisible = visible;
@@ -305,6 +305,12 @@ export default class WebviewModel {
     }
 
     return urlTest(lnk) || isBlank || isLocal;
+  }
+
+  @action
+  public setNavBarMask(visible: boolean, color: string) {
+    this.navBarMaskVisible = visible;
+    this.navBarMaskBgColor = color;
   }
 
   @action

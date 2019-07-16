@@ -128,10 +128,6 @@ body {
     right: 0;
   }
 
-  .middle-title {
-    text-align: center;
-  }
-
   .icon {
     height: 22px;
     width: 22px;
@@ -142,6 +138,16 @@ body {
       display: block;
       outline: none;
       border: none;
+    }
+  }
+
+  .middle-title {
+    text-align: center;
+
+    .icon {
+      display: inline-block;
+      margin: -2px 5px 0 0;
+      vertical-align: middle;
     }
   }
 

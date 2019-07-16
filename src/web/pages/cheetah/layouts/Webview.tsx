@@ -88,15 +88,15 @@ class WebviewView extends React.Component<any, any> {
     setTimeout(() => {
       this.props.createNewWebview('http://i.jandan.net/qa');
     }, 1000);
-    setTimeout(() => {
-      this.props.createNewWebview('/treehole');
-    }, 2000);
-    setTimeout(() => {
-      this.props.createNewWebview('/ooxx');
-    }, 3000);
-    setTimeout(() => {
-      this.props.createNewWebview('/zoo');
-    }, 4000);
+    // setTimeout(() => {
+    //   this.props.createNewWebview('/treehole');
+    // }, 2000);
+    // setTimeout(() => {
+    //   this.props.createNewWebview('/ooxx');
+    // }, 3000);
+    // setTimeout(() => {
+    //   this.props.createNewWebview('/zoo');
+    // }, 4000);
   }
 
   public render() {
@@ -178,15 +178,15 @@ class WebviewView extends React.Component<any, any> {
       const { title, color, img } = params;
       return (
         <div className="cell">
-          {title && (
-            <span className="txt" style={{ color }}>
-              {title}
-            </span>
-          )}
           {img && (
             <div className="icon">
               <img src={menuIcons(img)} alt="icon" />
             </div>
+          )}
+          {title && (
+            <span className="txt" style={{ color }}>
+              {title}
+            </span>
           )}
         </div>
       );
@@ -203,7 +203,12 @@ class WebviewView extends React.Component<any, any> {
         {navBarVisible && (
           <div
             className="cheetah-header"
-            style={{ backgroundColor: navBarBgColor }}
+            style={{
+              backgroundColor: navBarBgColor,
+              borderBottom: navBarBottomLineColor
+                ? `1px solid ${navBarBottomLineColor}`
+                : 'none',
+            }}
           >
             {leftMenusVisible && (
               <div className="left-menus">{setMenus(leftMenus)}</div>
@@ -217,9 +222,6 @@ class WebviewView extends React.Component<any, any> {
                 className="mask"
                 style={{
                   backgroundColor: navBarMaskBgColor,
-                  border: navBarBottomLineColor
-                    ? `1px solid ${navBarBottomLineColor}`
-                    : 'none',
                 }}
               />
             )}
