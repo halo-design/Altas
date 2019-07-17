@@ -44,6 +44,7 @@ const prettyBytes = (num: number) => {
     resetEnvData: () => stores.workStation.resetEnvData(),
     playAltasAppSound: () => stores.workStation.playAltasAppSound(),
     setFreeze: (status: boolean) => stores.workStation.setFreeze(status),
+    setStatsVisible: (status: boolean) => stores.workStation.setStatsVisible(status),
     getIpAddress: (cb?: (data: object) => void) =>
       stores.device.getIpAddress(cb),
   };
@@ -70,12 +71,14 @@ class ScanView extends React.Component<any> {
   public componentWillMount() {
     this.props.getIpAddress();
     this.props.getDeviceStatus();
+    this.props.setStatsVisible(true);
     this.loop();
   }
 
   public componentWillUnmount() {
     this.props.showTerm();
     this.props.radarHide();
+    this.props.setStatsVisible(false);
     this.timer && clearTimeout(this.timer);
   }
 

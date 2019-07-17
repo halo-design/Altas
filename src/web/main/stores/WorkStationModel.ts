@@ -12,6 +12,7 @@ export default class WorkStationModel {
   @observable public stateBarText: string = '等待操作';
   @observable public isOnline: boolean = false;
   @observable public isFreeze: boolean = false;
+  @observable public showStats: boolean = true;
   @observable public stateBarStatus: number = 0; // -1: running 1: sucess; 0: normal; 2: warn; 3: error;
   @observable public systemEnv: object[] = initEnvData;
   @observable public appInfo: object = {
@@ -37,6 +38,11 @@ export default class WorkStationModel {
     this.getLocalUserProjectPath();
     this.getLocalSystemEnvData();
     this.playAltasAppSound();
+  }
+
+  @action
+  public setStatsVisible(state: boolean) {
+    this.showStats = state;
   }
 
   @action
