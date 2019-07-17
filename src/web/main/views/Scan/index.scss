@@ -88,7 +88,6 @@
           width: 0;
           transition: width .3s;
           border-radius: 2px;
-          // box-shadow: 0 0 5px #04aa6f, 0 0 10px #04aa6f;
         }
       }
     }
@@ -105,7 +104,8 @@
 
       &.active,
       &:hover {
-        box-shadow: 0 6px 12px -2px rgba(44, 48, 255, .42);
+        background-color: #4375ff;
+        box-shadow: 0 6px 12px -2px rgba(56, 165, 255, .42);
       }
 
       .showbox {

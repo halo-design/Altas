@@ -22,12 +22,6 @@ const winCreate = (opts: any, entry: any, isChild?: boolean) => {
     resizable: true,
   };
 
-  if (isMac) {
-    options.vibrancy = 'appearance-based';
-  } else {
-    options.backgroundColor = '#fff';
-  }
-
   Object.assign(options, opts);
 
   let mainWindow: any;
@@ -39,6 +33,7 @@ const winCreate = (opts: any, entry: any, isChild?: boolean) => {
     }
   } else {
     mainWindow = winStateKeeper(options);
+    mainWindow.setContentProtection(true);
   }
 
   mainWindow.once('ready-to-show', () => {

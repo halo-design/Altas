@@ -166,25 +166,31 @@ class ScanView extends React.Component<any> {
           </div>
           <div className="row">
             <i className="iconfont">&#xe746;</i>
-            <div
-              className="ip"
-              onClick={() => {
-                this.copyAddress(ipAddress.local);
-              }}
-            >
-              <div className="host">{ipAddress.local}</div>
+            <div className="ip">
+              <div className="host">
+                <span
+                  onClick={() => {
+                    this.copyAddress(ipAddress.local);
+                  }}
+                >
+                  {ipAddress.local}
+                </span>
+              </div>
               <div className="type">（局域网）</div>
             </div>
           </div>
           <div className="row">
             <i className="iconfont">&#xe729;</i>
-            <div
-              className="ip"
-              onClick={() => {
-                this.copyAddress(ipAddress.cip);
-              }}
-            >
-              <div className="host">{ipAddress.cip}</div>
+            <div className="ip">
+              <div className="host">
+                <span
+                  onClick={() => {
+                    this.copyAddress(ipAddress.cip);
+                  }}
+                >
+                  {ipAddress.cip}
+                </span>
+              </div>
               <div className="type">（互联网）</div>
             </div>
           </div>

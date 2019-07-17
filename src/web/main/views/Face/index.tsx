@@ -4,7 +4,7 @@ import * as React from 'react';
 import LineProgress from '../../components/LineProgress';
 import { download } from '../../bridge/download';
 import { setSaveAs } from '../../bridge/file';
-import { getAppDir } from '../../bridge/system';
+import { getAppDirSync } from '../../bridge/system';
 
 import './index.scss';
 
@@ -145,7 +145,7 @@ class FaceView extends React.Component<any, IFaceState> {
     return result;
   }
 
-  public faceRecognition() {
+  public async faceRecognition() {
     const referPath = this.state.referencePath;
 
     if (!referPath) {
@@ -166,28 +166,27 @@ class FaceView extends React.Component<any, IFaceState> {
       createImageElement: () => document.createElement('img'),
     });
 
-    getAppDir(async (path: any) => {
-      const modelPath = `${path}/renderer/weights/`;
-      await faceapi.loadTinyFaceDetectorModel(modelPath);
-      await faceapi.loadFaceLandmarkModel(modelPath);
-      await faceapi.loadFaceRecognitionModel(modelPath);
+    const path: any = await getAppDirSync();
+    const modelPath = `${path.root}/renderer/weights/`;
+    await faceapi.loadTinyFaceDetectorModel(modelPath);
+    await faceapi.loadFaceLandmarkModel(modelPath);
+    await faceapi.loadFaceRecognitionModel(modelPath);
 
-      this.startRecord(async () => {
-        this.options = new faceapi.TinyFaceDetectorOptions({
-          inputSize: 224,
-          scoreThreshold: 0.5,
-        });
-
-        const imgEl = document.createElement('img');
-
-        if (referPath) {
-          imgEl.src = referPath;
-          this.reference = await faceapi
-            .detectSingleFace(imgEl, this.options)
-            .withFaceLandmarks()
-            .withFaceDescriptor();
-        }
+    this.startRecord(async () => {
+      this.options = new faceapi.TinyFaceDetectorOptions({
+        inputSize: 224,
+        scoreThreshold: 0.5,
       });
+
+      const imgEl = document.createElement('img');
+
+      if (referPath) {
+        imgEl.src = referPath;
+        this.reference = await faceapi
+          .detectSingleFace(imgEl, this.options)
+          .withFaceLandmarks()
+          .withFaceDescriptor();
+      }
     });
   }
 
@@ -294,6 +293,8 @@ class FaceView extends React.Component<any, IFaceState> {
 
     return (
       <div className="page-face">
+        <br />
+        <br />
         <div className="camera-video" style={cameraSize(videoVisible)}>
           <video
             onPlay={e => this.onPlay()}

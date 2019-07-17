@@ -81,6 +81,7 @@ class JSBridge {
     if (fnName in this) {
       this[fnName](params, callback);
     } else {
+      this.showToast({ message: `模拟器不支持 "${fnName}"` });
       throw Error('This method is not registered.');
     }
   }
@@ -498,6 +499,15 @@ class JSBridge {
     })
     if (callback) {
       callback(deafultErrorRes);
+    }
+  }
+
+  getUserInfo(params, callback) {
+    if (callback) {
+      callback({
+        userInfo: {},
+        ...deafultErrorRes,
+      });
     }
   }
 }
