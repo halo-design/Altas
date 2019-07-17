@@ -42,7 +42,7 @@ const prettyBytes = (num: number) => {
       stores.workStation.setStateBar(str, code),
     getEnvSupport: (cb: Function) => stores.workStation.getEnvSupport(cb),
     resetEnvData: () => stores.workStation.resetEnvData(),
-    playAltasAppSound: () => stores.workStation.playAltasAppSound(),
+    playAltasNoticeSound: () => stores.workStation.playAltasNoticeSound(),
     setFreeze: (status: boolean) => stores.workStation.setFreeze(status),
     setStatsVisible: (status: boolean) => stores.workStation.setStatsVisible(status),
     getIpAddress: (cb?: (data: object) => void) =>
@@ -99,7 +99,7 @@ class ScanView extends React.Component<any> {
         this.props.radarDispose();
         this.props.resetStateBar();
         this.props.setFreeze(false);
-        this.props.playAltasAppSound();
+        this.props.playAltasNoticeSound();
         notification.success({
           message: '完成',
           description: '已完成对系统开发环境的扫描.',
