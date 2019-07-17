@@ -1,3 +1,4 @@
+import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import Modal from 'antd/lib/modal';
@@ -24,6 +25,7 @@ import './index.scss';
       stores.terminal.handleChangeUserPassword(str),
     setAdminAuthorizationModalVisible: (state: boolean) =>
       stores.terminal.setAdminAuthorizationModalVisible(state),
+    playAltasNoticeSound: () => stores.workStation.playAltasNoticeSound(),
   };
 })
 @observer
@@ -34,6 +36,15 @@ class TerminalView extends React.Component<any> {
     if (this.terminalEl) {
       this.props.init(this.terminalEl);
     }
+
+    reaction(
+      () => this.props.adminAuthorizationModalVisible,
+      (status: boolean) => {
+        if (status) {
+          this.props.playAltasNoticeSound();
+        }
+      }
+    );
   }
 
   public componentWillUnmount() {

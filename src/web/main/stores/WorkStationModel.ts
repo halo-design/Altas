@@ -32,12 +32,26 @@ export default class WorkStationModel {
     src: ['public/ding.mp3'],
     volume: 0.2,
   });
+  public noticeSound: any = new Howl({
+    src: ['public/dong.mp3'],
+    volume: 0.3,
+  });
 
   constructor() {
     this.detectNetwork();
     this.getLocalUserProjectPath();
     this.getLocalSystemEnvData();
+    this.getLocalSoundConfig();
     this.playAltasAppSound();
+  }
+
+  @action
+  public async getLocalSoundConfig() {
+    const localData: any = await storage.readSync('altas_app_sound');
+    const { altas_app_sound } = localData;
+    if (altas_app_sound) {
+      this.altasAppAudioStatus = altas_app_sound;
+    }
   }
 
   @action
@@ -54,14 +68,16 @@ export default class WorkStationModel {
   }
 
   @action
-  public async playAltasAppSound() {
-    const localData: any = await storage.readSync('altas_app_sound');
-    const { altas_app_sound } = localData;
-    if (altas_app_sound) {
-      this.altasAppAudioStatus = altas_app_sound;
-    }
+  public playAltasAppSound() {
     if (this.altasAppAudioStatus === 'on') {
       this.altasAppSound.play();
+    }
+  }
+
+  @action
+  public playAltasNoticeSound() {
+    if (this.altasAppAudioStatus === 'on') {
+      this.noticeSound.play();
     }
   }
 
