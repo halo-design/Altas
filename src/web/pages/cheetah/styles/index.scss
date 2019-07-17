@@ -143,6 +143,12 @@ body {
 
   .middle-title {
     text-align: center;
+    width: 50%;
+    margin: 0 auto;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
 
     .icon {
       display: inline-block;

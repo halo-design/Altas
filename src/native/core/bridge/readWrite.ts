@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 import * as storage from 'electron-json-storage';
 import readTxtByLine from '../../utils/readTxtByLine';
 import file from '../../utils/file';
-import { appCacheFullPath } from '../constants';
+import { appCacheFullPath, appDataFullPath } from '../constants';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;
@@ -53,5 +53,10 @@ export default (RPC: any) => {
   RPC.on('clean-app-cache', () => {
     fs.emptyDirSync(appCacheFullPath);
     dispatch('clean-app-cache-done', { path: appCacheFullPath });
+  });
+
+  RPC.on('clean-app-data', () => {
+    fs.emptyDirSync(appDataFullPath);
+    dispatch('clean-app-data-done', { path: appDataFullPath });
   });
 };

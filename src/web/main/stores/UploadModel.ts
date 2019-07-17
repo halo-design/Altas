@@ -5,7 +5,7 @@ import message from 'antd/lib/message';
 import * as storage from '../bridge/storage';
 import { removeFile } from '../bridge/file';
 import { createCache } from '../bridge/createImageCache';
-import { appCacheFullPath } from '../constants/API';
+import { appDataFullPath } from '../constants/API';
 import * as uuid from 'uuid';
 import * as path from 'path';
 
@@ -239,16 +239,25 @@ export default class UploadModel {
               return;
             }
 
+            const url = file.path || file.url;
+            const isSupportImg =
+              file.thumbType === 'base64' ||
+              /\.jpg|\.png|\.jpeg/.test(path.basename(url));
+
+            const thumbName = isSupportImg
+              ? uid + '.png'
+              : uid + path.basename(url);
+
             let remote = data;
             remote.uid = uid;
-            remote.localThumb = path.join(appCacheFullPath, uid + '.png');
+            remote.localThumb = path.join(appDataFullPath, thumbName);
             itemStatus.remote = remote;
             itemStatus.status = 'done';
 
             createCache({
-              url: file.path || file.url,
+              url,
               thumbType: file['thumbType'],
-              saveName: uid + '.png',
+              saveName: thumbName,
               width: 200,
               height: 200,
             });

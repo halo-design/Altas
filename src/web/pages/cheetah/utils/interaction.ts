@@ -112,7 +112,6 @@ export default (command: string, params: any, sender: Function) => {
     case 'setSessionStorage': {
       const { host, key, data } = params;
       sessionStorage.setItem(`${host}-${key}`, JSON.stringify({ data }));
-      // console.log(host, key, data);
       break;
     }
 

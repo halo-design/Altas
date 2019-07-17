@@ -7,4 +7,10 @@ export const appCacheFullPath: string = path.join(
   'altas_cache'
 );
 
+export const appDataFullPath: string = path.join(
+  app.getPath('userData'),
+  'altas_data'
+);
+
 createDir(appCacheFullPath);
+createDir(appDataFullPath);

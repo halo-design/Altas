@@ -20,6 +20,10 @@ export const appCacheFullPath: string = path.join(
   app.getPath('temp'),
   'altas_cache'
 );
+export const appDataFullPath: string = path.join(
+  app.getPath('userData'),
+  'altas_data'
+);
 export const scrollbarStyleString = `
   body::-webkit-scrollbar {
     width: 2px;

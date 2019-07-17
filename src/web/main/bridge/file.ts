@@ -58,3 +58,10 @@ export const cleanAppCache = (cb?: Function) => {
     cb && cb(args);
   });
 };
+
+export const cleanAppData = (cb?: Function) => {
+  dispatch('clean-app-data', '');
+  RPC.once('clean-app-data-done', (args: any) => {
+    cb && cb(args);
+  });
+};

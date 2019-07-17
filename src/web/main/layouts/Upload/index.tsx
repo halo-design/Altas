@@ -423,7 +423,9 @@ class UploadView extends React.Component<any> {
                             <div
                               className="delBtn"
                               onClick={e => {
-                                deleteHistoryItem(index);
+                                deleteHistoryItem(
+                                  uploadHistoryList.length - 1 - index
+                                );
                               }}
                             >
                               <Tooltip placement="top" title="删除该条记录">

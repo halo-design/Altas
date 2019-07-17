@@ -2,7 +2,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import allDevices from '../../config/DeviceDescriptors';
 import Select from 'antd/lib/select';
-import { cleanAppCache } from '../../bridge/file';
+import { cleanAppCache, cleanAppData } from '../../bridge/file';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 
@@ -53,7 +53,8 @@ class SettingsView extends React.Component<any> {
       okType: 'danger',
       cancelText: '否',
       onOk: () => {
-        cleanAppCache((args: any) => {
+        cleanAppCache();
+        cleanAppData((args: any) => {
           console.log(args);
           message.info('缓存清理完成！');
         });
