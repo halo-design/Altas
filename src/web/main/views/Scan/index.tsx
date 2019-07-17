@@ -122,8 +122,8 @@ class ScanView extends React.Component<any> {
     return (
       <div className="page-scan">
         <div className="title">
-          <span>系统信息 / </span>
-          <span className="sub">System Information</span>
+          <span>设备信息 / </span>
+          <span className="sub">Device Information</span>
         </div>
         <div className="info-content">
           <div className="row">
@@ -190,7 +190,7 @@ class ScanView extends React.Component<any> {
           </div>
         </div>
         <div className="title">
-          <span>系统环境 / </span>
+          <span>开发环境 / </span>
           <span className="sub">System Environment</span>
         </div>
         <div className="dashboard">

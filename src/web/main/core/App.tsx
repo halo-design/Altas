@@ -16,11 +16,11 @@ interface IAppProp {
 
 const App = ({ initPath }: IAppProp): any => {
   const Comp = [
-    <Sidebar key="app-sidebar" initPath={initPath} />,
     <WorkStation initPath={initPath} key="work-station">
       <Terminal key="app-terminal" />
       <Radar key="app-radar" />
     </WorkStation>,
+    <Sidebar key="app-sidebar" initPath={initPath} />,
   ];
 
   if (isWin) {

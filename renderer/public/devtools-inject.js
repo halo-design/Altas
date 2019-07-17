@@ -490,6 +490,16 @@ class JSBridge {
       }
     })
   }
+
+  // mock function
+  login(params, callback) {
+    this.pushWindow({
+      url: params.pageUrl,
+    })
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
 }
 
 window['AlipayJSBridge'] = new JSBridge();
