@@ -54,7 +54,7 @@ export const deviceDevtools = (
       hash: qs.stringify(options),
     },
     {
-      width,
+      width: width,
       height,
       resizable: false,
       movable: true,

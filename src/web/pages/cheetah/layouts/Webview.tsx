@@ -28,6 +28,8 @@ import menuIcons from '../utils/icons';
     navBarMaskBgColor,
     navBarBgColor,
     offsetTop,
+    curTime,
+    focusOnFisrt,
   } = stores.webview;
 
   return {
@@ -49,6 +51,8 @@ import menuIcons from '../utils/icons';
     navBarMaskBgColor,
     navBarBgColor,
     offsetTop,
+    curTime,
+    focusOnFisrt,
     createNewWebview: (url: string, params: object) =>
       stores.webview.createNewWebview(url, params),
     getWebviewDOM: (index: number, el: any, uid: string) =>
@@ -85,9 +89,9 @@ class WebviewView extends React.Component<any, any> {
     this.props.createNewWebview(target);
     this.props.initDatePicker(this.datepickerEl);
     this.props.initPicker(this.pickerEl);
-    // setTimeout(() => {
-    //   this.props.createNewWebview('http://i.jandan.net/qa');
-    // }, 1000);
+    setTimeout(() => {
+      this.props.createNewWebview('https://www.baidu.com/');
+    }, 1000);
     // setTimeout(() => {
     //   this.props.createNewWebview('/treehole');
     // }, 2000);
@@ -126,11 +130,13 @@ class WebviewView extends React.Component<any, any> {
       navBarMaskBgColor,
       navBarBgColor,
       offsetTop,
+      curTime,
+      focusOnFisrt,
     } = this.props;
 
     const wvSize = {
       width: width + 'px',
-      height: height - offsetTop + 'px',
+      height: height - offsetTop - 40 + 'px',
       top: offsetTop + 'px',
     };
 
@@ -150,7 +156,9 @@ class WebviewView extends React.Component<any, any> {
           const ico = icontype || icon;
           return (
             <div
-              className="cell"
+              className={classNames('cell', {
+                disabled: focusOnFisrt && ico === 'back' && !overrideClick,
+              })}
               key={index}
               onClick={() => {
                 this.navMenuHandle(ico, overrideClick, index, uid);
@@ -194,12 +202,11 @@ class WebviewView extends React.Component<any, any> {
 
     return (
       <div className="app-webview-container">
-        {triggleRefresh && (
-          <div className="load-status-bar">
-            <Icon type="loading" />
-            <span className="label">正在刷新</span>
-          </div>
-        )}
+        <div className="state-bar">
+          <div className="wifi" />
+          <div className="time-center">{curTime}</div>
+          <div className="battery" />
+        </div>
         {navBarVisible && (
           <div
             className="cheetah-header"
@@ -225,6 +232,12 @@ class WebviewView extends React.Component<any, any> {
                 }}
               />
             )}
+          </div>
+        )}
+        {triggleRefresh && (
+          <div className="load-status-bar">
+            <Icon type="loading" />
+            <span className="label">正在刷新</span>
           </div>
         )}
         <div

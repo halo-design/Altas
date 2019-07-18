@@ -48,10 +48,21 @@ export default class WebviewModel {
   @observable public navBarMaskVisible: boolean = false;
   @observable public navBarMaskBgColor: string = '';
   @observable public navBarBgColor: string = '';
+  @observable public curTime: string = moment().format('A h:mm');
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
     this.setDefaultNavBar();
+    this.getTime();
+  }
+
+  @action
+  public getTime() {
+    const timer = setTimeout(() => {
+      this.curTime = moment().format('A h:mm');
+      clearTimeout(timer);
+      this.getTime();
+    }, 10 * 1000);
   }
 
   @action
@@ -119,7 +130,7 @@ export default class WebviewModel {
   }
 
   @computed get offsetTop() {
-    return this.navBarVisible ? 80 : 40;
+    return this.navBarVisible ? 60 : 20;
   }
 
   @computed get webviewCount() {

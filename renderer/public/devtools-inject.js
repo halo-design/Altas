@@ -443,7 +443,7 @@ class JSBridge {
   getStatusBarHeight(params, callback) {
     if (callback) {
       callback({
-        statusBarHeight: '0',
+        statusBarHeight: '20',
         ...deafultErrorRes,
       });
     }
