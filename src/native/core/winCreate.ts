@@ -12,7 +12,7 @@ const winCreate = (opts: any, entry: any, isChild?: boolean) => {
     fullscreenable: false,
     icon: file.path('resources/dock.ico'),
     titleBarStyle: 'hidden',
-    transparent: false,
+    transparent: true,
     webPreferences: {
       nodeIntegration: true,
       scrollBounce: true,

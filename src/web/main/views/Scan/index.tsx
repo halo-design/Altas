@@ -44,7 +44,8 @@ const prettyBytes = (num: number) => {
     resetEnvData: () => stores.workStation.resetEnvData(),
     playAltasNoticeSound: () => stores.workStation.playAltasNoticeSound(),
     setFreeze: (status: boolean) => stores.workStation.setFreeze(status),
-    setStatsVisible: (status: boolean) => stores.workStation.setStatsVisible(status),
+    setStatsVisible: (status: boolean) =>
+      stores.workStation.setStatsVisible(status),
     getIpAddress: (cb?: (data: object) => void) =>
       stores.device.getIpAddress(cb),
   };

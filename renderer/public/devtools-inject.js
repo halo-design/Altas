@@ -485,7 +485,7 @@ class JSBridge {
       } else {
         callback({
           selectItem: items[selectIndex],
-          selectIndex: String(selectIndex),
+          selectIndex: selectIndex,
           ...deafultErrorRes,
         });
       }
