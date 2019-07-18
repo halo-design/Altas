@@ -4,7 +4,12 @@ import winStateKeeper from './winStateKeeper';
 import { BrowserWindow } from 'electron';
 const isMac = process.platform === 'darwin';
 
-const winCreate = (opts: any, entry: any, isChild?: boolean) => {
+const winCreate = (
+  opts: any,
+  entry: any,
+  isChild?: boolean,
+  parentWin?: Electron.BrowserWindow
+) => {
   const options: any = {
     appIcon: file.path('resources/dock.png'),
     center: true,

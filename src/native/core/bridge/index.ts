@@ -33,7 +33,7 @@ export default (RPC: IServer) => {
     if (!win) {
       return;
     }
-    const childWin = winCreate(options, entry, true);
+    const childWin = winCreate(options, entry, true, win);
     const childRPC = new Server(childWin);
     inject(childRPC, injectBridges);
 
