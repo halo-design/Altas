@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "antd": "^3.20.3",
+    "antd": "^3.20.4",
     "antd-mobile": "^2.2.14",
     "chokidar": "^3.0.2",
     "classnames": "^2.2.6",
@@ -117,7 +117,7 @@
     "http-auth": "^3.2.3",
     "http-proxy-middleware": "^0.19.1",
     "ip": "^1.1.5",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.15",
     "markdown-it": "^9.0.1",
     "markdown-it-attrs": "^2.4.1",
     "mobx": "^5.13.0",

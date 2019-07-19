@@ -125,7 +125,7 @@ class ToolsView extends React.Component<any> {
                   console.log(args);
                   setTimeout(() => {
                     disposeServer();
-                  }, 3000);
+                  }, 30000);
                 },
                 (err: any) => {
                   console.log(err);
