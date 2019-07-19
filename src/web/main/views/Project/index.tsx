@@ -7,13 +7,13 @@ import Runner from '../Runner';
 import './index.scss';
 
 @inject((stores: any) => {
-  const { userDefaultProjectPath } = stores.workStation;
+  const { userDefaultProjectPath } = stores.workBench;
 
   return {
     userDefaultProjectPath,
     showTerm: () => stores.terminal.show(),
     hideRadar: () => stores.radar.hide(),
-    resetStateBar: () => stores.workStation.resetStateBar(),
+    resetStateBar: () => stores.workBench.resetStateBar(),
   };
 })
 @observer

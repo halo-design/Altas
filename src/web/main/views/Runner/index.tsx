@@ -12,7 +12,7 @@ import { isMac } from '../../bridge/env';
 import './index.scss';
 
 @inject((stores: any) => {
-  const { userDefaultProjectPath, projectRunnerConfig } = stores.workStation;
+  const { userDefaultProjectPath, projectRunnerConfig } = stores.workBench;
   return {
     userDefaultProjectPath,
     projectRunnerConfig,
@@ -21,10 +21,10 @@ import './index.scss';
       stores.terminal.setExecPath(str, force),
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
-      stores.workStation.setUserDefaultProjerctPath(str),
-    resetStateBar: () => stores.workStation.resetStateBar(),
+      stores.workBench.setUserDefaultProjerctPath(str),
+    resetStateBar: () => stores.workBench.resetStateBar(),
     setStateBar: (str: string, code: number) =>
-      stores.workStation.setStateBar(str, code),
+      stores.workBench.setStateBar(str, code),
   };
 })
 @observer

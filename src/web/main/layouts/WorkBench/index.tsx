@@ -20,7 +20,7 @@ const Stats = require('stats-js');
 
 @inject((stores: any) => {
   const {
-    workStation: {
+    workBench: {
       monitorVisible,
       stateBarText,
       stateBarStatus,
@@ -32,7 +32,7 @@ const Stats = require('stats-js');
 
   return {
     setMonitorVisible: (state: boolean) =>
-      stores.workStation.setMonitorVisible(state),
+      stores.workBench.setMonitorVisible(state),
     monitorVisible,
     stateBarText,
     stateBarStatus,
@@ -42,7 +42,7 @@ const Stats = require('stats-js');
   };
 })
 @observer
-export default class WorkStation extends React.Component<any> {
+export default class WorkBenchView extends React.Component<any> {
   public statsEl: any = null;
   public animateRaf: any = null;
 
@@ -82,7 +82,7 @@ export default class WorkStation extends React.Component<any> {
     const status = stdoutRunning ? -1 : stateBarStatus;
     return (
       <div
-        className={classNames('app-work-station', {
+        className={classNames('app-work-bench', {
           'hide-monitor': !monitorVisible,
         })}
       >

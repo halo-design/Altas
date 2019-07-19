@@ -21,7 +21,7 @@ import './index.scss';
   return {
     useDebugDevice,
     setMonitorVisible: (state: boolean) =>
-      stores.workStation.setMonitorVisible(state),
+      stores.workBench.setMonitorVisible(state),
   };
 })
 @observer

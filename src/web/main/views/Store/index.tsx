@@ -21,7 +21,7 @@ import './index.scss';
 @inject((stores: any) => {
   return {
     setMonitorVisible: (state: boolean) =>
-      stores.workStation.setMonitorVisible(state),
+      stores.workBench.setMonitorVisible(state),
   };
 })
 @observer

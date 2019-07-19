@@ -2,14 +2,14 @@ import DeviceModel from './DeviceModel';
 import UploadModel from './UploadModel';
 import TerminalModel from './TerminalModel';
 import RadarModel from './RadarModel';
-import WorkStationModel from './WorkStationModel';
+import WorkBenchModel from './workBenchModel';
 
 const createStores = () => ({
   device: new DeviceModel(),
   upload: new UploadModel(),
   terminal: new TerminalModel(),
   radar: new RadarModel(),
-  workStation: new WorkStationModel(),
+  workBench: new WorkBenchModel(),
 });
 
 export default createStores;

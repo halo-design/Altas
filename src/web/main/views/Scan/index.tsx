@@ -20,7 +20,7 @@ const prettyBytes = (num: number) => {
 };
 
 @inject((stores: any) => {
-  const { systemEnv, isFreeze } = stores.workStation;
+  const { systemEnv, isFreeze } = stores.workBench;
   const { ipAddress, os, hardwareStatus } = stores.device;
 
   return {
@@ -37,15 +37,15 @@ const prettyBytes = (num: number) => {
     radarHide: () => stores.radar.hide(),
     radarShow: () => stores.radar.show(),
     radarDispose: () => stores.radar.dispose(),
-    resetStateBar: () => stores.workStation.resetStateBar(),
+    resetStateBar: () => stores.workBench.resetStateBar(),
     setStateBar: (str: string, code: number) =>
-      stores.workStation.setStateBar(str, code),
-    getEnvSupport: (cb: Function) => stores.workStation.getEnvSupport(cb),
-    resetEnvData: () => stores.workStation.resetEnvData(),
-    playAltasNoticeSound: () => stores.workStation.playAltasNoticeSound(),
-    setFreeze: (status: boolean) => stores.workStation.setFreeze(status),
+      stores.workBench.setStateBar(str, code),
+    getEnvSupport: (cb: Function) => stores.workBench.getEnvSupport(cb),
+    resetEnvData: () => stores.workBench.resetEnvData(),
+    playAltasNoticeSound: () => stores.workBench.playAltasNoticeSound(),
+    setFreeze: (status: boolean) => stores.workBench.setFreeze(status),
     setStatsVisible: (status: boolean) =>
-      stores.workStation.setStatsVisible(status),
+      stores.workBench.setStatsVisible(status),
     getIpAddress: (cb?: (data: object) => void) =>
       stores.device.getIpAddress(cb),
   };

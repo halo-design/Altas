@@ -25,7 +25,7 @@ import './index.scss';
     systemEnvObject,
     userPassword,
     adminAuthorizationModalVisible,
-  } = stores.workStation;
+  } = stores.workBench;
 
   return {
     systemEnvObject,
@@ -33,7 +33,7 @@ import './index.scss';
     adminAuthorizationModalVisible,
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
-      stores.workStation.setUserDefaultProjerctPath(str),
+      stores.workBench.setUserDefaultProjerctPath(str),
     setExecPath: (str: string, force: boolean) =>
       stores.terminal.setExecPath(str, force),
   };

@@ -4,12 +4,6 @@ html {
   height: 100%;
 }
 
-body {
-  background: #f4f4f4 url(./logo.svg) no-repeat center center;
-  background-size: 80px;
-  border-radius: 6px;
-}
-
 .am-picker-popup-wrap {
   overflow: hidden;
 }
@@ -168,8 +162,8 @@ body {
   }
 
   .icon {
-    height: 22px;
-    width: 22px;
+    height: 20px;
+    width: 20px;
 
     img {
       width: 100%;

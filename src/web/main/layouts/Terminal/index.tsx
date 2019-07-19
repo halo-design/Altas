@@ -25,7 +25,7 @@ import './index.scss';
       stores.terminal.handleChangeUserPassword(str),
     setAdminAuthorizationModalVisible: (state: boolean) =>
       stores.terminal.setAdminAuthorizationModalVisible(state),
-    playAltasNoticeSound: () => stores.workStation.playAltasNoticeSound(),
+    playAltasNoticeSound: () => stores.workBench.playAltasNoticeSound(),
   };
 })
 @observer

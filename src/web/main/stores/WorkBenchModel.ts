@@ -7,7 +7,7 @@ import { getProjectRunnerConfig } from '../bridge/project';
 import initEnvData from '../config/envScan';
 import { appVersion } from '../constants/API';
 
-export default class WorkStationModel {
+export default class WorkBenchModel {
   @observable public monitorVisible: boolean = true;
   @observable public stateBarText: string = '等待操作';
   @observable public isOnline: boolean = false;

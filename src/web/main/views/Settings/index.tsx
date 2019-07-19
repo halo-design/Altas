@@ -13,8 +13,8 @@ import './index.scss';
 
 @inject((stores: any) => {
   return {
-    appInfo: stores.workStation.appInfo,
-    altasAppAudioStatus: stores.workStation.altasAppAudioStatus,
+    appInfo: stores.workBench.appInfo,
+    altasAppAudioStatus: stores.workBench.altasAppAudioStatus,
     useDebugDevice: stores.terminal.useDebugDevice,
     useDebugSimulator: stores.terminal.useDebugSimulator,
     setUseDebugDevice: (type: string) =>
@@ -22,9 +22,9 @@ import './index.scss';
     setUseDebugSimulator: (type: string) =>
       stores.terminal.setUseDebugSimulator(type),
     setAppAudioStatus: (status: string) =>
-      stores.workStation.setAppAudioStatus(status),
+      stores.workBench.setAppAudioStatus(status),
     setMonitorVisible: (state: boolean) =>
-      stores.workStation.setMonitorVisible(state),
+      stores.workBench.setMonitorVisible(state),
   };
 })
 @observer
