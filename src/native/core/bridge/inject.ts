@@ -5,6 +5,7 @@ import download from './download';
 import crypto from './crypto';
 import createProject from './createProject';
 import createImageCache from './createImageCache';
+import createServer from './createServer';
 
 export const allBridges = {
   markdown,
@@ -14,6 +15,7 @@ export const allBridges = {
   crypto,
   createProject,
   createImageCache,
+  createServer,
 };
 
 export default (RPC: any, bridgeNames: string[]) => {

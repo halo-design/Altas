@@ -58,6 +58,7 @@ export default (RPC: IServer) => {
     'crypto',
     'createProject',
     'createImageCache',
+    'createServer',
   ]);
 
   return { tray };

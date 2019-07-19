@@ -9,6 +9,11 @@ import {
   cheetahSimulator,
   openMarkdownPreview,
 } from '../../bridge/createWindow';
+import {
+  createServer,
+  serverMonitor,
+  disposeServer,
+} from '../../bridge/createServer';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
 import './index.scss';
@@ -51,6 +56,9 @@ class ToolsView extends React.Component<any> {
 
   public componentDidMount() {
     this.props.setMonitorVisible(false);
+    serverMonitor((e: any) => {
+      console.log(e);
+    });
   }
 
   public componentWillUnmount() {
@@ -101,7 +109,28 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              // this.handleUploadDrawerVisible(true);
+              createServer(
+                {
+                  file: 'index.html',
+                  root: '/Users/owlaford/Documents/WorkSpace/halo-blog/dist',
+                  open: true,
+                  proxy: {
+                    '/media': {
+                      target: 'https://owlaford.gitee.io/',
+                      changeOrigin: true,
+                    },
+                  },
+                },
+                (args: any) => {
+                  console.log(args);
+                  setTimeout(() => {
+                    disposeServer();
+                  }, 3000);
+                },
+                (err: any) => {
+                  console.log(err);
+                }
+              );
             }}
           >
             <i className="server" />
