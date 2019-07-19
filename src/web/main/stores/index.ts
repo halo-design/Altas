@@ -2,7 +2,7 @@ import DeviceModel from './DeviceModel';
 import UploadModel from './UploadModel';
 import TerminalModel from './TerminalModel';
 import RadarModel from './RadarModel';
-import WorkBenchModel from './workBenchModel';
+import WorkBenchModel from './WorkBenchModel';
 
 const createStores = () => ({
   device: new DeviceModel(),
