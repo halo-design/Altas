@@ -180,7 +180,7 @@ class CreatehView extends React.Component<any, any> {
           <div className="form-item project-type-selection">
             <div className="label">选择脚手架</div>
             <Select
-              style={{ width: 360 }}
+              style={{ width: '360px' }}
               defaultValue={this.projectScaffold}
               size="large"
               onChange={(val: string) => this.projectTypeOnChange(val)}

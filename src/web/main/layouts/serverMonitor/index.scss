@@ -1,0 +1,60 @@
+.app-server-monitor {
+  position: fixed;
+  top: 26px;
+  left: 50%;
+  height: 32px;
+  width: 144px;
+  margin: -16px 0 0 -72px;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 99999;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 4px;
+  display: flex;
+  cursor: default;
+  box-shadow: 0 3px 12px -2px rgba(0, 0, 0, .6);
+  user-select: none;
+  -webkit-app-region: no-drag;
+
+  .drag-btn {
+    height: 22px;
+    width: 22px;
+    background: url(./img/drag.svg) no-repeat center center;
+    background-size: auto 12px;
+    cursor: move;
+    opacity: .6;
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  i.iconfont {
+    height: 22px;
+    width: 22px;
+    box-sizing: border-box;
+    padding: 3px;
+    text-align: center;
+    line-height: 16px;
+    font-size: 16px;
+    margin-left: 4px;
+    cursor: pointer;
+
+    &.restart {
+      color: #65ce71;
+    }
+
+    &.link {
+      color: #ecd1ff;
+    }
+
+    &.stop {
+      color: #ff745f;
+      font-size: 14px;
+    }
+
+    &.info {
+      color: #52b8ff;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import Drawer from 'antd/lib/drawer';
 import Upload from '../../layouts/Upload';
+import CreateServer from '../../layouts/CreateServer';
 import { scrollbarStyleString } from '../../constants/API';
 import {
   deviceSimulator,
@@ -134,7 +135,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="server" />
-            <div className="tit">模拟本地服务</div>
+            <div className="tit">Web本地服务器</div>
           </div>
           <div
             className="item"
@@ -166,6 +167,15 @@ class ToolsView extends React.Component<any> {
           visible={this.uploadDrawerVisible}
         >
           <Upload />
+        </Drawer>
+        <Drawer
+          title="Web本地服务器"
+          placement="right"
+          closable={true}
+          width={440}
+          visible={true}
+        >
+          <CreateServer />
         </Drawer>
       </div>
     );

@@ -412,7 +412,7 @@ class JSBridge {
     }
   }
 
-  setBarBottomLineColor(params, callback) {
+  setBarBottomLineColorEx(params, callback) {
     this.ipc.emit('setNavBarBottomLineColor', params);
     if (callback) {
       callback(deafultErrorRes);

@@ -6,6 +6,7 @@ import WorkBench from '../layouts/WorkBench';
 import WinControl from '../layouts/WinControl';
 import Terminal from '../layouts/Terminal';
 import Radar from '../layouts/Radar';
+import ServerMonitor from '../layouts/serverMonitor';
 import { isWin } from '../bridge/env';
 
 createAppMenu();
@@ -17,9 +18,10 @@ interface IAppProp {
 const App = ({ initPath }: IAppProp): any => {
   const Comp = [
     <WorkBench initPath={initPath} key="work-bench">
-      <Terminal key="app-terminal" />
-      <Radar key="app-radar" />
+      <Terminal />
+      <Radar />
     </WorkBench>,
+    <ServerMonitor key="app-server-monitor" />,
     <Sidebar key="app-sidebar" initPath={initPath} />,
   ];
 

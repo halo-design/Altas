@@ -1661,10 +1661,10 @@ antd-mobile@^2.2.14:
     rmc-tabs "~1.2.0"
     rmc-tooltip "~1.0.0"
 
-antd@^3.20.4:
-  version "3.20.4"
-  resolved "https://registry.npmjs.org/antd/-/antd-3.20.4.tgz#cb8e770574b94ac72a3023fe24f8d01f7e1028c4"
-  integrity sha512-Wgd9KuOgYCBlV9OLe2ijewW8LWv2lP7AgVUXE4RzGTS1xYtBTUOtdaFd3t1hN6+Ya0je2h/mxVNr0pRZoBDz1g==
+antd@^3.20.5:
+  version "3.20.5"
+  resolved "https://registry.npmjs.org/antd/-/antd-3.20.5.tgz#4456a5cc216d52e7d831e2a91cc37c18b18ee242"
+  integrity sha512-8/UoaZBzEvY2uBTPSPT/ve4MosUV0VGV+yY+rbvvvGSJ8hIKR4fHxdnkqJ7LDrOiJGVpnN/69IjASZAfDltnkQ==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -9908,10 +9908,10 @@ symbol-tree@^3.2.2:
   resolved "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
   integrity sha1-rifbOPZgp64uHDt9G8KQgZuFGeY=
 
-systeminformation@^4.14.3:
-  version "4.14.3"
-  resolved "https://registry.npmjs.org/systeminformation/-/systeminformation-4.14.3.tgz#ccd7f02dc0c0a0da537f278684b085a56302b8f0"
-  integrity sha512-heYWYVekEA1Ana61U4/eoaGMS+UeoSNSbcr9MDQxD9N6+ItumJIdcNnP3VcC47mfe0e/m9ZYRTYs/cyW4RGguQ==
+systeminformation@^4.14.4:
+  version "4.14.4"
+  resolved "https://registry.npmjs.org/systeminformation/-/systeminformation-4.14.4.tgz#0c74d8fa9da614eda382539dd2420e32c58442db"
+  integrity sha512-ib2dodksiiaGOW4rcKvFr5naHkODI9GwQPugLb6FLKppkIsE7rj2dfY2UdMBr7oX0/iZP981hoxmbk2e6zl99Q==
 
 table@^5.2.3:
   version "5.4.0"

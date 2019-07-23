@@ -31,6 +31,7 @@ export default (RPC: any) => {
         dispatch('server-started', { root, serveURLs });
       },
       (e: any) => {
+        serverStarted = false;
         dispatch('server-error', { errorMsg: e.toString() });
         log.info('Web Server Error.');
       }

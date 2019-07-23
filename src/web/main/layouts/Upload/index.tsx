@@ -65,7 +65,7 @@ class UploadView extends React.Component<any> {
   private uploadArea: HTMLElement | null = null;
   public contextMenu: any = null;
 
-  @observable showSectionIndex: number = 0;
+  @observable public showSectionIndex: number = 0;
 
   @action
   public handleSectionIndex(num: number) {

@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "antd": "^3.20.4",
+    "antd": "^3.20.5",
     "antd-mobile": "^2.2.14",
     "chokidar": "^3.0.2",
     "classnames": "^2.2.6",
@@ -140,7 +140,7 @@
     "send": "^0.17.1",
     "serve-index": "^1.9.1",
     "stats-js": "^1.0.1",
-    "systeminformation": "^4.14.3",
+    "systeminformation": "^4.14.4",
     "tslib": "^1.10.0",
     "uuid": "^3.3.2",
     "xterm": "^3.14.5",
