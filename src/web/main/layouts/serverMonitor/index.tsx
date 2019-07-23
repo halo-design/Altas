@@ -1,8 +1,27 @@
 import * as React from 'react';
+import { inject, observer } from 'mobx-react';
+import { withRouter } from 'react-router';
 import Icon from 'antd/lib/icon';
 
 import './index.scss';
 
+@inject((stores: any) => {
+  const {
+    localServerRunStatus,
+    createServerMonitorStatus,
+  } = stores.createServer;
+
+  return {
+    localServerRunStatus,
+    createServerMonitorStatus,
+    disposeServer: () => stores.createServer.disposeServer(),
+    restartServer: () => stores.createServer.restartServer(),
+    copyAddress: () => stores.createServer.copyAddress(),
+    setCreateServerDrawerVisible: (state: boolean) =>
+      stores.createServer.setCreateServerDrawerVisible(state),
+  };
+})
+@observer
 class ServerMonitorView extends React.Component<any, any> {
   public startPozX: number = 0;
   public startPozY: number = 0;
@@ -99,13 +118,27 @@ class ServerMonitorView extends React.Component<any, any> {
     this.startPozY = 0;
   }
 
+  public focusServerCreatePanel() {
+    this.props.history.push('/tools');
+    this.props.setCreateServerDrawerVisible(true);
+  }
+
   public render() {
     const pozStyle = {
       left: this.state.pozX + 'px',
       top: this.state.pozY + 'px',
     };
 
-    return (
+    const {
+      localServerRunStatus,
+      createServerMonitorStatus,
+      disposeServer,
+      restartServer,
+      copyAddress,
+    } = this.props;
+
+    return localServerRunStatus === 'on' &&
+      createServerMonitorStatus === 'on' ? (
       <div className="app-server-monitor" style={pozStyle}>
         <div
           className="drag-btn"
@@ -116,21 +149,47 @@ class ServerMonitorView extends React.Component<any, any> {
             this.mouseUpHandle(e);
           }}
         />
-        <i className="iconfont info" title="查看详情">
+        <i
+          className="iconfont info"
+          title="查看详情"
+          onClick={() => {
+            this.focusServerCreatePanel();
+          }}
+        >
           &#xe774;
         </i>
-        <i className="iconfont link" title="复制链接">
+        <i
+          className="iconfont link"
+          title="复制链接"
+          onClick={() => {
+            copyAddress();
+          }}
+        >
           <Icon type="link" style={{ fontSize: '16px' }} />
         </i>
-        <i className="iconfont restart" title="重启服务">
+        <i
+          className="iconfont restart"
+          title="重启服务"
+          onClick={() => {
+            restartServer();
+          }}
+        >
           &#xe651;
         </i>
-        <i className="iconfont stop" title="结束服务">
+        <i
+          className="iconfont stop"
+          title="结束服务"
+          onClick={() => {
+            disposeServer();
+          }}
+        >
           &#xe716;
         </i>
       </div>
+    ) : (
+      ''
     );
   }
 }
 
-export default ServerMonitorView;
+export default withRouter(ServerMonitorView);

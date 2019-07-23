@@ -10,11 +10,6 @@ import {
   cheetahSimulator,
   openMarkdownPreview,
 } from '../../bridge/createWindow';
-import {
-  createServer,
-  serverMonitor,
-  disposeServer,
-} from '../../bridge/createServer';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
 import './index.scss';
@@ -22,12 +17,16 @@ import './index.scss';
 @inject((stores: any) => {
   const {
     terminal: { useDebugDevice },
+    createServer: { createServerDrawerVisible },
   } = stores;
 
   return {
     useDebugDevice,
+    createServerDrawerVisible,
     setMonitorVisible: (state: boolean) =>
       stores.workBench.setMonitorVisible(state),
+    setCreateServerDrawerVisible: (state: boolean) =>
+      stores.createServer.setCreateServerDrawerVisible(state),
   };
 })
 @observer
@@ -57,9 +56,6 @@ class ToolsView extends React.Component<any> {
 
   public componentDidMount() {
     this.props.setMonitorVisible(false);
-    serverMonitor((e: any) => {
-      console.log(e);
-    });
   }
 
   public componentWillUnmount() {
@@ -110,28 +106,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              createServer(
-                {
-                  file: 'index.html',
-                  root: '/Users/owlaford/Documents/WorkSpace/halo-blog/dist',
-                  open: true,
-                  proxy: {
-                    '/media': {
-                      target: 'https://owlaford.gitee.io/',
-                      changeOrigin: true,
-                    },
-                  },
-                },
-                (args: any) => {
-                  console.log(args);
-                  setTimeout(() => {
-                    disposeServer();
-                  }, 30000);
-                },
-                (err: any) => {
-                  console.log(err);
-                }
-              );
+              this.props.setCreateServerDrawerVisible(true);
             }}
           >
             <i className="server" />
@@ -172,8 +147,11 @@ class ToolsView extends React.Component<any> {
           title="Web本地服务器"
           placement="right"
           closable={true}
+          onClose={() => {
+            this.props.setCreateServerDrawerVisible(false);
+          }}
           width={440}
-          visible={true}
+          visible={this.props.createServerDrawerVisible}
         >
           <CreateServer />
         </Drawer>
