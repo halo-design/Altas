@@ -428,7 +428,7 @@ class UploadView extends React.Component<any> {
                                 );
                               }}
                             >
-                              <Tooltip placement="top" title="删除该条记录">
+                              <Tooltip placement="top" title="删除该记录">
                                 <Icon type="delete" />
                               </Tooltip>
                             </div>
