@@ -74,7 +74,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="debug" />
-            <div className="tit">Web应用调试器</div>
+            <div className="tit">WebApp调试器</div>
           </div>
           <div
             className="item"
@@ -92,7 +92,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="markdown" />
-            <div className="tit">MD文档预览</div>
+            <div className="tit">MD文档预览器</div>
           </div>
           <div
             className="item"
@@ -101,7 +101,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="imgupload" />
-            <div className="tit">图片图床</div>
+            <div className="tit">文档配图工具</div>
           </div>
           <div
             className="item"
@@ -110,7 +110,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="server" />
-            <div className="tit">Web本地服务器</div>
+            <div className="tit">Web Server服务器</div>
           </div>
           <div
             className="item"
