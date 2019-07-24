@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN" xml:lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>模拟器首页</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body>
+    <button id="btn">打开测试页面</button>
+    <script>
+      document.getElementById('btn').addEventListener('click', () => {
+        AlipayJSBridge.call('pushWindow', {
+          url: 'http://flameapp.cn/jsapi-test2/index.html',
+        })
+      }, false);
+    </script>
+  </body>
+</html>

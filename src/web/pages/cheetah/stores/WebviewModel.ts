@@ -130,7 +130,7 @@ export default class WebviewModel {
   }
 
   @computed get offsetTop() {
-    return this.navBarVisible ? 60 : 20;
+    return this.navBarVisible && this.webviewCount > 0 ? 60 : 20;
   }
 
   @computed get webviewCount() {
@@ -221,7 +221,7 @@ export default class WebviewModel {
       this[name](url);
     } else if (/showDatePicker/.test(name)) {
       const { mode, title, minDate, maxDate, dateFormat, value, uid } = params;
-      const fmt = dateFormat.toUpperCase();
+      const fmt = dateFormat;
       this[name]({
         mode,
         title,
@@ -443,6 +443,18 @@ export default class WebviewModel {
       this.focusIndex = this.maxIndex;
       this.setTitle();
     }
+  }
+
+  @action
+  public getIndexWebviewDOM(el: any) {
+    if (!el) {
+      return;
+    }
+    el.addEventListener('ipc-message', ({ channel, args }: any) => {
+      if (this.webviewCount === 0) {
+        this.getDirective(channel, args[0]);
+      }
+    });
   }
 
   @action

@@ -1,6 +1,7 @@
 const qs = require('qs');
 const url = require('url');
 const uuid = require('uuid');
+const pinyin = require('tiny-pinyin');
 const { ipcRenderer } = require('electron');
 
 const urlElement = url.parse(location.href);
@@ -490,6 +491,37 @@ class JSBridge {
         });
       }
     })
+  }
+
+  copyToClipboard(params, callback) {
+    this.ipc.emit('copyToClipboard', { copyString: params.copyString, });
+    callback(deafultErrorRes);
+  }
+
+  chinese2MandarinLatin(params, callback) {
+    if (pinyin.isSupported()) {
+      callback({
+        resultString: pinyin.convertToPinyin(params.chineseString),
+        ...deafultErrorRes,
+      })
+    }
+  }
+
+  openNativeWebBrowser(params, callback) {
+    this.ipc.emit('openNativeWebBrowser', { url: params.url, });
+    callback(deafultErrorRes);
+  }
+
+  showSharePad(params, callback) {
+    if (callback) {
+      callback(deafultErrorRes);
+    }
+  }
+
+  shareTo(params, callback) {
+    if (callback) {
+      callback(deafultErrorRes);
+    }
   }
 
   // mock function

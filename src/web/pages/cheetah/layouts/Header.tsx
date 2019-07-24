@@ -5,9 +5,6 @@ import { DeviceContext } from '../context';
 
 @inject((stores: any) => {
   const {
-    webviewList,
-    focusIndex,
-    webviewCount,
     focusOnFisrt,
     focusOnLast,
     focusDevtoolsState,
@@ -16,31 +13,21 @@ import { DeviceContext } from '../context';
   } = stores.webview;
 
   return {
-    webviewList,
-    focusIndex,
-    webviewCount,
     focusOnFisrt,
     focusOnLast,
     focusDevtoolsState,
     showLinkBar,
     focusWebviewSpinner,
-    createNewWebview: (url: string) => stores.webview.createNewWebview(url),
     focusToNextWebview: () => stores.webview.focusToNextWebview(),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
     debugFocusWebview: () => stores.webview.debugFocusWebview(),
     reloadFocusWebview: () => stores.webview.reloadFocusWebview(),
     toogleLinkBar: () => stores.webview.toogleLinkBar(),
-    getWebviewDOM: (index: number, el: any, uid: string) =>
-      stores.webview.getWebviewDOM(index, el, uid),
   };
 })
 @observer
 class HeaderView extends React.Component<any, any> {
   static contextType = DeviceContext;
-
-  // public componentDidMount() {
-  //   console.log(this.context);
-  // }
 
   public render() {
     const { currentWindow } = this.context;

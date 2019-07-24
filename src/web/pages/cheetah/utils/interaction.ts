@@ -1,6 +1,8 @@
 import Toast from 'antd-mobile/lib/toast';
 import Modal from 'antd-mobile/lib/modal';
 import ActionSheet from 'antd-mobile/lib/action-sheet';
+import { remote } from 'electron';
+import * as clipBoard from '../../../main/bridge/clipBoard';
 const alert = Modal.alert;
 const prompt = Modal.prompt;
 
@@ -152,6 +154,18 @@ export default (command: string, params: any, sender: Function) => {
         }
       );
       break;
+    }
+
+    case 'copyToClipboard': {
+      const { copyString } = params;
+      clipBoard.writeText(copyString);
+      Toast.success('已复制到剪切板！');
+      break;
+    }
+
+    case 'openNativeWebBrowser': {
+      const { url } = params;
+      remote.shell.openExternal(url);
     }
   }
 };

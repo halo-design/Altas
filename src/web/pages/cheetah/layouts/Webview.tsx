@@ -56,8 +56,9 @@ import argb2rgba from '../utils/argb2rgba';
     focusOnFisrt,
     createNewWebview: (url: string, params: object) =>
       stores.webview.createNewWebview(url, params),
-    getWebviewDOM: (index: number, el: any, uid: string) =>
-      stores.webview.getWebviewDOM(index, el, uid),
+    getWebviewDOM: (index: number, el: any) =>
+      stores.webview.getWebviewDOM(index, el),
+    getIndexWebviewDOM: (el: any) => stores.webview.getIndexWebviewDOM(el),
     initDatePicker: (el: any) => stores.webview.initDatePicker(el),
     initPicker: (el: any) => stores.webview.initPicker(el),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
@@ -97,7 +98,9 @@ class WebviewView extends React.Component<any, any> {
 
   public render() {
     const {
+      preload,
       descriptors: {
+        userAgent,
         viewport: { width, height },
       },
     } = this.context;
@@ -106,6 +109,7 @@ class WebviewView extends React.Component<any, any> {
       webviewCount,
       webviewList,
       getWebviewDOM,
+      getIndexWebviewDOM,
       focusIndex,
       behavior,
       datepickerParams,
@@ -133,8 +137,10 @@ class WebviewView extends React.Component<any, any> {
     };
 
     let trans: any = {
-      width: `${webviewCount * 100}vw`,
-      transform: `translateX(-${focusIndex * 100}vw)`,
+      width: `${(webviewCount + 1) * 100}vw`,
+      height: wvSize.height,
+      transform: `translateX(-${(webviewCount === 0 ? 0 : focusIndex + 1) *
+        100}vw)`,
     };
 
     if (webviewCount <= 1 || /replace|clear/.test(behavior)) {
@@ -202,7 +208,7 @@ class WebviewView extends React.Component<any, any> {
           <div className="time-center">{curTime}</div>
           <div className="battery" />
         </div>
-        {navBarVisible && (
+        {navBarVisible && webviewCount > 0 && (
           <div
             className="cheetah-header"
             style={{
@@ -240,13 +246,22 @@ class WebviewView extends React.Component<any, any> {
           style={wvSize}
         >
           <div className="app-webview-wrapper" style={trans}>
+            <webview
+              preload={preload}
+              useragent={userAgent}
+              style={wvSize}
+              src="simulator-index.html"
+              ref={node => {
+                getIndexWebviewDOM(node);
+              }}
+            />
             {webviewList.map((item: any, index: number) => {
               return (
                 <webview
                   {...toJS(item.attr)}
                   key={item.uid}
                   ref={node => {
-                    getWebviewDOM(index, node, item.uid);
+                    getWebviewDOM(index, node);
                   }}
                 />
               );

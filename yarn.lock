@@ -10025,6 +10025,11 @@ tiny-invariant@^1.0.2:
   resolved "https://registry.npmjs.org/tiny-invariant/-/tiny-invariant-1.0.4.tgz#346b5415fd93cb696b0c4e8a96697ff590f92463"
   integrity sha512-lMhRd/djQJ3MoaHEBrw8e2/uM4rs9YMNk0iOr8rHQ0QdbM7D4l0gFl3szKdeixrlyfm9Zqi4dxHCM2qVG8ND5g==
 
+tiny-pinyin@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/tiny-pinyin/-/tiny-pinyin-1.3.0.tgz#4dee75ffb96fe24a448873f1d52c5a6bbc026946"
+  integrity sha512-YHsqn1zksQ4CKVvArN7MIUtGx0eV/yl15vzdiwNFwAnOQQwL1+pNSLW4ISVWUN+PrzcnX4ojLgS4kgVCmue7Pw==
+
 tiny-warning@^1.0.0, tiny-warning@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/tiny-warning/-/tiny-warning-1.0.2.tgz#1dfae771ee1a04396bdfde27a3adcebc6b648b28"

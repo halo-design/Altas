@@ -4,6 +4,11 @@ export default (color: string): string => {
   if (typeof color !== 'string') {
     return '';
   }
+
+  if (color.length < 8) {
+    return color;
+  }
+
   const argb = color.split('');
   const a = argb.slice(1, 3).join('');
   const r = argb.slice(3, 5).join('');
@@ -11,6 +16,6 @@ export default (color: string): string => {
   const b = argb.slice(7).join('');
 
   const rgba = `rgba(${trans(r)},${trans(g)},${trans(b)},${trans(a)})`;
-  console.log(rgba);
+  // console.log(rgba);
   return rgba;
 };
