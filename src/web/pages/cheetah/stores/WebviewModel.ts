@@ -78,7 +78,7 @@ export default class WebviewModel {
   public setDefaultNavBar() {
     this.leftMenus = [
       {
-        icontype: 'back',
+        icontype: 'back_black',
         text: '返回',
         color: '#333',
         overrideClick: false,

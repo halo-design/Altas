@@ -7,6 +7,7 @@ import DatePicker from 'antd-mobile/lib/date-picker';
 import Picker from 'antd-mobile/lib/picker';
 import Icon from 'antd-mobile/lib/icon';
 import menuIcons from '../utils/icons';
+import argb2rgba from '../utils/argb2rgba';
 
 @inject((stores: any) => {
   const {
@@ -77,7 +78,7 @@ class WebviewView extends React.Component<any, any> {
     index: number,
     uid: string
   ) {
-    if (icon === 'back' && !override) {
+    if (typeof icon === 'string' && icon.indexOf('back_') === 0 && !override) {
       this.props.focusToPrevWebview();
     } else {
       this.props.focusWebviewSender(uid, { index });
@@ -89,18 +90,9 @@ class WebviewView extends React.Component<any, any> {
     this.props.createNewWebview(target);
     this.props.initDatePicker(this.datepickerEl);
     this.props.initPicker(this.pickerEl);
-    // setTimeout(() => {
-    //   this.props.createNewWebview('https://www.baidu.com/');
-    // }, 1000);
-    // setTimeout(() => {
-    //   this.props.createNewWebview('/treehole');
-    // }, 2000);
-    // setTimeout(() => {
-    //   this.props.createNewWebview('/ooxx');
-    // }, 3000);
-    // setTimeout(() => {
-    //   this.props.createNewWebview('/zoo');
-    // }, 4000);
+    setTimeout(() => {
+      this.props.createNewWebview('http://flameapp.cn/jsapi-test2/index.html');
+    }, 1000);
   }
 
   public render() {
@@ -157,7 +149,10 @@ class WebviewView extends React.Component<any, any> {
           return (
             <div
               className={classNames('cell', {
-                disabled: focusOnFisrt && ico === 'back' && !overrideClick,
+                disabled:
+                  focusOnFisrt &&
+                  (typeof ico === 'string' && ico.indexOf('back_') === 0) &&
+                  !overrideClick,
               })}
               key={index}
               onClick={() => {
@@ -170,7 +165,7 @@ class WebviewView extends React.Component<any, any> {
                 </div>
               )}
               {text && (
-                <span className="txt" style={{ color }}>
+                <span className="txt" style={{ color: argb2rgba(color) }}>
                   {text}
                 </span>
               )}
@@ -192,7 +187,7 @@ class WebviewView extends React.Component<any, any> {
             </div>
           )}
           {title && (
-            <span className="txt" style={{ color }}>
+            <span className="txt" style={{ color: argb2rgba(color) }}>
               {title}
             </span>
           )}
@@ -211,9 +206,9 @@ class WebviewView extends React.Component<any, any> {
           <div
             className="cheetah-header"
             style={{
-              backgroundColor: navBarBgColor,
+              backgroundColor: argb2rgba(navBarBgColor),
               borderBottom: navBarBottomLineColor
-                ? `1px solid ${navBarBottomLineColor}`
+                ? `1px solid ${argb2rgba(navBarBottomLineColor)}`
                 : 'none',
             }}
           >
