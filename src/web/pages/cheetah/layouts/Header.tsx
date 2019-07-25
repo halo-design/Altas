@@ -7,6 +7,7 @@ import { DeviceContext } from '../context';
   const {
     focusOnFisrt,
     focusOnLast,
+    webviewCount,
     focusDevtoolsState,
     showLinkBar,
     focusWebviewSpinner,
@@ -15,6 +16,7 @@ import { DeviceContext } from '../context';
   return {
     focusOnFisrt,
     focusOnLast,
+    webviewCount,
     focusDevtoolsState,
     showLinkBar,
     focusWebviewSpinner,
@@ -42,6 +44,7 @@ class HeaderView extends React.Component<any, any> {
       showLinkBar,
       toogleLinkBar,
       focusWebviewSpinner,
+      webviewCount,
     } = this.props;
 
     return (
@@ -66,8 +69,9 @@ class HeaderView extends React.Component<any, any> {
           </div>
           <div
             className={classnames('btn', {
-              disabled: focusOnFisrt,
+              disabled: focusOnFisrt || webviewCount === 0,
             })}
+            title="点击后退"
             onClick={() => {
               focusToPrevWebview();
             }}
@@ -76,8 +80,9 @@ class HeaderView extends React.Component<any, any> {
           </div>
           <div
             className={classnames('btn', {
-              disabled: focusOnLast,
+              disabled: focusOnLast || webviewCount === 0,
             })}
+            title="点击前进"
             onClick={() => {
               focusToNextWebview();
             }}
@@ -85,6 +90,7 @@ class HeaderView extends React.Component<any, any> {
             &#xe7ee;
           </div>
           <div
+            title="显示当前链接"
             className={classnames('btn', {
               active: showLinkBar,
             })}
@@ -95,7 +101,10 @@ class HeaderView extends React.Component<any, any> {
             &#xe7e2;
           </div>
           <div
-            className="btn"
+            title="重载当前页面"
+            className={classnames('btn', {
+              disabled: webviewCount === 0,
+            })}
             onClick={() => {
               reloadFocusWebview();
             }}
@@ -103,8 +112,10 @@ class HeaderView extends React.Component<any, any> {
             &#xe788;
           </div>
           <div
+            title="切换开发者工具"
             className={classnames('btn', {
               active: focusDevtoolsState,
+              disabled: webviewCount === 0,
             })}
             onClick={() => {
               debugFocusWebview();
@@ -113,6 +124,18 @@ class HeaderView extends React.Component<any, any> {
             &#xe8e8;
           </div>
           <div
+            title="模拟参数"
+            className={classnames('btn', {
+              active: focusDevtoolsState,
+            })}
+            onClick={() => {
+              // debugFocusWebview();
+            }}
+          >
+            &#xe738;
+          </div>
+          <div
+            title="关闭调试器"
             className="btn"
             onClick={() => {
               currentWindow.close();

@@ -97,8 +97,7 @@ export default (RPC: any) => {
       });
   });
 
-  win.on('close', (e: Event) => {
-    log.info('当前子窗口关闭！');
+  win.on('closed', (e: Event) => {
     timer && clearTimeout(timer);
     dlItem && dlItem.getState() === 'progressing' && dlItem.cancel();
     win.removeAllListeners();

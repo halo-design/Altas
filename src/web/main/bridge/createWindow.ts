@@ -4,13 +4,14 @@ import { allDeviceObject } from '../config/DeviceDescriptors';
 const { dispatch } = RPC;
 
 export const createWindow = (
+  winId: string,
   entry: object | string,
   options: object,
   injectBridges?: string[],
   callback?: Function
 ): void => {
-  dispatch('create-window', { entry, options, injectBridges });
-  RPC.once('get-window-id', (params: { win_uid: string }) => {
+  dispatch('create-window', { entry, options, injectBridges, winId });
+  RPC.once('get-window-id', (params: { winId: string }) => {
     callback && callback(params);
   });
 };
@@ -38,6 +39,7 @@ interface Idebug {
 }
 
 export const deviceDevtools = (
+  winId: string,
   entryPath: string,
   options: Idebug,
   callback?: Function
@@ -49,6 +51,7 @@ export const deviceDevtools = (
   }
   const { width, height } = descriptors.viewport;
   createWindow(
+    winId,
     {
       pathname: entryPath,
       hash: qs.stringify(options),
@@ -69,15 +72,26 @@ export const deviceDevtools = (
 };
 
 export const deviceSimulator = (options: Idebug, callback?: Function) => {
-  deviceDevtools('renderer/devtools.html', options, callback);
+  deviceDevtools(
+    'deviceSimulator',
+    'renderer/devtools.html',
+    options,
+    callback
+  );
 };
 
 export const cheetahSimulator = (options: Idebug, callback?: Function) => {
-  deviceDevtools('renderer/cheetah.html', options, callback);
+  deviceDevtools(
+    'cheetahSimulator',
+    'renderer/cheetah.html',
+    options,
+    callback
+  );
 };
 
 export const openMarkdownPreview = (remoteUrl?: string) => {
   createWindow(
+    '',
     {
       pathname: 'renderer/markdown.html',
       hash: qs.stringify({ remoteUrl }),

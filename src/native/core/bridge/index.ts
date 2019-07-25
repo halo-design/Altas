@@ -4,6 +4,7 @@ import { pkg } from '../../utils/env';
 import { IServer, Server } from '../rpc';
 import createAppTray from '../../utils/tray';
 import { showBetterMessageBox } from 'electron-better-dialog';
+import log from 'electron-log';
 import inject from './inject';
 
 export default (RPC: IServer) => {
@@ -29,17 +30,29 @@ export default (RPC: IServer) => {
     win && showBetterMessageBox(win, args);
   });
 
-  RPC.on('create-window', ({ options, entry, injectBridges }: any) => {
+  RPC.on('create-window', ({ options, entry, injectBridges, winId }: any) => {
     if (!win) {
+      return;
+    }
+
+    const uid = winId || uuid.v4();
+    log.info(`window "${uid}" created!`);
+    if (uid in windowContainer) {
+      windowContainer[uid].focus();
       return;
     }
     const childWin = winCreate(options, entry, true, win);
     const childRPC = new Server(childWin);
     inject(childRPC, injectBridges);
 
-    const uid = uuid.v4();
     windowContainer[uid] = childWin;
-    dispatch('get-window-id', { win_uid: uid });
+
+    childWin.on('closed', () => {
+      log.info(`window "${uid}" destroyed!`);
+      delete windowContainer[uid];
+    });
+
+    dispatch('get-window-id', { winId: uid });
   });
 
   RPC.on('close-window', (args: any) => {

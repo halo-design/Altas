@@ -88,6 +88,15 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
+              // this.handleUploadDrawerVisible(true);
+            }}
+          >
+            <i className="api" />
+            <div className="tit">猎豹App模拟参数</div>
+          </div>
+          <div
+            className="item"
+            onClick={e => {
               openMarkdownPreview();
             }}
           >
@@ -111,15 +120,6 @@ class ToolsView extends React.Component<any> {
           >
             <i className="server" />
             <div className="tit">Web Server服务器</div>
-          </div>
-          <div
-            className="item"
-            onClick={e => {
-              // this.handleUploadDrawerVisible(true);
-            }}
-          >
-            <i className="zip" />
-            <div className="tit">ZIP文件压缩</div>
           </div>
           <div
             className="item"
