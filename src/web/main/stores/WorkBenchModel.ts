@@ -29,11 +29,11 @@ export default class WorkBenchModel {
 
   public altasAppAudioStatus: string = 'on';
   public altasAppSound: any = new Howl({
-    src: ['public/ding.mp3'],
+    src: ['public/audio/ding.mp3'],
     volume: 0.2,
   });
   public noticeSound: any = new Howl({
-    src: ['public/dong.mp3'],
+    src: ['public/audio/dong.mp3'],
     volume: 0.3,
   });
 

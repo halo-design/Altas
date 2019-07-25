@@ -165,7 +165,7 @@ class UploadView extends React.Component<any> {
 
   public loadImageError(el: any) {
     el.loaded = true;
-    el.src = 'public/image.svg';
+    el.src = 'public/images/image.svg';
   }
 
   public componentWillUnmount() {

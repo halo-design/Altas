@@ -1,5 +1,5 @@
 const dir = (name: string) =>
-  `public/menu-icons/ynet_${name}/ynet_${name}@3x.png`;
+  `public/images/menu-icons/ynet_${name}/ynet_${name}@3x.png`;
 
 const defaultIcons = {
   add_black: dir('add_black'),

@@ -17,7 +17,7 @@ import { encodeSync, decodeSync } from '../bridge/aes';
 import { allDeviceObject } from '../config/DeviceDescriptors';
 
 const heroBgMusic = new Howl({
-  src: ['public/viva_la_vida.mp3'],
+  src: ['public/audio/viva_la_vida.mp3'],
   volume: 0.8,
 });
 
@@ -281,7 +281,7 @@ export default class TerminalModel {
           cheetahSimulator(
             {
               target: uri,
-              preload: './public/devtools-inject.js',
+              preload: './public/scripts/devtools-inject.js',
               descriptors: allDeviceObject[this.useDebugDevice],
             },
             () => {

@@ -250,7 +250,7 @@ class WebviewView extends React.Component<any, any> {
               preload={preload}
               useragent={userAgent}
               style={wvSize}
-              src="index/simulator.html"
+              src="simulator-index.html"
               ref={node => {
                 getIndexWebviewDOM(node);
               }}

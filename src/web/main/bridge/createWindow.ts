@@ -89,7 +89,7 @@ export const cheetahSimulator = (options: Idebug, callback?: Function) => {
   );
 };
 
-export const openMarkdownPreview = (remoteUrl?: string) => {
+export const markdownViewer = (remoteUrl?: string) => {
   createWindow(
     '',
     {

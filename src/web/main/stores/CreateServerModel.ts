@@ -194,7 +194,7 @@ export default class CreateServerModel {
         } else if (this.debugTool === 'cheetah') {
           cheetahSimulator({
             target: this.webServerHost,
-            preload: './public/devtools-inject.js',
+            preload: './public/scripts/devtools-inject.js',
             descriptors: allDeviceObject[this.useDebugDevice],
           });
         }

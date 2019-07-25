@@ -8,7 +8,7 @@ import { scrollbarStyleString } from '../../constants/API';
 import {
   deviceSimulator,
   cheetahSimulator,
-  openMarkdownPreview,
+  markdownViewer,
 } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
@@ -49,7 +49,7 @@ class ToolsView extends React.Component<any> {
   public openCheetahDevice() {
     cheetahSimulator({
       target: 'about:blank',
-      preload: './public/devtools-inject.js',
+      preload: './public/scripts/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
     });
   }
@@ -97,7 +97,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              openMarkdownPreview();
+              markdownViewer();
             }}
           >
             <i className="markdown" />
