@@ -4,7 +4,7 @@ import winStateKeeper from './winStateKeeper';
 import { BrowserWindow } from 'electron';
 const isMac = process.platform === 'darwin';
 
-const winCreate = (
+const winCreater = (
   opts: any,
   entry: any,
   isChild?: boolean,
@@ -59,4 +59,4 @@ const winCreate = (
   return mainWindow;
 };
 
-export default winCreate;
+export default winCreater;

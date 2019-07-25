@@ -2,6 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { DeviceContext } from '../context';
+import { mockSetter } from '../../../main/bridge/createWindow';
 
 @inject((stores: any) => {
   const {
@@ -125,11 +126,9 @@ class HeaderView extends React.Component<any, any> {
           </div>
           <div
             title="模拟参数"
-            className={classnames('btn', {
-              active: focusDevtoolsState,
-            })}
+            className="btn"
             onClick={() => {
-              // debugFocusWebview();
+              mockSetter();
             }}
           >
             &#xe738;

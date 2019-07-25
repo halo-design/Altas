@@ -92,7 +92,7 @@ class WebviewView extends React.Component<any, any> {
     this.props.initDatePicker(this.datepickerEl);
     this.props.initPicker(this.pickerEl);
     setTimeout(() => {
-      this.props.createNewWebview('http://flameapp.cn/jsapi-test2/index.html');
+      this.props.createNewWebview('http://flameapp.cn/jsapi-test/index.html');
     }, 1000);
   }
 

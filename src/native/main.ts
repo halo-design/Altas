@@ -1,5 +1,5 @@
 import { app } from 'electron';
-import winCreate from './core/winCreate';
+import winCreater from './core/winCreater';
 import createRPC from './core/rpc';
 import createBridge from './core/bridge/';
 import { showBetterMessageBox } from 'electron-better-dialog';
@@ -9,7 +9,7 @@ let forceQuit: boolean = false;
 let restartTimer: any = null;
 
 const init = () => {
-  mainWindow = winCreate(
+  mainWindow = winCreater(
     {
       height: 648,
       width: 1050,

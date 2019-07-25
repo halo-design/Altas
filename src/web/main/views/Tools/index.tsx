@@ -9,6 +9,7 @@ import {
   deviceSimulator,
   cheetahSimulator,
   markdownViewer,
+  mockSetter,
 } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
@@ -88,7 +89,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              // this.handleUploadDrawerVisible(true);
+              mockSetter();
             }}
           >
             <i className="api" />

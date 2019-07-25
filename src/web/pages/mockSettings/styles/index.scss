@@ -1,0 +1,11 @@
+body {
+  background-color: #252627;
+}
+
+.control {
+  .tit {
+    &:before {
+      background-image: url(./setup.svg);
+    }
+  }
+}

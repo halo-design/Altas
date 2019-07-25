@@ -42,6 +42,7 @@ export const deviceDevtools = (
   winId: string,
   entryPath: string,
   options: Idebug,
+  inject?: string[],
   callback?: Function
 ) => {
   let { descriptors }: any = options;
@@ -66,7 +67,7 @@ export const deviceDevtools = (
       transparent: true,
       titleBarStyle: 'hidden',
     },
-    [],
+    inject || [],
     callback
   );
 };
@@ -76,6 +77,7 @@ export const deviceSimulator = (options: Idebug, callback?: Function) => {
     'deviceSimulator',
     'renderer/devtools.html',
     options,
+    [],
     callback
   );
 };
@@ -85,6 +87,7 @@ export const cheetahSimulator = (options: Idebug, callback?: Function) => {
     'cheetahSimulator',
     'renderer/cheetah.html',
     options,
+    ['createWindow'],
     callback
   );
 };
@@ -115,5 +118,34 @@ export const markdownViewer = (remoteUrl?: string) => {
       },
     },
     ['markdown']
+  );
+};
+
+export const mockSetter = () => {
+  createWindow(
+    'mockSetter',
+    {
+      pathname: 'renderer/mock-settings.html',
+      hash: '',
+    },
+    {
+      width: 800,
+      height: 600,
+      minWidth: 800,
+      minHeight: 600,
+      resizable: true,
+      movable: true,
+      maximizable: false,
+      minimizable: false,
+      transparent: false,
+      backgroundColor: '#252627',
+      titleBarStyle: 'hidden',
+      webPreferences: {
+        nodeIntegration: true,
+        scrollBounce: false,
+        webviewTag: false,
+      },
+    },
+    []
   );
 };
