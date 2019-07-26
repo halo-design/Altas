@@ -24,7 +24,7 @@ export default (RPC: any) => {
     let server: any = http.createServer(({ url }: any, res) => {
       if (url === '/') {
         const page = fs.readFileSync(
-          file.path('resources/waiter.html'),
+          file.path('resources/takeover.html'),
           'utf8'
         );
         res.setHeader('Content-Type', mime.html);

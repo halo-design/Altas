@@ -529,23 +529,23 @@ class JSBridge {
   }
 
   // mock function
-  login(params, callback) {
-    this.pushWindow({
-      url: params.pageUrl,
-    })
-    if (callback) {
-      callback(deafultErrorRes);
-    }
-  }
+  // login(params, callback) {
+  //   this.pushWindow({
+  //     url: params.pageUrl,
+  //   })
+  //   if (callback) {
+  //     callback(deafultErrorRes);
+  //   }
+  // }
 
-  getUserInfo(params, callback) {
-    if (callback) {
-      callback({
-        userInfo: {},
-        ...deafultErrorRes,
-      });
-    }
-  }
+  // getUserInfo(params, callback) {
+  //   if (callback) {
+  //     callback({
+  //       userInfo: {},
+  //       ...deafultErrorRes,
+  //     });
+  //   }
+  // }
 }
 
 window['AlipayJSBridge'] = new JSBridge();
