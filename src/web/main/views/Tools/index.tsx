@@ -9,7 +9,7 @@ import {
   deviceSimulator,
   cheetahSimulator,
   markdownViewer,
-  mockSetter,
+  mockProxyServer,
 } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
@@ -89,7 +89,7 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              mockSetter();
+              mockProxyServer();
             }}
           >
             <i className="api" />

@@ -37,7 +37,7 @@ export default (RPC: IServer) => {
     windowContainer[uid] = childWin;
 
     childWin.on('closed', () => {
-      log.info(`window "${uid}" destroyed!`);
+      log.info(`Window "${uid}" Destroyed!`);
       delete windowContainer[uid];
     });
 

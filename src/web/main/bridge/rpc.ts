@@ -31,34 +31,44 @@ export class Client {
     }
   }
 
-  ipcListener(event: any, { ch, data }: { ch: any; data: any }) {
+  private ipcListener(event: any, { ch, data }: { ch: any; data: any }) {
     this.emitter.emit(ch, data);
   }
 
-  on(ev: any, fn: any) {
+  public wsRecieveGlobal(callback: Function) {
+    this.ipc.on('mock-proxy-ws-recieve-global', (ev: any, args: any) => {
+      callback(args);
+    });
+  }
+
+  public wsBrodcastGlobal(args: any) {
+    this.ipc.send('mock-proxy-ws-send-global', args);
+  }
+
+  public on(ev: any, fn: any) {
     this.emitter.on(ev, fn);
   }
 
-  once(ev: any, fn: any) {
+  public once(ev: any, fn: any) {
     this.emitter.once(ev, fn);
   }
 
-  dispatch(ev: any, data: any) {
+  public dispatch(ev: any, data: any) {
     if (!this.id) {
       throw new Error('Not ready');
     }
     this.ipc.send(this.id, { ev, data });
   }
 
-  removeListener(ev: any, fn: any) {
+  public removeListener(ev: any, fn: any) {
     this.emitter.removeListener(ev, fn);
   }
 
-  removeAllListeners() {
+  public removeAllListeners() {
     this.emitter.removeAllListeners();
   }
 
-  destroy() {
+  public destroy() {
     this.removeAllListeners();
     this.ipc.removeAllListeners('');
   }

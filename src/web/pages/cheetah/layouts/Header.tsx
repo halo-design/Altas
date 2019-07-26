@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { DeviceContext } from '../context';
-import { mockSetter } from '../../../main/bridge/createWindow';
+import { mockProxyServer } from '../../../main/bridge/createWindow';
 
 @inject((stores: any) => {
   const {
@@ -128,7 +128,7 @@ class HeaderView extends React.Component<any, any> {
             title="模拟参数"
             className="btn"
             onClick={() => {
-              mockSetter();
+              mockProxyServer();
             }}
           >
             &#xe738;

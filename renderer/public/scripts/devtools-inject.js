@@ -82,8 +82,12 @@ class JSBridge {
     if (fnName in this) {
       this[fnName](params, callback);
     } else {
-      this.showToast({ message: `模拟器不支持 "${fnName}"` });
-      throw Error('This method is not registered.');
+      this.showToast({ message: `"${fnName}" 需要进行代理.` });
+      const uid = uuid.v4();
+      this.ipc.emit('remote-devtool', { fnName, params, uid });
+      this.ipc.once(uid, (sender, res) => {
+        callback(res);
+      })
     }
   }
 

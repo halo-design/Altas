@@ -121,11 +121,11 @@ export const markdownViewer = (remoteUrl?: string) => {
   );
 };
 
-export const mockSetter = () => {
+export const mockProxyServer = () => {
   createWindow(
-    'mockSetter',
+    'mockProxyServer',
     {
-      pathname: 'renderer/mock-settings.html',
+      pathname: 'renderer/mock-proxy.html',
       hash: '',
     },
     {
@@ -146,6 +146,6 @@ export const mockSetter = () => {
         webviewTag: false,
       },
     },
-    []
+    ['createMockProxyServer']
   );
 };

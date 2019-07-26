@@ -3,6 +3,7 @@ import Modal from 'antd-mobile/lib/modal';
 import ActionSheet from 'antd-mobile/lib/action-sheet';
 import { remote } from 'electron';
 import * as clipBoard from '../../../main/bridge/clipBoard';
+import RPC from '../../../main/bridge/rpc';
 const alert = Modal.alert;
 const prompt = Modal.prompt;
 
@@ -166,6 +167,17 @@ export default (command: string, params: any, sender: Function) => {
     case 'openNativeWebBrowser': {
       const { url } = params;
       remote.shell.openExternal(url);
+      break;
+    }
+
+    case 'remote-devtool': {
+      RPC.wsBrodcastGlobal(params);
+      RPC.wsRecieveGlobal((args: any) => {
+        if ('uid' in args) {
+          sender(args.uid, args.data);
+        }
+      });
+      break;
     }
   }
 };

@@ -9,7 +9,7 @@ const pages = [
   './src/web/pages/devtools/index.ts',
   './src/web/pages/markdown/index.ts',
   './src/web/pages/cheetah/index.tsx',
-  './src/web/pages/mockSettings/index.tsx',
+  './src/web/pages/mockProxy/index.tsx',
 ];
 
 program

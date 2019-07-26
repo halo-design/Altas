@@ -48,17 +48,17 @@ export class Server extends EventEmitter {
     }
   }
 
-  ipcListener(event: any, { ev, data }: { ev: any; data: any }) {
+  private ipcListener(event: any, { ev, data }: { ev: any; data: any }) {
     super.emit(ev, data);
   }
 
-  dispatch(ch: any, data: any) {
+  public dispatch(ch: any, data: any) {
     if (this.win && !this.win.isDestroyed()) {
       this.wc && this.wc.send(this.id, { ch, data });
     }
   }
 
-  destroy() {
+  public destroy() {
     this.removeAllListeners();
     this.wc && this.wc.removeAllListeners();
     if (this.id) {

@@ -6,6 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import createStores from './stores';
 import App from './core/App';
+import RPC from '../../main/bridge/rpc';
 import { DeviceContext } from './context';
 
 const { getCurrentWindow } = remote;
@@ -28,11 +29,13 @@ if (isDev) {
   });
 }
 
-ReactDOM.render(
-  <DeviceContext.Provider value={options}>
-    <Provider {...createStores()}>
-      <App />
-    </Provider>
-  </DeviceContext.Provider>,
-  document.getElementById('MOUNT_NODE') as HTMLElement
-);
+RPC.on('ready', () => {
+  ReactDOM.render(
+    <DeviceContext.Provider value={options}>
+      <Provider {...createStores()}>
+        <App />
+      </Provider>
+    </DeviceContext.Provider>,
+    document.getElementById('MOUNT_NODE') as HTMLElement
+  );
+});

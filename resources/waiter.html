@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN" xml:lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cheetah Mock Seetings</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body>
+    <div id="MOUNT_NODE"></div>
+    <script>
+      const wsUrl = window.location.href.replace('http', 'ws');
+      const ws = new WebSocket(wsUrl);
+      ws.onopen = () => {
+        ws.send(JSON.stringify(({ info: 'Client Ready.' })));
+      }
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const { fnName, params, uid } = data;
+
+        AlipayJSBridge.call(fnName, params, function (data) {
+          ws.send(JSON.stringify({ uid, data }))
+        });
+      }
+    </script>
+  </body>
+</html>
