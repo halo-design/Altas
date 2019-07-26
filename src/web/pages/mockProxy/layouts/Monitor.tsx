@@ -1,38 +1,25 @@
 import * as React from 'react';
-import RPC from '../../../main/bridge/rpc';
+import {
+  createMockProxyServer,
+  disposeMockProxyServer,
+  addMockProxyServerListener,
+  addMockProxyWsListener,
+  addClientWsListener,
+  sendWsToClient,
+} from '../../../main/bridge/mockProxyServer';
 
 class MonitorView extends React.Component<any> {
-  public createProxyDebug() {
-    RPC.dispatch('create-mock-proxy-server', { port: 8282 });
-  }
-
-  public disposeProxyServer() {
-    RPC.dispatch('dispose-mock-proxy-server', '');
-  }
-
-  public sendToProxyPage() {
-    RPC.wsBrodcastGlobal({
-      mes: 'amazing',
-    });
-  }
-
   public componentDidMount() {
-    RPC.on('mock-proxy-server-connect', (args: any) => {
-      console.log(args, 'mock-proxy-server-connect');
-    });
-    RPC.on('mock-proxy-server-disconnected', (args: any) => {
-      console.log(args, 'mock-proxy-server-disconnected');
+    addMockProxyServerListener((status: any, args: any) => {
+      console.log('server:', status, args);
     });
 
-    RPC.on('mock-proxy-ws-connect', (args: any) => {
-      console.log(args, 'mock-proxy-ws-connect');
-    });
-    RPC.on('mock-proxy-ws-disconnected', (args: any) => {
-      console.log(args, 'mock-proxy-ws-disconnected');
+    addMockProxyWsListener((status: any, args: any) => {
+      console.log('ws:', status, args);
     });
 
-    RPC.wsRecieveGlobal((args: any) => {
-      console.log(args);
+    addClientWsListener((args: any) => {
+      console.log('wsData:', args);
     });
   }
 
@@ -41,21 +28,21 @@ class MonitorView extends React.Component<any> {
       <div className="app-monitor">
         <button
           onClick={() => {
-            this.createProxyDebug();
+            createMockProxyServer(8282);
           }}
         >
           启动代理调试
         </button>
         <button
           onClick={() => {
-            this.disposeProxyServer();
+            disposeMockProxyServer();
           }}
         >
           关闭代理调试
         </button>
         <button
           onClick={() => {
-            this.sendToProxyPage();
+            sendWsToClient({ info: 'button test click' });
           }}
         >
           向代理页面发送消息

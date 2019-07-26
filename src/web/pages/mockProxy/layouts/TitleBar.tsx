@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import win from '../../../main/bridge/win';
+import { disposeMockProxyServer } from '../../../main/bridge/mockProxyServer';
 
 const { useState } = React;
 
@@ -17,6 +18,11 @@ function TitleBar() {
     }
   };
 
+  const closePage = () => {
+    disposeMockProxyServer();
+    win.close();
+  };
+
   return (
     <div className="control">
       <div className="tit">猎豹App模拟器数据设置</div>
@@ -27,7 +33,7 @@ function TitleBar() {
           className={classNames('toogle', { back: isMax })}
           onClick={maxToogle}
         />
-        <button className="close" onClick={win.close} />
+        <button className="close" onClick={closePage} />
       </div>
     </div>
   );

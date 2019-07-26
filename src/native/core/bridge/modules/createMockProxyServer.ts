@@ -71,7 +71,7 @@ export default (RPC: any) => {
       });
 
       ws.on('close', (event: any) => {
-        log.info('close', event.code, event.reason);
+        log.info('Websocket close:', event.code, event.reason);
         RPC.dispatch('mock-proxy-ws-disconnected', { port: usePort });
       });
     });
@@ -80,6 +80,7 @@ export default (RPC: any) => {
       wsGlobal = null;
       ipcMain.removeListener('mock-proxy-ws-send-global', wsSender);
       RPC.dispatch('mock-proxy-server-disconnected', { port: usePort });
+      log.info('Server close:', usePort);
     });
 
     server.on('error', (e: any) => {
@@ -99,7 +100,7 @@ export default (RPC: any) => {
     });
 
     server.listen(port, () => {
-      log.info(usePort);
+      log.info('Server listening:', usePort);
       RPC.dispatch('mock-proxy-server-connect', { port: usePort });
     });
 

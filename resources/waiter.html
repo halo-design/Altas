@@ -11,31 +11,37 @@
   <body>
     <div id="MOUNT_NODE">
       <img src="/static/images/image.svg" width="120" alt="">
+      <button id="refBtn">刷新页面</button>
     </div>
     <script>
-      const wsUrl = window.location.href.replace('http', 'ws');
-      const ws = new WebSocket(wsUrl);
-      ws.onopen = () => {
-        ws.send(JSON.stringify(({ resCode: 200, info: 'Client Ready.' })));
-      }
+      $(document).ready(() => {
+        $('#refBtn').on('click', () => {
+          window.location.reload();
+        })
 
-      ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        const { resCode, fnName, params, uid } = data;
-
-        if (resCode === 200) {
-          console.log('Server Ready.');
-        } else {
-          if ('AlipayJSBridge' in window) {
-            AlipayJSBridge.call(fnName, params, function (data) {
-              ws.send(JSON.stringify({ uid, data }))
-            });
+        const wsUrl = window.location.href.replace('http', 'ws');
+        const ws = new WebSocket(wsUrl);
+        ws.onopen = () => {
+          ws.send(JSON.stringify(({ resCode: 200, info: 'Client Ready.' })));
+        }
+  
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { resCode, fnName, params, uid } = data;
+  
+          if (resCode === 200) {
+            console.log('Server Ready.');
           } else {
-            alert('请在猎豹移动App打开此页面！');
+            if ('AlipayJSBridge' in window) {
+              AlipayJSBridge.call(fnName, params, function (data) {
+                ws.send(JSON.stringify({ uid, data }))
+              });
+            } else {
+              alert('请在猎豹移动App打开此页面！');
+            }
           }
         }
-
-      }
+      })
     </script>
   </body>
 </html>
