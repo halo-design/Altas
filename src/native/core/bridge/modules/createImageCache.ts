@@ -1,9 +1,9 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import { nativeImage } from 'electron';
-import { saveFile } from '../../utils/file';
+import { saveFile } from '../../../utils/file';
 import log from 'electron-log';
-import { appDataFullPath } from '../constants';
+import { appDataFullPath } from '../../../constants/app';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;

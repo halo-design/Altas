@@ -1,13 +1,13 @@
-import markdown from './markdown';
-import detector from './detector';
-import readWrite from './readWrite';
-import download from './download';
-import crypto from './crypto';
-import createProject from './createProject';
-import createImageCache from './createImageCache';
-import createServer from './createServer';
-import createWindow from './createWindow';
-import createMockProxyServer from './createMockProxyServer';
+import markdown from './modules/markdown';
+import detector from './modules/detector';
+import readWrite from './modules/readWrite';
+import download from './modules/download';
+import crypto from './modules/crypto';
+import createProject from './modules/createProject';
+import createImageCache from './modules/createImageCache';
+import createServer from './modules/createServer';
+import createWindow from './modules/createWindow';
+import createMockProxyServer from './modules/createMockProxyServer';
 
 export const allBridges = {
   markdown,

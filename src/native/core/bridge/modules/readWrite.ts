@@ -1,9 +1,9 @@
 import log from 'electron-log';
 const fs = require('fs-extra');
 import * as storage from 'electron-json-storage';
-import readTxtByLine from '../../utils/readTxtByLine';
-import file from '../../utils/file';
-import { appCacheFullPath, appDataFullPath } from '../constants';
+import readTxtByLine from '../../../utils/readTxtByLine';
+import file from '../../../utils/file';
+import { appCacheFullPath, appDataFullPath } from '../../../constants/app';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;

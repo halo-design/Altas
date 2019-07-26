@@ -2,9 +2,9 @@ import * as os from 'os';
 import * as ip from 'ip';
 import * as path from 'path';
 import * as si from 'systeminformation';
-import file from '../../utils/file';
-import projectRunner from '../../utils/projectRunner';
-import { cmdIsAvailable, langIsAvailable } from '../../utils/env';
+import file from '../../../utils/file';
+import projectRunner from '../../../utils/projectRunner';
+import { cmdIsAvailable, langIsAvailable } from '../../../utils/env';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;

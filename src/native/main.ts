@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import winCreater from './core/winCreater';
 import createRPC from './core/rpc';
-import createBridge from './core/bridge/';
+import createBridge from './core/bridge/main';
 import { showBetterMessageBox } from 'electron-better-dialog';
 
 let mainWindow: any;

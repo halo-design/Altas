@@ -1,4 +1,4 @@
-import liveServer from '../../utils/server';
+import liveServer from '../../../utils/server';
 import log from 'electron-log';
 
 export default (RPC: any) => {

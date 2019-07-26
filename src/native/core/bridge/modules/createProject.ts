@@ -2,7 +2,7 @@ import DL from 'electron-dl';
 import log from 'electron-log';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { appCacheFullPath } from '../constants';
+import { appCacheFullPath } from '../../../constants/app';
 
 export default (RPC: any) => {
   const { dispatch, win } = RPC;

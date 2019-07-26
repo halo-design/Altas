@@ -1,11 +1,11 @@
 import * as path from 'path';
 import { app, dialog } from 'electron';
-import file from '../../utils/file';
+import file from '../../../utils/file';
 import DL from 'electron-dl';
 import log from 'electron-log';
-import { appCacheFullPath } from '../constants';
-import { saveFile } from '../../utils/file';
-import mdTpl from '../../utils/mdTemplate';
+import { appCacheFullPath } from '../../../constants/app';
+import { saveFile } from '../../../utils/file';
+import mdTpl from '../../../utils/mdTemplate';
 
 export default (RPC: any) => {
   const { dispatch, win } = RPC;

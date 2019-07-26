@@ -1,7 +1,7 @@
 import * as uuid from 'uuid';
-import winCreater from '../winCreater';
-import { IServer, Server } from '../rpc';
-import inject from './inject';
+import winCreater from '../../winCreater';
+import { IServer, Server } from '../../rpc';
+import inject from '../inject';
 import { showBetterMessageBox } from 'electron-better-dialog';
 import log from 'electron-log';
 

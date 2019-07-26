@@ -1,5 +1,5 @@
 import * as hash from 'object-hash';
-import * as crypto from '../../utils/crypto';
+import * as crypto from '../../../utils/crypto';
 
 export default (RPC: any) => {
   const { dispatch } = RPC;
