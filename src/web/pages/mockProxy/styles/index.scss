@@ -1,3 +1,15 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 body {
   background-color: #1d2028;
 }
@@ -25,7 +37,7 @@ body {
   .tabs {
     width: 320px;
     display: flex;
-    
+
     .item {
       flex-grow: 1;
       -webkit-app-region: no-drag;
@@ -62,12 +74,12 @@ body {
     *::-webkit-scrollbar {
       width: 4px;
     }
-  
+
     *::-webkit-scrollbar-thumb {
       background-color: #262a35;
       border-radius: 2px;
     }
-  
+
     *::-webkit-scrollbar-track-piece {
       background-color: transparent;
     }
@@ -91,7 +103,12 @@ body {
   bottom: 0;
   color: #fff;
   font-size: 12px;
-  background-color: #1753f8;
+  background-color: #333744;
+  transition: background-color .3s;
+
+  &.active {
+    background-color: #1753f8;
+  }
 
   .light {
     display: inline-block;
@@ -125,9 +142,54 @@ body {
   .start-proxy-server-btn {
     padding: 0 10px;
     cursor: pointer;
-    
+
     &:hover {
       background-color: rgb(232, 83, 83);
+    }
+  }
+}
+
+.app-link-qrcode {
+  position: fixed;
+  top: 35px;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  background-color: #000000bf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.hide {
+    display: none;
+  }
+
+  .qrcode-wrapper {
+    width: 240px;
+    height: 240px;
+    background-color: #fff;
+    padding: 15px;
+    position: relative;
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .notice {
+      font-size: 14px;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      top: 275px;
+      color: #fff;
+    }
+  }
+
+  &.fadeInUp {
+    .qrcode-wrapper {
+      animation: fadeInUp .3s;
     }
   }
 }

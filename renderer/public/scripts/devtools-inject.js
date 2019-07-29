@@ -82,7 +82,6 @@ class JSBridge {
     if (fnName in this) {
       this[fnName](params, callback);
     } else {
-      this.showToast({ message: `"${fnName}" 需要进行代理.` });
       const uid = uuid.v4();
       this.ipc.emit('remote-devtool', { data: { fnName, params }, uid });
       this.ipc.once(uid, (sender, res) => {

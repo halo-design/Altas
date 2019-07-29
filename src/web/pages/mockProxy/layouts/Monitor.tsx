@@ -1,19 +1,30 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import Logger from './Logger';
+import classNames from 'classnames';
 
 @inject((stores: any) => {
-  const { serverOnline, websocketOnline, host } = stores.monitor;
+  const { serverOnline, websocketOnline, host, qrCodeVisible } = stores.monitor;
   return {
     serverOnline,
     websocketOnline,
     host,
+    qrCodeVisible,
     createServer: (port?: number) => stores.monitor.createServer(port),
     disposeServer: () => stores.monitor.disposeServer(),
+    initQrcode: (el: any) => stores.monitor.initQrcode(el),
   };
 })
 @observer
 class MonitorView extends React.Component<any> {
+  public qrCanvas: any = null;
+
+  public componentDidMount() {
+    if (this.qrCanvas) {
+      this.props.initQrcode(this.qrCanvas);
+    }
+  }
+
   public render() {
     const {
       serverOnline,
@@ -21,12 +32,34 @@ class MonitorView extends React.Component<any> {
       createServer,
       disposeServer,
       host,
+      qrCodeVisible,
     } = this.props;
 
     return (
       <div className="app-monitor">
         <Logger />
-        <div className="app-status-bar">
+        <div
+          className={classNames('app-link-qrcode', {
+            hide: !qrCodeVisible,
+            fadeInUp: qrCodeVisible,
+          })}
+        >
+          <div className="qrcode-wrapper">
+            <canvas
+              width="240"
+              height="240"
+              ref={node => {
+                this.qrCanvas = node;
+              }}
+            />
+            <p className="notice">请打开猎豹App扫一扫进行连接</p>
+          </div>
+        </div>
+        <div
+          className={classNames('app-status-bar', {
+            active: serverOnline,
+          })}
+        >
           <div className="server">
             <i className="iconfont">&#xe624;</i>
             <span>代理服务：</span>

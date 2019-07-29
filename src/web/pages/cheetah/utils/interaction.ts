@@ -172,9 +172,15 @@ export default (command: string, params: any, sender: Function) => {
 
     case 'remote-devtool': {
       RPC.wsBrodcastGlobal(params);
-      RPC.wsRecieveGlobal((args: any) => {
-        if ('uid' in args) {
-          sender(args.uid, args.data);
+
+      Toast.info(`"${params.data.fnName}"方法被接管.`);
+
+      RPC.wsRecieveGlobal(({ resCode, data, uid }: any) => {
+        if (resCode === 200) {
+          Toast.info('已进入接管模式！');
+        }
+        if (uid) {
+          sender(uid, data);
         }
       });
       break;

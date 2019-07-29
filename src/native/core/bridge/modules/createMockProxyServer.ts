@@ -66,7 +66,7 @@ export default (RPC: any) => {
         if (formatData['resCode'] === 200) {
           wsSender(null, {
             resCode: 200,
-            data: 'Server Ready.',
+            data: 'Server Connected.',
           });
         }
 
@@ -84,7 +84,7 @@ export default (RPC: any) => {
     server.on('close', () => {
       wsGlobal = null;
       ipcMain.removeListener('mock-proxy-ws-send-global', wsSender);
-      RPC.dispatch('mock-proxy-server-disconnected', { port: usePort });
+      // RPC.dispatch('mock-proxy-server-disconnected', { port: usePort });
       log.info('Server close:', usePort);
     });
 
@@ -116,6 +116,7 @@ export default (RPC: any) => {
       if (server) {
         server.close();
       }
+      RPC.dispatch('mock-proxy-server-disconnected', { port: usePort });
       server = null;
       wsGlobal = null;
     });

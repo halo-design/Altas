@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import { Terminal } from 'xterm';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
@@ -14,6 +14,8 @@ import {
   addClientWsListener,
   mockProxyWsSendGlobal,
 } from '../../../main/bridge/mockProxyServer';
+const QRcode = require('qrcode');
+const moment = require('moment');
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
@@ -35,29 +37,53 @@ const fc: any = {
 export default class TerminalModel {
   @observable public serverOnline: boolean = false;
   @observable public websocketOnline: boolean = false;
+  @observable public qrCanvas: any = null;
   @observable public host: string = '';
-  public terminalEl: any = null;
-  public term: any = null;
-  public resizeTerm: any = null;
-  public port: number = 8282;
+  @observable public terminalEl: any = null;
+  @observable public term: any = null;
+  @observable public resizeTerm: any = null;
+  @observable public port: number = 2323;
+
+  @computed get qrCodeVisible() {
+    return this.serverOnline && !this.websocketOnline && this.host.length > 0;
+  }
 
   constructor() {
     addMockProxyServerListener((status: any, args: any) => {
       this.setServerOnline(status);
       const { ip, port } = args;
-      this.setHost(ip, port);
-      this.term.writeln(fc.green('Proxy server started successfully!') + lnBr);
-      console.log('server:', status, args);
+
+      if (status) {
+        this.setHost(ip, port);
+      }
+
+      this.term.writeln(
+        this.getTimeLog() +
+          fc.green(
+            `Proxy server ${status ? 'started' : 'closed'} successfully!`
+          ) +
+          lnBr
+      );
+
+      if (!status) {
+        this.term.writeln(
+          this.getTimeLog() +
+            fc.yellow('The proxy server is ready to restart.') +
+            lnBr
+        );
+      }
     });
 
     addMockProxyWsListener((status: any, args: any) => {
       this.setWebsocketOnline(status);
-      console.log('ws:', status, args);
     });
   }
 
+  @action
   public createServer(port?: number) {
-    this.term.writeln(fc.blue('Starting the proxy server...'));
+    this.term.writeln(
+      this.getTimeLog() + fc.blue('Starting the proxy server...') + lnBr
+    );
     createMockProxyServer(port || this.port);
   }
 
@@ -66,9 +92,22 @@ export default class TerminalModel {
   }
 
   @action
+  public initQrcode(el: any) {
+    this.qrCanvas = el;
+  }
+
+  @action
   public setHost(ip: string, port: number) {
     if (ip) {
       this.host = `http://${ip}:${port}`;
+
+      console.log(111111, this.qrCodeVisible, this.qrCanvas);
+      if (this.qrCanvas && this.qrCodeVisible) {
+        QRcode.toCanvas(this.qrCanvas, this.host, {
+          width: 240,
+          margin: 0,
+        });
+      }
     }
   }
 
@@ -82,6 +121,7 @@ export default class TerminalModel {
     this.websocketOnline = status;
   }
 
+  @action
   public initMonitor(el: any) {
     this.terminalEl = el;
 
@@ -112,6 +152,10 @@ export default class TerminalModel {
     }
   }
 
+  public getTimeLog() {
+    return fc.yellow(`${moment().format('h:mm:ss.SSS')} › `);
+  }
+
   public initTerm() {
     if (!this.term) {
       const rowscols = this.getRowsCols();
@@ -124,14 +168,39 @@ export default class TerminalModel {
       term.open(this.terminalEl);
       term.on('blur', () => term.blur);
       term.on('focus', () => term.focus);
-      term.writeln(fc.yellow('The proxy server is ready to start.') + lnBr);
+      term.writeln(
+        this.getTimeLog() +
+          fc.yellow('The proxy server is ready to start.') +
+          lnBr
+      );
 
-      addClientWsListener((args: any) => {
-        term.writeln(`ws recieve: ${resultFormat(args.data)}`);
+      addClientWsListener(({ data }: any) => {
+        term.writeln(
+          `${this.getTimeLog()}${fc.green('[CLIENT RECIEVE]:')} ${resultFormat(
+            data
+          )}` + lnBr
+        );
       });
 
-      mockProxyWsSendGlobal((args: any) => {
-        term.writeln(`ws send: ${resultFormat(args.data)}`);
+      mockProxyWsSendGlobal(({ data }: any) => {
+        if ('fnName' in data) {
+          term.writeln(
+            `${this.getTimeLog()}${fc.blue('[PROXY HANDLE]:')} ${fc.purple(
+              data['fnName']
+            )}`
+          );
+          term.writeln(
+            `${this.getTimeLog()}${fc.blue('[PROXY PARAMS]:')} ${resultFormat(
+              data['params']
+            )}` + lnBr
+          );
+        } else {
+          term.writeln(
+            `${this.getTimeLog()}${fc.purple('[SERVER SEND]:')} ${resultFormat(
+              data
+            )}`
+          );
+        }
       });
 
       webLinks.webLinksInit(term, (ev: any, uri: string) => {
