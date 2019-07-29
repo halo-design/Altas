@@ -1,11 +1,41 @@
 body {
-  background-color: #252627;
+  background-color: #1d2028;
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .control {
+  height: 35px;
+  background-color: #181b22;
+  box-shadow: 0 -1px 0 0 #ffffff1a inset;
+  user-select: none;
+
   .tit {
     &:before {
       background-image: url(./setup.svg);
+    }
+  }
+
+  .tabs {
+    width: 320px;
+    display: flex;
+    
+    .item {
+      flex-grow: 1;
+      -webkit-app-region: no-drag;
+      cursor: pointer;
+
+      &.active {
+        background-color: #1d2028;
+        border: 1px solid #ffffff1a;
+        border-width: 0 1px;
+      }
     }
   }
 }
@@ -17,4 +47,87 @@ body {
   bottom: 0;
   top: 34px;
   overflow: auto;
+}
+
+.app-logger {
+  .app-terminal {
+    position: fixed;
+    top: 35px;
+    left: 0;
+    right: 0;
+    bottom: 28px;
+    padding: 15px;
+    background-color: #1d2028;
+
+    *::-webkit-scrollbar {
+      width: 4px;
+    }
+  
+    *::-webkit-scrollbar-thumb {
+      background-color: #262a35;
+      border-radius: 2px;
+    }
+  
+    *::-webkit-scrollbar-track-piece {
+      background-color: transparent;
+    }
+
+    .terminal {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.app-status-bar {
+  width: 100%;
+  box-sizing: border-box;
+  height: 28px;
+  line-height: 28px;
+  padding-left: 10px;
+  display: flex;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: #fff;
+  font-size: 12px;
+  background-color: #1753f8;
+
+  .light {
+    display: inline-block;
+    vertical-align: middle;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: #ffb100;
+    margin: -2px 4px 0 0;
+
+    &.active {
+      background-color: #04ff00;
+    }
+  }
+
+  i.iconfont {
+    font-size: 13px;
+    vertical-align: middle;
+    margin: -2px 5px 0 0;
+    display: inline-block;
+  }
+
+  > div + div {
+    margin-left: 20px;
+  }
+
+  .host {
+    flex-grow: 1;
+  }
+
+  .start-proxy-server-btn {
+    padding: 0 10px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: rgb(232, 83, 83);
+    }
+  }
 }

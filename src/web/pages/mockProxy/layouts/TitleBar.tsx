@@ -25,8 +25,11 @@ function TitleBar() {
 
   return (
     <div className="control">
-      <div className="tit">猎豹App模拟器数据设置</div>
-      <div className="file-name" />
+      <div className="tit">猎豹App模拟器代理工具</div>
+      <div className="file-name tabs">
+        <div className="item active">App接管模式</div>
+        <div className="item">本地mock模式</div>
+      </div>
       <div className="win">
         <button className="min" onClick={win.minimize} />
         <button

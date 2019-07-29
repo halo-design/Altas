@@ -311,9 +311,9 @@ export default class WebviewModel {
       lnk.indexOf('http://localhost') === 0 ||
       lnk.indexOf('http://127.0.0.1') === 0;
 
-    if (isBlank) {
-      this.showLinkBar = true;
-    }
+    // if (isBlank) {
+    //   this.showLinkBar = true;
+    // }
 
     return urlTest(lnk) || isBlank || isLocal;
   }

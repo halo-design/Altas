@@ -38,3 +38,9 @@ export const addClientWsListener = (callback: Function) => {
 export const sendWsToClient = (params: object) => {
   RPC.wsBrodcastGlobal(params);
 };
+
+export const mockProxyWsSendGlobal = (callback: Function) => {
+  RPC.on('mock-proxy-ws-send-global', (args: any) => {
+    callback(args);
+  });
+};

@@ -19,26 +19,28 @@
           window.location.reload();
         })
 
+        if (!('AlipayJSBridge' in window)) {
+          alert('请在猎豹移动App打开此页面！');
+          return;
+        }
+
         const wsUrl = window.location.href.replace('http', 'ws');
         const ws = new WebSocket(wsUrl);
+
         ws.onopen = () => {
-          ws.send(JSON.stringify(({ resCode: 200, info: 'Client Ready.' })));
+          ws.send(JSON.stringify(({ resCode: 200, data: 'Client Ready.' })));
         }
   
         ws.onmessage = (event) => {
           const data = JSON.parse(event.data);
-          const { resCode, fnName, params, uid } = data;
+          const { resCode, data: { fnName, params }, uid } = data;
   
           if (resCode === 200) {
             console.log('Server Ready.');
-          } else {
-            if ('AlipayJSBridge' in window) {
-              AlipayJSBridge.call(fnName, params, function (data) {
-                ws.send(JSON.stringify({ uid, data }))
-              });
-            } else {
-              alert('请在猎豹移动App打开此页面！');
-            }
+          } else if (resCode === 201) {
+            AlipayJSBridge.call(fnName, params, function (data) {
+              ws.send(JSON.stringify({ uid, data, resCode: 201 }))
+            });
           }
         }
       })

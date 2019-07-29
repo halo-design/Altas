@@ -7,13 +7,20 @@ const WebSocket = require('faye-websocket');
 import file from '../../../utils/file';
 import { BrowserWindow } from 'electron';
 import mime from '../../../constants/mime';
+import * as ip from 'ip';
 
 export default (RPC: any) => {
   let wsGlobal: any = null;
 
   const wsSender = (event: any, args: any) => {
     if (wsGlobal) {
-      wsGlobal.send(JSON.stringify(args));
+      RPC.dispatch('mock-proxy-ws-send-global', args);
+      wsGlobal.send(
+        JSON.stringify({
+          ...args,
+          resCode: 201,
+        })
+      );
     }
   };
 
@@ -59,15 +66,13 @@ export default (RPC: any) => {
         if (formatData['resCode'] === 200) {
           wsSender(null, {
             resCode: 200,
-            info: 'Server Ready.',
+            data: 'Server Ready.',
           });
-        } else {
-          BrowserWindow.getAllWindows().forEach(
-            (win: Electron.BrowserWindow) => {
-              win.webContents.send('mock-proxy-ws-recieve-global', formatData);
-            }
-          );
         }
+
+        BrowserWindow.getAllWindows().forEach((win: Electron.BrowserWindow) => {
+          win.webContents.send('mock-proxy-ws-recieve-global', formatData);
+        });
       });
 
       ws.on('close', (event: any) => {
@@ -101,7 +106,10 @@ export default (RPC: any) => {
 
     server.listen(port, () => {
       log.info('Server listening:', usePort);
-      RPC.dispatch('mock-proxy-server-connect', { port: usePort });
+      RPC.dispatch('mock-proxy-server-connect', {
+        port: usePort,
+        ip: ip.address(),
+      });
     });
 
     RPC.on('dispose-mock-proxy-server', () => {
