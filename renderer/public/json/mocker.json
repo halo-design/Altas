@@ -1,0 +1,88 @@
+{
+  "getDeviceAndAppInfo": {
+    "UUID": "865441038467346460004131312271",
+    "appVersionNo": "v1.0.0.0",
+    "deviceToken": "",
+    "deviceVersionNo": "8.0.0",
+    "error": "0",
+    "errorMessage": "success",
+    "ip": "192.168.0.190",
+    "isCrack": false,
+    "macAdress": "50:8F:4C:E5:87:0E",
+    "model": "MI 6",
+    "phoneType": "Xiaomi"
+  },
+  "getDeviceFingerprint": {
+    "deviceID": "W6xD0PB8AZgDAHFpxI1Db+0k",
+    "error": "0",
+    "errorMessage": "success"
+  },
+  "getBatteryInfo": {
+    "error": "0",
+    "errorMessage": "success",
+    "level": 76
+  },
+  "availableApplePay": {
+    "error": "0",
+    "errorMessage": "Android不支持",
+    "result": false
+  },
+  "availableLocationServices": {
+    "error": "0",
+    "errorMessage": "success",
+    "isLocationServicesEnabled": true
+  },
+  "getLocationInfo": {
+    "administrativeArea": "浙江省",
+    "country": "中国",
+    "error": "0",
+    "errorMessage": "success",
+    "fullAddress": "浙江省杭州市拱墅区科园路36-1号靠近运河(国际)跨境电子商务园",
+    "latitude": 30.32539,
+    "locality": "杭州市",
+    "longitude": 120.159484,
+    "subLocality": "拱墅区",
+    "thoroughfare": "科园路"
+  },
+  "notificationStatus": {
+    "error": "0",
+    "errorMessage": "success",
+    "notificationStatus": true
+  },
+  "showContactList": {
+    "data": [
+      {
+        "name": "钉钉官方短信",
+        "phoneNums": [
+          "10655059113144"
+        ]
+      }
+    ],
+    "error": "0",
+    "errorMessage": "success"
+  },
+  "openBankList": {
+    "bankChannel": "IBPS,HVPS,BEPS,TLTP,TLTP,NBTC",
+    "bankName": "中国农业银行",
+    "bankType": "103",
+    "detailUrl": "http://21.96.187.106:8084/perbank/images/icon/",
+    "error": "0",
+    "errorMessage": "success",
+    "firstAllHead": "zgnyyx",
+    "firstHead": "Z",
+    "flag": "Y",
+    "pinyin": "zhongguonongyeyinxing",
+    "unionBankNo": "103100000026"
+  },
+  "pushCityListView": {
+    "error": "0",
+    "errorMessage": "success",
+    "resultCode": "0",
+    "selectedAreaList": [
+      {
+        "areaCode": "124",
+        "areaName": "加拿大"
+      }
+    ]
+  }
+}

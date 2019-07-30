@@ -2,44 +2,86 @@ import classNames from 'classnames';
 import * as React from 'react';
 import win from '../../../main/bridge/win';
 import { disposeMockProxyServer } from '../../../main/bridge/mockProxyServer';
+import { inject, observer } from 'mobx-react';
 
-const { useState } = React;
+@inject((stores: any) => {
+  const { mockerVisible } = stores.monitor;
+  return {
+    mockerVisible,
+    setMockerVisible: (state: boolean) =>
+      stores.monitor.setMockerVisible(state),
+  };
+})
+@observer
+class TitleBarView extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
 
-function TitleBar() {
-  const [isMax, setMax]: [boolean, any] = useState(false);
+    this.state = {
+      isMax: false,
+    };
+  }
 
-  const maxToogle = () => {
+  public maxToogle() {
     if (win.isMax()) {
       win.unmaximize();
-      setMax(false);
+      this.setState({
+        isMax: false,
+      });
     } else {
       win.maximize();
-      setMax(true);
+      this.setState({
+        isMax: true,
+      });
     }
-  };
+  }
 
-  const closePage = () => {
+  public closePage() {
     disposeMockProxyServer();
     win.close();
-  };
+  }
 
-  return (
-    <div className="control">
-      <div className="tit">猎豹App模拟器代理工具</div>
-      <div className="file-name tabs">
-        <div className="item active">App接管模式</div>
-        <div className="item">本地mock模式</div>
+  public render() {
+    const { mockerVisible, setMockerVisible } = this.props;
+    return (
+      <div className="control">
+        <div className="tit">猎豹App模拟器代理工具</div>
+        <div className="file-name tabs">
+          <div
+            className={classNames('item', { active: !mockerVisible })}
+            onClick={() => {
+              setMockerVisible(false);
+            }}
+          >
+            App接管模式
+          </div>
+          <div
+            className={classNames('item', { active: mockerVisible })}
+            onClick={() => {
+              setMockerVisible(true);
+            }}
+          >
+            本地mock模式
+          </div>
+        </div>
+        <div className="win">
+          <button className="min" onClick={win.minimize} />
+          <button
+            className={classNames('toogle', { back: this.state.isMax })}
+            onClick={() => {
+              this.maxToogle();
+            }}
+          />
+          <button
+            className="close"
+            onClick={() => {
+              this.closePage();
+            }}
+          />
+        </div>
       </div>
-      <div className="win">
-        <button className="min" onClick={win.minimize} />
-        <button
-          className={classNames('toogle', { back: isMax })}
-          onClick={maxToogle}
-        />
-        <button className="close" onClick={closePage} />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default TitleBar;
+export default TitleBarView;

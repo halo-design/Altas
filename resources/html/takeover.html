@@ -152,9 +152,6 @@
   
           if (resCode === 200) {
             console.log('Server Connected.');
-          } else if (resCode === 400) {
-            $status.removeClass('connected');
-            $('body').removeClass('online');
           } else if (resCode === 201) {
             AlipayJSBridge.call(fnName, params, function (data) {
               ws.send(JSON.stringify({ uid, data, resCode: 201 }))

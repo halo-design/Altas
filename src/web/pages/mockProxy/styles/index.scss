@@ -52,13 +52,19 @@ body {
   }
 }
 
-.app-monitor {
+.app-monitor,
+.app-mocker {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  top: 34px;
+  top: 35px;
   overflow: hidden;
+  background-color: #1d2028;
+
+  &.hide {
+    display: none;
+  }
 }
 
 .app-logger {
@@ -69,7 +75,6 @@ body {
     right: 0;
     bottom: 28px;
     padding: 15px;
-    background-color: #1d2028;
 
     *::-webkit-scrollbar {
       width: 4px;

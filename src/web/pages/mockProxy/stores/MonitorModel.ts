@@ -34,7 +34,7 @@ const fc: any = {
   white: (str: string) => `\x1B[1;0;37m${str}\x1B[0m`,
 };
 
-export default class TerminalModel {
+export default class MonitorlModel {
   @observable public serverOnline: boolean = false;
   @observable public websocketOnline: boolean = false;
   @observable public qrCanvas: any = null;
@@ -43,6 +43,7 @@ export default class TerminalModel {
   @observable public term: any = null;
   @observable public resizeTerm: any = null;
   @observable public port: number = 2323;
+  @observable public mockerVisible: boolean = false;
 
   @computed get qrCodeVisible() {
     return this.serverOnline && !this.websocketOnline && this.host.length > 0;
@@ -77,6 +78,11 @@ export default class TerminalModel {
     addMockProxyWsListener((status: any, args: any) => {
       this.setWebsocketOnline(status);
     });
+  }
+
+  @action
+  public setMockerVisible(state: boolean) {
+    this.mockerVisible = state;
   }
 
   @action

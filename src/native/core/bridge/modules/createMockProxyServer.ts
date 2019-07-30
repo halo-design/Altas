@@ -31,7 +31,7 @@ export default (RPC: any) => {
     let server: any = http.createServer(({ url }: any, res) => {
       if (url === '/') {
         const page = fs.readFileSync(
-          file.path('resources/takeover.html'),
+          file.path('resources/html/takeover.html'),
           'utf8'
         );
         res.setHeader('Content-Type', mime.html);
@@ -113,10 +113,9 @@ export default (RPC: any) => {
     });
 
     RPC.on('dispose-mock-proxy-server', () => {
-      wsSender(null, {
-        resCode: 400,
-        data: 'Server Disconnected.',
-      });
+      if (wsGlobal) {
+        wsGlobal.close();
+      }
       if (server) {
         server.close();
       }

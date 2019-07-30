@@ -16,7 +16,7 @@ const open = require('open');
 const chokidar = require('chokidar');
 
 const INJECTED_CODE = fs.readFileSync(
-  file.path('resources/injected.html'),
+  file.path('resources/html/injected.html'),
   'utf8'
 );
 
