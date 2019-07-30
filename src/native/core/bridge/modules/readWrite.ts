@@ -11,7 +11,7 @@ export default (RPC: any) => {
   RPC.on('write-storage', ({ key, data }: { key: string; data: object }) => {
     storage.set(key, data, (err: any) => {
       if (err) {
-        throw err;
+        log.error(err);
       } else {
         log.info(data);
         log.info(`[${key}]：写入数据.`);
@@ -21,16 +21,23 @@ export default (RPC: any) => {
 
   RPC.on('read-storage', (key: string) => {
     storage.get(key, (err, data) => {
-      log.info(`[${key}]：读取数据.`);
-      dispatch('get-storage' + key, data);
+      if (err) {
+        log.error(err);
+      } else {
+        log.info(`[${key}]：读取数据.`);
+        dispatch('get-storage' + key, data);
+      }
     });
   });
 
   RPC.on('remove-storage', (key: string) => {
     storage.remove(key, err => {
-      log.error(err);
+      if (err) {
+        log.error(err);
+      } else {
+        log.info(`[${key}]：删除数据.`);
+      }
     });
-    log.info(`[${key}]：删除数据.`);
   });
 
   RPC.on('remove-file', (url: string) => {

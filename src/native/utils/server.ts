@@ -16,7 +16,7 @@ const open = require('open');
 const chokidar = require('chokidar');
 
 const INJECTED_CODE = fs.readFileSync(
-  file.path('resources/html/injected.html'),
+  file.path('renderer/public/html/injected.html'),
   'utf8'
 );
 
@@ -38,7 +38,9 @@ const staticServer = (root: string) => {
   try {
     isFile = fs.statSync(root).isFile();
   } catch (e) {
-    if (e.code !== 'ENOENT') throw e;
+    if (e.code !== 'ENOENT') {
+      log.error(e);
+    }
   }
   return (req: any, res: any, next: Function) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') {

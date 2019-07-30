@@ -16,6 +16,5 @@ export default (color: string): string => {
   const b = argb.slice(7).join('');
 
   const rgba = `rgba(${trans(r)},${trans(g)},${trans(b)},${trans(a)})`;
-  // console.log(rgba);
   return rgba;
 };
