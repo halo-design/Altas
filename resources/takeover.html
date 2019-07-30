@@ -30,8 +30,12 @@
       }
 
       body {
-        background: #fff url(/static/images/connecting.jpg) no-repeat center center;
+        background: #fff url(/static/images/disconnect.png) no-repeat center center;
         background-size: 280px auto;
+      }
+
+      body.online {
+        background-image: url(/static/images/connecting.jpg);
       }
 
       .status {
@@ -65,8 +69,10 @@
         content: "等待连接";
         font-size: 14px;
         color: #fff;
-        line-height: 80px;
+        line-height: 60px;
         text-align: center;
+        background: url(/static/images/connect.svg) no-repeat center 44px;
+        background-size: 22px auto;
       }
 
       .status.connected:after {
@@ -123,6 +129,7 @@
         const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
+          $('body').addClass('online');
           $status.addClass('connected');
           ws.send(JSON.stringify(({ resCode: 200, data: 'Client Connected.' })));
           AlipayJSBridge.call('showToast', {
@@ -132,6 +139,7 @@
 
         ws.onclose = () => {
           $status.removeClass('connected');
+          $('body').removeClass('online');
           ws.send(JSON.stringify(({ resCode: 400, data: 'Client Disconnected.' })));
           AlipayJSBridge.call('showToast', {
             message: '接管程序断开连接.'
@@ -144,6 +152,9 @@
   
           if (resCode === 200) {
             console.log('Server Connected.');
+          } else if (resCode === 400) {
+            $status.removeClass('connected');
+            $('body').removeClass('online');
           } else if (resCode === 201) {
             AlipayJSBridge.call(fnName, params, function (data) {
               ws.send(JSON.stringify({ uid, data, resCode: 201 }))

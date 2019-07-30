@@ -53,7 +53,7 @@ export default class WorkBenchView extends React.Component<any> {
   public componentDidMount() {
     const stats = new Stats();
     const statsDOM = stats.dom;
-    statsDOM.style.cssText = `position:fixed;top:10px;left:474px;cursor:pointer;opacity:0.9;z-index:90000`;
+    statsDOM.style.cssText = `position:fixed;bottom:34px;right:10px;cursor:pointer;opacity:0.9;z-index:90000`;
     stats.showPanel(0);
     this.statsEl.appendChild(statsDOM);
 

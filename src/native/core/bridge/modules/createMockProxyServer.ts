@@ -113,6 +113,10 @@ export default (RPC: any) => {
     });
 
     RPC.on('dispose-mock-proxy-server', () => {
+      wsSender(null, {
+        resCode: 400,
+        data: 'Server Disconnected.',
+      });
       if (server) {
         server.close();
       }
