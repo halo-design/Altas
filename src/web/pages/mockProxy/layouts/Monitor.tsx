@@ -11,6 +11,7 @@ import classNames from 'classnames';
     host,
     qrCodeVisible,
     createServer: (port?: number) => stores.monitor.createServer(port),
+    clearLog: () => stores.monitor.clearLog(),
     disposeServer: () => stores.monitor.disposeServer(),
     initQrcode: (el: any) => stores.monitor.initQrcode(el),
   };
@@ -33,6 +34,7 @@ class MonitorView extends React.Component<any> {
       disposeServer,
       host,
       qrCodeVisible,
+      clearLog,
     } = this.props;
 
     return (
@@ -60,6 +62,15 @@ class MonitorView extends React.Component<any> {
             active: serverOnline,
           })}
         >
+          <div
+            className="clear-log"
+            onClick={() => {
+              clearLog();
+            }}
+          >
+            <i className="iconfont">&#xe601;</i>
+            <span>清除日志</span>
+          </div>
           <div className="server">
             <i className="iconfont">&#xe624;</i>
             <span>代理服务：</span>

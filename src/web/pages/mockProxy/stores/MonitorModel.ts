@@ -156,6 +156,12 @@ export default class TerminalModel {
     return fc.yellow(`${moment().format('h:mm:ss.SSS')} › `);
   }
 
+  public clearLog() {
+    if (this.term) {
+      this.term.clear();
+    }
+  }
+
   public initTerm() {
     if (!this.term) {
       const rowscols = this.getRowsCols();

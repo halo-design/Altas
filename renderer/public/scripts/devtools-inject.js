@@ -515,19 +515,18 @@ class JSBridge {
     callback(deafultErrorRes);
   }
 
-  showSharePad(params, callback) {
-    if (callback) {
-      callback(deafultErrorRes);
-    }
-  }
+  // showSharePad(params, callback) {
+  //   if (callback) {
+  //     callback(deafultErrorRes);
+  //   }
+  // }
 
-  shareTo(params, callback) {
-    if (callback) {
-      callback(deafultErrorRes);
-    }
-  }
+  // shareTo(params, callback) {
+  //   if (callback) {
+  //     callback(deafultErrorRes);
+  //   }
+  // }
 
-  // mock function
   // login(params, callback) {
   //   this.pushWindow({
   //     url: params.pageUrl,

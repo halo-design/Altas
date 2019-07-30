@@ -58,7 +58,7 @@ body {
   right: 0;
   bottom: 0;
   top: 34px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .app-logger {
@@ -96,7 +96,6 @@ body {
   box-sizing: border-box;
   height: 28px;
   line-height: 28px;
-  padding-left: 10px;
   display: flex;
   position: absolute;
   left: 0;
@@ -108,6 +107,15 @@ body {
 
   &.active {
     background-color: #1753f8;
+  }
+
+  .clear-log {
+    cursor: pointer;
+    padding: 0 10px;
+
+    &:hover {
+      background-color: rgb(255, 187, 0);
+    }
   }
 
   .light {
@@ -132,7 +140,7 @@ body {
   }
 
   > div + div {
-    margin-left: 20px;
+    margin-left: 15px;
   }
 
   .host {
