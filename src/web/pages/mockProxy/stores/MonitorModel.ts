@@ -211,7 +211,7 @@ export default class MonitorlModel {
       });
 
       mockProxyWsSendGlobal(({ data }: any) => {
-        if ('fnName' in data) {
+        if (data['fnName']) {
           term.writeln(
             `${this.getTimeLog()}${fc.cyan('[Proxy Handle]:')} ${fc.purple(
               data['fnName']

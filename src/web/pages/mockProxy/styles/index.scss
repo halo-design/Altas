@@ -42,11 +42,11 @@ body {
       flex-grow: 1;
       -webkit-app-region: no-drag;
       cursor: pointer;
+      border: 1px solid transparent;
 
       &.active {
         background-color: #1d2028;
-        border: 1px solid #ffffff1a;
-        border-width: 0 1px;
+        border-color: transparent #ffffff1a;
       }
     }
   }
@@ -67,7 +67,7 @@ body {
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: #262a35;
+    background-color: #3a3f4d;
     border-radius: 2px;
   }
 
