@@ -89,7 +89,7 @@ class MonitorView extends React.Component<any> {
           <div className="ws">
             <i className="iconfont">&#xe63b;</i>
             <span>接管程序：</span>
-            {serverOnline && websocketOnline ? (
+            {websocketOnline ? (
               <span>
                 <i className="light active" />
                 已连接

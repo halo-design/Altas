@@ -14,13 +14,18 @@ import {
   addClientWsListener,
   mockProxyWsSendGlobal,
 } from '../../../main/bridge/mockProxyServer';
+import { readMockSync } from '../../../main/bridge/createMocker';
+
 const QRcode = require('qrcode');
 const moment = require('moment');
+const cardinal = require('cardinal');
+const stringifyObject = require('./stringify-object');
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(webLinks);
 
-const resultFormat = (data: object) => JSON.stringify(data);
+const resultFormat = (data: object) =>
+  cardinal.highlight(stringifyObject(data, { indent: '  ' }));
 
 const lnBr = process.platform === 'win32' ? '\r\n' : '\n';
 
@@ -44,6 +49,8 @@ export default class MonitorlModel {
   @observable public resizeTerm: any = null;
   @observable public port: number = 2323;
   @observable public mockerVisible: boolean = false;
+  @observable public autoSave: boolean = false;
+  @observable public mockData: object = {};
 
   @computed get qrCodeVisible() {
     return this.serverOnline && !this.websocketOnline && this.host.length > 0;
@@ -78,6 +85,16 @@ export default class MonitorlModel {
     addMockProxyWsListener((status: any, args: any) => {
       this.setWebsocketOnline(status);
     });
+
+    this.getMockData();
+  }
+
+  @action
+  public getMockData() {
+    readMockSync().then(({ settings: { autoSave }, data }: any) => {
+      this.mockData = data;
+      this.autoSave = autoSave;
+    });
   }
 
   @action
@@ -107,7 +124,6 @@ export default class MonitorlModel {
     if (ip) {
       this.host = `http://${ip}:${port}`;
 
-      console.log(111111, this.qrCodeVisible, this.qrCanvas);
       if (this.qrCanvas && this.qrCodeVisible) {
         QRcode.toCanvas(this.qrCanvas, this.host, {
           width: 240,
@@ -188,7 +204,7 @@ export default class MonitorlModel {
 
       addClientWsListener(({ data }: any) => {
         term.writeln(
-          `${this.getTimeLog()}${fc.green('[CLIENT RECIEVE]:')} ${resultFormat(
+          `${this.getTimeLog()}${fc.blue('[Client Recieve]:')} ${resultFormat(
             data
           )}` + lnBr
         );
@@ -197,18 +213,18 @@ export default class MonitorlModel {
       mockProxyWsSendGlobal(({ data }: any) => {
         if ('fnName' in data) {
           term.writeln(
-            `${this.getTimeLog()}${fc.blue('[PROXY HANDLE]:')} ${fc.purple(
+            `${this.getTimeLog()}${fc.cyan('[Proxy Handle]:')} ${fc.purple(
               data['fnName']
             )}`
           );
           term.writeln(
-            `${this.getTimeLog()}${fc.blue('[PROXY PARAMS]:')} ${resultFormat(
+            `${this.getTimeLog()}${fc.cyan('[Proxy Params]:')} ${resultFormat(
               data['params']
             )}` + lnBr
           );
         } else {
           term.writeln(
-            `${this.getTimeLog()}${fc.purple('[SERVER SEND]:')} ${resultFormat(
+            `${this.getTimeLog()}${fc.purple('[Server Send]:')} ${resultFormat(
               data
             )}`
           );

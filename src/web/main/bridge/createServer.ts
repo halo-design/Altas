@@ -26,7 +26,7 @@ export const serverMonitor = (cb: Function) => {
 };
 
 export const disposeServer = (cb?: Function) => {
-  dispatch('close-server', '');
+  dispatch('close-server', {});
   RPC.once('server-closed', () => {
     cb && cb();
   });

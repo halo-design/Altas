@@ -21,7 +21,7 @@ export const download = (
 };
 
 export const cancelDownloadTask = (): void => {
-  dispatch('file-download-cancel', '');
+  dispatch('file-download-cancel', {});
 };
 
 export interface IMultiDownloadOptions {

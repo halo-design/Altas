@@ -53,14 +53,14 @@ export const removeFile = (filePath: string) => {
 };
 
 export const cleanAppCache = (cb?: Function) => {
-  dispatch('clean-app-cache', '');
+  dispatch('clean-app-cache', {});
   RPC.once('clean-app-cache-done', (args: any) => {
     cb && cb(args);
   });
 };
 
 export const cleanAppData = (cb?: Function) => {
-  dispatch('clean-app-data', '');
+  dispatch('clean-app-data', {});
   RPC.once('clean-app-data-done', (args: any) => {
     cb && cb(args);
   });

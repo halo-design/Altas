@@ -88,7 +88,7 @@ export class Client {
     this.emitter.once(ev, fn);
   }
 
-  public dispatch(ev: string, data: object) {
+  public dispatch(ev: string, data: object | string) {
     if (!this.id) {
       throw new Error('Not ready');
     }

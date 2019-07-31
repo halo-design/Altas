@@ -87,7 +87,7 @@ export const cheetahSimulator = (options: Idebug, callback?: Function) => {
     'cheetahSimulator',
     'renderer/cheetah.html',
     options,
-    ['createWindow'],
+    ['createWindow', 'createMocker'],
     callback
   );
 };
@@ -146,6 +146,6 @@ export const mockProxyServer = () => {
         webviewTag: false,
       },
     },
-    ['createMockProxyServer']
+    ['createMockProxyServer', 'createMocker']
   );
 };
