@@ -12,6 +12,8 @@ import { mockProxyServer } from '../../../main/bridge/createWindow';
     focusDevtoolsState,
     showLinkBar,
     focusWebviewSpinner,
+    serverConnectState,
+    wsConnectState,
   } = stores.webview;
 
   return {
@@ -21,6 +23,8 @@ import { mockProxyServer } from '../../../main/bridge/createWindow';
     focusDevtoolsState,
     showLinkBar,
     focusWebviewSpinner,
+    serverConnectState,
+    wsConnectState,
     focusToNextWebview: () => stores.webview.focusToNextWebview(),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
     debugFocusWebview: () => stores.webview.debugFocusWebview(),
@@ -46,6 +50,8 @@ class HeaderView extends React.Component<any, any> {
       toogleLinkBar,
       focusWebviewSpinner,
       webviewCount,
+      serverConnectState,
+      wsConnectState,
     } = this.props;
 
     return (
@@ -126,7 +132,10 @@ class HeaderView extends React.Component<any, any> {
           </div>
           <div
             title="模拟参数"
-            className="btn"
+            className={classnames('btn', {
+              active: serverConnectState,
+              light: wsConnectState,
+            })}
             onClick={() => {
               mockProxyServer();
             }}

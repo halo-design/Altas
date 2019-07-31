@@ -9,6 +9,18 @@ import { BrowserWindow } from 'electron';
 import mime from '../../../constants/mime';
 import * as ip from 'ip';
 
+const traversalAllWindows = (fn: (win: Electron.BrowserWindow) => void) => {
+  BrowserWindow.getAllWindows().forEach((win: Electron.BrowserWindow) => {
+    fn(win);
+  });
+};
+
+const sendToAllWindows = (key: string, data: object) => {
+  traversalAllWindows((win: Electron.BrowserWindow) => {
+    win.webContents.send(key, data);
+  });
+};
+
 export default (RPC: any) => {
   let wsGlobal: any = null;
 
@@ -28,6 +40,11 @@ export default (RPC: any) => {
     ipcMain.on('mock-proxy-ws-send-global', wsSender);
 
     let usePort: number = port;
+    const getHost = () => ({
+      port: usePort,
+      ip: ip.address(),
+    });
+
     let server: any = http.createServer(({ url }: any, res) => {
       if (url === '/') {
         const page = fs.readFileSync(
@@ -57,7 +74,9 @@ export default (RPC: any) => {
       const ws = new WebSocket(request, socket, body);
       wsGlobal = ws;
 
-      RPC.dispatch('mock-proxy-ws-connect', { port: usePort });
+      sendToAllWindows('mock-proxy-ws-connect-global', getHost());
+
+      RPC.dispatch('mock-proxy-ws-connect', getHost());
 
       ws.on('message', ({ data }: any) => {
         log.info('Recieve:', data);
@@ -70,14 +89,15 @@ export default (RPC: any) => {
           });
         }
 
-        BrowserWindow.getAllWindows().forEach((win: Electron.BrowserWindow) => {
-          win.webContents.send('mock-proxy-ws-recieve-global', formatData);
-        });
+        sendToAllWindows('mock-proxy-ws-recieve-global', formatData);
       });
 
       ws.on('close', (event: any) => {
         log.info('Websocket close:', event.code, event.reason);
-        RPC.dispatch('mock-proxy-ws-disconnected', { port: usePort });
+
+        sendToAllWindows('mock-proxy-ws-disconnected-global', getHost());
+
+        RPC.dispatch('mock-proxy-ws-disconnected', getHost());
       });
     });
 
@@ -106,10 +126,10 @@ export default (RPC: any) => {
 
     server.listen(port, () => {
       log.info('Server listening:', usePort);
-      RPC.dispatch('mock-proxy-server-connect', {
-        port: usePort,
-        ip: ip.address(),
-      });
+
+      sendToAllWindows('mock-proxy-server-connect-global', getHost());
+
+      RPC.dispatch('mock-proxy-server-connect', getHost());
     });
 
     RPC.on('dispose-mock-proxy-server', () => {
@@ -119,7 +139,10 @@ export default (RPC: any) => {
       if (server) {
         server.close();
       }
-      RPC.dispatch('mock-proxy-server-disconnected', { port: usePort });
+
+      sendToAllWindows('mock-proxy-server-disconnected-global', getHost());
+
+      RPC.dispatch('mock-proxy-server-disconnected', getHost());
       server = null;
       wsGlobal = null;
     });

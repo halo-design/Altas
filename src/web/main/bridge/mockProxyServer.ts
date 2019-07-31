@@ -32,11 +32,11 @@ export const addMockProxyWsListener = (
 };
 
 export const addClientWsListener = (callback: Function) => {
-  RPC.wsRecieveGlobal(callback);
+  RPC.mockProxyWsRecieveGlobal(callback);
 };
 
 export const sendWsToClient = (params: object) => {
-  RPC.wsBrodcastGlobal(params);
+  RPC.mockProxyWsBrodcastGlobal(params);
 };
 
 export const mockProxyWsSendGlobal = (callback: Function) => {

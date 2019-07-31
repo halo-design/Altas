@@ -4,6 +4,7 @@ import * as uuid from 'uuid';
 import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
 import { urlTest } from '../../../main/constants/Reg';
+import RPC from '../../../main/bridge/rpc';
 import { scrollbarStyleString } from '../../../main/constants/API';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
@@ -38,6 +39,8 @@ export default class WebviewModel {
   @observable public triggleRefresh: boolean = false;
 
   // navigator bar
+  @observable public serverConnectState: boolean = false;
+  @observable public wsConnectState: boolean = false;
   @observable public leftMenus: IMenu[] = [];
   @observable public leftMenusVisible: boolean = true;
   @observable public rightMenus: IMenu[] = [];
@@ -54,6 +57,24 @@ export default class WebviewModel {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
     this.setDefaultNavBar();
     this.getTime();
+
+    RPC.mockProxyServerConnectStatusGlobal((args: any) => {
+      this.setServerConnectState(args.connect);
+    });
+
+    RPC.mockProxyWsConnectStatusGlobal((args: any) => {
+      this.setWsConnectState(args.connect);
+    });
+  }
+
+  @action
+  public setServerConnectState(state: boolean) {
+    this.serverConnectState = state;
+  }
+
+  @action
+  public setWsConnectState(state: boolean) {
+    this.wsConnectState = state;
   }
 
   @action
@@ -294,7 +315,13 @@ export default class WebviewModel {
       const { visible } = params;
       this.navBarVisible = visible;
     } else {
-      interaction(name, params, this.focusWebviewSender);
+      interaction(
+        name,
+        params,
+        this.focusWebviewSender,
+        this.serverConnectState,
+        this.wsConnectState
+      );
     }
   }
 

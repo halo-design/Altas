@@ -7,7 +7,13 @@ import RPC from '../../../main/bridge/rpc';
 const alert = Modal.alert;
 const prompt = Modal.prompt;
 
-export default (command: string, params: any, sender: Function) => {
+export default (
+  command: string,
+  params: any,
+  sender: Function,
+  server: boolean,
+  ws: boolean
+) => {
   switch (command) {
     case 'showToastWithLoading': {
       const { content, duration, mask } = params;
@@ -171,18 +177,25 @@ export default (command: string, params: any, sender: Function) => {
     }
 
     case 'remote-devtool': {
-      RPC.wsBrodcastGlobal(params);
+      RPC.mockProxyWsBrodcastGlobal(params);
 
-      Toast.info(`"${params.data.fnName}"方法被接管.`);
+      if (server) {
+        ws
+          ? Toast.info(`"${params.data.fnName}"方法被接管程序接管.`)
+          : Toast.fail('请连接接管程序.');
 
-      RPC.wsRecieveGlobal(({ resCode, data, uid }: any) => {
-        if (resCode === 200) {
-          Toast.info('已进入接管模式！');
-        }
-        if (uid) {
-          sender(uid, data);
-        }
-      });
+        RPC.mockProxyWsRecieveGlobal(({ resCode, data, uid }: any) => {
+          if (resCode === 200) {
+            Toast.info('已进入接管模式！');
+          }
+          if (uid) {
+            sender(uid, data);
+          }
+        });
+      } else {
+        Toast.info(`"${params.data.fnName}"方法返回mock参数.`);
+      }
+
       break;
     }
   }

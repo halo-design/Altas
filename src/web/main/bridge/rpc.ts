@@ -31,36 +31,71 @@ export class Client {
     }
   }
 
-  private ipcListener(event: any, { ch, data }: { ch: any; data: any }) {
+  private ipcListener(event: any, { ch, data }: { ch: string; data: object }) {
     this.emitter.emit(ch, data);
   }
 
-  public wsRecieveGlobal(callback: Function) {
-    this.ipc.on('mock-proxy-ws-recieve-global', (ev: any, args: any) => {
+  public mockProxyWsRecieveGlobal(callback: Function) {
+    this.ipc.on('mock-proxy-ws-recieve-global', (ev: any, args: object) => {
       callback(args);
     });
   }
 
-  public wsBrodcastGlobal(args: any) {
+  public mockProxyServerConnectStatusGlobal(callback: Function) {
+    this.ipc.on('mock-proxy-server-connect-global', (ev: any, args: object) => {
+      callback({
+        connect: true,
+        ...args,
+      });
+    });
+
+    this.ipc.on(
+      'mock-proxy-server-disconnected-global',
+      (ev: any, args: any) => {
+        callback({
+          connect: false,
+          ...args,
+        });
+      }
+    );
+  }
+
+  public mockProxyWsConnectStatusGlobal(callback: Function) {
+    this.ipc.on('mock-proxy-ws-connect-global', (ev: any, args: object) => {
+      callback({
+        connect: true,
+        ...args,
+      });
+    });
+
+    this.ipc.on('mock-proxy-ws-disconnected-global', (ev: any, args: any) => {
+      callback({
+        connect: false,
+        ...args,
+      });
+    });
+  }
+
+  public mockProxyWsBrodcastGlobal(args: object) {
     this.ipc.send('mock-proxy-ws-send-global', args);
   }
 
-  public on(ev: any, fn: any) {
+  public on(ev: string, fn: Function) {
     this.emitter.on(ev, fn);
   }
 
-  public once(ev: any, fn: any) {
+  public once(ev: string, fn: Function) {
     this.emitter.once(ev, fn);
   }
 
-  public dispatch(ev: any, data: any) {
+  public dispatch(ev: string, data: object) {
     if (!this.id) {
       throw new Error('Not ready');
     }
     this.ipc.send(this.id, { ev, data });
   }
 
-  public removeListener(ev: any, fn: any) {
+  public removeListener(ev: string, fn: Function) {
     this.emitter.removeListener(ev, fn);
   }
 

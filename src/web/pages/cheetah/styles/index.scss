@@ -125,6 +125,11 @@ html {
     text-shadow: 0 0 5px #ff4c027a;
   }
 
+  &.light {
+    color: #36d462;
+    text-shadow: 0 0 5px #2bff317a;
+  }
+
   &.disabled {
     color: #33363b;
   }
