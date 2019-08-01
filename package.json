@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
@@ -118,6 +118,7 @@
     "http-auth": "^3.2.3",
     "http-proxy-middleware": "^0.19.1",
     "ip": "^1.1.5",
+    "is-regexp": "^2.1.0",
     "lodash": "^4.17.15",
     "markdown-it": "^9.0.1",
     "markdown-it-attrs": "^3.0.0",

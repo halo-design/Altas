@@ -118,7 +118,7 @@ class MonitorView extends React.Component<any> {
               }}
             >
               <i className="iconfont">&#xe867;</i>
-              <span>关闭代理调试</span>
+              <span>关闭接管调试</span>
             </div>
           ) : (
             <div
