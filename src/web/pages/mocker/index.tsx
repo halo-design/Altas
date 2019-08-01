@@ -12,6 +12,8 @@ import '../../../../node_modules/antd/es/form/style/index.css';
 import '../../../../node_modules/antd/es/switch/style/index.css';
 import '../../../../node_modules/antd/es/button/style/index.css';
 import '../../../../node_modules/antd/es/input/style/index.css';
+import '../../../../node_modules/antd/es/message/style/index.css';
+import '../../../../node_modules/antd/es/tooltip/style/index.css';
 import '../../../../node_modules/xterm/dist/xterm.css';
 import '../markdown/index.scss';
 import './styles/index.scss';

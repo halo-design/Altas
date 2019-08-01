@@ -75,7 +75,7 @@ export const deviceDevtools = (
 export const deviceSimulator = (options: Idebug, callback?: Function) => {
   deviceDevtools(
     'deviceSimulator',
-    'renderer/devtools.html',
+    'renderer/pages/devtools.html',
     options,
     [],
     callback
@@ -85,8 +85,11 @@ export const deviceSimulator = (options: Idebug, callback?: Function) => {
 export const cheetahSimulator = (options: Idebug, callback?: Function) => {
   deviceDevtools(
     'cheetahSimulator',
-    'renderer/cheetah.html',
-    options,
+    'renderer/pages/cheetah.html',
+    {
+      preload: '../public/scripts/devtools-inject.js',
+      ...options,
+    },
     ['createWindow', 'createMocker'],
     callback
   );
@@ -96,7 +99,7 @@ export const markdownViewer = (remoteUrl?: string) => {
   createWindow(
     '',
     {
-      pathname: 'renderer/markdown.html',
+      pathname: 'renderer/pages/markdown.html',
       hash: qs.stringify({ remoteUrl }),
     },
     {
@@ -125,7 +128,7 @@ export const mockProxyServer = () => {
   createWindow(
     'mockProxyServer',
     {
-      pathname: 'renderer/mocker.html',
+      pathname: 'renderer/pages/mocker.html',
       hash: '',
     },
     {

@@ -27,7 +27,7 @@
       }
 
       body {
-        background: #275EFE;
+        background: #1d1d1f;
       }
 
       #btn {
@@ -49,8 +49,8 @@
       }
 
     </style>
-    <script src="public/scripts/jquery.min.js"></script>
-    <script src="public/scripts/three.min.js"></script>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/three.min.js"></script>
   </head>
   <body>
     <div id="loader">
@@ -97,7 +97,7 @@
       frontTop.castShadow = true;
       scene.add(frontTop);
 
-      scene.add(new THREE.AmbientLight(0xCDD9ED));
+      scene.add(new THREE.AmbientLight(0xCCCDD0));
 
       function twist(geometry, amount) {
           const quaternion = new THREE.Quaternion();

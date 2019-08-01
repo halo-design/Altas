@@ -50,7 +50,6 @@ class ToolsView extends React.Component<any> {
   public openCheetahDevice() {
     cheetahSimulator({
       target: 'http://flameapp.cn/jsapi-test/index.html',
-      preload: './public/scripts/devtools-inject.js',
       descriptors: allDeviceObject[this.props.useDebugDevice],
     });
   }

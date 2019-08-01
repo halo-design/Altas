@@ -216,7 +216,7 @@ class CreateServerView extends React.Component<any> {
                   className="wrapper-input"
                   placeholder="端口"
                   defaultValue={localHostPort}
-                  onChange={(e: any) => {
+                  onBlur={(e: any) => {
                     setLocalHostPort(e.target.value);
                   }}
                   addonAfter={

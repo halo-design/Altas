@@ -28,14 +28,21 @@ export const readCustomMockData = (fn: Function) => {
         const mockData = readDefaultMockData();
         fn(mockData);
         log.info('mock参数未自定义设置.');
-        log.info(`[读取默认mock参数]: ${JSON.stringify(mockData)}`);
+        log.info(`读取默认mock参数.`);
       } else {
         fn(data);
-        log.info(`[读取自定义mock参数]: ${JSON.stringify(data)}`);
+        log.info(`读取自定义mock参数.`);
       }
     }
   });
 };
+
+export const readCustomMockDataSync = () =>
+  new Promise((resolve, reject) => {
+    readCustomMockData((args: object) => {
+      resolve(args);
+    });
+  });
 
 export const resetCustomMockData = (fn?: Function) => {
   const defaultData = readDefaultMockData();

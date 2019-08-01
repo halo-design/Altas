@@ -122,7 +122,12 @@ export default class CreateServerModel {
 
   @action
   public setLocalHostPort(port: string) {
-    this.localHostPort = port;
+    if (port && port.length === 4 && !isNaN(Number(port))) {
+      this.localHostPort = port;
+    } else {
+      message.error('请输入正确的端口号！');
+      this.localHostPort = '8080';
+    }
   }
 
   @action
@@ -182,7 +187,6 @@ export default class CreateServerModel {
         if (port) {
           this.localHostPort = port;
         }
-        console.log(serveUrl);
         if (this.debugTool === 'local') {
           remote.shell.openExternal(this.webServerHost);
         } else if (this.debugTool === 'web') {
@@ -194,7 +198,6 @@ export default class CreateServerModel {
         } else if (this.debugTool === 'cheetah') {
           cheetahSimulator({
             target: this.webServerHost,
-            preload: './public/scripts/devtools-inject.js',
             descriptors: allDeviceObject[this.useDebugDevice],
           });
         }

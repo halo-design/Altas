@@ -8,6 +8,10 @@ import file from '../../../utils/file';
 import { BrowserWindow } from 'electron';
 import mime from '../../../constants/mime';
 import * as ip from 'ip';
+import {
+  readCustomMockDataSync,
+  writeCustomMockData,
+} from '../../../utils/mocker';
 
 const traversalAllWindows = (fn: (win: Electron.BrowserWindow) => void) => {
   BrowserWindow.getAllWindows().forEach((win: Electron.BrowserWindow) => {
@@ -23,6 +27,7 @@ const sendToAllWindows = (key: string, data: object) => {
 
 export default (RPC: any) => {
   let wsGlobal: any = null;
+  let localMockData: any = {};
 
   const wsSender = (event: any, args: any) => {
     if (wsGlobal) {
@@ -36,8 +41,11 @@ export default (RPC: any) => {
     }
   };
 
-  RPC.on('create-mock-proxy-server', ({ port }: any) => {
+  RPC.on('create-mock-proxy-server', async ({ port }: any) => {
     ipcMain.on('mock-proxy-ws-send-global', wsSender);
+
+    localMockData = await readCustomMockDataSync();
+    const isAutoSave = localMockData.settings.autoSave;
 
     let usePort: number = port;
     const getHost = () => ({
@@ -81,12 +89,17 @@ export default (RPC: any) => {
       ws.on('message', ({ data }: any) => {
         log.info('Recieve:', data);
         const formatData = JSON.parse(data);
+        const { fnName, resCode } = formatData;
 
-        if (formatData['resCode'] === 200) {
+        if (resCode === 200) {
           wsSender(null, {
             resCode: 200,
             data: 'Server Connected.',
           });
+        }
+
+        if (resCode === 201 && isAutoSave) {
+          localMockData.data[fnName] = formatData.data;
         }
 
         sendToAllWindows('mock-proxy-ws-recieve-global', formatData);
@@ -140,6 +153,7 @@ export default (RPC: any) => {
         server.close();
       }
 
+      writeCustomMockData(localMockData);
       sendToAllWindows('mock-proxy-server-disconnected-global', getHost());
 
       RPC.dispatch('mock-proxy-server-disconnected', getHost());

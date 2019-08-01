@@ -5,6 +5,7 @@ import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
 import { urlTest } from '../../../main/constants/Reg';
 import RPC from '../../../main/bridge/rpc';
+import { readMockData } from '../../../main/bridge/createMocker';
 import { scrollbarStyleString } from '../../../main/constants/API';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
@@ -52,19 +53,32 @@ export default class WebviewModel {
   @observable public navBarMaskBgColor: string = '';
   @observable public navBarBgColor: string = '';
   @observable public curTime: string = moment().format('A h:mm');
+  @observable public localMockData: any = {};
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
     this.setDefaultNavBar();
     this.getTime();
 
+    this.getLocalMockData();
+
     RPC.mockProxyServerConnectStatusGlobal((args: any) => {
       this.setServerConnectState(args.connect);
+      this.getLocalMockData();
     });
 
     RPC.mockProxyWsConnectStatusGlobal((args: any) => {
       this.setWsConnectState(args.connect);
     });
+  }
+
+  @action
+  public getLocalMockData() {
+    if (!this.serverConnectState) {
+      readMockData((args: any) => {
+        this.localMockData = args.data;
+      });
+    }
   }
 
   @action
@@ -320,7 +334,8 @@ export default class WebviewModel {
         params,
         this.focusWebviewSender,
         this.serverConnectState,
-        this.wsConnectState
+        this.wsConnectState,
+        this.localMockData
       );
     }
   }

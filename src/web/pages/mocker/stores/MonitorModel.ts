@@ -5,6 +5,7 @@ import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import xtermConfig from '../../../main/config/xterm';
 const debounce = require('lodash/debounce');
 import { remote } from 'electron';
+import message from 'antd/lib/message';
 import {
   // sendWsToClient,
   createMockProxyServer,
@@ -14,7 +15,11 @@ import {
   addClientWsListener,
   mockProxyWsSendGlobal,
 } from '../../../main/bridge/mockProxyServer';
-import { readMockSync } from '../../../main/bridge/createMocker';
+import {
+  readMockSync,
+  saveMockData,
+  resetMockData,
+} from '../../../main/bridge/createMocker';
 
 const QRcode = require('qrcode');
 const moment = require('moment');
@@ -98,6 +103,24 @@ export default class MonitorlModel {
   }
 
   @action
+  public setMockData(data: object) {
+    saveMockData(data, ({ settings: { autoSave }, data }: any) => {
+      this.mockData = data;
+      this.autoSave = autoSave;
+      message.success('参数配置更新成功！');
+    });
+  }
+
+  @action
+  public resetMockData() {
+    resetMockData(({ settings: { autoSave }, data }: any) => {
+      this.mockData = data;
+      this.autoSave = autoSave;
+      message.success('参数配置重置成功！');
+    });
+  }
+
+  @action
   public setMockerVisible(state: boolean) {
     this.mockerVisible = state;
   }
@@ -136,6 +159,9 @@ export default class MonitorlModel {
   @action
   public setServerOnline(status: boolean) {
     this.serverOnline = status;
+    if (!status && this.autoSave) {
+      this.getMockData();
+    }
   }
 
   @action

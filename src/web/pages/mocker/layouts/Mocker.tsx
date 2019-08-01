@@ -4,32 +4,70 @@ import Input from 'antd/lib/input';
 import Switch from 'antd/lib/switch';
 import Button from 'antd/lib/button';
 import Form from 'antd/lib/form';
+import message from 'antd/lib/message';
+import Tooltip from 'antd/lib/tooltip';
 const { TextArea } = Input;
 
 const mockerCreate = Form.create({ name: 'mocker' });
 
 const stringifyObject = require('stringify-object');
 
+message.config({
+  top: 50,
+});
+
 @inject((stores: any) => {
-  const { mockerVisible, mockData, autoSave } = stores.monitor;
+  const { mockData, autoSave } = stores.monitor;
   return {
-    mockerVisible,
     mockData,
     autoSave,
     setAutoSave: (state: boolean) => stores.monitor.setAutoSave(state),
+    setMockData: (config: object) => stores.monitor.setMockData(config),
+    resetMockData: () => stores.monitor.resetMockData(),
   };
 })
 @observer
-class MockerView extends React.Component<any> {
+class MockerView extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      edited: false,
+    };
+  }
+
   public handleSubmit = (e: any) => {
     e.preventDefault();
-    this.props.form.validateFields((err: any, values: object) => {
-      console.log(values);
+    this.props.form.validateFields((err: any, values: any) => {
+      const data = {};
+      const settings = {};
+      let hasError = false;
+
+      Object.keys(values).forEach((key: string) => {
+        if (key !== 'autoSave') {
+          const val = values[key].replace(/[\r\n]/g, '').replace(/\ +/g, '');
+          try {
+            data[key] = eval(`() => (${val})`)();
+          } catch (err) {
+            if (err) {
+              hasError = true;
+              message.error('请正确填写"' + key + '"参数！');
+            }
+          }
+        } else {
+          settings[key] = values[key];
+        }
+      });
+
+      if (!hasError) {
+        const params = { data, settings };
+        this.props.setMockData(params);
+        console.log(params);
+      }
     });
   };
 
   public render() {
-    const { form, mockerVisible, mockData, autoSave } = this.props;
+    const { form, mockData, autoSave, resetMockData } = this.props;
     const { getFieldDecorator } = form;
 
     const formItemLayout = {
@@ -46,7 +84,7 @@ class MockerView extends React.Component<any> {
     const dataSource = mockData || {};
     const dataKeys = Object.keys(dataSource);
 
-    return mockerVisible ? (
+    return (
       <div className="app-mocker">
         <div className="mock-list">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -56,14 +94,27 @@ class MockerView extends React.Component<any> {
                   initialValue: stringifyObject(dataSource[key], {
                     indent: '  ',
                   }),
-                })(<TextArea autosize={{ minRows: 3, maxRows: 20 }} />)}
+                })(
+                  <TextArea
+                    onChange={() => {
+                      this.setState({ edited: true });
+                    }}
+                    autosize={{ minRows: 3, maxRows: 20 }}
+                  />
+                )}
               </Form.Item>
             ))}
-            <Form.Item label="自动缓存应用数据">
+            <Form.Item label="自动缓存应用调试数据">
               {getFieldDecorator('autoSave', {
                 initialValue: autoSave,
                 valuePropName: 'checked',
-              })(<Switch />)}
+              })(
+                <Switch
+                  onChange={() => {
+                    this.setState({ edited: true });
+                  }}
+                />
+              )}
             </Form.Item>
             <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
               <Button
@@ -71,15 +122,24 @@ class MockerView extends React.Component<any> {
                 size="large"
                 htmlType="submit"
                 block={true}
+                disabled={!this.state.edited}
               >
-                更新配置
+                保存配置修改
               </Button>
             </Form.Item>
           </Form>
         </div>
+        <Tooltip placement="right" title="重置参数配置">
+          <i
+            className="iconfont reset-btn"
+            onClick={() => {
+              resetMockData();
+            }}
+          >
+            &#xe651;
+          </i>
+        </Tooltip>
       </div>
-    ) : (
-      ''
     );
   }
 }

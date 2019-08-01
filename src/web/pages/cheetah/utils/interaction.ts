@@ -12,7 +12,8 @@ export default (
   params: any,
   sender: Function,
   server: boolean,
-  ws: boolean
+  ws: boolean,
+  mockData: any
 ) => {
   switch (command) {
     case 'showToastWithLoading': {
@@ -193,7 +194,18 @@ export default (
           }
         });
       } else {
-        Toast.info(`"${params.data.fnName}"方法返回mock参数.`);
+        const {
+          data: { fnName },
+          uid,
+        } = params;
+        if (fnName in mockData) {
+          if (uid) {
+            sender(uid, mockData[fnName]);
+            Toast.info(`"${fnName}"方法返回缓存mock参数.`);
+          }
+        } else {
+          Toast.fail(`"${fnName}"方法无mock参数返回.`);
+        }
       }
 
       break;

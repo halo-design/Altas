@@ -53,7 +53,7 @@ class TitleBarView extends React.Component<any, any> {
               setMockerVisible(false);
             }}
           >
-            App接管模式
+            App接管程序控制台
           </div>
           <div
             className={classNames('item', { active: mockerVisible })}
@@ -61,7 +61,7 @@ class TitleBarView extends React.Component<any, any> {
               setMockerVisible(true);
             }}
           >
-            本地mock模式
+            本地mock数据设置
           </div>
         </div>
         <div className="win">
