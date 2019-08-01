@@ -1242,10 +1242,18 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.8.23":
+"@types/react@*":
   version "16.8.23"
   resolved "https://registry.npmjs.org/@types/react/-/react-16.8.23.tgz#ec6be3ceed6353a20948169b6cb4c97b65b97ad2"
   integrity sha512-abkEOIeljniUN9qB5onp++g0EY38h7atnDHxwKUFz1r3VH1+yG1OKi2sNPTyObL40goBmfKFpdii2lEzwLX1cA==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@^16.8.24":
+  version "16.8.24"
+  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.8.24.tgz#8d1ea1fcbfa214220da3d3c04e506f1077b0deac"
+  integrity sha1-jR6h/L+iFCINo9PATlBvEHew3qw=
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -1556,26 +1564,26 @@ apache-md5@^1.0.6:
   resolved "https://registry.npmjs.org/apache-md5/-/apache-md5-1.1.2.tgz#ee49736b639b4f108b6e9e626c6da99306b41692"
   integrity sha1-7klza2ObTxCLbp5ibG2pkwa0FpI=
 
-app-builder-bin@3.4.2:
-  version "3.4.2"
-  resolved "https://registry.npmjs.org/app-builder-bin/-/app-builder-bin-3.4.2.tgz#4684003fb319d8bc154b1b6e9ce006bba1602fa9"
-  integrity sha512-E9VvUrZm60oLl0rvLw/ErvZiEOIHkulZbJ9C9TWMD4ftNrkXFc2+a5JGlD19Bwvj329d4qz91zs/hWD01q18TQ==
+app-builder-bin@3.4.3:
+  version "3.4.3"
+  resolved "https://registry.npm.taobao.org/app-builder-bin/download/app-builder-bin-3.4.3.tgz#58a74193eb882f029be6b7f0cd3f0c6805927a6b"
+  integrity sha1-WKdBk+uILwKb5rfwzT8MaAWSems=
 
-app-builder-lib@21.1.5, app-builder-lib@~21.1.5:
-  version "21.1.5"
-  resolved "https://registry.npmjs.org/app-builder-lib/-/app-builder-lib-21.1.5.tgz#355eefcee415b61e224dfdfbc8eb4e74bd1e88c4"
-  integrity sha512-hLsSVSstMTq33a9jbBStrF0e+fa6eWXWIpsatPvHnJlkjx7dAZ5d2cZPe/1bAO3bCL3afpRl5j+HU853eGfDCg==
+app-builder-lib@21.2.0, app-builder-lib@~21.2.0:
+  version "21.2.0"
+  resolved "https://registry.npm.taobao.org/app-builder-lib/download/app-builder-lib-21.2.0.tgz#fa1d1604601431e2c3476857e9b9b61d33ad26cc"
+  integrity sha1-+h0WBGAUMeLDR2hX6bm2HTOtJsw=
   dependencies:
     "7zip-bin" "~5.0.3"
     "@develar/schema-utils" "~2.1.0"
     async-exit-hook "^2.0.1"
     bluebird-lst "^1.0.9"
-    builder-util "21.1.5"
+    builder-util "21.2.0"
     builder-util-runtime "8.3.0"
     chromium-pickle-js "^0.2.0"
     debug "^4.1.1"
     ejs "^2.6.2"
-    electron-publish "21.1.5"
+    electron-publish "21.2.0"
     fs-extra "^8.1.0"
     hosted-git-info "^2.7.1"
     is-ci "^2.0.0"
@@ -1585,7 +1593,7 @@ app-builder-lib@21.1.5, app-builder-lib@~21.1.5:
     minimatch "^3.0.4"
     normalize-package-data "^2.5.0"
     read-config-file "5.0.0"
-    sanitize-filename "^1.6.1"
+    sanitize-filename "^1.6.2"
     semver "^6.3.0"
     temp-file "^3.3.4"
 
@@ -2096,14 +2104,14 @@ builder-util-runtime@8.3.0:
     debug "^4.1.1"
     sax "^1.2.4"
 
-builder-util@21.1.5, builder-util@~21.1.5:
-  version "21.1.5"
-  resolved "https://registry.npmjs.org/builder-util/-/builder-util-21.1.5.tgz#2fb37118c5d6c6f7932a4b489536782a1529af43"
-  integrity sha512-RBr06OnoTKTkg0W7Om2dnuKe8I82CiciU9EdsNnLO8DAfH0ZVCPsVpc3qYmr7g/7cH3zXA3yyQP73QDGNpbVYQ==
+builder-util@21.2.0, builder-util@~21.2.0:
+  version "21.2.0"
+  resolved "https://registry.npm.taobao.org/builder-util/download/builder-util-21.2.0.tgz#aba721190e4e841009d9fb4b88f1130ed616522f"
+  integrity sha1-q6chGQ5OhBAJ2ftLiPETDtYWUi8=
   dependencies:
     "7zip-bin" "~5.0.3"
     "@types/debug" "^4.1.4"
-    app-builder-bin "3.4.2"
+    app-builder-bin "3.4.3"
     bluebird-lst "^1.0.9"
     builder-util-runtime "8.3.0"
     chalk "^2.4.2"
@@ -2111,7 +2119,7 @@ builder-util@21.1.5, builder-util@~21.1.5:
     fs-extra "^8.1.0"
     is-ci "^2.0.0"
     js-yaml "^3.13.1"
-    source-map-support "^0.5.12"
+    source-map-support "^0.5.13"
     stat-mode "^0.3.0"
     temp-file "^3.3.4"
 
@@ -3177,18 +3185,18 @@ dir-glob@^2.2.2:
   dependencies:
     path-type "^3.0.0"
 
-dmg-builder@21.1.5:
-  version "21.1.5"
-  resolved "https://registry.npmjs.org/dmg-builder/-/dmg-builder-21.1.5.tgz#c84f46562189e1b7e887f68d8e40e9c3dd394c96"
-  integrity sha512-o9rZua7mzNzZIo9SZJi57ZXe4zjNaajxEJ0LO/8k2z8Q2CL57RIaJZ95sA6G0dC1/g5Gm4cmW3O5nv9Ur8Ayow==
+dmg-builder@21.2.0:
+  version "21.2.0"
+  resolved "https://registry.npm.taobao.org/dmg-builder/download/dmg-builder-21.2.0.tgz#a9c883557cacb9abdb66c7133b30fe921c1a3ba7"
+  integrity sha1-qciDVXysuavbZscTOzD+khwaO6c=
   dependencies:
-    app-builder-lib "~21.1.5"
+    app-builder-lib "~21.2.0"
     bluebird-lst "^1.0.9"
-    builder-util "~21.1.5"
+    builder-util "~21.2.0"
     fs-extra "^8.1.0"
     iconv-lite "^0.5.0"
     js-yaml "^3.13.1"
-    sanitize-filename "^1.6.1"
+    sanitize-filename "^1.6.2"
 
 dom-align@1.x, dom-align@^1.7.0:
   version "1.10.1"
@@ -3338,22 +3346,22 @@ electron-better-dialog@^1.0.6:
   resolved "https://registry.npmjs.org/electron-better-dialog/-/electron-better-dialog-1.0.6.tgz#49805fdb38146eaf7e39cf90cb9493ae12a67c58"
   integrity sha512-CiiZneTqChk2S+7LPlyO5g6bgUGMtsqIOOvD16n5gw8krvnH0uxbqOX1RD4SwIWGVyNmAlv9fYHj3+5WRHpzqg==
 
-electron-builder@21.1.5:
-  version "21.1.5"
-  resolved "https://registry.npmjs.org/electron-builder/-/electron-builder-21.1.5.tgz#a0129c6dd857b896d837f40aff8f9fb925f9f683"
-  integrity sha512-2tEgBESGWQ661dC9/rZlpbtmhlofoNPwnkO6KUuCZUBYpFMRvpMzH2IF7vQYsCst78yxnrV0CtiBePhM1i+DfA==
+electron-builder@21.2.0:
+  version "21.2.0"
+  resolved "https://registry.npm.taobao.org/electron-builder/download/electron-builder-21.2.0.tgz#b68ec4def713fc0b8602654ce842f972432f50c5"
+  integrity sha1-to7E3vcT/AuGAmVM6EL5ckMvUMU=
   dependencies:
-    app-builder-lib "21.1.5"
+    app-builder-lib "21.2.0"
     bluebird-lst "^1.0.9"
-    builder-util "21.1.5"
+    builder-util "21.2.0"
     builder-util-runtime "8.3.0"
     chalk "^2.4.2"
-    dmg-builder "21.1.5"
+    dmg-builder "21.2.0"
     fs-extra "^8.1.0"
     is-ci "^2.0.0"
     lazy-val "^1.0.4"
     read-config-file "5.0.0"
-    sanitize-filename "^1.6.1"
+    sanitize-filename "^1.6.2"
     update-notifier "^3.0.1"
     yargs "^13.3.0"
 
@@ -3408,18 +3416,18 @@ electron-json-storage@^4.1.6:
     rimraf "^2.5.1"
     write-file-atomic "^2.4.2"
 
-electron-log@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.npmjs.org/electron-log/-/electron-log-3.0.6.tgz#2291375572f6be5889f06fb32a35eab2930a1728"
-  integrity sha512-osPLk8m9+Ylo0k/okevdHUGsKpCNGxg206TxG2Ch8slGvlTZLI0955Ig4e+nJ6fHVDxFMv5dWkn2y8hwi0aENg==
+electron-log@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.npm.taobao.org/electron-log/download/electron-log-3.0.7.tgz?cache=0&sync_timestamp=1564588201188&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felectron-log%2Fdownload%2Felectron-log-3.0.7.tgz#bfdba9489c84b1301d6067028fce2f4cb2f89d7f"
+  integrity sha1-v9upSJyEsTAdYGcCj84vTLL4nX8=
 
-electron-publish@21.1.5:
-  version "21.1.5"
-  resolved "https://registry.npmjs.org/electron-publish/-/electron-publish-21.1.5.tgz#f1d9c45835442ccf767124f020f03db06ed629f9"
-  integrity sha512-EgFxZJBrb+EBUcEwg8RNKouoBaOEpACnjLi+ipUsk72x+/6kzhcofAYBchIkGns7meengoXy7QdoiThgpr6rew==
+electron-publish@21.2.0:
+  version "21.2.0"
+  resolved "https://registry.npm.taobao.org/electron-publish/download/electron-publish-21.2.0.tgz#cc225cb46aa62e74b899f2f7299b396c9802387d"
+  integrity sha1-zCJctGqmLnS4mfL3KZs5bJgCOH0=
   dependencies:
     bluebird-lst "^1.0.9"
-    builder-util "~21.1.5"
+    builder-util "~21.2.0"
     builder-util-runtime "8.3.0"
     chalk "^2.4.2"
     fs-extra "^8.1.0"
@@ -4397,7 +4405,12 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.npmjs.org/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-highlight.js@^9.15.8, highlight.js@^9.3.0:
+highlight.js@^9.15.9:
+  version "9.15.9"
+  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.15.9.tgz#865257da1dbb4a58c4552d46c4b3854f77f0e6d5"
+  integrity sha1-hlJX2h27SljEVS1GxLOFT3fw5tU=
+
+highlight.js@^9.3.0:
   version "9.15.8"
   resolved "https://registry.npmjs.org/highlight.js/-/highlight.js-9.15.8.tgz#f344fda123f36f1a65490e932cf90569e4999971"
   integrity sha512-RrapkKQWwE+wKdF73VsOa2RQdIoO3mxwJ4P8mhbI6KYJUraUHRKM5w5zQQKXNk0xNL4UVRdulV9SBJcmzJNzVA==
@@ -8704,10 +8717,10 @@ safer-eval@^1.3.0:
   dependencies:
     clones "^1.2.0"
 
-sanitize-filename@^1.6.1:
+sanitize-filename@^1.6.2:
   version "1.6.2"
-  resolved "https://registry.npmjs.org/sanitize-filename/-/sanitize-filename-1.6.2.tgz#01b4fc8809f14e9d22761fe70380fe7f3f902185"
-  integrity sha512-cmTzND7RMxUB+f7gI+4+KAVHWEg0lfXvQJdko+FXDP5bNbGIdx4KMP5pX6lv5jfT9jSf6OBbjyxjFtZQwYA/ig==
+  resolved "https://registry.npm.taobao.org/sanitize-filename/download/sanitize-filename-1.6.2.tgz#01b4fc8809f14e9d22761fe70380fe7f3f902185"
+  integrity sha1-AbT8iAnxTp0idh/nA4D+fz+QIYU=
   dependencies:
     truncate-utf8-bytes "^1.0.0"
 
@@ -9021,7 +9034,15 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.5.12, source-map-support@^0.5.6, source-map-support@~0.5.10, source-map-support@~0.5.12:
+source-map-support@^0.5.13:
+  version "0.5.13"
+  resolved "https://registry.npm.taobao.org/source-map-support/download/source-map-support-0.5.13.tgz#31b24a9c2e73c2de85066c0feb7d44767ed52932"
+  integrity sha1-MbJKnC5zwt6FBmwP631Edn7VKTI=
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
+source-map-support@^0.5.6, source-map-support@~0.5.10, source-map-support@~0.5.12:
   version "0.5.12"
   resolved "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.12.tgz#b4f3b10d51857a5af0138d3ce8003b201613d599"
   integrity sha512-4h2Pbvyy15EE02G+JOZpUCmqWJuqrs+sEkzewTm++BPi7Hvn/HwcqLAcNxYAyI0x13CpPPn+kMjl+hplXMHITQ==

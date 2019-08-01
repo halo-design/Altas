@@ -5,12 +5,9 @@ const { execSync } = require('child_process');
 const mainEntry = '../src/web/main/core/index.tsx';
 const nativeEntry = '../src/native/main.ts';
 
-const pages = [
-  './src/web/pages/devtools/index.ts',
-  './src/web/pages/markdown/index.ts',
-  './src/web/pages/cheetah/index.tsx',
-  './src/web/pages/mockProxy/index.tsx',
-];
+const pages = ['devtools', 'markdown', 'cheetah', 'mocker'].map(
+  (dirName: string) => `./src/web/pages/${dirName}/index.tsx`
+);
 
 program
   .command('clear')

@@ -125,7 +125,7 @@ export const mockProxyServer = () => {
   createWindow(
     'mockProxyServer',
     {
-      pathname: 'renderer/mock-proxy.html',
+      pathname: 'renderer/mocker.html',
       hash: '',
     },
     {
