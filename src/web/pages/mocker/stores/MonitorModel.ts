@@ -228,7 +228,55 @@ export default class MonitorlModel {
           lnBr
       );
 
-      addClientWsListener(({ data }: any) => {
+      addClientWsListener(({ fnName, data }: any) => {
+        const formatter = (el: string): string => {
+          if (el.length > 0) {
+            return el.substr(0, 50) + '...';
+          } else {
+            return '';
+          }
+        };
+
+        switch (fnName) {
+          case 'showOCRIDCard': {
+            if (data['IDCardFrontImage']) {
+              data.IDCardFrontImage = formatter(data.IDCardFrontImage);
+            }
+            if (data['IDCardBackImage']) {
+              data.IDCardBackImage = formatter(data.IDCardBackImage);
+            }
+            break;
+          }
+
+          case 'showOCRBankCard': {
+            if (data['cardImage']) {
+              data.cardImage = formatter(data.cardImage);
+            }
+            break;
+          }
+
+          case 'screenShots': {
+            if (data['imageResult']) {
+              data.imageResult = formatter(data.imageResult);
+            }
+            break;
+          }
+
+          case 'showCameraImagePicker': {
+            if (data['imgBase64Data']) {
+              data.imgBase64Data = formatter(data.imgBase64Data);
+            }
+            break;
+          }
+
+          case 'downloadPdf': {
+            if (data['data']) {
+              data.data = formatter(data.data);
+            }
+            break;
+          }
+        }
+
         term.writeln(
           `${this.getTimeLog()}${fc.blue('[Client Recieve]:')} ${resultFormat(
             data

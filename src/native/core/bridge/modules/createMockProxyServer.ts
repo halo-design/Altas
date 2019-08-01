@@ -99,7 +99,47 @@ export default (RPC: any) => {
         }
 
         if (resCode === 201 && isAutoSave) {
-          localMockData.data[fnName] = formatData.data;
+          const originData = {
+            ...formatData.data,
+          };
+
+          // ignore base64 files
+          const placeholderImg =
+            'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+
+          switch (fnName) {
+            case 'showOCRIDCard': {
+              if (originData['IDCardFrontImage']) {
+                originData.IDCardFrontImage = placeholderImg;
+              }
+              if (originData['IDCardBackImage']) {
+                originData.IDCardBackImage = placeholderImg;
+              }
+              break;
+            }
+
+            case 'showOCRBankCard': {
+              originData['cardImage'] = placeholderImg;
+              break;
+            }
+
+            case 'screenShots': {
+              originData['imageResult'] = placeholderImg;
+              break;
+            }
+
+            case 'showCameraImagePicker': {
+              originData['imgBase64Data'] = placeholderImg;
+              break;
+            }
+
+            case 'downloadPdf': {
+              originData['data'] = '';
+              break;
+            }
+          }
+
+          localMockData.data[fnName] = originData;
         }
 
         sendToAllWindows('mock-proxy-ws-recieve-global', formatData);
@@ -117,7 +157,6 @@ export default (RPC: any) => {
     server.on('close', () => {
       wsGlobal = null;
       ipcMain.removeListener('mock-proxy-ws-send-global', wsSender);
-      // RPC.dispatch('mock-proxy-server-disconnected', { port: usePort });
       log.info('Server close:', usePort);
     });
 

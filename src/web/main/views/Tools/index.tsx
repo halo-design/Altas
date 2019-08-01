@@ -83,7 +83,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="cheetah" />
-            <div className="tit">猎豹App调试器</div>
+            <div className="tit">猎豹调试器</div>
           </div>
           <div
             className="item"
@@ -92,7 +92,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="api" />
-            <div className="tit">猎豹App模拟参数</div>
+            <div className="tit">猎豹调试器Mock工具</div>
           </div>
           <div
             className="item"
