@@ -157,6 +157,7 @@ export default (RPC: any) => {
     server.on('close', () => {
       wsGlobal = null;
       ipcMain.removeListener('mock-proxy-ws-send-global', wsSender);
+      writeCustomMockData(localMockData);
       log.info('Server close:', usePort);
     });
 
@@ -192,7 +193,6 @@ export default (RPC: any) => {
         server.close();
       }
 
-      writeCustomMockData(localMockData);
       sendToAllWindows('mock-proxy-server-disconnected-global', getHost());
 
       RPC.dispatch('mock-proxy-server-disconnected', getHost());
