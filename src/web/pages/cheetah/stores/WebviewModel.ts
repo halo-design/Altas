@@ -527,6 +527,7 @@ export default class WebviewModel {
 
     el.addEventListener('dom-ready', () => {
       el.insertCSS(scrollbarStyleString);
+      el.setZoomLevel(0.8);
 
       const tit = el.getTitle();
       current['title'] = tit;
