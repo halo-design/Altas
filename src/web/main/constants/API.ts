@@ -31,11 +31,11 @@ export const appDataFullPath: string = path.join(
 
 export const scrollbarStyleString = `
   body::-webkit-scrollbar {
-    width: 2px;
+    width: 0px;
   }
 
   body::-webkit-scrollbar-thumb {
-    background-color: rgb(220, 220, 220);
+    background-color: transparent;
   }
 
   body::-webkit-scrollbar-track-piece {
