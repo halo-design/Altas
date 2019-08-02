@@ -64,7 +64,7 @@ export const deviceDevtools = (
       movable: true,
       maximizable: false,
       minimizable: false,
-      transparent: true,
+      transparent: false,
       titleBarStyle: 'hidden',
     },
     inject || [],

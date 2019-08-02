@@ -22,18 +22,29 @@
     color: #b4b6c5;
   }
 
+  .menu-button-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 125px;
+    width: 100%;
+    bottom: 100px;
+    right: 0;
+    left: 0;
+  }
+
   .menu-button-group {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 326px;
-    margin-top: 40px;
 
     a {
       display: block;
       text-align: center;
       text-decoration: none;
+      margin: 10px 0;
 
       &.iconfont {
         color: #1b1e38;
@@ -59,5 +70,13 @@
     font-size: 20px;
     color: #1b1e38;
     cursor: pointer;
+  }
+}
+
+.win32 {
+  .app-menu-sidebar {
+    .menu-button-group-wrapper {
+      top: 115px;
+    }
   }
 }

@@ -17,7 +17,7 @@ const winCreater = (
     fullscreenable: false,
     icon: file.path('resources/dock.ico'),
     titleBarStyle: 'hidden',
-    transparent: true,
+    transparent: false,
     webPreferences: {
       nodeIntegration: true,
       scrollBounce: true,

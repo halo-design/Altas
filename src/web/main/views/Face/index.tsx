@@ -1,6 +1,7 @@
 import message from 'antd/lib/message';
 import * as faceapi from 'face-api.js';
 import * as React from 'react';
+import { inject, observer } from 'mobx-react';
 import LineProgress from '../../components/LineProgress';
 import { download } from '../../bridge/download';
 import { setSaveAs } from '../../bridge/file';
@@ -17,6 +18,13 @@ export interface IFaceState {
   photoTaking: boolean;
 }
 
+@inject((stores: any) => {
+  return {
+    setMonitorVisible: (state: boolean) =>
+      stores.workBench.setMonitorVisible(state),
+  };
+})
+@observer
 class FaceView extends React.Component<any, IFaceState> {
   public recordStream: any = null;
   private videoEl: any = null;
@@ -35,6 +43,10 @@ class FaceView extends React.Component<any, IFaceState> {
       referencePath: '',
       videoVisible: false,
     };
+  }
+
+  public componentDidMount() {
+    this.props.setMonitorVisible(false);
   }
 
   public startRecord(success: any) {
@@ -273,6 +285,7 @@ class FaceView extends React.Component<any, IFaceState> {
 
   public componentWillUnmount() {
     this.stopRecord();
+    this.props.setMonitorVisible(true);
   }
 
   public render() {

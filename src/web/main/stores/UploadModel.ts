@@ -105,7 +105,7 @@ export default class UploadModel {
 
     const addFiles = rawFiles.filter((file: any, index: number): boolean => {
       const fileType = file.type.split('/')[1];
-      if (baseType.indexOf(fileType) > -1 && file.size <= 4 * Math.pow(2, 20)) {
+      if (baseType.includes(fileType) && file.size <= 4 * Math.pow(2, 20)) {
         const uid = uuid.v4();
         file.uid = uid;
         file.addIndex = index;

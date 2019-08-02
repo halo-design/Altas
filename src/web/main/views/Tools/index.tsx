@@ -65,7 +65,7 @@ class ToolsView extends React.Component<any> {
   public render() {
     return (
       <div className="page-tools">
-        <h1 className="title">常用工具</h1>
+        <h1 className="title">开发工具</h1>
         <div className="tools-list">
           <div
             className="item"

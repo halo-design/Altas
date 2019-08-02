@@ -14,7 +14,7 @@ export default (RPC: any) => {
       let img: any = null;
 
       const isSupportImg =
-        thumbType === 'base64' || /\.jpg|\.png|\.jpeg/.test(path.basename(url));
+        thumbType === 'base64' || /\.jpg|\.png|\.jpeg/.test(path.extname(url));
 
       if (isSupportImg) {
         if (thumbType === 'image') {

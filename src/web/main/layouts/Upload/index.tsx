@@ -313,9 +313,7 @@ class UploadView extends React.Component<any> {
                       <div className="row">
                         <div className="col filename">{file.name}</div>
                         <div className="progress">
-                          <div className="percent">
-                            已完成 {progressPercent}
-                          </div>
+                          <div className="percent">完成 {progressPercent}</div>
                           <div className="surplus">
                             {prettyBytes((file.size * per) / 100)}
                             <span> / </span>

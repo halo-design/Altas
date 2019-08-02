@@ -67,7 +67,7 @@ export default (RPC: any) => {
         }
         const pidList: string[] = [];
         stdout.split('\n').filter((line: string) => {
-          if (line.indexOf(path.basename(args.dirname)) >= 0) {
+          if (line.includes(path.basename(args.dirname))) {
             const col = line.trim().split(/\s+/);
             pidList.push(col[0]);
           }
