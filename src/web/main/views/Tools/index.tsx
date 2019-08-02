@@ -4,7 +4,10 @@ import { inject, observer } from 'mobx-react';
 import Drawer from 'antd/lib/drawer';
 import Upload from '../../layouts/Upload';
 import CreateServer from '../../layouts/CreateServer';
-import { scrollbarStyleString } from '../../constants/API';
+import {
+  scrollbarStyleString,
+  cheetahSimulatorIndex,
+} from '../../constants/API';
 import {
   deviceSimulator,
   cheetahSimulator,
@@ -49,7 +52,7 @@ class ToolsView extends React.Component<any> {
 
   public openCheetahDevice() {
     cheetahSimulator({
-      target: 'http://flameapp.cn/jsapi-test/index.html',
+      target: cheetahSimulatorIndex,
       descriptors: allDeviceObject[this.props.useDebugDevice],
     });
   }
@@ -121,7 +124,7 @@ class ToolsView extends React.Component<any> {
             <i className="server" />
             <div className="tit">Web Server服务器</div>
           </div>
-          <div
+          {/* <div
             className="item"
             onClick={e => {
               // this.handleUploadDrawerVisible(true);
@@ -129,7 +132,7 @@ class ToolsView extends React.Component<any> {
           >
             <i className="calculator" />
             <div className="tit">计算文件MD5</div>
-          </div>
+          </div> */}
         </div>
         <Drawer
           title="图片图床"

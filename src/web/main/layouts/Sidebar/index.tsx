@@ -7,6 +7,7 @@ import Logo from '../Logo';
 import { cheetahSimulator } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 import { isWin } from '../../bridge/env';
+import { cheetahSimulatorIndex } from '../../constants/API';
 
 import './index.scss';
 
@@ -40,7 +41,7 @@ class SidebarView extends React.Component<any, any> {
 
   public openCheetahDevice() {
     cheetahSimulator({
-      target: 'http://flameapp.cn/jsapi-test/index.html',
+      target: cheetahSimulatorIndex,
       descriptors: allDeviceObject[this.props.useDebugDevice],
     });
   }
@@ -97,6 +98,14 @@ class SidebarView extends React.Component<any, any> {
                 &#xe83d;
               </Tooltip>
             </NavLink>
+            <NavLink
+              exact={true}
+              to="/sync"
+              className="iconfont"
+              activeClassName="active"
+            >
+              &#xe703;
+            </NavLink>
           </div>
           <div className="menu-button-group">
             <a
@@ -116,14 +125,6 @@ class SidebarView extends React.Component<any, any> {
               activeClassName="active"
             >
               &#xe670;
-            </NavLink>
-            <NavLink
-              exact={true}
-              to="/sync"
-              className="iconfont"
-              activeClassName="active"
-            >
-              &#xe703;
             </NavLink>
           </div>
         </div>

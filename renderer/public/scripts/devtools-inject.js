@@ -90,6 +90,17 @@ class JSBridge {
     }
   }
 
+  remote(fnName, params, callback) {
+    if (fnName === 'remote') {
+      return;
+    }
+    const uid = uuid.v4();
+    this.ipc.emit('remote-devtool', { data: { fnName, params }, uid });
+    this.ipc.once(uid, (sender, res) => {
+      callback(res);
+    })
+  }
+
   alertEx(params, callback) {
     const uid = uuid.v4();
     this.ipc.emit('showAlert', {
@@ -514,36 +525,6 @@ class JSBridge {
     this.ipc.emit('openNativeWebBrowser', { url: params.url, });
     callback(deafultErrorRes);
   }
-
-  // showSharePad(params, callback) {
-  //   if (callback) {
-  //     callback(deafultErrorRes);
-  //   }
-  // }
-
-  // shareTo(params, callback) {
-  //   if (callback) {
-  //     callback(deafultErrorRes);
-  //   }
-  // }
-
-  // login(params, callback) {
-  //   this.pushWindow({
-  //     url: params.pageUrl,
-  //   })
-  //   if (callback) {
-  //     callback(deafultErrorRes);
-  //   }
-  // }
-
-  // getUserInfo(params, callback) {
-  //   if (callback) {
-  //     callback({
-  //       userInfo: {},
-  //       ...deafultErrorRes,
-  //     });
-  //   }
-  // }
 }
 
 window['AlipayJSBridge'] = new JSBridge();

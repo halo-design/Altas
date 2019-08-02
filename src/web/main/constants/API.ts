@@ -18,6 +18,8 @@ export const feedbackPage: string = 'https://owlaford.gitee.io/#/home/message';
 export const clearUploadHistory: string = 'https://sm.ms/api/clear';
 export const upload: string = 'https://sm.ms/api/upload?inajax=1&ssl=1';
 export const uploadHistory: string = 'https://sm.ms/api/list';
+export const cheetahSimulatorIndex: string =
+  'http://flameapp.cn/jsapi-test/index.html';
 
 export const appCacheFullPath: string = path.join(
   app.getPath('temp'),
