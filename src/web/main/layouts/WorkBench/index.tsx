@@ -13,7 +13,6 @@ import Tools from '../../views/Tools';
 import Settings from '../../views/Settings';
 import Refresh from '../../views/Refresh';
 
-import Face from '../../views/Face';
 import Sync from '../../views/Sync';
 
 const Stats = require('stats-js');
@@ -93,7 +92,6 @@ export default class WorkBenchView extends React.Component<any> {
             <Route path="/store" component={Store} />
             <Route path="/tools" component={Tools} />
             <Route path="/settings" component={Settings} />
-            <Route path="/face" component={Face} />
             <Route path="/sync" component={Sync} />
             <Route path="/refresh" component={Refresh} />
             <Route component={() => <Redirect to={this.props.initPath} />} />

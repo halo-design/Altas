@@ -45,7 +45,7 @@ class TitleBarView extends React.Component<any, any> {
     const { mockerVisible, setMockerVisible } = this.props;
     return (
       <div className="control">
-        <div className="tit">猎豹调试器Mock工具</div>
+        <div className="tit">猎豹Mock模拟工具</div>
         <div className="file-name tabs">
           <div
             className={classNames('item', { active: !mockerVisible })}

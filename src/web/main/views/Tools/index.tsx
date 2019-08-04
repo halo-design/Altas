@@ -95,7 +95,7 @@ class ToolsView extends React.Component<any> {
             }}
           >
             <i className="api" />
-            <div className="tit">猎豹调试器Mock工具</div>
+            <div className="tit">猎豹Mock模拟工具</div>
           </div>
           <div
             className="item"

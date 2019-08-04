@@ -4,7 +4,7 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import Tooltip from 'antd/lib/tooltip';
 import Logo from '../Logo';
-import { cheetahSimulator } from '../../bridge/createWindow';
+import { cheetahSimulator, mockProxyServer } from '../../bridge/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 import { isWin } from '../../bridge/env';
 import { cheetahSimulatorIndex } from '../../constants/API';
@@ -70,7 +70,7 @@ class SidebarView extends React.Component<any, any> {
               className="iconfont"
               activeClassName="active"
             >
-              <Tooltip placement="right" title="系统扫描" mouseEnterDelay={2}>
+              <Tooltip placement="right" title="系统扫描" mouseEnterDelay={1}>
                 &#xe63b;
               </Tooltip>
             </NavLink>
@@ -79,12 +79,12 @@ class SidebarView extends React.Component<any, any> {
               className="iconfont"
               activeClassName="active"
             >
-              <Tooltip placement="right" title="工程管理" mouseEnterDelay={2}>
+              <Tooltip placement="right" title="工程管理" mouseEnterDelay={1}>
                 &#xe754;
               </Tooltip>
             </NavLink>
             <NavLink to="/store" className="iconfont" activeClassName="active">
-              <Tooltip placement="right" title="组件商城" mouseEnterDelay={2}>
+              <Tooltip placement="right" title="组件商城" mouseEnterDelay={1}>
                 &#xe629;
               </Tooltip>
             </NavLink>
@@ -94,7 +94,7 @@ class SidebarView extends React.Component<any, any> {
               className="iconfont"
               activeClassName="active"
             >
-              <Tooltip placement="right" title="常用工具" mouseEnterDelay={2}>
+              <Tooltip placement="right" title="开发工具" mouseEnterDelay={1}>
                 &#xe83d;
               </Tooltip>
             </NavLink>
@@ -118,14 +118,16 @@ class SidebarView extends React.Component<any, any> {
                 &#xe61f;
               </Tooltip>
             </a>
-            <NavLink
-              exact={true}
-              to="/face"
+            <a
               className="iconfont"
-              activeClassName="active"
+              onClick={e => {
+                mockProxyServer();
+              }}
             >
-              &#xe670;
-            </NavLink>
+              <Tooltip placement="right" title="猎豹Mock模拟工具">
+                &#xe608;
+              </Tooltip>
+            </a>
           </div>
         </div>
         <NavLink exact={true} to="/settings" className="iconfont setting">
