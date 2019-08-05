@@ -1,18 +1,21 @@
 import { action, observable, computed } from 'mobx';
 import { getIpAddress } from '../bridge/system';
-import * as storage from '../bridge/storage';
+import * as storage from '../bridge/modules/storage';
 import message from 'antd/lib/message';
 import * as url from 'url';
-import * as clipBoard from '../bridge/clipBoard';
+import * as clipBoard from '../bridge/modules/clipBoard';
 import { remote } from 'electron';
-import { deviceSimulator, cheetahSimulator } from '../bridge/createWindow';
+import {
+  deviceSimulator,
+  cheetahSimulator,
+} from '../bridge/modules/createWindow';
 import { allDeviceObject } from '../config/DeviceDescriptors';
 import { scrollbarStyleString } from '../constants/API';
 import {
   createServer,
   // serverMonitor,
   disposeServer,
-} from '../bridge/createServer';
+} from '../bridge/modules/createServer';
 
 const paramsTransformer = (params: any) => {
   const {
@@ -50,7 +53,7 @@ export default class CreateServerModel {
   @observable public localHostPort: string = '8080';
   @observable public debugTool: string = 'none';
   @observable public proxyTables: object[] = [];
-  @observable public useDebugDevice: string = 'iPhone 8 Plus';
+  @observable public useDebugDevice: string = 'iPhone 8';
 
   @computed get webServerHost() {
     return `${this.protocol}://${this.localHostName}:${this.localHostPort}`;

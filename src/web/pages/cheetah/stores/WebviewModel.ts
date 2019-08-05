@@ -5,7 +5,7 @@ import { action, observable, computed } from 'mobx';
 import interaction from '../utils/interaction';
 import { urlTest } from '../../../main/constants/Reg';
 import RPC from '../../../main/bridge/rpc';
-import { readMockData } from '../../../main/bridge/createMocker';
+import { readMockData } from '../../../main/bridge/modules/createMocker';
 import { scrollbarStyleString } from '../../../main/constants/API';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
@@ -62,9 +62,12 @@ export default class WebviewModel {
 
     this.getLocalMockData();
 
+    RPC.mockProxyDataUpdateGlobal(() => {
+      this.getLocalMockData();
+    });
+
     RPC.mockProxyServerConnectStatusGlobal((args: any) => {
       this.setServerConnectState(args.connect);
-      this.getLocalMockData();
     });
 
     RPC.mockProxyWsConnectStatusGlobal((args: any) => {

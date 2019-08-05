@@ -1,6 +1,6 @@
-import RPC from './rpc';
+import RPC from '../rpc';
 import * as qs from 'qs';
-import { allDeviceObject } from '../config/DeviceDescriptors';
+import { allDeviceObject } from '../../config/DeviceDescriptors';
 const { dispatch } = RPC;
 
 export const createWindow = (

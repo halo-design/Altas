@@ -5,25 +5,13 @@ import * as http from 'http';
 import { ipcMain } from 'electron';
 const WebSocket = require('faye-websocket');
 import file from '../../../utils/file';
-import { BrowserWindow } from 'electron';
+import { sendToAllWindows } from '../../../utils/winManage';
 import mime from '../../../constants/mime';
 import * as ip from 'ip';
 import {
   readCustomMockDataSync,
   writeCustomMockData,
 } from '../../../utils/mocker';
-
-const traversalAllWindows = (fn: (win: Electron.BrowserWindow) => void) => {
-  BrowserWindow.getAllWindows().forEach((win: Electron.BrowserWindow) => {
-    fn(win);
-  });
-};
-
-const sendToAllWindows = (key: string, data: object) => {
-  traversalAllWindows((win: Electron.BrowserWindow) => {
-    win.webContents.send(key, data);
-  });
-};
 
 export default (RPC: any) => {
   let wsGlobal: any = null;

@@ -14,12 +14,12 @@ import {
   addMockProxyWsListener,
   addClientWsListener,
   mockProxyWsSendGlobal,
-} from '../../../main/bridge/mockProxyServer';
+} from '../../../main/bridge/modules/mockProxyServer';
 import {
   readMockSync,
   saveMockData,
   resetMockData,
-} from '../../../main/bridge/createMocker';
+} from '../../../main/bridge/modules/createMocker';
 
 const QRcode = require('qrcode');
 const moment = require('moment');

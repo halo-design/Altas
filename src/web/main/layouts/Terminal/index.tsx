@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import Modal from 'antd/lib/modal';
 import Input from 'antd/lib/input';
-import { isMac } from '../../bridge/env';
+import { isMac } from '../../bridge/modules/env';
 
 import './index.scss';
 

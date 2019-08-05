@@ -2,7 +2,7 @@ import { remote } from 'electron';
 import * as path from 'path';
 const { app, dialog, getCurrentWindow } = remote;
 
-import RPC from './rpc';
+import RPC from '../rpc';
 const { dispatch } = RPC;
 
 export const setSaveAs = (

@@ -1,9 +1,9 @@
 import { action, observable, computed } from 'mobx';
 import message from 'antd/lib/message';
 import { Howl } from 'howler';
-import { detectSupportEnv } from '../bridge/env';
-import * as storage from '../bridge/storage';
-import { getProjectRunnerConfig } from '../bridge/project';
+import { detectSupportEnv } from '../bridge/modules/env';
+import * as storage from '../bridge/modules/storage';
+import { getProjectRunnerConfig } from '../bridge/modules/project';
 import initEnvData from '../config/envScan';
 import { appVersion } from '../constants/API';
 

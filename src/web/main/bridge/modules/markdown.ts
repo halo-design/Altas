@@ -1,4 +1,4 @@
-import RPC from './rpc';
+import RPC from '../rpc';
 const { dispatch } = RPC;
 
 export const readLocalFile = (cb: (args: object) => void): void => {

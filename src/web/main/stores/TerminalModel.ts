@@ -7,13 +7,16 @@ import * as os from 'os';
 import { Howl } from 'howler';
 const { spawn } = require('node-pty');
 import xtermConfig from '../config/xterm';
-import { isMac, isWin } from '../bridge/env';
-import * as storage from '../bridge/storage';
+import { isMac, isWin } from '../bridge/modules/env';
+import * as storage from '../bridge/modules/storage';
 import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
 import Modal from 'antd/lib/modal';
-import { deviceSimulator, cheetahSimulator } from '../bridge/createWindow';
-import { encodeSync, decodeSync } from '../bridge/aes';
+import {
+  deviceSimulator,
+  cheetahSimulator,
+} from '../bridge/modules/createWindow';
+import { encodeSync, decodeSync } from '../bridge/modules/aes';
 import { allDeviceObject } from '../config/DeviceDescriptors';
 
 const heroBgMusic = new Howl({

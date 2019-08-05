@@ -5,13 +5,13 @@ const win = remote.getCurrentWindow();
 import * as hljs from 'highlight.js';
 import { getEl, bindClick } from '../public/utils';
 import RPC from '../../main/bridge/rpc';
-import { setSaveAs } from '../../main/bridge/file';
-import CreateContextMenu from '../../main/bridge/CreateContextMenu';
+import { setSaveAs } from '../../main/bridge/modules/file';
+import CreateContextMenu from '../../main/bridge/modules/CreateContextMenu';
 import {
   readLocalFileSync,
   downloadPreviewFile,
   mdSaveAsHtml,
-} from '../../main/bridge/markdown';
+} from '../../main/bridge/modules/markdown';
 const markdownItAttrs = require('markdown-it-attrs');
 const options = qs.parse(location.hash.substr(1));
 const { remoteUrl } = options;

@@ -1,4 +1,4 @@
-import RPC from './rpc';
+import RPC from '../rpc';
 const { dispatch } = RPC;
 
 export const createMockProxyServer = (port: number) => {

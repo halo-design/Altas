@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { selectFile } from '../../bridge/file';
+import { selectFile } from '../../bridge/modules/file';
 import Input from 'antd/lib/input';
 import Icon from 'antd/lib/icon';
 import Select from 'antd/lib/select';

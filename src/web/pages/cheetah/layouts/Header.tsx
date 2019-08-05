@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { DeviceContext } from '../context';
-import { mockProxyServer } from '../../../main/bridge/createWindow';
+import { mockProxyServer } from '../../../main/bridge/modules/createWindow';
 
 @inject((stores: any) => {
   const {

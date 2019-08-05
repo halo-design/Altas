@@ -1,7 +1,7 @@
 import { remote } from 'electron';
-import { getAppDir } from './system';
+import { getAppDir } from '../system';
 import { isDev, isMac } from './env';
-import { homePage, feedbackPage } from '../constants/API';
+import { homePage, feedbackPage } from '../../constants/API';
 
 const { app, Menu, shell } = remote;
 

@@ -2,7 +2,7 @@ import Toast from 'antd-mobile/lib/toast';
 import Modal from 'antd-mobile/lib/modal';
 import ActionSheet from 'antd-mobile/lib/action-sheet';
 import { remote } from 'electron';
-import * as clipBoard from '../../../main/bridge/clipBoard';
+import * as clipBoard from '../../../main/bridge/modules/clipBoard';
 import RPC from '../../../main/bridge/rpc';
 const alert = Modal.alert;
 const prompt = Modal.prompt;

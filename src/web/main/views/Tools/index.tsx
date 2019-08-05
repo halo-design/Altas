@@ -13,7 +13,7 @@ import {
   cheetahSimulator,
   markdownViewer,
   mockProxyServer,
-} from '../../bridge/createWindow';
+} from '../../bridge/modules/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
 
 import './index.scss';

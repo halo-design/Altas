@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Tooltip from 'antd/lib/tooltip';
-import { markdownViewer } from '../../bridge/createWindow';
+import { markdownViewer } from '../../bridge/modules/createWindow';
 
 class PluginsView extends React.Component<any, any> {
   public render() {

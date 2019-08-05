@@ -2,7 +2,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import allDevices from '../../config/DeviceDescriptors';
 import Select from 'antd/lib/select';
-import { cleanAppCache, cleanAppData } from '../../bridge/file';
+import { cleanAppCache, cleanAppData } from '../../bridge/modules/file';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 

@@ -9,6 +9,8 @@ let forceQuit: boolean = false;
 let restartTimer: any = null;
 
 const init = () => {
+  require('./core/preload');
+
   mainWindow = winCreater(
     {
       height: 648,

@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import notification from 'antd/lib/notification';
 import { scanAppImages } from '../../constants/API';
-import * as clipBoard from '../../bridge/clipBoard';
+import * as clipBoard from '../../bridge/modules/clipBoard';
 import message from 'antd/lib/message';
 import classNames from 'classnames';
 

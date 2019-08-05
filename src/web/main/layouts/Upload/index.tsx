@@ -2,11 +2,11 @@ import { inject, observer } from 'mobx-react';
 import { action, observable } from 'mobx';
 import classNames from 'classnames';
 import * as React from 'react';
-import * as clipBoard from '../../bridge/clipBoard';
+import * as clipBoard from '../../bridge/modules/clipBoard';
 import Tooltip from 'antd/lib/tooltip';
 import Icon from 'antd/lib/icon';
 import message from 'antd/lib/message';
-import CreateContextMenu from '../../bridge/CreateContextMenu';
+import CreateContextMenu from '../../bridge/modules/CreateContextMenu';
 import Modal from 'antd/lib/modal';
 const prettyBytes = require('pretty-bytes');
 

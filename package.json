@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
-    "antd": "^3.20.7",
+    "antd": "^3.21.0",
     "antd-mobile": "^2.2.14",
     "cardinal": "^2.1.1",
     "chokidar": "^3.0.2",

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import win from '../../../main/bridge/win';
-import { disposeMockProxyServer } from '../../../main/bridge/mockProxyServer';
+import { disposeMockProxyServer } from '../../../main/bridge/modules/mockProxyServer';
 import { inject, observer } from 'mobx-react';
 
 @inject((stores: any) => {

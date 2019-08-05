@@ -6,8 +6,8 @@ import Icon from 'antd/lib/icon';
 import message from 'antd/lib/message';
 import notification from 'antd/lib/notification';
 import Tooltip from 'antd/lib/tooltip';
-import { selectFile } from '../../bridge/file';
-import { isMac } from '../../bridge/env';
+import { selectFile } from '../../bridge/modules/file';
+import { isMac } from '../../bridge/modules/env';
 
 import './index.scss';
 

@@ -41,6 +41,12 @@ export class Client {
     });
   }
 
+  public mockProxyDataUpdateGlobal(callback: Function) {
+    this.ipc.on('update-mock-date', (ev: any, args: object) => {
+      callback(args);
+    });
+  }
+
   public mockProxyServerConnectStatusGlobal(callback: Function) {
     this.ipc.on('mock-proxy-server-connect-global', (ev: any, args: object) => {
       callback({

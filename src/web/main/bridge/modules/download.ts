@@ -2,7 +2,7 @@ import { remote } from 'electron';
 const { app } = remote;
 
 import { selectFile } from './file';
-import RPC from './rpc';
+import RPC from '../rpc';
 const { dispatch } = RPC;
 
 export const download = (

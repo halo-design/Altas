@@ -4,9 +4,12 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import Tooltip from 'antd/lib/tooltip';
 import Logo from '../Logo';
-import { cheetahSimulator, mockProxyServer } from '../../bridge/createWindow';
+import {
+  cheetahSimulator,
+  mockProxyServer,
+} from '../../bridge/modules/createWindow';
 import { allDeviceObject } from '../../config/DeviceDescriptors';
-import { isWin } from '../../bridge/env';
+import { isWin } from '../../bridge/modules/env';
 import { cheetahSimulatorIndex } from '../../constants/API';
 
 import './index.scss';
