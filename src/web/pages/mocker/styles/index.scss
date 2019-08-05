@@ -106,9 +106,10 @@ body {
       }
     }
 
-    .ant-btn-primary {
-      height: 48px;
-      border-radius: 24px;
+    .ant-btn {
+      border-radius: 22px;
+      margin: 0 20px;
+      padding: 0 25px;
     }
   }
 
@@ -260,6 +261,26 @@ body {
   &.fadeInUp {
     .qrcode-wrapper {
       animation: fadeInUp .3s;
+    }
+  }
+}
+
+.add-mock-data-params-modal {
+
+  .ant-modal-header,
+  .ant-modal-footer {
+    border: none;
+  }
+
+  .ant-modal-body {
+    padding: 24px 50px;
+
+    input {
+      font-size: 14px;
+    }
+
+    .data-wrapper {
+      padding-top: 20px;
     }
   }
 }

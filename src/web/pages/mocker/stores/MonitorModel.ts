@@ -95,6 +95,16 @@ export default class MonitorlModel {
   }
 
   @action
+  public delMockDataItemByName(name: string) {
+    delete this.mockData[name];
+  }
+
+  @action
+  public addNewMockDataItem(name: string, params: object) {
+    this.mockData[name] = params;
+  }
+
+  @action
   public getMockData() {
     readMockSync().then(({ settings: { autoSave }, data }: any) => {
       this.mockData = data;

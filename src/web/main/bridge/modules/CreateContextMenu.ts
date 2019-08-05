@@ -14,7 +14,9 @@ export default class CreateContextMenu {
 
     this.menu = menu;
     this.target = target;
-    target.addEventListener('contextmenu', this.init, false);
+    if (target) {
+      target.addEventListener('contextmenu', this.init, false);
+    }
   }
 
   public init(e: any) {
@@ -23,6 +25,8 @@ export default class CreateContextMenu {
   }
 
   public unbind() {
-    this.target.removeEventListener('contextmenu', this.init);
+    if (this.target) {
+      this.target.removeEventListener('contextmenu', this.init);
+    }
   }
 }

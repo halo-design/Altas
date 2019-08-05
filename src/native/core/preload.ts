@@ -1,5 +1,5 @@
-import { createDir } from '../utils/file';
+import { createDirSync } from '../utils/file';
 import { appCacheFullPath, appDataFullPath } from '../constants/app';
 
-createDir(appCacheFullPath);
-createDir(appDataFullPath);
+createDirSync(appCacheFullPath);
+createDirSync(appDataFullPath);
