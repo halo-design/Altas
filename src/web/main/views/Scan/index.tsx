@@ -206,7 +206,7 @@ class ScanView extends React.Component<any> {
         <div className="dashboard">
           <div
             className="support-list"
-            style={{ height: systemEnv.length * 56 + 'px' }}
+            style={{ height: systemEnv.length * 52 + 'px' }}
           >
             {systemEnv.map((item: any, index: number) => (
               <div

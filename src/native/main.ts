@@ -1,5 +1,5 @@
 import { app } from 'electron';
-import winCreater from './core/winCreater';
+import winCreater from './utils/winCreater';
 import createRPC from './core/rpc';
 import createBridge from './core/bridge/main';
 import { showBetterMessageBox } from 'electron-better-dialog';
@@ -13,10 +13,10 @@ const init = () => {
 
   mainWindow = winCreater(
     {
-      height: 648,
-      width: 1050,
+      height: 620,
+      width: 980,
       minWidth: 980,
-      minHeight: 640,
+      minHeight: 620,
     },
     {
       pathname: 'renderer/index.html',

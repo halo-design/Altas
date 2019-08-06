@@ -1138,7 +1138,7 @@
   dependencies:
     "@types/express" "*"
 
-"@types/node@*", "@types/node@^12.6.3":
+"@types/node@*":
   version "12.6.8"
   resolved "https://registry.npmjs.org/@types/node/-/node-12.6.8.tgz#e469b4bf9d1c9832aee4907ba8a051494357c12c"
   integrity sha512-aX+gFgA5GHcDi89KG5keey2zf0WfZk/HAQotEamsK2kbey+8yGKcson0hbK8E+v0NArlCJQCqMP161YhV6ZXLg==
@@ -1325,7 +1325,7 @@ acorn@^5.0.0:
   resolved "https://registry.npmjs.org/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
   integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
 
-acorn@^6.0.1, acorn@^6.1.1, acorn@^6.2.0:
+acorn@^6.0.1, acorn@^6.1.1, acorn@^6.2.1:
   version "6.2.1"
   resolved "https://registry.npmjs.org/acorn/-/acorn-6.2.1.tgz#3ed8422d6dec09e6121cc7a843ca86a330a86b51"
   integrity sha512-JD0xT5FCRDNyjDda3Lrg/IxFscp9q4tiYtxE1/nOzlKCk7hIRuYjhq1kCNkbPjMRMZuFq20HNQn1I9k8Oj0E+Q==
@@ -1437,10 +1437,10 @@ antd-mobile@^2.2.14:
     rmc-tabs "~1.2.0"
     rmc-tooltip "~1.0.0"
 
-antd@^3.21.0:
-  version "3.21.0"
-  resolved "https://registry.npmjs.org/antd/-/antd-3.21.0.tgz#a3fff023fe32b3c702aac1112770df2559b9d739"
-  integrity sha512-cO1/g31GV5aTbLU+HDkIP03RZVI0DQUkX0IEc9mnyECYt+gvMYEx8vT+rAbCmVSJt8y9jljAKfVWTowB6DBBlQ==
+antd@^3.21.2:
+  version "3.21.2"
+  resolved "https://registry.npmjs.org/antd/-/antd-3.21.2.tgz#83232e12ea0257bc6103cf5a23a716290c863831"
+  integrity sha512-KwqFhr7UpZGVCB4l7uZj74LgFVGQqdqLULY9QCGgIubiSFcqPl5dzvIz/bIEdqdiYvS72zX+nD0qmQiI5W95kg==
   dependencies:
     "@ant-design/create-react-context" "^0.2.4"
     "@ant-design/icons" "~2.1.1"
@@ -8607,14 +8607,14 @@ rmc-trigger@1.x:
     rc-util "4.x"
     rmc-align "~1.0.0"
 
-rollup@^1.18.0:
-  version "1.18.0"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-1.18.0.tgz#98ea36472523ed712e20c0e996fd051882f787e6"
-  integrity sha512-MBAWr6ectF948gW/bs/yfi0jW7DzwI8n0tEYG/ZMQutmK+blF/Oazyhg3oPqtScCGV8bzCtL9KzlzPtTriEOJA==
+rollup@^1.19.2:
+  version "1.19.2"
+  resolved "https://registry.npmjs.org/rollup/-/rollup-1.19.2.tgz#64f74ef9b743cbc31e5aa226c7bce0a767cd9a33"
+  integrity sha512-nH8Sr5MMhdq+Se4w9RsJiwIFJ7eHNt+UyqR8a1WKlP36+ruJnzRoXMeSXicdRScAyDhrdQQR7GUX6W41qHlp+A==
   dependencies:
     "@types/estree" "0.0.39"
-    "@types/node" "^12.6.3"
-    acorn "^6.2.0"
+    "@types/node" "^12.6.9"
+    acorn "^6.2.1"
 
 rxjs@^6.3.1:
   version "6.5.2"

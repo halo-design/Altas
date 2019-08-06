@@ -1,10 +1,9 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
 const readYaml = require('read-yaml');
-import { cmdIsAvailable } from '../utils/env';
+import { cmdIsAvailable, isMac } from '../utils/env';
 
 const hasYarn = cmdIsAvailable('yarn -v');
-const isMac = process.platform === 'darwin';
 
 export default (projectPath: string) => {
   const projectIsExists = fs.existsSync(projectPath);
@@ -17,7 +16,7 @@ export default (projectPath: string) => {
     );
 
     const commander = hasYarn ? 'yarn ' : 'npm ';
-    const sudo = isMac ? 'sudo ' : '';
+    const sudo = isMac() ? 'sudo ' : '';
     const commandLine = sudo + commander + 'install';
     const commandConfig = {
       name: '安装npm依赖包',

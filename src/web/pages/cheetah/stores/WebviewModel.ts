@@ -246,7 +246,10 @@ export default class WebviewModel {
     ) {
       const { url, options } = params;
       this[name](url, options);
-    } else if (/goToAnyWebview|toogleRefresh/.test(name)) {
+    } else if (/goToAnyWebview/.test(name)) {
+      const { index } = params;
+      this[name](index);
+    } else if (/toogleRefresh/.test(name)) {
       this[name](params);
     } else if (
       /focusToNextWebview|focusToPrevWebview|reloadFocusWebview|clearOtherWebviews|clearAllWebviews|clearCurrentWebview|clearFocusWebviewHistory/.test(

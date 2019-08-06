@@ -5,6 +5,9 @@ if (process.platform === 'darwin') {
   process.env.PATH = process.env.PATH + ':/usr/local/bin';
 }
 
+export const isMac = () => process.platform === 'darwin';
+export const isWin = () => process.platform === 'win32';
+
 export const cmdIsAvailable = (cmd: string) => {
   try {
     const outBuffer = execSync(cmd, { stdio: 'pipe' });

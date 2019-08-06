@@ -178,7 +178,12 @@ class JSBridge {
   }
 
   closeToPage(params, callback) {
-    this.ipc.emit('clearToSomeoneWebview', params);
+    const { url, index } = params;
+    if (url) {
+      this.ipc.emit('clearToSomeoneWebview', params);
+    } else if (index) {
+      this.ipc.emit('goToAnyWebview', params);
+    }
     if (callback) {
       callback(deafultErrorRes);
     }

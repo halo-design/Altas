@@ -208,7 +208,7 @@ export default class TerminalModel {
         getWindow().webContents.toggleDevTools();
       }
 
-      if (data.trim().indexOf('Viva La Vida') === 0) {
+      if (data.trim().indexOf('viva la vida') === 0) {
         this.bgMusicPlay = !this.bgMusicPlay;
         this.bgMusicPlay ? heroBgMusic.play() : heroBgMusic.stop();
       }

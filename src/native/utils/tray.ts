@@ -1,10 +1,9 @@
 import { app, Menu, Tray } from 'electron';
 import file from './file';
-
-const isWin = process.platform === 'win32';
+import { isWin } from './env';
 
 export default (RPC: any) => {
-  const img = isWin
+  const img = isWin()
     ? file.path('resources/dock.ico')
     : file.path('resources/icon.png');
 

@@ -1,15 +1,10 @@
 import * as url from 'url';
-import file from '../utils/file';
+import file from './file';
 import winStateKeeper from './winStateKeeper';
 import { BrowserWindow } from 'electron';
-const isMac = process.platform === 'darwin';
+import { isMac } from '../utils/env';
 
-const winCreater = (
-  opts: any,
-  entry: any,
-  isChild?: boolean,
-  parentWin?: Electron.BrowserWindow
-) => {
+const winCreater = (opts: any, entry: any, isChild?: boolean) => {
   const options: any = {
     appIcon: file.path('resources/dock.png'),
     center: true,
@@ -29,21 +24,19 @@ const winCreater = (
 
   Object.assign(options, opts);
 
-  let mainWindow: any;
+  let win: any;
   if (isChild) {
-    mainWindow = new BrowserWindow(options);
+    win = new BrowserWindow(options);
 
-    if (isMac) {
-      mainWindow.setWindowButtonVisibility(false);
+    if (isMac()) {
+      win.setWindowButtonVisibility(false);
     }
   } else {
-    mainWindow = winStateKeeper(options);
-    mainWindow.setContentProtection(true);
+    win = winStateKeeper(options);
+    win.setContentProtection(true);
   }
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-  });
+  win.once('ready-to-show', win.show);
 
   const entryUrl =
     typeof entry === 'string'
@@ -55,8 +48,8 @@ const winCreater = (
           hash: entry.hash,
         });
 
-  mainWindow.loadURL(entryUrl);
-  return mainWindow;
+  win.loadURL(entryUrl);
+  return win;
 };
 
 export default winCreater;

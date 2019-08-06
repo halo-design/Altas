@@ -31,14 +31,18 @@
     margin: 0 15px;
     border-radius: 6px;
     box-sizing: border-box;
-    min-height: 151px;
+    min-height: 140px;
     background: #3563e4 url(./img/bg.png) no-repeat;
     background-size: 100% 100%;
-    box-shadow: 0 6px 12px -2px rgba(0, 30, 255, .34);
     overflow: hidden;
-    padding: 10px;
+    padding: 10px 14px;
     color: #fff;
     position: relative;
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0 6px 12px -2px rgba(0, 30, 255, .34);
+    }
 
     .iconfont {
       display: block;
@@ -54,8 +58,7 @@
     }
 
     .row {
-      // padding: 2px 0;
-      line-height: 26px;
+      line-height: 24px;
       position: relative;
       padding-left: 24px;
 
@@ -129,7 +132,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 12px 15px;
+        padding: 12px 14px;
         box-shadow: 0 12px 12px -5px rgba(85, 85, 150, .12);
 
         &:first-child {
@@ -143,8 +146,8 @@
         }
 
         i {
-          height: 32px;
-          width: 32px;
+          height: 28px;
+          width: 28px;
           margin-right: 10px;
           background: url(../../assets/img/node.svg) no-repeat center center;
           background-size: 100% auto;

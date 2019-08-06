@@ -129,7 +129,7 @@ class StoreView extends React.Component<any, any> {
           title="贡献组件/工具"
           placement="right"
           closable={true}
-          width={360}
+          width={420}
           onClose={() => {
             this.handleUploadDrawerVisible(false);
           }}
