@@ -73,6 +73,10 @@ window['ALTAS_APP_IPC'] = new IPC();
 class JSBridge {
   constructor() {
     this.ipc = window.ALTAS_APP_IPC;
+
+    this.ipc.once('resume-page-event', (sender, res) => {
+      this.trigger('resume', res);
+    })
   }
 
   call(fnName, params, callback) {
@@ -88,6 +92,11 @@ class JSBridge {
         callback(res);
       })
     }
+  }
+
+  trigger(ev, data) {
+    const event = new CustomEvent(ev, data);
+    document.dispatchEvent(event);
   }
 
   remote(fnName, params, callback) {
@@ -178,12 +187,20 @@ class JSBridge {
   }
 
   closeToPage(params, callback) {
-    const { url, index } = params;
+    const { url, index, data } = params;
+
     if (url) {
-      this.ipc.emit('clearToSomeoneWebview', params);
+      this.ipc.emit('clearToSomeoneWebview', {
+        url,
+        data
+      });
     } else if (index) {
-      this.ipc.emit('goToAnyWebview', params);
+      this.ipc.emit('clearToAnyWebview', {
+        index,
+        data,
+      });
     }
+
     if (callback) {
       callback(deafultErrorRes);
     }

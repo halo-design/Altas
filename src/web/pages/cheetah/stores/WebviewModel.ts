@@ -246,9 +246,18 @@ export default class WebviewModel {
     ) {
       const { url, options } = params;
       this[name](url, options);
-    } else if (/goToAnyWebview/.test(name)) {
-      const { index } = params;
+    } else if (/clearToAnyWebview/.test(name)) {
+      const { index, data } = params;
       this[name](index);
+      if (this.focusWebview) {
+        this.focusWebview.dom.send('resume-page-event', data);
+      }
+    } else if (/clearToSomeoneWebview/.test(name)) {
+      const { url, data } = params;
+      this[name](url);
+      if (this.focusWebview) {
+        this.focusWebview.dom.send('resume-page-event', data);
+      }
     } else if (/toogleRefresh/.test(name)) {
       this[name](params);
     } else if (
@@ -257,7 +266,7 @@ export default class WebviewModel {
       )
     ) {
       this[name]();
-    } else if (/clearWebviewByPathName|clearToSomeoneWebview/.test(name)) {
+    } else if (/clearWebviewByPathName/.test(name)) {
       const { url } = params;
       this[name](url);
     } else if (/showDatePicker/.test(name)) {
@@ -578,6 +587,21 @@ export default class WebviewModel {
     } else if (this.focusIndex + count <= this.maxIndex) {
       this.closeFocusDevtools();
       this.focusIndex = this.focusIndex + count;
+    }
+    this.setTitle();
+  }
+
+  @action
+  public clearToAnyWebview(count: number) {
+    if (isNaN(count) && count > 0) {
+      return;
+    }
+    this.behavior = 'clear';
+    const num = Math.abs(count);
+    if (this.focusIndex - num >= 0) {
+      this.closeFocusDevtools();
+      this.webviewList = this.webviewList.slice(count);
+      this.focusIndex = this.maxIndex;
     }
     this.setTitle();
   }

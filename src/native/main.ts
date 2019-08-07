@@ -3,6 +3,7 @@ import winCreater from './utils/winCreater';
 import createRPC from './core/rpc';
 import createBridge from './core/bridge/main';
 import { showBetterMessageBox } from 'electron-better-dialog';
+import { isMac } from './utils/env';
 
 let mainWindow: any;
 let forceQuit: boolean = false;
@@ -83,7 +84,7 @@ app.on('before-quit', () => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!isMac()) {
     app.quit();
   }
 });
