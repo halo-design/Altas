@@ -25,7 +25,6 @@ class IPC {
   }
 }
 
-
 const attrFormatter = (val) => {
   if ((/true|false/).test(val)) {
     return eval(val);
@@ -73,14 +72,20 @@ window['ALTAS_APP_IPC'] = new IPC();
 class JSBridge {
   constructor() {
     this.ipc = window.ALTAS_APP_IPC;
+    this.remoteDebug = false;
 
     this.ipc.once('resume-page-event', (sender, res) => {
       this.trigger('resume', res);
     })
   }
 
+  setRemoteMode(state) {
+    this.remoteDebug = state;
+  }
+
   call(fnName, params, callback) {
-    if (fnName === 'call') {
+    if (this.remoteDebug) {
+      this.remote(fnName, params, callback);
       return;
     }
     if (fnName in this) {
