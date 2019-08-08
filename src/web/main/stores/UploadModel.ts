@@ -144,12 +144,7 @@ export default class UploadModel {
 
   @computed
   get isXhrQueueEmpty(): boolean {
-    const num = Object.keys(this.xhrQueue).length;
-    if (num > 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return Object.keys(this.xhrQueue).length === 0;
   }
 
   public getUploadHistory() {

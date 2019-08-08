@@ -33,7 +33,7 @@ const winCreater = (opts: any, entry: any, isChild?: boolean) => {
     }
   } else {
     win = winStateKeeper(options);
-    win.setContentProtection(true);
+    // win.setContentProtection(true);
   }
 
   win.once('ready-to-show', win.show);

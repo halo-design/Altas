@@ -7,7 +7,7 @@ dist: trusty
 sudo: required
 
 env:
-  - ELECTRON_CACHE=$HOME/.cache/electron
+  # - ELECTRON_CACHE=$HOME/.cache/electron
   - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
 branchs:

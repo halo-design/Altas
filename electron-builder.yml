@@ -48,6 +48,7 @@ nsis:
   installerHeaderIcon: resources/dock.ico
   allowToChangeInstallationDirectory: true
   artifactName: ${productName}-${version}-${os}-${arch}-setup.${ext}
+  shortcutName: Altas
   deleteAppDataOnUninstall: true
 
 artifactBuildCompleted: build/afterBuild.js
