@@ -75,6 +75,15 @@
 AlipayJSBridge.setRemoteMode(true);
 ```
 
+**单个调用接管：**
+针对调试器环境，我们也提供了单个调用由远程接管的API方法，以获取App信息为例：
+
+```javascript
+AlipayJSBridge.remote('pushWindow', {
+  url: 'https://www.baidu.com',
+  param: {}
+})
+```
 **接管模式说明：**
 默认情况下开启的接管模式，并不会接管全部的JSAPI调用，仅仅只针对部分模拟器无法模拟的部分JSAPI接口有效，如第三方键盘、Native方法。具体情况可参照下一章节。
 
