@@ -55,6 +55,9 @@ export default class WebviewModel {
   @observable public curTime: string = moment().format('A h:mm');
   @observable public localMockData: any = {};
 
+  // login page
+  @observable public showLoginState: boolean = false;
+
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
     this.setDefaultNavBar();
@@ -82,6 +85,11 @@ export default class WebviewModel {
         this.localMockData = args.data;
       });
     }
+  }
+
+  @action
+  public setLogintState(state: boolean) {
+    this.serverConnectState = state;
   }
 
   @action
