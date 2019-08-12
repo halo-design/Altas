@@ -12,6 +12,7 @@ import {
   downloadPreviewFile,
   mdSaveAsHtml,
 } from '../../main/bridge/modules/markdown';
+import { url } from '../../main/constants/Reg';
 const markdownItAttrs = require('markdown-it-attrs');
 const options = qs.parse(location.hash.substr(1));
 const { remoteUrl } = options;
@@ -87,15 +88,6 @@ const renderDoc = (filepath: string, content: string) => {
       },
       label: '导出到HTML',
     },
-    // {
-    //   type: 'separator',
-    // },
-    // {
-    //   click: () => {
-    //     //
-    //   },
-    //   label: '导出到PDF',
-    // },
   ]);
 };
 
@@ -128,4 +120,16 @@ RPC.on('ready', () => {
       }
     );
   }
+
+  document.addEventListener('click', (e: any) => {
+    const tar = e.target;
+    if (tar.tagName.toLowerCase() === 'a') {
+      const isLink = url.test(tar.href);
+      if (isLink) {
+        remote.shell.openExternal(tar.href);
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    }
+  });
 });

@@ -284,13 +284,13 @@ html {
         border-color: #eee;
         transition: all .3s;
 
-        &:focus {
-          border-color: #597cfc;
-        }
-
         &::-webkit-input-placeholder {
           color: #999;
           font-size: 14px;
+        }
+
+        &:focus {
+          border-color: #597cfc;
         }
       }
     }
@@ -302,7 +302,7 @@ html {
       margin: 40px 0;
       width: 100%;
       box-sizing: border-box;
-      background-color: #3D8DE2;
+      background-color: #3d8de2;
       color: #fff;
       font-size: 16px;
       border-radius: 4px;
