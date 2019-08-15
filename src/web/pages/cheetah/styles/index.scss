@@ -240,7 +240,7 @@ html {
   left: 0;
   top: 60px;
   background-color: #fff;
-  transform: translateX(-100vw);
+  transform: translateX(100vw);
   transition: all .3s;
   opacity: 0;
   display: flex;
@@ -264,6 +264,7 @@ html {
       background: url(./avatar.svg) no-repeat;
       background-size: 100%;
       margin: 0 auto 40px;
+      box-shadow: 0 10px 24px -4px #3c4bb99e;
     }
 
     .form-item {

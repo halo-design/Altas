@@ -56,7 +56,7 @@ export default class WebviewModel {
   @observable public localMockData: any = {};
 
   // login page
-  @observable public showLoginState: boolean = false;
+  @observable public loginShowState: boolean = false;
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
@@ -89,7 +89,7 @@ export default class WebviewModel {
 
   @action
   public setLogintState(state: boolean) {
-    this.serverConnectState = state;
+    this.loginShowState = state;
   }
 
   @action
@@ -351,6 +351,10 @@ export default class WebviewModel {
     } else if (/setNavBarVisible/.test(name)) {
       const { visible } = params;
       this.navBarVisible = visible;
+    } else if (/login/.test(name)) {
+      const { pageUrl, currentMobile } = params;
+      console.log(pageUrl, currentMobile);
+      this.setLogintState(true);
     } else {
       interaction(
         name,

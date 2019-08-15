@@ -352,10 +352,21 @@ class JSBridge {
       uid,
     })
 
+    const pickerItem = (group, value) => group.filter(item => value === item.value)[0]
+
     this.ipc.once(uid, (sender, { result, actionType }) => {
-      deepReplaceKey(result, 'name', 'label');
+      const resultArr = [];
+      let curDeg = dataSource;
+      result.forEach(val => {
+        const picked = pickerItem(curDeg, val);
+        resultArr.push({
+          name: picked.label,
+          value: picked.value
+        })
+        curDeg = picked.children;
+      })
       callback({
-        result,
+        result: resultArr,
         actionType,
         ...deafultErrorRes,
       });
@@ -550,6 +561,11 @@ class JSBridge {
 
   openNativeWebBrowser(params, callback) {
     this.ipc.emit('openNativeWebBrowser', { url: params.url, });
+    callback(deafultErrorRes);
+  }
+
+  login(params, callback) {
+    this.ipc.emit('login', params);
     callback(deafultErrorRes);
   }
 }
