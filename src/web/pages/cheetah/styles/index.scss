@@ -249,7 +249,7 @@ html {
   left: 0;
   top: 60px;
   background-color: #fff;
-  transform: translateX(100vw);
+  transform: translateY(100vh);
   transition: all .3s;
   opacity: 0;
   display: flex;
@@ -259,7 +259,7 @@ html {
 
   &.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 
   .form-item {

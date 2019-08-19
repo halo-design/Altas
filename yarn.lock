@@ -1131,10 +1131,10 @@
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/morgan@^1.7.36":
-  version "1.7.36"
-  resolved "https://registry.npmjs.org/@types/morgan/-/morgan-1.7.36.tgz#75b2bbf85cb33233a812ceff997efa08b2af13a1"
-  integrity sha512-Hc2UfTpnqS3gfGZFPk6aaQf/nwxFHboC/o1O25W29UsENPLv8qd/GJUBqzrBuczgaIS3/vZxZRHTfFF28uFNeQ==
+"@types/morgan@^1.7.37":
+  version "1.7.37"
+  resolved "https://registry.npm.taobao.org/@types/morgan/download/@types/morgan-1.7.37.tgz#ebdd0b0f0276073f85283bf4f03c7c54284874df"
+  integrity sha1-690LDwJ2Bz+FKDv08Dx8VChIdN8=
   dependencies:
     "@types/express" "*"
 
@@ -1219,18 +1219,18 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/send@^0.14.4":
-  version "0.14.4"
-  resolved "https://registry.npmjs.org/@types/send/-/send-0.14.4.tgz#d70458b030305999db619a7b057f7105058bd0ff"
-  integrity sha512-SCVCRRjSbpwoKgA34wK8cq14OUPu4qrKigO85/ZH6J04NGws37khLtq7YQr17zyOH01p4T5oy8e1TxEzql01Pg==
+"@types/send@^0.14.5":
+  version "0.14.5"
+  resolved "https://registry.npm.taobao.org/@types/send/download/@types/send-0.14.5.tgz#653f7d25b93c3f7f51a8994addaf8a229de022a7"
+  integrity sha1-ZT99Jbk8P39RqJlK3a+KIp3gIqc=
   dependencies:
     "@types/mime" "*"
     "@types/node" "*"
 
-"@types/serve-index@^1.7.29":
-  version "1.7.29"
-  resolved "https://registry.npmjs.org/@types/serve-index/-/serve-index-1.7.29.tgz#21def329735a690dad5e49c74a2623dfb0010740"
-  integrity sha512-oHSCX4wzPLWTUjj8LQNilJVL890kAQGpeE/gVbMzx2+/iE+Xb5khB2xQUFd8+K7lKz7DFB+e+e8OqiBISnVfJg==
+"@types/serve-index@^1.7.30":
+  version "1.7.30"
+  resolved "https://registry.npm.taobao.org/@types/serve-index/download/@types/serve-index-1.7.30.tgz#96cdcfe035ca436247dec3c6e11efb33c6c66165"
+  integrity sha1-ls3P4DXKQ2JH3sPG4R77M8bGYWU=
   dependencies:
     "@types/express" "*"
 

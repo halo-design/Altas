@@ -485,6 +485,11 @@ export default class WebviewModel {
     } else if (/setSessionID/.test(name)) {
       const { sessionID } = params;
       this.sessionID = sessionID;
+    } else if (/cheetahRpc/.test(name)) {
+      const { uid, opts } = params;
+      this.rpc(opts, (result: any) => {
+        this.focusWebviewSender(uid, result);
+      });
     } else {
       interaction(
         name,
