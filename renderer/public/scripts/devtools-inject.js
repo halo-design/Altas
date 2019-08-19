@@ -74,9 +74,14 @@ const { ipcRenderer } = require('electron');
     constructor() {
       this.ipc = window.ALTAS_APP_IPC;
       this.remoteDebug = false;
+      this.notifyQueue = {};
   
       this.ipc.once('resume-page-event', (sender, res) => {
         this.trigger('resume', res);
+      })
+
+      this.ipc.on('notify-trigger', (sender, { name, data }) => {
+        this.trigger(name, data);
       })
     }
   
@@ -612,6 +617,30 @@ const { ipcRenderer } = require('electron');
       this.ipc.emit('cheetahRpc', { uid, opts: params });
       this.ipc.once(uid, (sender, res) => {
         callback(res);
+      })
+    }
+
+    addNotifyListener(params, callback) {
+      const { name } = params;
+      this.notifyQueue[name] = callback;
+      document.addEventListener(name, this.notifyQueue[name]);
+    }
+
+    removeNotifyListener(params, callback) {
+      const { name } = params;
+      document.removeEventListener(name, this.notifyQueue[name]);
+      delete this.notifyQueue[name];
+      callback({
+        success: true,
+        ...deafultErrorRes,
+      })
+    }
+
+    postNotification(params, callback) {
+      this.ipc.emit('postNotification', params);
+      callback({
+        success: true,
+        ...deafultErrorRes,
       })
     }
   }

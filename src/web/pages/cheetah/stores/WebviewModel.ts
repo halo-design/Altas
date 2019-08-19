@@ -170,6 +170,10 @@ export default class WebviewModel {
             this.createNewWebview(this.afterLoginRedirectUrl);
             this.afterLoginRedirectUrl = '';
             this.setLogintState(false);
+            this.globalWebviewSender('notify-trigger', {
+              name: 'NEBULANOTIFY_loginSuccess',
+              data: {},
+            });
           }
         }
       }
@@ -346,6 +350,15 @@ export default class WebviewModel {
   }
 
   @action
+  public globalWebviewSender(name: string, params: object) {
+    this.webviewList.map((curWebview: any) => {
+      if (curWebview) {
+        curWebview.dom.send(name, params);
+      }
+    });
+  }
+
+  @action
   public focusWebviewSender(name: string, params: object) {
     if (this.focusWebview) {
       this.focusWebview.dom.send(name, params);
@@ -479,7 +492,6 @@ export default class WebviewModel {
         userInfo: this.userInfo,
       });
     } else if (/cleanUserInfo/.test(name)) {
-      this.setLogintState(false);
       this.sessionID = '';
       this.userInfo = {};
     } else if (/setSessionID/.test(name)) {
@@ -490,6 +502,8 @@ export default class WebviewModel {
       this.rpc(opts, (result: any) => {
         this.focusWebviewSender(uid, result);
       });
+    } else if (/postNotification/.test(name)) {
+      this.globalWebviewSender('notify-trigger', params);
     } else {
       interaction(
         name,
