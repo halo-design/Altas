@@ -20,17 +20,20 @@ export default (RPC: IServer) => {
     }
 
     const uid = winId || uuid.v4();
-    log.info(
-      `Window Inject Bridges: ${
-        injectBridges.length > 0 ? injectBridges.join(', ') : 'null'
-      }`
-    );
-    log.info(`Window "${uid}" Created!`);
+
     if (uid in windowContainer) {
       windowContainer[uid].focus();
+      log.info(`Window "${uid}" Focused!`);
       return;
+    } else {
+      log.info(
+        `Window Inject Bridges: ${
+          injectBridges.length > 0 ? injectBridges.join(', ') : 'null'
+        }`
+      );
+      log.info(`Window "${uid}" Created!`);
     }
-    const childWin = winCreater(options, entry, true, win);
+    const childWin = winCreater(options, entry, true);
     const childRPC = new Server(childWin);
     inject(childRPC, injectBridges);
 

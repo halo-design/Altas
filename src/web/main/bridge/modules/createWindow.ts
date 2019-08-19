@@ -90,7 +90,7 @@ export const cheetahSimulator = (options: Idebug, callback?: Function) => {
       preload: '../public/scripts/devtools-inject.js',
       ...options,
     },
-    ['createWindow', 'createMocker'],
+    ['createWindow', 'createMocker', 'readWrite'],
     callback
   );
 };

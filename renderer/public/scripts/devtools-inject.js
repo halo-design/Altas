@@ -568,6 +568,43 @@ class JSBridge {
     this.ipc.emit('login', params);
     callback(deafultErrorRes);
   }
+
+  cleanUserInfo(params, callback) {
+    this.ipc.emit('cleanUserInfo');
+    callback(deafultErrorRes);
+  }
+
+  getSessionID(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('getSessionID', { uid });
+    this.ipc.once(uid, (sender, res) => {
+      callback({
+        sessionID: res.sessionID,
+        ...deafultErrorRes,
+      });
+    })
+  }
+
+  setSessionID(params, callback) {
+    const { sessionID } = params;
+    this.ipc.emit('setSessionID', { sessionID });
+    callback(deafultErrorRes);
+  }
+
+  getUserInfo(params, callback) {
+    const uid = uuid.v4();
+    this.ipc.emit('getUserInfo', { uid });
+    this.ipc.once(uid, (sender, res) => {
+      callback({
+        userInfo: res.userInfo,
+        ...deafultErrorRes,
+      });
+    })
+  }
+
+  updateUserInfo(params, callback) {
+    callback(deafultErrorRes);
+  }
 }
 
 window['AlipayJSBridge'] = new JSBridge();

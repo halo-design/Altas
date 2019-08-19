@@ -7,6 +7,9 @@ import { urlTest } from '../../../main/constants/Reg';
 import RPC from '../../../main/bridge/rpc';
 import { readMockData } from '../../../main/bridge/modules/createMocker';
 import { scrollbarStyleString } from '../../../main/constants/API';
+import { IRpcConfig, cheetahRpc } from '../utils/cheetah-rpc';
+import * as storage from '../../../main/bridge/modules/storage';
+import Toast from 'antd-mobile/lib/toast';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
 
@@ -57,6 +60,12 @@ export default class WebviewModel {
 
   // login page
   @observable public loginShowState: boolean = false;
+  @observable public rpcOperationType: any = {};
+  @observable public sessionID: string = '';
+  @observable public afterLoginRedirectUrl: string = '';
+  @observable public userName: string = '';
+  @observable public userPassword: string = '';
+  @observable public userInfo: object = {};
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
@@ -75,6 +84,103 @@ export default class WebviewModel {
 
     RPC.mockProxyWsConnectStatusGlobal((args: any) => {
       this.setWsConnectState(args.connect);
+    });
+
+    this.initSettings();
+  }
+
+  @action
+  public async initSettings() {
+    const cheetahServerConfig: any = await storage.readSync(
+      'cheetah_server_config'
+    );
+    const { cheetah_server_config } = cheetahServerConfig;
+    if (cheetah_server_config) {
+      this.rpcOperationType = cheetah_server_config;
+    } else {
+      this.rpcOperationType = {
+        rpcRemoteUrl: 'http://flameapp.cn/chee-mpaasService/',
+        rpcOperationTypeReg: '([^.]*).([^.]*).([^.]*)',
+        rpcOperationTypeReplaceString: '$3.do',
+        rpcOperationLoginInterface: 'com.IFP.MP5001',
+        rpcOperationLoginSuccessCode: '0',
+        rpcOperationLoginErrorMsgPosition: 'data.header.errorMsg',
+        rpcOperationLoginErrorCodePosition: 'data.header.errorCode',
+        rpcOperationSessionIDPosition: 'data.header.mp_sID',
+      };
+    }
+  }
+
+  @action
+  public rpc(options: any, bridgeCallback: Function) {
+    cheetahRpc(this.rpcOperationType, options, bridgeCallback);
+  }
+
+  @action
+  public submitLogin(userName: string, userPassword: string) {
+    this.userName = userName;
+    this.userPassword = userPassword;
+
+    this.rpc(
+      {
+        operationType: this.rpcOperationType.rpcOperationLoginInterface,
+        requestData: [
+          {
+            _requestBody: {
+              header: {},
+              body: {
+                requestData: [
+                  {
+                    header: {},
+                    body: {
+                      userName: userName,
+                      password: userPassword,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      ({ error, errorMessage, resData }: any) => {
+        if (error && Number(error) !== 0) {
+          Toast.fail(errorMessage);
+        } else {
+          const data = resData;
+
+          const errMsg = eval(
+            this.rpcOperationType.rpcOperationLoginErrorMsgPosition
+          );
+
+          const resultCode = eval(
+            this.rpcOperationType.rpcOperationLoginErrorCodePosition
+          );
+
+          if (
+            resultCode !== this.rpcOperationType.rpcOperationLoginSuccessCode
+          ) {
+            Toast.fail(errMsg);
+          } else {
+            const sessionID = eval(
+              this.rpcOperationType.rpcOperationSessionIDPosition
+            );
+            this.userInfo = data;
+            this.sessionID = sessionID ? sessionID : '';
+            this.createNewWebview(this.afterLoginRedirectUrl);
+            this.afterLoginRedirectUrl = '';
+            this.setLogintState(false);
+          }
+        }
+      }
+    );
+  }
+
+  @action
+  public setRpcOperationSettings(config: IRpcConfig) {
+    this.rpcOperationType = config;
+    storage.write('cheetah_server_config', {
+      cheetah_server_config: config,
     });
   }
 
@@ -353,8 +459,32 @@ export default class WebviewModel {
       this.navBarVisible = visible;
     } else if (/login/.test(name)) {
       const { pageUrl, currentMobile } = params;
-      console.log(pageUrl, currentMobile);
+
+      if (pageUrl) {
+        this.afterLoginRedirectUrl = pageUrl;
+      }
+      if (currentMobile) {
+        this.userName = currentMobile;
+      }
+
       this.setLogintState(true);
+    } else if (/getSessionID/.test(name)) {
+      const { uid } = params;
+      this.focusWebviewSender(uid, {
+        sessionID: this.sessionID,
+      });
+    } else if (/getUserInfo/.test(name)) {
+      const { uid } = params;
+      this.focusWebviewSender(uid, {
+        userInfo: this.userInfo,
+      });
+    } else if (/cleanUserInfo/.test(name)) {
+      this.setLogintState(false);
+      this.sessionID = '';
+      this.userInfo = {};
+    } else if (/setSessionID/.test(name)) {
+      const { sessionID } = params;
+      this.sessionID = sessionID;
     } else {
       interaction(
         name,
@@ -378,6 +508,7 @@ export default class WebviewModel {
     const isBlank = lnk === 'about:blank';
     const isLocal =
       lnk.indexOf('http://localhost') === 0 ||
+      lnk.indexOf('http://0.0.0.0') === 0 ||
       lnk.indexOf('http://127.0.0.1') === 0;
 
     // if (isBlank) {
