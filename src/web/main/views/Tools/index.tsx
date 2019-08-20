@@ -73,15 +73,6 @@ class ToolsView extends React.Component<any> {
           <div
             className="item"
             onClick={e => {
-              this.openDeviceSimulator();
-            }}
-          >
-            <i className="debug" />
-            <div className="tit">WebApp调试器</div>
-          </div>
-          <div
-            className="item"
-            onClick={e => {
               this.openCheetahDevice();
             }}
           >
@@ -96,6 +87,15 @@ class ToolsView extends React.Component<any> {
           >
             <i className="api" />
             <div className="tit">猎豹Mock模拟工具</div>
+          </div>
+          <div
+            className="item"
+            onClick={e => {
+              this.openDeviceSimulator();
+            }}
+          >
+            <i className="debug" />
+            <div className="tit">WebApp调试器</div>
           </div>
           <div
             className="item"
@@ -124,15 +124,6 @@ class ToolsView extends React.Component<any> {
             <i className="server" />
             <div className="tit">Web Server服务器</div>
           </div>
-          {/* <div
-            className="item"
-            onClick={e => {
-              // this.handleUploadDrawerVisible(true);
-            }}
-          >
-            <i className="calculator" />
-            <div className="tit">计算文件MD5</div>
-          </div> */}
         </div>
         <Drawer
           title="图片图床"
