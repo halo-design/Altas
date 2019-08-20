@@ -10,9 +10,16 @@
 
 ![image](https://i.loli.net/2019/08/08/P3g1LWmo78OTtHw.png)
 
+**调试器入口**
+![image](https://i.loli.net/2019/08/19/mz1jws46MLfG3US.png)
+
 2. 猎豹App调试器/mock模拟工具主界面
 
 ![image](https://i.loli.net/2019/08/08/gLU1MaAV3skmXot.png)
+
+3. 本地调试链接输入地址
+![image](https://i.loli.net/2019/08/19/aSgBhF3Hz8RZ1k4.png)
+点击窗口顶部链接图标，在下方显示的输入框中输入完整的链接地址即可访问本地服务或外部链接。
 
 ## （二）猎豹App调试器功能
 
@@ -197,6 +204,7 @@ http请求-安卓小程序 | httpRequest | 🛑 不需要模拟 | -
 清除webview历史 | clearHistory | ✅ 已模拟 | ⚠️待测试
 
 **存储管理**
+
 名称 | 方法名 | 模拟情况 | 测试情况
 ---|---|---|---
 设置磁盘缓存 | setStorageCache | ✅ 已模拟 | ️✅ 测试通过
@@ -205,6 +213,7 @@ http请求-安卓小程序 | httpRequest | 🛑 不需要模拟 | -
 获取内存缓存 | getMemoryCache | ✅ 已模拟 | ️✅ 测试通过
 
 **业务功能**
+
 名称 | 方法名 | 模拟情况 | 测试情况
 ---|---|---|---
 打开银行列表 | openBankList | ✅本地Mock/可接管 | ✅ 测试通过

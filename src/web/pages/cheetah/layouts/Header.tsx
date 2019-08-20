@@ -14,6 +14,8 @@ import { mockProxyServer } from '../../../main/bridge/modules/createWindow';
     focusWebviewSpinner,
     serverConnectState,
     wsConnectState,
+    rpcSettingsVisible,
+    loginShowState,
   } = stores.webview;
 
   return {
@@ -25,6 +27,11 @@ import { mockProxyServer } from '../../../main/bridge/modules/createWindow';
     focusWebviewSpinner,
     serverConnectState,
     wsConnectState,
+    rpcSettingsVisible,
+    loginShowState,
+    setRpcSettingsVisible: (state: boolean) =>
+      stores.webview.setRpcSettingsVisible(state),
+    setLogintState: (state: boolean) => stores.webview.setLogintState(state),
     focusToNextWebview: () => stores.webview.focusToNextWebview(),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
     debugFocusWebview: () => stores.webview.debugFocusWebview(),
@@ -52,6 +59,10 @@ class HeaderView extends React.Component<any, any> {
       webviewCount,
       serverConnectState,
       wsConnectState,
+      rpcSettingsVisible,
+      loginShowState,
+      setRpcSettingsVisible,
+      setLogintState,
     } = this.props;
 
     return (
@@ -141,6 +152,28 @@ class HeaderView extends React.Component<any, any> {
             }}
           >
             &#xe738;
+          </div>
+          <div
+            title="设置RPC和登录参数"
+            className={classnames('btn', {
+              active: rpcSettingsVisible,
+            })}
+            onClick={() => {
+              setRpcSettingsVisible(!rpcSettingsVisible);
+            }}
+          >
+            &#xe78e;
+          </div>
+          <div
+            title="登录"
+            className={classnames('btn', {
+              active: loginShowState,
+            })}
+            onClick={() => {
+              setLogintState(!loginShowState);
+            }}
+          >
+            &#xe8ef;
           </div>
           <div
             title="关闭调试器"

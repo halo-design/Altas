@@ -59,6 +59,7 @@ export default class WebviewModel {
   @observable public localMockData: any = {};
 
   // login page
+  @observable public rpcSettingsVisible: boolean = false;
   @observable public loginShowState: boolean = false;
   @observable public rpcOperationType: any = {};
   @observable public sessionID: string = '';
@@ -200,6 +201,11 @@ export default class WebviewModel {
   @action
   public setLogintState(state: boolean) {
     this.loginShowState = state;
+  }
+
+  @action
+  public setRpcSettingsVisible(state: boolean) {
+    this.rpcSettingsVisible = state;
   }
 
   @action
