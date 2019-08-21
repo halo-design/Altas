@@ -8,7 +8,6 @@ import {
   cheetahSimulator,
   mockProxyServer,
 } from '../../bridge/modules/createWindow';
-import { allDeviceObject } from '../../config/DeviceDescriptors';
 import { isWin } from '../../bridge/modules/env';
 import { cheetahSimulatorIndex } from '../../constants/API';
 
@@ -19,11 +18,11 @@ const win = getCurrentWindow();
 
 @inject((stores: any) => {
   const {
-    terminal: { useDebugDevice },
+    terminal: { deviceConfig },
   } = stores;
 
   return {
-    useDebugDevice,
+    deviceConfig,
   };
 })
 @observer
@@ -45,7 +44,7 @@ class SidebarView extends React.Component<any, any> {
   public openCheetahDevice() {
     cheetahSimulator({
       target: cheetahSimulatorIndex,
-      descriptors: allDeviceObject[this.props.useDebugDevice],
+      descriptors: this.props.deviceConfig,
     });
   }
 

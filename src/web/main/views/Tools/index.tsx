@@ -14,18 +14,17 @@ import {
   markdownViewer,
   mockProxyServer,
 } from '../../bridge/modules/createWindow';
-import { allDeviceObject } from '../../config/DeviceDescriptors';
 
 import './index.scss';
 
 @inject((stores: any) => {
   const {
-    terminal: { useDebugDevice },
+    terminal: { deviceConfig },
     createServer: { createServerDrawerVisible },
   } = stores;
 
   return {
-    useDebugDevice,
+    deviceConfig,
     createServerDrawerVisible,
     setMonitorVisible: (state: boolean) =>
       stores.workBench.setMonitorVisible(state),
@@ -45,7 +44,7 @@ class ToolsView extends React.Component<any> {
   public openDeviceSimulator() {
     deviceSimulator({
       target: 'about:blank',
-      descriptors: allDeviceObject[this.props.useDebugDevice],
+      descriptors: this.props.deviceConfig,
       insertCSS: scrollbarStyleString,
     });
   }
@@ -53,7 +52,7 @@ class ToolsView extends React.Component<any> {
   public openCheetahDevice() {
     cheetahSimulator({
       target: cheetahSimulatorIndex,
-      descriptors: allDeviceObject[this.props.useDebugDevice],
+      descriptors: this.props.deviceConfig,
     });
   }
 

@@ -22,12 +22,14 @@ message.config({
 });
 
 @inject((stores: any) => {
-  const { mockData, autoSave } = stores.monitor;
+  const { filterMockData, autoSave } = stores.monitor;
   return {
-    mockData,
+    filterMockData,
     autoSave,
     delMockDataItemByName: (name: string) =>
       stores.monitor.delMockDataItemByName(name),
+    mockDataFilterHandle: (keyword: string) =>
+      stores.monitor.mockDataFilterHandle(keyword),
     getMockData: () => stores.monitor.getMockData(),
     setAutoSave: (state: boolean) => stores.monitor.setAutoSave(state),
     setMockData: (config: object) => stores.monitor.setMockData(config),
@@ -39,6 +41,7 @@ message.config({
 @observer
 class MockerView extends React.Component<any, any> {
   public eventList: any = [];
+  public filterTimer: any = null;
 
   constructor(props: any) {
     super(props);
@@ -146,8 +149,18 @@ class MockerView extends React.Component<any, any> {
     }
   }
 
+  public filterHandle(e: any) {
+    const val = e.target.value;
+    console.log(val);
+    this.filterTimer && clearTimeout(this.filterTimer);
+    this.filterTimer = setTimeout(() => {
+      this.props.mockDataFilterHandle(val);
+      clearTimeout(this.filterTimer);
+    }, 300);
+  }
+
   public render() {
-    const { form, mockData, autoSave, resetMockData } = this.props;
+    const { form, filterMockData, autoSave, resetMockData } = this.props;
     const { getFieldDecorator } = form;
 
     const formItemLayout = {
@@ -161,11 +174,19 @@ class MockerView extends React.Component<any, any> {
       },
     };
 
-    const dataSource = mockData || {};
+    const dataSource = filterMockData || {};
     const dataKeys = Object.keys(dataSource);
 
     return (
       <div className="app-mocker">
+        <div className="search-bar">
+          <Input
+            placeholder="输入关键字搜索接口"
+            onChange={(e: any) => {
+              this.filterHandle(e);
+            }}
+          />
+        </div>
         <div className="mock-list">
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
             {dataKeys.map((key: string, index: number) => (
@@ -192,6 +213,7 @@ class MockerView extends React.Component<any, any> {
                 </Form.Item>
               </div>
             ))}
+            {dataKeys.length === 0 && <div className="nofound" />}
             <Form.Item label="自动缓存应用调试数据">
               {getFieldDecorator('autoSave', {
                 initialValue: autoSave,

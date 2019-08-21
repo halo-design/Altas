@@ -47,7 +47,7 @@ export const deviceDevtools = (
 ) => {
   let { descriptors }: any = options;
   if (!descriptors) {
-    descriptors = allDeviceObject['iPhone 8 Plus'];
+    descriptors = allDeviceObject['iPhone 8'];
     options['descriptors'] = descriptors;
   }
   const { width, height } = descriptors.viewport;

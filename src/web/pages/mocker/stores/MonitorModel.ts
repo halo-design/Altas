@@ -56,6 +56,7 @@ export default class MonitorlModel {
   @observable public mockerVisible: boolean = false;
   @observable public autoSave: boolean = false;
   @observable public mockData: object = {};
+  @observable public filterMockData: object = {};
 
   @computed get qrCodeVisible() {
     return this.serverOnline && !this.websocketOnline && this.host.length > 0;
@@ -105,9 +106,27 @@ export default class MonitorlModel {
   }
 
   @action
+  public mockDataFilterHandle(keyword: string) {
+    if (keyword.length === 0) {
+      this.filterMockData = this.mockData;
+      return;
+    }
+    const keyList = Object.keys(this.mockData);
+    const filterResultKeys = keyList.filter(
+      key => key.toLowerCase().indexOf(keyword.toLowerCase()) === 0
+    );
+    const tempData: any = {};
+    filterResultKeys.forEach(key => {
+      tempData[key] = this.mockData[key];
+    });
+    this.filterMockData = tempData;
+  }
+
+  @action
   public getMockData() {
     readMockSync().then(({ settings: { autoSave }, data }: any) => {
       this.mockData = data;
+      this.filterMockData = data;
       this.autoSave = autoSave;
     });
   }

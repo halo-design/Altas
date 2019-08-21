@@ -8,7 +8,7 @@ import RPC from '../../../main/bridge/rpc';
 import { readMockData } from '../../../main/bridge/modules/createMocker';
 import { scrollbarStyleString } from '../../../main/constants/API';
 import { IRpcConfig, cheetahRpc } from '../utils/cheetah-rpc';
-import * as storage from '../../../main/bridge/modules/storage';
+import { dataReadSync, dataWrite } from '../../../main/utils/dataManage';
 import Toast from 'antd-mobile/lib/toast';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
@@ -92,12 +92,11 @@ export default class WebviewModel {
 
   @action
   public async initSettings() {
-    const cheetahServerConfig: any = await storage.readSync(
+    const cheetahServerConfig: any = await dataReadSync(
       'cheetah_server_config'
     );
-    const { cheetah_server_config } = cheetahServerConfig;
-    if (cheetah_server_config) {
-      this.rpcOperationType = cheetah_server_config;
+    if (cheetahServerConfig) {
+      this.rpcOperationType = cheetahServerConfig;
     } else {
       this.rpcOperationType = {
         rpcRemoteUrl: 'http://flameapp.cn/chee-mpaasService/',
@@ -184,9 +183,7 @@ export default class WebviewModel {
   @action
   public setRpcOperationSettings(config: IRpcConfig) {
     this.rpcOperationType = config;
-    storage.write('cheetah_server_config', {
-      cheetah_server_config: config,
-    });
+    dataWrite('cheetah_server_config', config);
   }
 
   @action
@@ -532,9 +529,9 @@ export default class WebviewModel {
   public testUrl(lnk: string) {
     const isBlank = lnk === 'about:blank';
     const isLocal =
-      lnk.indexOf('http://localhost') === 0 ||
-      lnk.indexOf('http://0.0.0.0') === 0 ||
-      lnk.indexOf('http://127.0.0.1') === 0;
+      lnk.includes('://localhost') ||
+      lnk.includes('://0.0.0.0') ||
+      lnk.includes('://127.0.0.1');
 
     // if (isBlank) {
     //   this.showLinkBar = true;

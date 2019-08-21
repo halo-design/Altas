@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx';
 import * as API from '../constants/API';
 import { getData, upload } from '../utils/ajax';
 import message from 'antd/lib/message';
-import * as storage from '../bridge/modules/storage';
+import { dataRead, dataWrite } from '../utils/dataManage';
 import { removeFile } from '../bridge/modules/file';
 import { createCache } from '../bridge/modules/createImageCache';
 import { appDataFullPath } from '../constants/API';
@@ -17,9 +17,7 @@ export default class UploadModel {
   public readLocal: boolean = false;
 
   public writeLocalHistory() {
-    storage.write('upload_image_history', {
-      upload_image_history: this.uploadHistoryList,
-    });
+    dataWrite('upload_image_history', this.uploadHistoryList);
   }
 
   @action
@@ -28,14 +26,9 @@ export default class UploadModel {
       return;
     }
     this.readLocal = true;
-    storage.read('upload_image_history', (data: any) => {
-      let { upload_image_history } = data;
-      if (upload_image_history) {
-        upload_image_history = Object.keys(upload_image_history).map(
-          (key: any) => upload_image_history[key]
-        );
-        // console.log(upload_image_history);
-        this.uploadHistoryList = upload_image_history;
+    dataRead('upload_image_history', (data: any) => {
+      if (data) {
+        this.uploadHistoryList = Object.keys(data).map((key: any) => data[key]);
       }
     });
   }

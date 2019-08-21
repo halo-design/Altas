@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import { Terminal } from 'xterm';
 import { openLink, getProcessPid, getWindow } from '../bridge/system';
 import * as fit from 'xterm/lib/addons/fit/fit';
@@ -8,7 +8,7 @@ import { Howl } from 'howler';
 const { spawn } = require('node-pty');
 import xtermConfig from '../config/xterm';
 import { isMac, isWin } from '../bridge/modules/env';
-import * as storage from '../bridge/modules/storage';
+import { dataReadSync, dataWrite } from '../utils/dataManage';
 import message from 'antd/lib/message';
 const debounce = require('lodash/debounce');
 import Modal from 'antd/lib/modal';
@@ -63,12 +63,25 @@ export default class TerminalModel {
   @observable public stdoutRunning: boolean = false;
   @observable public adminAuthorizationModalVisible: boolean = false;
   @observable public userPassword: string = '';
-  @observable public useDebugDevice: string = 'iPhone 8 Plus';
+  @observable public useDebugDevice: string = 'iPhone 8';
   @observable public useDebugSimulator: string = 'deviceSimulator';
+  @observable public customUAState: boolean = false;
+  @observable public customUAString: string = '';
 
   constructor() {
     this.setUseDebugDevice = this.setUseDebugDevice.bind(this);
     this.handleLink = this.handleLink.bind(this);
+  }
+
+  @computed get deviceConfig() {
+    let config = allDeviceObject[this.useDebugDevice];
+    if (this.customUAState && this.customUAString.length > 0) {
+      config = {
+        ...config,
+        userAgent: this.customUAString,
+      };
+    }
+    return config;
   }
 
   public async init(el: HTMLElement) {
@@ -78,13 +91,15 @@ export default class TerminalModel {
       this.terminalParentEl = parent;
     }
 
-    const localDataProject: any = await storage.readSync(
+    const localDataProject: any = await dataReadSync(
       'user_default_project_path'
     );
 
-    const { user_default_project_path } = localDataProject;
-    this.currentExecPath = user_default_project_path;
-    this.initPty(user_default_project_path);
+    if (localDataProject) {
+      this.currentExecPath = localDataProject;
+    }
+
+    this.initPty(this.currentExecPath);
     this.initTerm();
 
     if (this.term) {
@@ -96,14 +111,13 @@ export default class TerminalModel {
       window.addEventListener('resize', this.resizeTerm, false);
     }
 
-    const localDataShellPassword: any = await storage.readSync(
+    const localDataShellPassword: any = await dataReadSync(
       'user_shell_password'
     );
-    const { user_shell_password } = localDataShellPassword;
-    if (user_shell_password) {
-      this.encodeUserPassword = user_shell_password;
+    if (localDataShellPassword) {
+      this.encodeUserPassword = localDataShellPassword;
       const aesPswd: any = await decodeSync(
-        user_shell_password,
+        localDataShellPassword,
         'shell_password'
       );
 
@@ -112,22 +126,32 @@ export default class TerminalModel {
       }
     }
 
-    const devToolsDebugDevice: any = await storage.readSync(
+    const devToolsDebugDevice: any = await dataReadSync(
       'devtools_debug_device'
     );
 
-    const { devtools_debug_device } = devToolsDebugDevice;
-    if (devtools_debug_device) {
-      this.useDebugDevice = devtools_debug_device;
+    if (devToolsDebugDevice) {
+      this.useDebugDevice = devToolsDebugDevice;
     }
 
-    const devToolsDebugSimulator: any = await storage.readSync(
+    const customUAState: any = await dataReadSync('custom_useragent_state');
+
+    if (customUAState) {
+      this.customUAState = customUAState;
+    }
+
+    const customUAString: any = await dataReadSync('custom_useragent_string');
+
+    if (customUAString) {
+      this.customUAString = customUAString;
+    }
+
+    const devToolsDebugSimulator: any = await dataReadSync(
       'devtools_debug_simulator'
     );
 
-    const { devtools_debug_simulator } = devToolsDebugSimulator;
-    if (devtools_debug_simulator) {
-      this.useDebugSimulator = devtools_debug_simulator;
+    if (devToolsDebugSimulator) {
+      this.useDebugSimulator = devToolsDebugSimulator;
     }
   }
 
@@ -250,17 +274,13 @@ export default class TerminalModel {
   @action
   public setUseDebugDevice(type: string) {
     this.useDebugDevice = type;
-    storage.write('devtools_debug_device', {
-      devtools_debug_device: type,
-    });
+    dataWrite('devtools_debug_device', type);
   }
 
   @action
   public setUseDebugSimulator(type: string) {
     this.useDebugSimulator = type;
-    storage.write('devtools_debug_simulator', {
-      devtools_debug_simulator: type,
-    });
+    dataWrite('devtools_debug_simulator', type);
   }
 
   private handleLink(event: any, uri: string) {
@@ -274,7 +294,7 @@ export default class TerminalModel {
           deviceSimulator(
             {
               target: uri,
-              descriptors: allDeviceObject[this.useDebugDevice],
+              descriptors: this.deviceConfig,
             },
             () => {
               message.info('已打开Web应用调试器！');
@@ -285,7 +305,7 @@ export default class TerminalModel {
             {
               target: uri,
               preload: './public/scripts/devtools-inject.js',
-              descriptors: allDeviceObject[this.useDebugDevice],
+              descriptors: this.deviceConfig,
             },
             () => {
               message.info('已打开猎豹App调试器！');
@@ -338,6 +358,18 @@ export default class TerminalModel {
   }
 
   @action
+  public setCunstomUAState(state: boolean) {
+    this.customUAState = state;
+    dataWrite('custom_useragent_state', state);
+  }
+
+  @action
+  public setCunstomUAString(type: string) {
+    this.customUAString = type;
+    dataWrite('custom_useragent_string', type);
+  }
+
+  @action
   public async adminAuthorization() {
     if (!this.userPassword) {
       message.warn('密码不能为空！');
@@ -350,9 +382,7 @@ export default class TerminalModel {
       );
 
       if (aesPswd !== this.encodeUserPassword) {
-        storage.write('user_shell_password', {
-          user_shell_password: aesPswd,
-        });
+        dataWrite('user_shell_password', aesPswd);
       }
     }
   }

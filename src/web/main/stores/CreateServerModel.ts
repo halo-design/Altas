@@ -1,6 +1,6 @@
 import { action, observable, computed } from 'mobx';
 import { getIpAddress } from '../bridge/system';
-import * as storage from '../bridge/modules/storage';
+import { dataRead, dataReadSync, dataWrite } from '../utils/dataManage';
 import message from 'antd/lib/message';
 import * as url from 'url';
 import * as clipBoard from '../bridge/modules/clipBoard';
@@ -54,9 +54,22 @@ export default class CreateServerModel {
   @observable public debugTool: string = 'none';
   @observable public proxyTables: object[] = [];
   @observable public useDebugDevice: string = 'iPhone 8';
+  @observable public customUAState: boolean = false;
+  @observable public customUAString: string = '';
 
   @computed get webServerHost() {
     return `${this.protocol}://${this.localHostName}:${this.localHostPort}`;
+  }
+
+  @computed get deviceConfig() {
+    let config = allDeviceObject[this.useDebugDevice];
+    if (this.customUAState && this.customUAString.length > 0) {
+      config = {
+        ...config,
+        userAgent: this.customUAString,
+      };
+    }
+    return config;
   }
 
   constructor() {
@@ -67,28 +80,39 @@ export default class CreateServerModel {
   }
 
   @action
-  private initData() {
-    storage.read('create_server_settings', (data: any) => {
-      let { create_server_settings } = data;
-      if (create_server_settings) {
-        for (let key in create_server_settings) {
-          if (key === 'proxyTables') {
-            const originArr = create_server_settings[key];
-            this[key] = Object.keys(originArr).map(
-              (key: string) => originArr[key]
-            );
-          } else {
-            this[key] = create_server_settings[key];
-          }
+  private async initData() {
+    dataRead('create_server_settings', (data: any) => {
+      for (let key in data) {
+        if (key === 'proxyTables') {
+          const originArr = data[key];
+          this[key] = Object.keys(originArr).map(
+            (key: string) => originArr[key]
+          );
+        } else {
+          this[key] = data[key];
         }
       }
     });
-    storage.read('create_server_settings', (data: any) => {
-      let { devtools_debug_device } = data;
-      if (devtools_debug_device) {
-        this.useDebugDevice = devtools_debug_device;
-      }
-    });
+
+    const devToolsDebugDevice: any = await dataReadSync(
+      'devtools_debug_device'
+    );
+
+    if (devToolsDebugDevice) {
+      this.useDebugDevice = devToolsDebugDevice;
+    }
+
+    const customUAState: any = await dataReadSync('custom_useragent_state');
+
+    if (customUAState) {
+      this.customUAState = customUAState;
+    }
+
+    const customUAString: any = await dataReadSync('custom_useragent_string');
+
+    if (customUAString) {
+      this.customUAString = customUAString;
+    }
   }
 
   @action
@@ -167,10 +191,7 @@ export default class CreateServerModel {
       createServerMonitorStatus,
     };
 
-    !noSave &&
-      storage.write('create_server_settings', {
-        create_server_settings: originParams,
-      });
+    !noSave && dataWrite('create_server_settings', originParams);
 
     this.setLocalServerStatus('running');
     const timer: any = setTimeout(() => {
@@ -195,13 +216,13 @@ export default class CreateServerModel {
         } else if (this.debugTool === 'web') {
           deviceSimulator({
             target: this.webServerHost,
-            descriptors: allDeviceObject[this.useDebugDevice],
+            descriptors: this.deviceConfig,
             insertCSS: scrollbarStyleString,
           });
         } else if (this.debugTool === 'cheetah') {
           cheetahSimulator({
             target: this.webServerHost,
-            descriptors: allDeviceObject[this.useDebugDevice],
+            descriptors: this.deviceConfig,
           });
         }
         clearTimeout(timer);

@@ -22,9 +22,12 @@
     }
 
     .item {
-      padding: 10px;
-      flex-grow: 1;
+      padding: 10px 15px;
       font-size: 13px;
+
+      textarea {
+        font-size: 12px;
+      }
     }
   }
 }

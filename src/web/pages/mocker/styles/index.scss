@@ -81,9 +81,23 @@ body {
 }
 
 .app-mocker {
+  .search-bar {
+    padding: 10px 50px;
+
+    input {
+      color: #fff;
+      background-color: #252831;
+      border-color: #15171d;
+
+      &::-webkit-input-placeholder {
+        color: #626569;
+      }
+    }
+  }
+
   .mock-list {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 52px);
     overflow: auto;
     color: #fff;
     box-sizing: border-box;
@@ -107,10 +121,24 @@ body {
     }
 
     .ant-btn {
-      border-radius: 22px;
       margin: 0 20px;
       padding: 0 25px;
       font-size: 14px;
+    }
+  }
+
+  .nofound {
+    width: 220px;
+    padding-top: 220px;
+    margin: 0 auto;
+    background: url(./noFound.svg) no-repeat center top;
+    background-size: 100% auto;
+    text-align: center;
+
+    &:after {
+      content: "没有查询到符合要求的配置参数";
+      line-height: 3;
+      color: #6c6d77;
     }
   }
 

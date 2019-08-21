@@ -2,8 +2,8 @@ import { action, observable, computed } from 'mobx';
 import message from 'antd/lib/message';
 import { Howl } from 'howler';
 import { detectSupportEnv } from '../bridge/modules/env';
-import * as storage from '../bridge/modules/storage';
 import { getProjectRunnerConfig } from '../bridge/modules/project';
+import { dataReadSync, dataWrite, dataRemove } from '../utils/dataManage';
 import initEnvData from '../config/envScan';
 import { appVersion } from '../constants/API';
 
@@ -47,10 +47,9 @@ export default class WorkBenchModel {
 
   @action
   public async getLocalSoundConfig() {
-    const localData: any = await storage.readSync('altas_app_sound');
-    const { altas_app_sound } = localData;
-    if (altas_app_sound) {
-      this.altasAppAudioStatus = altas_app_sound;
+    const localData: any = await dataReadSync('altas_app_sound');
+    if (localData) {
+      this.altasAppAudioStatus = localData;
     }
   }
 
@@ -62,9 +61,7 @@ export default class WorkBenchModel {
   @action
   public setAppAudioStatus(status: string) {
     this.altasAppAudioStatus = status;
-    storage.write('altas_app_sound', {
-      altas_app_sound: status,
-    });
+    dataWrite('altas_app_sound', status);
   }
 
   @action
@@ -83,11 +80,10 @@ export default class WorkBenchModel {
 
   @action
   public async getLocalUserProjectPath() {
-    const localData: any = await storage.readSync('user_default_project_path');
-    const { user_default_project_path } = localData;
-    if (user_default_project_path) {
-      this.userDefaultProjectPath = user_default_project_path;
-      getProjectRunnerConfig(user_default_project_path, (data: object) => {
+    const localData: any = await dataReadSync('user_default_project_path');
+    if (localData) {
+      this.userDefaultProjectPath = localData;
+      getProjectRunnerConfig(localData, (data: object) => {
         this.projectRunnerConfig = data;
       });
     }
@@ -95,10 +91,9 @@ export default class WorkBenchModel {
 
   @action
   public async getLocalSystemEnvData() {
-    const localData: any = await storage.readSync('system_support_environment');
-    const { system_support_environment } = localData;
-    if (system_support_environment) {
-      this.systemEnv = system_support_environment;
+    const localData: any = await dataReadSync('system_support_environment');
+    if (localData) {
+      this.systemEnv = localData;
     }
   }
 
@@ -114,16 +109,14 @@ export default class WorkBenchModel {
   @action
   public resetEnvData() {
     this.systemEnv = [];
-    storage.remove('system_support_environment');
+    dataRemove('system_support_environment');
   }
 
   @action
   public setUserDefaultProjerctPath(dir: string) {
     this.userDefaultProjectPath = dir;
     if (dir) {
-      storage.write('user_default_project_path', {
-        user_default_project_path: dir,
-      });
+      dataWrite('user_default_project_path', dir);
       getProjectRunnerConfig(dir, (data: object) => {
         this.projectRunnerConfig = data;
       });
@@ -177,9 +170,7 @@ export default class WorkBenchModel {
   public getEnvSupport(cb: Function) {
     detectSupportEnv((param: any) => {
       this.systemEnv = param.env_support;
-      storage.write('system_support_environment', {
-        system_support_environment: param.env_support,
-      });
+      dataWrite('system_support_environment', param.env_support);
       if (cb) {
         cb(param);
       }

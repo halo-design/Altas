@@ -5,6 +5,10 @@ import Select from 'antd/lib/select';
 import { cleanAppCache, cleanAppData } from '../../bridge/modules/file';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
+import Input from 'antd/lib/input';
+import Switch from 'antd/lib/switch';
+
+const { TextArea } = Input;
 
 const { confirm } = Modal;
 const { Option } = Select;
@@ -16,7 +20,14 @@ import './index.scss';
     appInfo: stores.workBench.appInfo,
     altasAppAudioStatus: stores.workBench.altasAppAudioStatus,
     useDebugDevice: stores.terminal.useDebugDevice,
+    deviceConfig: stores.terminal.deviceConfig,
+    customUAState: stores.terminal.customUAState,
+    customUAString: stores.terminal.customUAString,
     useDebugSimulator: stores.terminal.useDebugSimulator,
+    setCunstomUAState: (state: boolean) =>
+      stores.terminal.setCunstomUAState(state),
+    setCunstomUAString: (type: string) =>
+      stores.terminal.setCunstomUAString(type),
     setUseDebugDevice: (type: string) =>
       stores.terminal.setUseDebugDevice(type),
     setUseDebugSimulator: (type: string) =>
@@ -72,7 +83,7 @@ class SettingsView extends React.Component<any> {
             <div className="label">调试设备</div>
             <div className="item">
               <Select
-                style={{ width: 280 }}
+                style={{ width: 320 }}
                 defaultValue={this.props.useDebugDevice}
                 size="default"
                 onChange={(val: string) => this.deviceOnChange(val)}
@@ -89,7 +100,7 @@ class SettingsView extends React.Component<any> {
             <div className="label">默认调试模拟器</div>
             <div className="item">
               <Select
-                style={{ width: 280 }}
+                style={{ width: 320 }}
                 defaultValue={this.props.useDebugSimulator}
                 size="default"
                 onChange={(val: string) => this.simulatorOnChange(val)}
@@ -99,11 +110,39 @@ class SettingsView extends React.Component<any> {
               </Select>
             </div>
           </div>
+          <div className="form-item">
+            <div className="label">开启自定义UA</div>
+            <div className="item">
+              <Switch
+                checkedChildren="开"
+                unCheckedChildren="关"
+                onChange={(e: boolean) => {
+                  this.props.setCunstomUAState(e);
+                }}
+                defaultChecked={this.props.customUAState}
+              />
+            </div>
+          </div>
+          <div className="form-item">
+            <div className="label">自定义UA参数</div>
+            <div className="item">
+              <TextArea
+                defaultValue={
+                  this.props.customUAString || this.props.deviceConfig.userAgent
+                }
+                style={{ width: 320 }}
+                onBlur={(e: any) => {
+                  this.props.setCunstomUAString(e.target.value);
+                }}
+                autosize={{ minRows: 3, maxRows: 6 }}
+              />
+            </div>
+          </div>
           <div className="form-item project-type-selection">
             <div className="label">开启/关闭提示音</div>
             <div className="item">
               <Select
-                style={{ width: 280 }}
+                style={{ width: 320 }}
                 defaultValue={this.props.altasAppAudioStatus}
                 size="default"
                 onChange={(val: string) => this.props.setAppAudioStatus(val)}
