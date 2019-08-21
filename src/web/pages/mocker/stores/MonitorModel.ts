@@ -98,11 +98,16 @@ export default class MonitorlModel {
   @action
   public delMockDataItemByName(name: string) {
     delete this.mockData[name];
+    delete this.filterMockData[name];
   }
 
   @action
   public addNewMockDataItem(name: string, params: object) {
-    this.mockData[name] = params;
+    this.mockData = {
+      ...this.mockData,
+      [name]: params,
+    };
+    this.filterMockData = this.mockData;
   }
 
   @action
