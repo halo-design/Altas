@@ -103,8 +103,8 @@ export const markdownViewer = (remoteUrl?: string) => {
       hash: qs.stringify({ remoteUrl }),
     },
     {
-      width: 800,
-      height: 600,
+      width: 840,
+      height: 620,
       minWidth: 800,
       minHeight: 600,
       resizable: true,
@@ -132,8 +132,8 @@ export const mockProxyServer = () => {
       hash: '',
     },
     {
-      width: 800,
-      height: 600,
+      width: 840,
+      height: 620,
       minWidth: 800,
       minHeight: 600,
       resizable: true,
