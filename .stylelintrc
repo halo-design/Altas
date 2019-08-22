@@ -2,6 +2,7 @@ extends: stylelint-config-standard
 plugins:
   - stylelint-scss
 rules:
+  no-descending-specificity: null
   no-invalid-double-slash-comments: null
   number-leading-zero: never
   selector-pseudo-class-no-unknown:
