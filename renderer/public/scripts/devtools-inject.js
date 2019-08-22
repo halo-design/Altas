@@ -99,7 +99,8 @@ const { ipcRenderer } = require('electron');
       } else {
         const uid = uuid.v4();
         this.ipc.emit('remote-devtool', { data: { fnName, params }, uid });
-        this.ipc.once(uid, (sender, res) => {
+
+        this.ipc.on(uid, (sender, res) => {
           callback(res);
         })
       }
@@ -127,7 +128,7 @@ const { ipcRenderer } = require('electron');
         title: params.title,
         content: params.message,
         okText: params.okButton,
-        cancelText: params.cancelButton,
+        cancelText: params.cancelButton || '取消',
         uid,
       })
       if (callback) {
