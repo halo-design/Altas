@@ -12,10 +12,12 @@ export const cheetahRpc = (
   options: {
     operationType: string;
     requestData: Object[];
-    headers: Object;
-    timeout: any;
+    headers?: Object;
+    timeout?: any;
   },
-  bridgeCallback: Function
+  bridgeCallback: Function,
+  overwriteHeader?: Object,
+  overwriteBody?: Object
 ) => {
   const {
     rpcRemoteUrl,
@@ -31,10 +33,34 @@ export const cheetahRpc = (
   const rpcRequestBody =
     ((options.requestData || [])[0] || {})['_requestBody'] || {};
 
-  const request = Axios.create({
+  const requester = Axios.create({
     baseURL: rpcRemoteUrl,
     headers: options.headers || {},
     timeout: (options.timeout ? Number(options.timeout) : 20) * 1000,
+  });
+
+  requester.interceptors.request.use((req: any) => {
+    if (overwriteHeader) {
+      req.data.header = {
+        ...req.data.header,
+        ...overwriteHeader,
+      };
+    }
+
+    if (overwriteBody) {
+      req.data.body = {
+        ...req.data.body,
+        ...overwriteBody,
+      };
+    }
+
+    console.log('[REQ]', req);
+    return req;
+  });
+
+  requester.interceptors.response.use((res: any) => {
+    console.log('[RES]', res);
+    return res;
   });
 
   const callback = (res: any) => {
@@ -53,7 +79,7 @@ export const cheetahRpc = (
     });
   };
 
-  request.post(rpcInterface, rpcRequestBody).then(callback, (err: any) => {
+  requester.post(rpcInterface, rpcRequestBody).then(callback, (err: any) => {
     callback(err.response);
   });
 };

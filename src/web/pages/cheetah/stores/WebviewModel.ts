@@ -10,6 +10,7 @@ import { scrollbarStyleString } from '../../../main/constants/API';
 import { IRpcConfig, cheetahRpc } from '../utils/cheetah-rpc';
 import { dataReadSync, dataWrite } from '../../../main/utils/dataManage';
 import Toast from 'antd-mobile/lib/toast';
+import { rpcHeader, rpcLogin } from '../constants/rpc-config';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
 
@@ -64,8 +65,6 @@ export default class WebviewModel {
   @observable public rpcOperationType: any = {};
   @observable public sessionID: string = '';
   @observable public afterLoginRedirectUrl: string = '';
-  @observable public userName: string = '';
-  @observable public userPassword: string = '';
   @observable public userInfo: object = {};
 
   constructor() {
@@ -102,48 +101,38 @@ export default class WebviewModel {
         rpcRemoteUrl: 'http://flameapp.cn/chee-mpaasService/',
         rpcOperationTypeReg: '([^.]*).([^.]*).([^.]*)',
         rpcOperationTypeReplaceString: '$3.do',
-        rpcOperationLoginInterface: 'com.IFP.MP5001',
+        rpcOperationLoginInterface: 'com.IFP.UR0010',
         rpcOperationLoginSuccessCode: '0',
         rpcOperationLoginErrorMsgPosition: 'data.header.errorMsg',
         rpcOperationLoginErrorCodePosition: 'data.header.errorCode',
-        rpcOperationSessionIDPosition: 'data.header.mp_sID',
+        rpcOperationSessionIDPosition: 'data.header.mp_sId',
+        rpcHeader,
+        rpcLogin,
       };
     }
   }
 
   @action
-  public rpc(options: any, bridgeCallback: Function) {
-    cheetahRpc(this.rpcOperationType, options, bridgeCallback);
+  public rpc(options: any, bridgeCallback: Function, overwriteBody?: Object) {
+    cheetahRpc(
+      this.rpcOperationType,
+      options,
+      bridgeCallback,
+      this.rpcOperationType.rpcHeader || {},
+      overwriteBody
+    );
   }
 
   @action
-  public submitLogin(userName: string, userPassword: string) {
-    this.userName = userName;
-    this.userPassword = userPassword;
-
+  public submitLogin() {
+    Toast.loading('正在登录...', 8);
     this.rpc(
       {
         operationType: this.rpcOperationType.rpcOperationLoginInterface,
-        requestData: [
-          {
-            _requestBody: {
-              header: {},
-              body: {
-                requestData: [
-                  {
-                    header: {},
-                    body: {
-                      userName: userName,
-                      password: userPassword,
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        ],
+        requestData: [],
       },
       ({ error, errorMessage, resData }: any) => {
+        Toast.hide();
         if (error && Number(error) !== 0) {
           Toast.fail(errorMessage);
         } else {
@@ -176,7 +165,8 @@ export default class WebviewModel {
             });
           }
         }
-      }
+      },
+      this.rpcOperationType.rpcLogin || {}
     );
   }
 
@@ -474,13 +464,10 @@ export default class WebviewModel {
       const { visible } = params;
       this.navBarVisible = visible;
     } else if (/login/.test(name)) {
-      const { pageUrl, currentMobile } = params;
+      const { pageUrl } = params;
 
       if (pageUrl) {
         this.afterLoginRedirectUrl = pageUrl;
-      }
-      if (currentMobile) {
-        this.userName = currentMobile;
       }
 
       this.setLogintState(true);

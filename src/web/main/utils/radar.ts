@@ -153,7 +153,7 @@ class Radar {
   ) {
     const ctx = this.ctx;
     ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = this.colorBlueDark(1);
+    ctx.strokeStyle = this.colorBlueDark(0.8);
 
     ctx.beginPath();
     for (let i = 0; i <= 360; i++) {
@@ -271,8 +271,8 @@ class Radar {
       obj.opacity *= 0.99;
 
       ctx.strokeStyle = color
-        ? this.hex2rgba(color, opacity)
-        : this.colorRed(opacity);
+        ? this.hex2rgba(color, opacity * 0.4)
+        : this.colorRed(opacity * 0.4);
       ctx.lineWidth = 1 * dpr;
       ctx.beginPath();
       ctx.arc(x, y, 20 * (1 / (opacity + 0.0001)) * dpr, 0, 2 * Math.PI);

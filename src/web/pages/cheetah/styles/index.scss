@@ -326,6 +326,7 @@ html {
   .login-form {
     flex-grow: 0;
     padding-bottom: 80px;
+    min-width: 180px;
 
     .avatar {
       width: 80px;
@@ -427,6 +428,18 @@ html {
       background-color: #f4f4f4;
       padding: 15px;
       font-size: 14px;
+    }
+
+    .am-list-item {
+      padding: 5px;
+      margin-top: 5px;
+      background-color: #f3f7f9;
+    }
+
+    .am-textarea-control textarea {
+      font-size: 12px;
+      line-height: 1.5;
+      font-family: Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace;
     }
 
     .form-list-wrap {

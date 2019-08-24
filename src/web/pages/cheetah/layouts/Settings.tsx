@@ -3,6 +3,9 @@ import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { urlTest } from '../../../main/constants/Reg';
 import Toast from 'antd-mobile/lib/toast';
+import TextareaItem from 'antd-mobile/lib/textarea-item';
+const stringifyObject = require('stringify-object');
+const { createForm } = require('rc-form');
 
 @inject((stores: any) => {
   const { rpcOperationType, rpcSettingsVisible } = stores.webview;
@@ -19,59 +22,49 @@ import Toast from 'antd-mobile/lib/toast';
 })
 @observer
 class SettingsView extends React.Component<any, any> {
-  public rpcRemoteUrlEl: any = null;
-  public rpcOperationTypeRegEl: any = null;
-  public rpcOperationTypeReplaceStringEl: any = null;
-  public rpcOperationLoginInterfaceEl: any = null;
-  public rpcOperationLoginSuccessCodeEl: any = null;
-  public rpcOperationLoginErrorMsgPositionEl: any = null;
-  public rpcOperationSessionIDPositionEl: any = null;
-  public rpcOperationLoginErrorCodePositionEl: any = null;
-
   public savePrcSettingsHandle() {
-    const rpcRemoteUrl = this.rpcRemoteUrlEl.value;
-    const rpcOperationTypeReg = this.rpcOperationTypeRegEl.value;
-    const rpcOperationTypeReplaceString = this.rpcOperationTypeReplaceStringEl
-      .value;
-    const rpcOperationLoginInterface = this.rpcOperationLoginInterfaceEl.value;
-    const rpcOperationLoginSuccessCode = this.rpcOperationLoginSuccessCodeEl
-      .value;
-    const rpcOperationLoginErrorMsgPosition = this
-      .rpcOperationLoginErrorMsgPositionEl.value;
-    const rpcOperationSessionIDPosition = this.rpcOperationSessionIDPositionEl
-      .value;
-    const rpcOperationLoginErrorCodePosition = this
-      .rpcOperationLoginErrorCodePositionEl.value;
+    this.props.form.validateFields((error: any, value: any) => {
+      if (error) {
+        return;
+      }
+      if (!urlTest(value.rpcRemoteUrl)) {
+        Toast.fail('请输入合法url');
+      } else if (value.rpcOperationTypeReg.length === 0) {
+        Toast.fail('请输入接口匹配替换正则');
+      } else if (value.rpcOperationTypeReplaceString.length === 0) {
+        Toast.fail('请输入接口匹配替换字符串');
+      } else if (value.rpcOperationLoginInterface.length === 0) {
+        Toast.fail('请输入登录接口名');
+      } else if (value.rpcOperationLoginSuccessCode.length === 0) {
+        Toast.fail('请输入登录成功码');
+      } else if (value.rpcOperationLoginErrorCodePosition.length === 0) {
+        Toast.fail('请输入登录结果码节点');
+      } else if (value.rpcOperationLoginErrorMsgPosition.length === 0) {
+        Toast.fail('请输入错误信息节点');
+      } else if (value.rpcOperationSessionIDPosition.length === 0) {
+        Toast.fail('请输入SessionID数据节点');
+      } else if (value.rpcHeader.length === 0) {
+        Toast.fail('请输入RPC请求头配置');
+      } else if (value.rpcLogin.length === 0) {
+        Toast.fail('请输入登录body参数');
+      } else {
+        try {
+          const rpcHeader = eval(`() => (${value.rpcHeader})`)();
+          const rpcLogin = eval(`() => (${value.rpcLogin})`)();
 
-    if (!urlTest(rpcRemoteUrl)) {
-      Toast.fail('请输入合法url');
-    } else if (rpcOperationTypeReg.length === 0) {
-      Toast.fail('请输入接口匹配替换正则');
-    } else if (rpcOperationTypeReplaceString.length === 0) {
-      Toast.fail('请输入接口匹配替换字符串');
-    } else if (rpcOperationLoginInterface.length === 0) {
-      Toast.fail('请输入登录接口名');
-    } else if (rpcOperationLoginSuccessCode.length === 0) {
-      Toast.fail('请输入登录成功码');
-    } else if (rpcOperationLoginErrorCodePosition.length === 0) {
-      Toast.fail('请输入登录结果码节点');
-    } else if (rpcOperationLoginErrorMsgPosition.length === 0) {
-      Toast.fail('请输入错误信息节点');
-    } else if (rpcOperationSessionIDPosition.length === 0) {
-      Toast.fail('请输入SessionID数据节点');
-    } else {
-      this.props.setRpcOperationSettings({
-        rpcRemoteUrl,
-        rpcOperationTypeReg,
-        rpcOperationTypeReplaceString,
-        rpcOperationLoginInterface,
-        rpcOperationLoginSuccessCode,
-        rpcOperationLoginErrorMsgPosition,
-        rpcOperationLoginErrorCodePosition,
-        rpcOperationSessionIDPosition,
-      });
-      this.props.setRpcSettingsVisible(false);
-    }
+          this.props.setRpcOperationSettings({
+            ...value,
+            rpcHeader,
+            rpcLogin,
+          });
+          this.props.setRpcSettingsVisible(false);
+        } catch (err) {
+          if (err) {
+            Toast.fail('请正确填写RPC请求头和登录参数内容！');
+          }
+        }
+      }
+    });
   }
 
   public render() {
@@ -87,8 +80,12 @@ class SettingsView extends React.Component<any, any> {
         rpcOperationLoginErrorCodePosition,
         rpcOperationLoginErrorMsgPosition,
         rpcOperationSessionIDPosition,
+        rpcHeader,
+        rpcLogin,
       },
+      form: { getFieldProps },
     } = this.props;
+
     return (
       <div
         className={classnames('rpc-config-settings', {
@@ -103,10 +100,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>请输入服务器地址：</label>
                 <input
                   type="text"
-                  defaultValue={rpcRemoteUrl}
-                  ref={node => {
-                    this.rpcRemoteUrlEl = node;
-                  }}
+                  {...getFieldProps('rpcRemoteUrl', {
+                    initialValue: rpcRemoteUrl,
+                  })}
                   placeholder="请输入服务器地址"
                 />
               </div>
@@ -114,10 +110,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>接口匹配替换正则：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationTypeReg}
-                  ref={node => {
-                    this.rpcOperationTypeRegEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationTypeReg', {
+                    initialValue: rpcOperationTypeReg,
+                  })}
                   placeholder="请输入替换正则"
                 />
               </div>
@@ -125,10 +120,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>接口匹配替换字符串：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationTypeReplaceString}
-                  ref={node => {
-                    this.rpcOperationTypeReplaceStringEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationTypeReplaceString', {
+                    initialValue: rpcOperationTypeReplaceString,
+                  })}
                   placeholder="请输入替换字符串"
                 />
               </div>
@@ -136,10 +130,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>登录接口名：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationLoginInterface}
-                  ref={node => {
-                    this.rpcOperationLoginInterfaceEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationLoginInterface', {
+                    initialValue: rpcOperationLoginInterface,
+                  })}
                   placeholder="请输入登录接口名"
                 />
               </div>
@@ -147,10 +140,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>登录成功码：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationLoginSuccessCode}
-                  ref={node => {
-                    this.rpcOperationLoginSuccessCodeEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationLoginSuccessCode', {
+                    initialValue: rpcOperationLoginSuccessCode,
+                  })}
                   placeholder="请输入登录成功码"
                 />
               </div>
@@ -158,10 +150,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>登录结果码节点：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationLoginErrorCodePosition}
-                  ref={node => {
-                    this.rpcOperationLoginErrorCodePositionEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationLoginErrorCodePosition', {
+                    initialValue: rpcOperationLoginErrorCodePosition,
+                  })}
                   placeholder="请输入错误码数据节点"
                 />
               </div>
@@ -169,10 +160,9 @@ class SettingsView extends React.Component<any, any> {
                 <label>错误信息节点：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationLoginErrorMsgPosition}
-                  ref={node => {
-                    this.rpcOperationLoginErrorMsgPositionEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationLoginErrorMsgPosition', {
+                    initialValue: rpcOperationLoginErrorMsgPosition,
+                  })}
                   placeholder="请输入错误码数据节点"
                 />
               </div>
@@ -180,11 +170,35 @@ class SettingsView extends React.Component<any, any> {
                 <label>SessionID数据节点：</label>
                 <input
                   type="text"
-                  defaultValue={rpcOperationSessionIDPosition}
-                  ref={node => {
-                    this.rpcOperationSessionIDPositionEl = node;
-                  }}
+                  {...getFieldProps('rpcOperationSessionIDPosition', {
+                    initialValue: rpcOperationSessionIDPosition,
+                  })}
                   placeholder="请输入SessionID数据节点"
+                />
+              </div>
+              <div className="form-item">
+                <label>RPC请求头配置：</label>
+                <TextareaItem
+                  placeholder="请输入RPC请求头配置"
+                  {...getFieldProps('rpcHeader', {
+                    initialValue: stringifyObject(rpcHeader || {}, {
+                      indent: '  ',
+                    }),
+                  })}
+                  row={4}
+                  autoHeight={true}
+                />
+              </div>
+              <div className="form-item">
+                <label>登录body参数：</label>
+                <TextareaItem
+                  placeholder="请输入登录body参数"
+                  {...getFieldProps('rpcLogin', {
+                    initialValue: stringifyObject(rpcLogin || {}, {
+                      indent: '  ',
+                    }),
+                  })}
+                  autoHeight={true}
                 />
               </div>
               <div className="btn-group">
@@ -213,4 +227,4 @@ class SettingsView extends React.Component<any, any> {
   }
 }
 
-export default SettingsView;
+export default createForm()(SettingsView);

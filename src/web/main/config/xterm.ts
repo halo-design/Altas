@@ -21,17 +21,13 @@ const defaultTheme = {
   brightWhite: '#eff0eb',
 };
 
-export default (config: any) =>
-  Object.assign(
-    {},
-    {
-      cols: 80,
-      rows: 24,
-      fontSize: 12,
-      scrollback: 1500,
-      fontFamily:
-        'Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
-      theme: defaultTheme,
-    },
-    config
-  );
+export default (config: any) => ({
+  cols: 80,
+  rows: 24,
+  fontSize: 12,
+  scrollback: 1500,
+  fontFamily:
+    'Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
+  theme: defaultTheme,
+  ...config,
+});

@@ -29,6 +29,8 @@ body {
   user-select: none;
 
   .tit {
+    color: #fff;
+
     &:before {
       background-image: url(./setup.svg);
     }
@@ -43,12 +45,17 @@ body {
       -webkit-app-region: no-drag;
       cursor: pointer;
       border: 1px solid transparent;
+      color: #fff;
 
       &.active {
         background-color: #1d2028;
         border-color: transparent #ffffff1a;
       }
     }
+  }
+
+  button {
+    color: #fff;
   }
 }
 

@@ -74,6 +74,7 @@ const { ipcRenderer } = require('electron');
     constructor() {
       this.ipc = window.ALTAS_APP_IPC;
       this.remoteDebug = false;
+      this.remoteRpc = false;
       this.notifyQueue = {};
   
       this.ipc.once('resume-page-event', (sender, res) => {
@@ -89,20 +90,23 @@ const { ipcRenderer } = require('electron');
       this.remoteDebug = state;
     }
   
+    setRemoteRpc(state) {
+      this.remoteRpc = state;
+    }
+  
     call(fnName, params, callback) {
       if (this.remoteDebug) {
         this.remote(fnName, params, callback);
         return;
       }
       if (fnName in this) {
-        this[fnName](params, callback);
+        if (this.remoteRpc && /login|rpc/.test(fnName)) {
+          this.remote(fnName, params, callback);
+        } else {
+          this[fnName](params, callback);
+        }
       } else {
-        const uid = uuid.v4();
-        this.ipc.emit('remote-devtool', { data: { fnName, params }, uid });
-
-        this.ipc.on(uid, (sender, res) => {
-          callback(res);
-        })
+        this.remote(fnName, params, callback);
       }
     }
   
@@ -117,7 +121,7 @@ const { ipcRenderer } = require('electron');
       }
       const uid = uuid.v4();
       this.ipc.emit('remote-devtool', { data: { fnName, params }, uid });
-      this.ipc.once(uid, (sender, res) => {
+      this.ipc.on(uid, (sender, res) => {
         callback(res);
       })
     }
