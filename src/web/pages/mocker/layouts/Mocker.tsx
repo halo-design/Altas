@@ -32,7 +32,8 @@ message.config({
       stores.monitor.mockDataFilterHandle(keyword),
     getMockData: () => stores.monitor.getMockData(),
     setAutoSave: (state: boolean) => stores.monitor.setAutoSave(state),
-    setMockData: (config: object) => stores.monitor.setMockData(config),
+    setMockData: (data: object, settings: object) =>
+      stores.monitor.setMockData(data, settings),
     addNewMockDataItem: (name: string, params: object) =>
       stores.monitor.addNewMockDataItem(name, params),
     resetMockData: () => stores.monitor.resetMockData(),
@@ -50,6 +51,7 @@ class MockerView extends React.Component<any, any> {
       addItemModalVisible: false,
       addItemName: '',
       addItemParams: '',
+      searchKeywords: '',
     };
   }
 
@@ -112,9 +114,9 @@ class MockerView extends React.Component<any, any> {
       });
 
       if (!hasError) {
-        const params = { data, settings };
-        this.props.setMockData(params);
-        console.log(params);
+        this.props.setMockData(data, settings);
+        this.setState({ searchKeywords: '' });
+        console.log(data, settings);
       }
     });
   };
@@ -135,7 +137,7 @@ class MockerView extends React.Component<any, any> {
         const params = eval(`() => (${addItemParams})`)();
         if (Object.keys(params).length > 0) {
           this.props.addNewMockDataItem(addItemName, params);
-          this.setState({ edited: true });
+          this.setState({ edited: true, searchKeywords: '' });
           this.resetModal();
           message.success('添加成功！');
         } else {
@@ -151,7 +153,11 @@ class MockerView extends React.Component<any, any> {
 
   public filterHandle(e: any) {
     const val = e.target.value;
-    console.log(val);
+
+    this.setState({
+      searchKeywords: val,
+    });
+
     this.filterTimer && clearTimeout(this.filterTimer);
     this.filterTimer = setTimeout(() => {
       this.props.mockDataFilterHandle(val);
@@ -182,6 +188,7 @@ class MockerView extends React.Component<any, any> {
         <div className="search-bar">
           <Input
             placeholder="输入关键字搜索接口"
+            value={this.state.searchKeywords}
             onChange={(e: any) => {
               this.filterHandle(e);
             }}
@@ -278,6 +285,7 @@ class MockerView extends React.Component<any, any> {
             size="large"
             placeholder="新增API名称（仅支持数字和英文大小写）"
             addonBefore={<Icon type="profile" />}
+            value={this.state.addItemName}
             onChange={(e: any) => {
               this.setState({ addItemName: e.target.value });
             }}
@@ -285,6 +293,7 @@ class MockerView extends React.Component<any, any> {
           <div className="data-wrapper">
             <TextArea
               placeholder="新增API详细参数（JSON数组）"
+              value={this.state.addItemParams}
               onChange={(e: any) => {
                 this.setState({ addItemParams: e.target.value });
               }}

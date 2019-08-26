@@ -67,6 +67,7 @@ const { ipcRenderer } = require('electron');
   const appParams = qs.parse(location.search.substr(1));
   deepFormat(appParams);
   
+  window['ALTAS_CHEETAH_SIMULATOR_DEVTOOLS'] = true;
   window['ALTAS_APP_PARAMS'] = appParams;
   window['ALTAS_APP_IPC'] = new IPC();
   

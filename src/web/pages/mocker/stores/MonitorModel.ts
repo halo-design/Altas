@@ -4,6 +4,7 @@ import * as fit from 'xterm/lib/addons/fit/fit';
 import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
 import xtermConfig from '../../../main/config/xterm';
 const debounce = require('lodash/debounce');
+const merge = require('lodash/merge');
 import { remote } from 'electron';
 import message from 'antd/lib/message';
 import {
@@ -137,18 +138,26 @@ export default class MonitorlModel {
   }
 
   @action
-  public setMockData(data: object) {
-    saveMockData(data, ({ settings: { autoSave }, data }: any) => {
-      this.mockData = data;
-      this.autoSave = autoSave;
-      message.success('参数配置更新成功！');
-    });
+  public setMockData(data: object, settings: object) {
+    saveMockData(
+      {
+        data: merge(this.mockData, data),
+        settings,
+      },
+      ({ settings: { autoSave }, data }: any) => {
+        this.mockData = data;
+        this.filterMockData = data;
+        this.autoSave = autoSave;
+        message.success('参数配置更新成功！');
+      }
+    );
   }
 
   @action
   public resetMockData() {
     resetMockData(({ settings: { autoSave }, data }: any) => {
       this.mockData = data;
+      this.filterMockData = data;
       this.autoSave = autoSave;
       message.success('参数配置重置成功！');
     });
