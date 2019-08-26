@@ -1,3 +1,5 @@
+$codeFont: Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace;
+
 body,
 html {
   width: 100%;
@@ -439,7 +441,7 @@ html {
     .am-textarea-control textarea {
       font-size: 12px;
       line-height: 1.5;
-      font-family: Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace;
+      font-family: $codeFont;
     }
 
     .form-list-wrap {
@@ -462,7 +464,7 @@ html {
 
         input {
           color: #2770ff;
-          font-family: Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace;
+          font-family: $codeFont;
           font-size: 12px;
         }
       }
