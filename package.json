@@ -1,10 +1,11 @@
 {
   "name": "altas",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
     "clear": "ts-node ./bin clear",
+    "clear:s": "ts-node ./bin clear --dir renderer/static",
     "update": "yarn upgrade-interactive --latest",
     "serve": "ts-node ./bin serve",
     "Wbuild": "ts-node ./bin Wbuild",
@@ -14,7 +15,7 @@
     "Nbuild": "ts-node ./bin Nbuild",
     "Nbuild:p": "ts-node ./bin Nbuild -p",
     "build": "npm run Wbuild && npm run Pbuild && npm run Nbuild",
-    "build:p": "npm run Wbuild:p && npm run Pbuild:p && npm run Nbuild:p",
+    "build:p": "npm run clear:s && npm run Wbuild:p && npm run Pbuild:p && npm run Nbuild:p",
     "start": "ts-node ./bin app",
     "preview": "ts-node ./bin app --with-build",
     "postinstall": "electron-builder install-app-deps",
