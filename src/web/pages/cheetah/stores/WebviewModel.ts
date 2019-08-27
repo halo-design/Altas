@@ -94,7 +94,9 @@ export default class WebviewModel {
     const cheetahServerConfig: any = await dataReadSync(
       'cheetah_server_config'
     );
-    if (cheetahServerConfig) {
+
+    // sometines lack of params
+    if (Object.keys(cheetahServerConfig).length >= 10) {
       this.rpcOperationType = cheetahServerConfig;
     } else {
       this.rpcOperationType = {
