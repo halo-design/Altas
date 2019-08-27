@@ -9,17 +9,16 @@ export const setSaveAs = (
   fileName: string,
   afterFn: (e: string) => void
 ): void => {
-  dialog.showSaveDialog(
-    getCurrentWindow(),
-    {
+  dialog
+    .showSaveDialog(getCurrentWindow(), {
       defaultPath: path.join(app.getPath('documents'), fileName),
-    },
-    (filename: any) => {
-      if (filename) {
-        afterFn(filename);
+    })
+    .then(({ filePath }: any) => {
+      // console.log(filePath);
+      if (filePath) {
+        afterFn(filePath);
       }
-    }
-  );
+    });
 };
 
 export const selectFile = (

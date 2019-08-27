@@ -413,7 +413,7 @@ html {
   .rpc-config-panel {
     background-color: #fff;
     width: calc(100vw - 30px);
-    height: 412px;
+    height: calc(100vh - 80px);
     position: absolute;
     left: 15px;
     bottom: 15px;
@@ -434,8 +434,9 @@ html {
 
     .am-list-item {
       padding: 5px;
-      margin-top: 5px;
+      margin: 5px 0;
       background-color: #f3f7f9;
+      border-radius: 6px;
     }
 
     .am-textarea-control textarea {
@@ -445,12 +446,12 @@ html {
     }
 
     .form-list-wrap {
-      height: 320px;
+      height: calc(100vh - 170px);
       overflow: auto;
     }
 
     .form-list {
-      padding: 20px 25px;
+      padding: 18px 20px;
       margin: 0;
       width: auto;
 

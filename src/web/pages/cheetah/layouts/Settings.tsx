@@ -185,8 +185,8 @@ class SettingsView extends React.Component<any, any> {
                       indent: '  ',
                     }),
                   })}
-                  row={4}
-                  autoHeight={true}
+                  rows={6}
+                  // autoHeight={true}
                 />
               </div>
               <div className="form-item">
@@ -198,7 +198,8 @@ class SettingsView extends React.Component<any, any> {
                       indent: '  ',
                     }),
                   })}
-                  autoHeight={true}
+                  rows={6}
+                  // autoHeight={true}
                 />
               </div>
               <div className="btn-group">
