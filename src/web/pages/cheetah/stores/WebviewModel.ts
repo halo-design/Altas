@@ -694,9 +694,17 @@ export default class WebviewModel {
       current['spinner'] = false;
     });
 
+    // el.getWebContents().debugger.sendCommand(
+    //   'Emulation.setTouchEmulationEnabled',
+    //   {
+    //     enabled: true,
+    //     configuration: 'mobile',
+    //   }
+    // );
+
     el.addEventListener('dom-ready', () => {
       el.insertCSS(scrollbarStyleString);
-      el.setZoomLevel(0.8);
+      // el.setZoomLevel(0.8);
 
       const tit = el.getTitle();
       current['title'] = tit;
