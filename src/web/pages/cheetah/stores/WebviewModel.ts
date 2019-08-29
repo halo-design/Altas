@@ -265,6 +265,7 @@ export default class WebviewModel {
           height: '100%',
         },
         preload,
+        disablewebsecurity: 'true',
         useragent: userAgent,
         src,
       },

@@ -2,16 +2,40 @@ import * as fs from 'fs';
 import * as path from 'path';
 import log from 'electron-log';
 import * as http from 'http';
-import { ipcMain } from 'electron';
+import { ipcMain, nativeImage } from 'electron';
 const WebSocket = require('faye-websocket');
 import file from '../../../utils/file';
 import { sendToAllWindows } from '../../../utils/winManage';
 import mime from '../../../constants/mime';
+import { appDataFullPath } from '../../../constants/app';
+import { saveFile } from '../../../utils/file';
+import * as uuid from 'uuid';
+import * as url from 'url';
 import * as ip from 'ip';
 import {
   readCustomMockDataSync,
   writeCustomMockData,
 } from '../../../utils/mocker';
+
+const savebase64Image = (url: string) => {
+  const img = nativeImage.createFromDataURL(url);
+  const buf = img.toPNG();
+  const savePath = path.join(appDataFullPath, uuid.v4() + '.png');
+  saveFile(savePath, buf);
+  return savePath;
+};
+
+const validSave = (source: any, key: string) => {
+  if (source[key]) {
+    const savePath = savebase64Image(source[key]);
+    log.info(savePath);
+    source[key] = url.format({
+      pathname: savePath,
+      protocol: 'file:',
+      slashes: true,
+    });
+  }
+};
 
 export default (RPC: any) => {
   let wsGlobal: any = null;
@@ -91,33 +115,25 @@ export default (RPC: any) => {
             ...formatData.data,
           };
 
-          // ignore base64 files
-          const placeholderImg =
-            'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-
           switch (fnName) {
             case 'showOCRIDCard': {
-              if (originData['IDCardFrontImage']) {
-                originData.IDCardFrontImage = placeholderImg;
-              }
-              if (originData['IDCardBackImage']) {
-                originData.IDCardBackImage = placeholderImg;
-              }
+              validSave(originData, 'IDCardFrontImage');
+              validSave(originData, 'IDCardBackImage');
               break;
             }
 
             case 'showOCRBankCard': {
-              originData['cardImage'] = placeholderImg;
+              validSave(originData, 'cardImage');
               break;
             }
 
             case 'screenShots': {
-              originData['imageResult'] = placeholderImg;
+              validSave(originData, 'imageResult');
               break;
             }
 
             case 'showCameraImagePicker': {
-              originData['imgBase64Data'] = placeholderImg;
+              validSave(originData, 'imgBase64Data');
               break;
             }
 
@@ -128,6 +144,7 @@ export default (RPC: any) => {
           }
 
           localMockData.data[fnName] = originData;
+          formatData.data = originData;
         }
 
         sendToAllWindows('mock-proxy-ws-recieve-global', formatData);
