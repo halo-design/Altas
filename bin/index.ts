@@ -1,13 +1,12 @@
 const program = require('commander');
 const { clear, createBundle } = require('./utils');
 const { execSync } = require('child_process');
+const glob = require('glob');
+
+const pages = glob.sync('src/web/pages/**/entry.tsx');
 
 const mainEntry = '../src/web/main/core/index.tsx';
 const nativeEntry = '../src/native/main.ts';
-
-const pages = ['devtools', 'markdown', 'cheetah', 'mocker'].map(
-  (dirName: string) => `./src/web/pages/${dirName}/index.tsx`
-);
 
 program
   .command('clear')
