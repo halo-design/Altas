@@ -333,7 +333,7 @@ const { ipcRenderer } = require('electron');
         title: params.title,
         minDate: params.minimumDate,
         maxDate: params.maximumDate,
-        dateFormat: params.dateFormat,
+        dateFormat: params.dateFormat.replace('yyyy', 'YYYY'),
         value: params.currentDate,
         uid,
       })
