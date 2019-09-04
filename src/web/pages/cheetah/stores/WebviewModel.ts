@@ -96,7 +96,7 @@ export default class WebviewModel {
     );
 
     // sometines lack of params
-    if (Object.keys(cheetahServerConfig).length >= 10) {
+    if (Object.keys(cheetahServerConfig || {}).length >= 10) {
       this.rpcOperationType = cheetahServerConfig;
     } else {
       this.rpcOperationType = {
