@@ -10,7 +10,7 @@ import { scrollbarStyleString } from '../../../main/constants/API';
 import { IRpcConfig, cheetahRpc } from '../utils/cheetah-rpc';
 import { dataReadSync, dataWrite } from '../../../main/utils/dataManage';
 import Toast from 'antd-mobile/lib/toast';
-import { rpcHeader, rpcLogin } from '../constants/rpc-config';
+import { rpcSettings, rpcData, rpcLogin } from '../constants/rpc-config';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
 
@@ -100,15 +100,8 @@ export default class WebviewModel {
       this.rpcOperationType = cheetahServerConfig;
     } else {
       this.rpcOperationType = {
-        rpcRemoteUrl: 'http://flameapp.cn/chee-mpaasService/',
-        rpcOperationTypeReg: '([^.]*).([^.]*).([^.]*)',
-        rpcOperationTypeReplaceString: '$3.do',
-        rpcOperationLoginInterface: 'com.IFP.UR0010',
-        rpcOperationLoginSuccessCode: '0',
-        rpcOperationLoginErrorMsgPosition: 'data.header.errorMsg',
-        rpcOperationLoginErrorCodePosition: 'data.header.errorCode',
-        rpcOperationSessionIDPosition: 'data.header.mp_sId',
-        rpcHeader,
+        ...rpcSettings,
+        rpcData,
         rpcLogin,
       };
     }
@@ -120,7 +113,7 @@ export default class WebviewModel {
       this.rpcOperationType,
       options,
       bridgeCallback,
-      this.rpcOperationType.rpcHeader || {},
+      this.rpcOperationType.rpcData || {},
       overwriteBody
     );
   }
@@ -136,7 +129,7 @@ export default class WebviewModel {
       ({ error, errorMessage, resData }: any) => {
         Toast.hide();
         if (error && Number(error) !== 0) {
-          Toast.fail(errorMessage);
+          Toast.fail(errorMessage || '数据请求发生错误');
         } else {
           const data = resData;
 
@@ -151,7 +144,7 @@ export default class WebviewModel {
           if (
             resultCode !== this.rpcOperationType.rpcOperationLoginSuccessCode
           ) {
-            Toast.fail(errMsg);
+            Toast.fail(errMsg || '登录失败');
           } else {
             const sessionID = eval(
               this.rpcOperationType.rpcOperationSessionIDPosition
@@ -176,6 +169,7 @@ export default class WebviewModel {
   public setRpcOperationSettings(config: IRpcConfig) {
     this.rpcOperationType = config;
     dataWrite('cheetah_server_config', config);
+    Toast.success('已保存！');
   }
 
   @action

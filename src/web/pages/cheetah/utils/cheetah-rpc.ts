@@ -16,8 +16,8 @@ export const cheetahRpc = (
     timeout?: any;
   },
   bridgeCallback: Function,
-  overwriteHeader?: Object,
-  overwriteBody?: Object
+  overwriteData?: Object,
+  overwriteReq?: Object
 ) => {
   const {
     rpcRemoteUrl,
@@ -40,17 +40,17 @@ export const cheetahRpc = (
   });
 
   requester.interceptors.request.use((req: any) => {
-    if (overwriteHeader) {
-      req.data.header = {
-        ...req.data.header,
-        ...overwriteHeader,
+    if (overwriteData) {
+      req.data = {
+        ...req.data,
+        ...overwriteData,
       };
     }
 
-    if (overwriteBody) {
-      req.data.body = {
-        ...req.data.body,
-        ...overwriteBody,
+    if (overwriteReq) {
+      req.data = {
+        ...req.data,
+        ...overwriteReq,
       };
     }
 

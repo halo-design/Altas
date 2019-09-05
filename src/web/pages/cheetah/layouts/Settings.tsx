@@ -25,6 +25,7 @@ class SettingsView extends React.Component<any, any> {
   public savePrcSettingsHandle() {
     this.props.form.validateFields((error: any, value: any) => {
       if (error) {
+        Toast.fail('请输入完整内容');
         return;
       }
       if (!urlTest(value.rpcRemoteUrl)) {
@@ -43,18 +44,18 @@ class SettingsView extends React.Component<any, any> {
         Toast.fail('请输入错误信息节点');
       } else if (value.rpcOperationSessionIDPosition.length === 0) {
         Toast.fail('请输入SessionID数据节点');
-      } else if (value.rpcHeader.length === 0) {
-        Toast.fail('请输入RPC请求头配置');
+      } else if (value.rpcData.length === 0) {
+        Toast.fail('请输入RPC请求报文配置');
       } else if (value.rpcLogin.length === 0) {
-        Toast.fail('请输入登录body参数');
+        Toast.fail('请输入登录报文配置');
       } else {
         try {
-          const rpcHeader = eval(`() => (${value.rpcHeader})`)();
+          const rpcData = eval(`() => (${value.rpcData})`)();
           const rpcLogin = eval(`() => (${value.rpcLogin})`)();
 
           this.props.setRpcOperationSettings({
             ...value,
-            rpcHeader,
+            rpcData,
             rpcLogin,
           });
           this.props.setRpcSettingsVisible(false);
@@ -80,7 +81,7 @@ class SettingsView extends React.Component<any, any> {
         rpcOperationLoginErrorCodePosition,
         rpcOperationLoginErrorMsgPosition,
         rpcOperationSessionIDPosition,
-        rpcHeader,
+        rpcData,
         rpcLogin,
       },
       form: { getFieldProps },
@@ -177,11 +178,11 @@ class SettingsView extends React.Component<any, any> {
                 />
               </div>
               <div className="form-item">
-                <label>RPC请求头配置：</label>
+                <label>RPC请求报文配置：</label>
                 <TextareaItem
-                  placeholder="请输入RPC请求头配置"
-                  {...getFieldProps('rpcHeader', {
-                    initialValue: stringifyObject(rpcHeader || {}, {
+                  placeholder="请输入RPC请求报文配置"
+                  {...getFieldProps('rpcData', {
+                    initialValue: stringifyObject(rpcData || {}, {
                       indent: '  ',
                     }),
                   })}
@@ -190,9 +191,9 @@ class SettingsView extends React.Component<any, any> {
                 />
               </div>
               <div className="form-item">
-                <label>登录body参数：</label>
+                <label>登录报文配置：</label>
                 <TextareaItem
-                  placeholder="请输入登录body参数"
+                  placeholder="请输入登录报文配置"
                   {...getFieldProps('rpcLogin', {
                     initialValue: stringifyObject(rpcLogin || {}, {
                       indent: '  ',
