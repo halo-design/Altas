@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
@@ -44,11 +44,11 @@
     "node": ">=10"
   },
   "devDependencies": {
-    "@babel/core": "7.5.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/core": "7.6.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
+    "@babel/preset-typescript": "^7.6.0",
     "@types/classnames": "^2.2.9",
     "@types/connect": "^3.4.32",
     "@types/electron-json-storage": "^4.0.0",
@@ -82,11 +82,11 @@
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "prettier": "^1.18.2",
-    "rollup": "^1.20.3",
+    "rollup": "^1.21.0",
     "sass": "^1.23.0-module.beta.1",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
-    "stylelint-scss": "^3.10.0",
+    "stylelint-scss": "^3.10.1",
     "ts-node": "^8.3.0",
     "tslint": "^5.19.0",
     "tslint-plugin-prettier": "^2.0.1",
@@ -94,8 +94,8 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.5",
-    "antd": "^3.23.1",
+    "@babel/runtime": "^7.6.0",
+    "antd": "^3.23.2",
     "antd-mobile": "^2.3.1",
     "axios": "^0.19.0",
     "cardinal": "^2.1.1",
@@ -128,7 +128,7 @@
     "mobx-react-router": "^4.0.7",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
-    "node-pty": "0.9.0-beta24",
+    "node-pty": "0.9.0-beta25",
     "object-hash": "^1.3.1",
     "open": "^6.4.0",
     "pretty-bytes": "^5.3.0",

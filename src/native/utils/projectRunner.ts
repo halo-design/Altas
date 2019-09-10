@@ -2,6 +2,7 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 const readYaml = require('read-yaml');
 import { cmdIsAvailable, isMac } from '../utils/env';
+import log from 'electron-log';
 
 const hasYarn = cmdIsAvailable('yarn -v');
 
@@ -27,6 +28,30 @@ export default (projectPath: string) => {
     if (isConfigExists) {
       const config = readYaml.sync(configPath);
 
+      const cheetahDirNames: object = {};
+      const cheetahRootDir: string = path.join(projectPath, 'src/modules');
+      const ischeetahRootDirExists = fs.existsSync(cheetahRootDir);
+
+      if (config.type === 'cheetah' && ischeetahRootDirExists) {
+        const deepReadDir = (filepath: string, injecter: Object) => {
+          const files = fs.readdirSync(filepath);
+
+          files.forEach((filename: string) => {
+            const fileDir = path.join(filepath, filename);
+            const result = fs.statSync(fileDir);
+
+            if (result && result.isDirectory()) {
+              injecter[filename] = {};
+              deepReadDir(fileDir, injecter[filename]);
+            }
+          });
+        };
+
+        deepReadDir(cheetahRootDir, cheetahDirNames);
+        log.info('完成对猎豹工程目录的扫描.');
+        config['cheetahProject'] = cheetahDirNames;
+      }
+
       if (!isNodeModulesExists) {
         config.command.unshift(commandConfig);
       }
@@ -42,7 +67,9 @@ export default (projectPath: string) => {
         noProject: false,
         noConfig: true,
         configList: {
+          type: 'web',
           command: [],
+          cheetahProject: {},
         },
       };
     }
@@ -51,7 +78,9 @@ export default (projectPath: string) => {
       noProject: true,
       noConfig: true,
       configList: {
+        type: 'web',
         command: [],
+        cheetahProject: {},
       },
     };
   }

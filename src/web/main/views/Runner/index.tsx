@@ -4,10 +4,13 @@ import { action } from 'mobx';
 import Input from 'antd/lib/input';
 import Icon from 'antd/lib/icon';
 import message from 'antd/lib/message';
+import Collapse from 'antd/lib/collapse';
 import notification from 'antd/lib/notification';
 import Tooltip from 'antd/lib/tooltip';
 import { selectFile } from '../../bridge/modules/file';
 import { isMac } from '../../bridge/modules/env';
+
+const { Panel } = Collapse;
 
 import './index.scss';
 
@@ -37,7 +40,7 @@ class RunnerView extends React.Component<any, any> {
         properties: ['openDirectory'],
       },
       (res: string[] | undefined) => {
-        if (res) {
+        if (res && res[0]) {
           const dir = res[0];
           this.props.setUserDefaultProjerctPath(dir);
           this.props.setExecPath(dir);
@@ -72,11 +75,13 @@ class RunnerView extends React.Component<any, any> {
     const {
       userDefaultProjectPath,
       projectRunnerConfig: {
-        configList: { command },
+        configList: { type, command, cheetahProject },
         noProject,
         noConfig,
       },
     } = this.props;
+
+    console.log(type, cheetahProject);
 
     return (
       <div className="sub-page-runner">
@@ -136,6 +141,39 @@ class RunnerView extends React.Component<any, any> {
               </div>
             )}
           </div>
+          {type === 'cheetah' && (
+            <div className="form-item">
+              <div className="label">猎豹工程</div>
+              <div className="dir-list">
+                <Collapse>
+                  <Panel
+                    key={1}
+                    header="demo"
+                    extra={<Icon type="play-circle" />}
+                  >
+                    <Collapse>
+                      <Panel key={1} header="demo">
+                        <p>button</p>
+                        <p>input</p>
+                      </Panel>
+                    </Collapse>
+                  </Panel>
+                  <Panel
+                    key={2}
+                    header="demo"
+                    extra={<Icon type="play-circle" />}
+                  >
+                    <Collapse>
+                      <Panel key={1} header="demo">
+                        <p>button</p>
+                        <p>input</p>
+                      </Panel>
+                    </Collapse>
+                  </Panel>
+                </Collapse>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

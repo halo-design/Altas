@@ -194,8 +194,7 @@ export default class TerminalModel {
       this.initPty(dir);
       this.currentExecPath = dir;
     } else {
-      this.shell('');
-      this.clear();
+      this.clearTerm();
     }
   }
 
@@ -203,8 +202,8 @@ export default class TerminalModel {
     let curCwd = null;
 
     if (this.ptyProcess) {
+      this.clearTerm();
       this.ptyProcess.destroy();
-      this.clear();
     }
 
     if (cwd && cwd.length > 3) {
@@ -319,7 +318,8 @@ export default class TerminalModel {
     });
   }
 
-  public clear() {
+  public clearTerm() {
+    this.shell(isWin ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H');
     this.term.clear();
   }
 
@@ -341,7 +341,7 @@ export default class TerminalModel {
   }
 
   public destroy() {
-    this.clear();
+    this.clearTerm();
     this.term.destroy();
     this.ptyProcess.destroy();
     window.removeEventListener('resize', this.resizeTerm);

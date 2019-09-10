@@ -30,23 +30,25 @@ class ProjectView extends React.Component<any, any> {
   public render() {
     return (
       <div className="page-project">
-        <div className="app-switch">
-          <NavLink
-            exact={true}
-            to="/project/create"
-            className="item-btn"
-            activeClassName="active"
-          >
-            创建项目
-          </NavLink>
-          <NavLink
-            exact={true}
-            to="/project/runner"
-            className="item-btn"
-            activeClassName="active"
-          >
-            运行项目
-          </NavLink>
+        <div className="app-switch-wrap-fixed">
+          <div className="app-switch">
+            <NavLink
+              exact={true}
+              to="/project/create"
+              className="item-btn"
+              activeClassName="active"
+            >
+              创建项目
+            </NavLink>
+            <NavLink
+              exact={true}
+              to="/project/runner"
+              className="item-btn"
+              activeClassName="active"
+            >
+              运行项目
+            </NavLink>
+          </div>
         </div>
         <Switch>
           <Route path="/project/create" component={Create} />

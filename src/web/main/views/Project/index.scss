@@ -1,6 +1,15 @@
 .page-project {
-  .app-switch {
-    padding-top: 30px;
+  .app-switch-wrap-fixed {
+    height: 77px;
+    
+    .app-switch {
+      background-color: #fbfbfbde;
+      padding-top: 30px;
+      right: auto;
+      width: 380px;
+      padding-bottom: 10px;
+      z-index: 9;
+    }
   }
 
   .form-table {

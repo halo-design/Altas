@@ -10,7 +10,11 @@ import { scrollbarStyleString } from '../../../main/constants/API';
 import { IRpcConfig, cheetahRpc } from '../utils/cheetah-rpc';
 import { dataReadSync, dataWrite } from '../../../main/utils/dataManage';
 import Toast from 'antd-mobile/lib/toast';
-import { rpcSettings, rpcData, rpcLogin } from '../constants/rpc-config';
+import {
+  rpcSettings,
+  rpcData,
+  rpcLogin,
+} from '../constants/rpc-config-default';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
 
@@ -114,7 +118,8 @@ export default class WebviewModel {
       options,
       bridgeCallback,
       this.rpcOperationType.rpcData || {},
-      overwriteBody
+      overwriteBody,
+      (params: any) => this.focusWebviewSender('bench-logger', params)
     );
   }
 

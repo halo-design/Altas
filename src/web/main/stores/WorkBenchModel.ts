@@ -21,6 +21,7 @@ export default class WorkBenchModel {
   @observable public userDefaultProjectPath: string = '';
   @observable public projectRunnerConfig: any = {
     configList: {
+      type: 'web',
       command: [],
     },
     noProject: true,

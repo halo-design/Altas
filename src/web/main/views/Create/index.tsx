@@ -93,7 +93,7 @@ class CreatehView extends React.Component<any, any> {
         properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
       },
       (res: string[] | undefined) => {
-        if (res) {
+        if (res && res[0]) {
           this.projectPath = res[0];
           el.value = res[0];
         }

@@ -85,6 +85,16 @@ const { ipcRenderer } = require('electron');
       this.ipc.on('notify-trigger', (sender, { name, data }) => {
         this.trigger(name, data);
       })
+
+      this.ipc.on('bench-logger', (sender, { type, info, time }) => {
+        if (type === 'req') {
+          console.groupCollapsed(`%cRPC: [REQUEST]  [${time}]`, 'color:#00bfff; font-weight: bold');
+        } else {
+          console.groupCollapsed(`%cRPC: [RESPONSE] [${time}]`, 'color:#0a0; font-weight: bold');
+        }
+        console.log(info);
+        console.groupEnd();
+      })
     }
   
     setRemoteMode(state) {

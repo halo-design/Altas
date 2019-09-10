@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import Toast from 'antd-mobile/lib/toast';
+const moment = require('moment');
 
 export interface IRpcConfig {
   rpcRemoteUrl: string;
@@ -17,7 +18,8 @@ export const cheetahRpc = (
   },
   bridgeCallback: Function,
   overwriteData?: Object,
-  overwriteReq?: Object
+  overwriteReq?: Object,
+  logger?: Function
 ) => {
   const {
     rpcRemoteUrl,
@@ -54,11 +56,15 @@ export const cheetahRpc = (
       };
     }
 
+    logger &&
+      logger({ type: 'req', info: req, time: moment().format('h:mm:ss.SSS') });
     console.log('[REQ]', req);
     return req;
   });
 
   requester.interceptors.response.use((res: any) => {
+    logger &&
+      logger({ type: 'res', info: res, time: moment().format('h:mm:ss.SSS') });
     console.log('[RES]', res);
     return res;
   });
