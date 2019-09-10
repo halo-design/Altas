@@ -7,6 +7,8 @@ import message from 'antd/lib/message';
 import Collapse from 'antd/lib/collapse';
 import notification from 'antd/lib/notification';
 import Tooltip from 'antd/lib/tooltip';
+import { shell } from 'electron';
+import * as clipBoard from '../../bridge/modules/clipBoard';
 import { selectFile } from '../../bridge/modules/file';
 import { isMac } from '../../bridge/modules/env';
 
@@ -15,16 +17,22 @@ const { Panel } = Collapse;
 import './index.scss';
 
 @inject((stores: any) => {
-  const { userDefaultProjectPath, projectRunnerConfig } = stores.workBench;
+  const {
+    workBench: { userDefaultProjectPath, projectRunnerConfig },
+    device: { ipAddress },
+  } = stores;
   return {
     userDefaultProjectPath,
     projectRunnerConfig,
+    ipAddress,
     kill: () => stores.terminal.kill(),
     setExecPath: (str: string, force: boolean) =>
       stores.terminal.setExecPath(str, force),
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workBench.setUserDefaultProjerctPath(str),
+    refreshPorjectConfig: (cb: Function) =>
+      stores.workBench.refreshPorjectConfig(cb),
     resetStateBar: () => stores.workBench.resetStateBar(),
     setStateBar: (str: string, code: number) =>
       stores.workBench.setStateBar(str, code),
@@ -32,6 +40,14 @@ import './index.scss';
 })
 @observer
 class RunnerView extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      projectSyncState: false,
+    };
+  }
+
   @action
   public handleSelectDir() {
     selectFile(
@@ -47,6 +63,17 @@ class RunnerView extends React.Component<any, any> {
         }
       }
     );
+  }
+
+  public openProjectDir() {
+    shell.showItemInFolder(this.props.userDefaultProjectPath);
+  }
+
+  public copyAddress(position: string[]) {
+    const ip = `http://${this.props.ipAddress['local'] || 'localhost'}:${this
+      .props.projectRunnerConfig.configList.port || 8080}/`;
+    clipBoard.writeText(ip + position.join('/') + '.html');
+    message.success('页面地址已复制到剪切板！');
   }
 
   public commander(str: string, title: string, noTips?: boolean) {
@@ -66,6 +93,23 @@ class RunnerView extends React.Component<any, any> {
     }
   }
 
+  public refreshProject() {
+    this.setState({ projectSyncState: true });
+    this.props.refreshPorjectConfig(() => {
+      message.success('刷新成功！');
+      setTimeout(() => {
+        this.setState({ projectSyncState: false });
+      }, 2000);
+    });
+  }
+
+  public runBundleCmd(cmd: string, bundleName: string) {
+    const { shell, setStateBar } = this.props;
+    const sudo = isMac ? 'sudo ' : '';
+    shell(`${sudo}npm run ${cmd} ${bundleName}`);
+    setStateBar(`npm scripts: ${cmd}`);
+  }
+
   public killProcess() {
     this.props.kill();
     this.props.resetStateBar();
@@ -75,13 +119,51 @@ class RunnerView extends React.Component<any, any> {
     const {
       userDefaultProjectPath,
       projectRunnerConfig: {
-        configList: { type, command, cheetahProject },
+        configList: {
+          type,
+          command,
+          cheetahProject,
+          // dist,
+          scripts: { dev, build, zip },
+        },
         noProject,
         noConfig,
       },
     } = this.props;
 
-    console.log(type, cheetahProject);
+    const projectNames = Object.keys(cheetahProject || {});
+
+    const runnerBtn = (bundleName: string) => (
+      <div className="project-control">
+        <Tooltip placement="bottom" title="业务包压缩">
+          <Icon
+            type="file-zip"
+            onClick={(e: any) => {
+              this.runBundleCmd(zip, bundleName);
+              e.stopPropagation();
+            }}
+          />
+        </Tooltip>
+        <Tooltip placement="bottom" title="业务包构建">
+          <Icon
+            type="apartment"
+            onClick={(e: any) => {
+              this.runBundleCmd(build, bundleName);
+              e.stopPropagation();
+            }}
+          />
+        </Tooltip>
+        <Tooltip placement="bottom" title="本地开发服务">
+          <Icon
+            type="play-circle"
+            onClick={(e: any) => {
+              this.runBundleCmd(dev, bundleName);
+              e.stopPropagation();
+            }}
+          />
+        </Tooltip>
+      </div>
+    );
 
     return (
       <div className="sub-page-runner">
@@ -143,33 +225,63 @@ class RunnerView extends React.Component<any, any> {
           </div>
           {type === 'cheetah' && (
             <div className="form-item">
-              <div className="label">猎豹工程</div>
+              <div className="label">
+                <div className="name">猎豹工程</div>
+                <div
+                  className="extra"
+                  onClick={() => {
+                    this.openProjectDir();
+                  }}
+                >
+                  <Icon type="folder" />
+                  <span>打开</span>
+                </div>
+                <div
+                  className="extra"
+                  onClick={() => {
+                    this.refreshProject();
+                  }}
+                >
+                  <Icon type="sync" spin={this.state.projectSyncState} />
+                  <span>刷新</span>
+                </div>
+              </div>
               <div className="dir-list">
                 <Collapse>
-                  <Panel
-                    key={1}
-                    header="demo"
-                    extra={<Icon type="play-circle" />}
-                  >
-                    <Collapse>
-                      <Panel key={1} header="demo">
-                        <p>button</p>
-                        <p>input</p>
-                      </Panel>
-                    </Collapse>
-                  </Panel>
-                  <Panel
-                    key={2}
-                    header="demo"
-                    extra={<Icon type="play-circle" />}
-                  >
-                    <Collapse>
-                      <Panel key={1} header="demo">
-                        <p>button</p>
-                        <p>input</p>
-                      </Panel>
-                    </Collapse>
-                  </Panel>
+                  {projectNames.map((name: string, index: number) => (
+                    <Panel key={index} header={name} extra={runnerBtn(name)}>
+                      <Collapse>
+                        {Object.keys(cheetahProject[name] || {}).map(
+                          (dir: string, order: number) => (
+                            <Panel key={order} header={dir}>
+                              {Object.keys(cheetahProject[name][dir] || {}).map(
+                                (page: string, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="page-item"
+                                    onClick={(e: any) => {
+                                      this.copyAddress([name, dir, page]);
+                                    }}
+                                  >
+                                    <div className="name-title">
+                                      {page}.html
+                                    </div>
+                                    <Tooltip
+                                      placement="bottom"
+                                      title="复制页面地址"
+                                    >
+                                      <Icon type="copy" />
+                                      <span>复制</span>
+                                    </Tooltip>
+                                  </div>
+                                )
+                              )}
+                            </Panel>
+                          )
+                        )}
+                      </Collapse>
+                    </Panel>
+                  ))}
                 </Collapse>
               </div>
             </div>

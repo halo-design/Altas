@@ -22,7 +22,15 @@ export default class WorkBenchModel {
   @observable public projectRunnerConfig: any = {
     configList: {
       type: 'web',
+      modules: '',
+      port: 8080,
+      dist: 'dist',
       command: [],
+      scripts: {
+        dev: 'dev',
+        build: 'build',
+        zip: 'zip',
+      },
     },
     noProject: true,
     noConfig: true,
@@ -122,6 +130,14 @@ export default class WorkBenchModel {
         this.projectRunnerConfig = data;
       });
     }
+  }
+
+  @action
+  public refreshPorjectConfig(cb?: Function) {
+    getProjectRunnerConfig(this.userDefaultProjectPath, (data: object) => {
+      this.projectRunnerConfig = data;
+      cb && cb(data);
+    });
   }
 
   @action

@@ -1,4 +1,6 @@
 .page-project {
+  width: 378px;
+
   .app-switch-wrap-fixed {
     height: 77px;
     
@@ -25,6 +27,26 @@
       font-weight: 600;
       margin-bottom: 8px;
       font-size: 13px;
+      display: flex;
+      align-items: center;
+
+      .name {
+        flex-grow: 1;
+      }
+
+      .extra {
+        font-weight: normal;
+        color: #767879;
+        cursor: pointer;
+
+        & + .extra {
+          margin-left: 8px;
+        }
+
+        i {
+          margin-right: 5px;
+        }
+      }
     }
   }
 }

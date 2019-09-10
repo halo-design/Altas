@@ -29,7 +29,10 @@ export default (projectPath: string) => {
       const config = readYaml.sync(configPath);
 
       const cheetahDirNames: object = {};
-      const cheetahRootDir: string = path.join(projectPath, 'src/modules');
+      const cheetahRootDir: string = path.join(
+        projectPath,
+        config['modules'] || 'src/modules'
+      );
       const ischeetahRootDirExists = fs.existsSync(cheetahRootDir);
 
       if (config.type === 'cheetah' && ischeetahRootDirExists) {
@@ -69,7 +72,6 @@ export default (projectPath: string) => {
         configList: {
           type: 'web',
           command: [],
-          cheetahProject: {},
         },
       };
     }
@@ -80,7 +82,6 @@ export default (projectPath: string) => {
       configList: {
         type: 'web',
         command: [],
-        cheetahProject: {},
       },
     };
   }

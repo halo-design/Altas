@@ -26,7 +26,8 @@ import '../../../../node_modules/xterm/dist/xterm.css';
 import '../assets/style/app.scss';
 
 message.config({
-  top: 540,
+  top: document.documentElement.clientHeight - 80,
+  maxCount: 4,
 });
 
 if (!remote.app.isPackaged) {
