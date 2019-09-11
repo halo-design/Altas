@@ -47,6 +47,10 @@ body {
   background-color: #fbfcfd;
   box-shadow: 0 2px 6px -2px rgba(85, 85, 150, .16);
 
+  .ant-collapse {
+    box-shadow: none;
+  }
+
   >.ant-collapse-item {
     border-color: #e9ebf2;
     

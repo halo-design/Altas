@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as path from 'path';
 import { inject, observer } from 'mobx-react';
 import { action } from 'mobx';
 import Input from 'antd/lib/input';
@@ -65,8 +66,14 @@ class RunnerView extends React.Component<any, any> {
     );
   }
 
-  public openProjectDir() {
-    shell.showItemInFolder(this.props.userDefaultProjectPath);
+  public openProjectDir(root?: string, modules?: string) {
+    if (root && modules) {
+      shell.showItemInFolder(
+        path.join(this.props.userDefaultProjectPath, root, modules)
+      );
+    } else {
+      shell.showItemInFolder(this.props.userDefaultProjectPath);
+    }
   }
 
   public copyAddress(position: string[]) {
@@ -123,8 +130,8 @@ class RunnerView extends React.Component<any, any> {
           type,
           command,
           cheetahProject,
-          // dist,
-          scripts: { dev, build, zip },
+          modules,
+          scripts: { dev, build },
         },
         noProject,
         noConfig,
@@ -135,18 +142,18 @@ class RunnerView extends React.Component<any, any> {
 
     const runnerBtn = (bundleName: string) => (
       <div className="project-control">
-        <Tooltip placement="bottom" title="业务包压缩">
+        <Tooltip placement="bottom" title="打开文件夹">
           <Icon
-            type="file-zip"
+            type="folder-open"
             onClick={(e: any) => {
-              this.runBundleCmd(zip, bundleName);
+              this.openProjectDir(modules, bundleName);
               e.stopPropagation();
             }}
           />
         </Tooltip>
         <Tooltip placement="bottom" title="业务包构建">
           <Icon
-            type="apartment"
+            type="file-zip"
             onClick={(e: any) => {
               this.runBundleCmd(build, bundleName);
               e.stopPropagation();

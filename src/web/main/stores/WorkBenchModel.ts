@@ -133,7 +133,7 @@ export default class WorkBenchModel {
   @action
   public refreshPorjectConfig(cb?: Function) {
     getProjectRunnerConfig(this.userDefaultProjectPath, (data: object) => {
-      this.projectRunnerConfig = merge(defaultProjectConfig, data);
+      this.projectRunnerConfig = merge({}, defaultProjectConfig, data);
       cb && cb(data);
     });
   }
