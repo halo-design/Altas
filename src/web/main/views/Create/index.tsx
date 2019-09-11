@@ -162,6 +162,9 @@ class CreatehView extends React.Component<any, any> {
 
   public setTaobaoMirror() {
     this.props.shell(
+      'npm config set @ynet:registry http://flameapp.cn:8081/repository/npm-private/'
+    );
+    this.props.shell(
       'npm config set registry https://registry.npm.taobao.org/'
     );
     this.props.shell(
@@ -230,7 +233,7 @@ class CreatehView extends React.Component<any, any> {
             </Select>
           </div>
           <div className="tips">
-            <span>为防止安装失败，建议使用淘宝镜像源</span>
+            <span>为防止安装失败，请安装前设置镜像源</span>
             <div
               className="btn-default env-set-btn"
               onClick={() => {

@@ -16,7 +16,7 @@ import '../../../../node_modules/antd/es/message/style/index.css';
 import '../../../../node_modules/antd/es/modal/style/index.css';
 import '../../../../node_modules/antd/es/tooltip/style/index.css';
 import '../../../../node_modules/antd/es/icon/style/index.css';
-import '../../../../node_modules/xterm/dist/xterm.css';
+import '../../../../node_modules/xterm/css/xterm.css';
 import '../markdown/index.scss';
 import './styles/index.scss';
 

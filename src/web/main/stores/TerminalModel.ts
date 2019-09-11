@@ -1,8 +1,8 @@
 import { action, observable, computed } from 'mobx';
 import { Terminal } from 'xterm';
 import { openLink, getProcessPid, getWindow } from '../bridge/system';
-import * as fit from 'xterm/lib/addons/fit/fit';
-import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
+import { FitAddon } from 'xterm-addon-fit';
+import { WebLinksAddon } from 'xterm-addon-web-links';
 import * as os from 'os';
 import { Howl } from 'howler';
 const { spawn } = require('node-pty');
@@ -46,9 +46,6 @@ const useConpty =
   isWin && !is32ProcessOn64Windows && getWindowsBuildNumber() >= 18309;
 
 const xshell = process.env[isWin ? 'COMSPEC' : 'SHELL'];
-
-Terminal.applyAddon(fit);
-Terminal.applyAddon(webLinks);
 
 export default class TerminalModel {
   public terminalEl: any = null;
@@ -258,15 +255,20 @@ export default class TerminalModel {
           ...rowscols,
         })
       );
+      const fitAddon = new FitAddon();
+      const webLinks = new WebLinksAddon(this.handleLink);
+      term.loadAddon(webLinks);
+      term.loadAddon(fitAddon);
       this.term = term;
+
       term.open(this.terminalEl);
-      term.on('blur', () => term.blur);
-      term.on('focus', () => term.focus);
-      term.on('data', (data: string) => {
+      fitAddon.fit();
+
+      term.blur();
+      term.focus();
+      term.onData((data: string) => {
         this.ptyProcess.write(data);
       });
-
-      webLinks.webLinksInit(term, this.handleLink);
     }
   }
 

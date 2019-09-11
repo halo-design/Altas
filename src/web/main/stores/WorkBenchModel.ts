@@ -7,6 +7,24 @@ import { dataReadSync, dataWrite, dataRemove } from '../utils/dataManage';
 import initEnvData from '../config/envScan';
 import { appVersion } from '../constants/API';
 
+const merge = require('lodash/merge');
+const defaultProjectConfig = {
+  configList: {
+    type: 'web',
+    modules: '',
+    port: 8080,
+    dist: 'dist',
+    command: [],
+    scripts: {
+      dev: 'dev',
+      build: 'build',
+      zip: 'zip',
+    },
+  },
+  noProject: true,
+  noConfig: true,
+};
+
 export default class WorkBenchModel {
   @observable public monitorVisible: boolean = true;
   @observable public stateBarText: string = '等待操作';
@@ -19,23 +37,7 @@ export default class WorkBenchModel {
     version: appVersion,
   };
   @observable public userDefaultProjectPath: string = '';
-  @observable public projectRunnerConfig: any = {
-    configList: {
-      type: 'web',
-      modules: '',
-      port: 8080,
-      dist: 'dist',
-      command: [],
-      scripts: {
-        dev: 'dev',
-        build: 'build',
-        zip: 'zip',
-      },
-    },
-    noProject: true,
-    noConfig: true,
-  };
-
+  @observable public projectRunnerConfig: any = defaultProjectConfig;
   public altasAppAudioStatus: string = 'on';
   public altasAppSound: any = new Howl({
     src: ['public/audio/ding.mp3'],
@@ -92,9 +94,7 @@ export default class WorkBenchModel {
     const localData: any = await dataReadSync('user_default_project_path');
     if (localData) {
       this.userDefaultProjectPath = localData;
-      getProjectRunnerConfig(localData, (data: object) => {
-        this.projectRunnerConfig = data;
-      });
+      this.refreshPorjectConfig();
     }
   }
 
@@ -126,16 +126,14 @@ export default class WorkBenchModel {
     this.userDefaultProjectPath = dir;
     if (dir) {
       dataWrite('user_default_project_path', dir);
-      getProjectRunnerConfig(dir, (data: object) => {
-        this.projectRunnerConfig = data;
-      });
+      this.refreshPorjectConfig();
     }
   }
 
   @action
   public refreshPorjectConfig(cb?: Function) {
     getProjectRunnerConfig(this.userDefaultProjectPath, (data: object) => {
-      this.projectRunnerConfig = data;
+      this.projectRunnerConfig = merge(defaultProjectConfig, data);
       cb && cb(data);
     });
   }

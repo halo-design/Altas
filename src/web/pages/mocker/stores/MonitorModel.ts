@@ -1,7 +1,7 @@
 import { action, observable, computed } from 'mobx';
 import { Terminal } from 'xterm';
-import * as fit from 'xterm/lib/addons/fit/fit';
-import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
+import { FitAddon } from 'xterm-addon-fit';
+import { WebLinksAddon } from 'xterm-addon-web-links';
 import xtermConfig from '../../../main/config/xterm';
 const debounce = require('lodash/debounce');
 const merge = require('lodash/merge');
@@ -26,9 +26,6 @@ const QRcode = require('qrcode');
 const moment = require('moment');
 const cardinal = require('cardinal');
 const stringifyObject = require('./stringify-object');
-
-Terminal.applyAddon(fit);
-Terminal.applyAddon(webLinks);
 
 const resultFormat = (data: object) =>
   cardinal.highlight(stringifyObject(data, { indent: '  ' }));
@@ -261,10 +258,18 @@ export default class MonitorlModel {
           ...rowscols,
         })
       );
+
+      const fitAddon = new FitAddon();
+      const webLinks = new WebLinksAddon((ev: any, uri: string) => {
+        remote.shell.openExternal(uri);
+      });
+      term.loadAddon(webLinks);
+      term.loadAddon(fitAddon);
+
       this.term = term;
       term.open(this.terminalEl);
-      term.on('blur', () => term.blur);
-      term.on('focus', () => term.focus);
+      term.blur();
+      term.focus();
       term.writeln(
         this.getTimeLog() +
           fc.yellow('The proxy server is ready to start.') +
@@ -346,10 +351,6 @@ export default class MonitorlModel {
             )}`
           );
         }
-      });
-
-      webLinks.webLinksInit(term, (ev: any, uri: string) => {
-        remote.shell.openExternal(uri);
       });
     }
   }

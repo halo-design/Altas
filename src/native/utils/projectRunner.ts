@@ -69,20 +69,14 @@ export default (projectPath: string) => {
       return {
         noProject: false,
         noConfig: true,
-        configList: {
-          type: 'web',
-          command: [],
-        },
+        configList: {},
       };
     }
   } else {
     return {
       noProject: true,
       noConfig: true,
-      configList: {
-        type: 'web',
-        command: [],
-      },
+      configList: {},
     };
   }
 };

@@ -21,7 +21,7 @@ import '../../../../node_modules/antd/es/button/style/index.css';
 import '../../../../node_modules/antd/es/modal/style/index.css';
 import '../../../../node_modules/antd/es/drawer/style/index.css';
 import '../../../../node_modules/antd/es/collapse/style/index.css';
-import '../../../../node_modules/xterm/dist/xterm.css';
+import '../../../../node_modules/xterm/css/xterm.css';
 
 import '../assets/style/app.scss';
 
