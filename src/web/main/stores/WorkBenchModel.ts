@@ -18,7 +18,6 @@ const defaultProjectConfig = {
     scripts: {
       dev: 'dev',
       build: 'build',
-      zip: 'zip',
     },
   },
   noProject: true,
