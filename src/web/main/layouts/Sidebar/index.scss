@@ -12,9 +12,18 @@
   bottom: 0;
   user-select: none;
 
+  .app-logo {
+    height: 46px;
+    width: 46px;
+    display: block;
+    background: url(./logo.png) no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+  }
+
   .brand-name {
     font-family: "webfont" !important;
-    font-size: 13px;
+    font-size: 12px;
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

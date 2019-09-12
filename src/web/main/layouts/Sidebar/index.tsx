@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import Tooltip from 'antd/lib/tooltip';
-import Logo from '../Logo';
+import { Link } from 'react-router-dom';
 import {
   cheetahSimulator,
   mockProxyServer,
@@ -57,11 +57,10 @@ class SidebarView extends React.Component<any, any> {
     const { initPath } = this.props;
     return (
       <footer className="app-menu-sidebar">
-        <Logo
-          size={36}
-          style={{ margin: `${isWin ? 20 : 30}px auto 20px` }}
-          run={this.state.isBlur}
-          initPath={initPath}
+        <Link
+          to={initPath}
+          className="app-logo"
+          style={{ margin: `${isWin ? 20 : 30}px auto 0` }}
         />
         <div className="brand-name">ALTAS</div>
         <div className="menu-button-group-wrapper">
