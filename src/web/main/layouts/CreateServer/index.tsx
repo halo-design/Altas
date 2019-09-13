@@ -90,7 +90,7 @@ class CreateServerView extends React.Component<any> {
         properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
       },
       (res: string[] | undefined) => {
-        if (res) {
+        if (res && res[0]) {
           setProjectDirectory(res[0]);
         }
       }
@@ -107,7 +107,7 @@ class CreateServerView extends React.Component<any> {
         properties: ['openFile'],
       },
       (res: string[] | undefined) => {
-        if (res) {
+        if (res && res[0]) {
           const relpath = path.relative(projectDirectory, res[0]);
           if (relpath.indexOf('../') === 0 || relpath === res[0]) {
             message.warn('请选择映射目录下的文件！');
