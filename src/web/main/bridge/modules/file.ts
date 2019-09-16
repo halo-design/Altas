@@ -64,3 +64,17 @@ export const cleanAppData = (cb?: Function) => {
     cb && cb(args);
   });
 };
+
+export const readJsonFile = (key: string, cb: (args: object) => void): void => {
+  dispatch('read-local-json', key);
+  RPC.once('read-local-json-done', (data: object) => {
+    cb(data);
+  });
+};
+
+export const readJsonFileSync = (key: string) =>
+  new Promise((resolve, reject) => {
+    readJsonFile(key, (args: object) => {
+      resolve(args);
+    });
+  });

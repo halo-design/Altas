@@ -8,6 +8,12 @@ import { appCacheFullPath, appDataFullPath } from '../../../constants/app';
 export default (RPC: any) => {
   const { dispatch } = RPC;
 
+  RPC.on('read-local-json', (filename: string) => {
+    const jsonData = file.file2JSON(`renderer/public/json/${filename}`);
+    dispatch('read-local-json-done', jsonData);
+    log.info(`读取数据JSON文件${filename}.`);
+  });
+
   RPC.on('write-storage', ({ key, data }: { key: string; data: object }) => {
     storage.set(key, data, (err: any) => {
       if (err) {

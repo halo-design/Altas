@@ -10,7 +10,7 @@ export default (RPC: any) => {
   RPC.on('create-project', (args: any) => {
     const optputDir = path.join(args.projectPath, args.projectName);
     log.info(args);
-    const url = 'http://owlaford.gitee.io/media/demo/vue-basic.zip';
+    const url = args.scaffoldTemplateLink;
     if (!win) {
       return;
     }

@@ -5,14 +5,14 @@ import { action, observable } from 'mobx';
 import { selectFile } from '../../bridge/modules/file';
 import * as project from '../../bridge/modules/project';
 import LineProgress from '../../components/LineProgress';
-import Select from 'antd/lib/select';
+import Cascader from 'antd/lib/cascader';
 import Input from 'antd/lib/input';
 import Icon from 'antd/lib/icon';
 import message from 'antd/lib/message';
 import Modal from 'antd/lib/modal';
 import Switch from 'antd/lib/switch';
 import { isMac } from '../../bridge/modules/env';
-const { Option } = Select;
+
 const InputGroup = Input.Group;
 const nameReg = /^[0-9a-zA-Z_-]{1,}$/;
 
@@ -25,12 +25,18 @@ import './index.scss';
     systemEnvObject,
     userPassword,
     adminAuthorizationModalVisible,
+    npmPreSettings,
+    defaultProject,
+    scaffold,
   } = stores.workBench;
 
   return {
     systemEnvObject,
     userPassword,
     adminAuthorizationModalVisible,
+    npmPreSettings,
+    defaultProject,
+    scaffold,
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workBench.setUserDefaultProjerctPath(str),
@@ -40,29 +46,31 @@ import './index.scss';
 })
 @observer
 class CreatehView extends React.Component<any, any> {
-  @observable public projectScaffold: string = 'ynet-vue-basic-pc';
   @observable public projectName: string = '';
   @observable public projectPath: string = '';
   @observable public projectDir: string = '';
-  @observable public projectTemplate: string = 'vue-empty-typical';
   @observable public installPackages: boolean = true;
   @observable public isYarn: boolean = true;
   @observable public creating: boolean = false;
   @observable public createInfo: string = '';
-
-  @action
-  public projectTypeOnChange(val: string) {
-    this.projectScaffold = val;
-  }
-
-  @action
-  public projectTemplateOnChange(val: string) {
-    this.projectTemplate = val;
-  }
+  @observable public scaffoldTemplateLink: string = '';
 
   @action
   public handleChangeProjectName(val: string) {
     this.projectName = val;
+  }
+
+  @action
+  public getScaffoldTemplateLink(val: string[]) {
+    const { scaffold } = this.props;
+    if (scaffold.length === 0) {
+      return;
+    }
+    const tpl = scaffold.filter((item: any) => item.value === val[0])[0][
+      'children'
+    ];
+    const link = tpl.filter((item: any) => item.value === val[1])[0]['link'];
+    this.scaffoldTemplateLink = link;
   }
 
   @action
@@ -106,15 +114,15 @@ class CreatehView extends React.Component<any, any> {
     if (!nameReg.test(this.projectName)) {
       message.error('请输入正确的工程名(大小写字母、数字、下划线、横线)！');
     } else if (!this.projectPath) {
-      message.error('请选择生成目录！');
+      message.warn('请选择生成目录！');
+    } else if (!this.scaffoldTemplateLink) {
+      message.warn('请选择脚手架！');
     } else {
       const params = {
         projectName: this.projectName,
         projectPath: this.projectPath,
-        projectScaffold: this.projectScaffold,
-        projectTemplate: this.projectTemplate,
         installPackages: this.installPackages,
-        autoInstall: this.installPackages,
+        scaffoldTemplateLink: this.scaffoldTemplateLink,
       };
       this.creating = true;
       this.createInfo = '开始创建工程';
@@ -160,39 +168,37 @@ class CreatehView extends React.Component<any, any> {
     }
   }
 
-  public setTaobaoMirror() {
-    this.props.shell(
-      'npm config set @ynet:registry http://flameapp.cn:8081/repository/npm-private/'
-    );
-    this.props.shell(
-      'npm config set registry https://registry.npm.taobao.org/'
-    );
-    this.props.shell(
-      'npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass/'
-    );
+  public setMirrorConfig() {
+    this.props.npmPreSettings.forEach((cmd: string, index: number) => {
+      setTimeout(() => {
+        this.props.shell(cmd);
+      }, index * 100);
+    });
   }
 
   public componentDidMount() {
     this.isYarn = this.props.systemEnvObject['Yarn'].version;
+    this.getScaffoldTemplateLink(this.props.defaultProject);
   }
 
   public render() {
+    const { scaffold, defaultProject } = this.props;
+
     return (
       <div className="sub-page-create">
         <div className="form-table">
           <div className="form-item project-type-selection">
             <div className="label">选择脚手架</div>
-            <Select
+            <Cascader
               style={{ width: '340px' }}
-              defaultValue={this.projectScaffold}
+              options={scaffold}
+              defaultValue={defaultProject}
+              placeholder="请选择脚手架"
               size="large"
-              onChange={(val: string) => this.projectTypeOnChange(val)}
-            >
-              <Option value="ynet-vue-basic-pc">Vue内管系统基础脚手架</Option>
-              <Option value="cheetah-vue-mobile">
-                猎豹移动端Vue基础脚手架
-              </Option>
-            </Select>
+              onChange={(val: string[]) => {
+                this.getScaffoldTemplateLink(val);
+              }}
+            />
           </div>
           <div className="form-item">
             <div className="label">工程创建导出</div>
@@ -218,33 +224,19 @@ class CreatehView extends React.Component<any, any> {
               </InputGroup>
             </div>
           </div>
-          <div className="form-item project-type-selection">
-            <div className="label">选择模板</div>
-            <Select
-              style={{ width: '340px' }}
-              defaultValue={this.projectTemplate}
-              size="large"
-              onChange={(val: string) => this.projectTemplateOnChange(val)}
-            >
-              <Option value="vue-empty-typical">默认典型模板</Option>
-              <Option value="vue-hzbank">杭银直销业务模板</Option>
-              <Option value="vue-tlbank">泰隆手机银行业务模板</Option>
-              <Option value="vue-gfbank">广发信用卡App业务模板</Option>
-            </Select>
-          </div>
           <div className="tips">
             <span>为防止安装失败，请安装前设置镜像源</span>
             <div
               className="btn-default env-set-btn"
               onClick={() => {
-                this.setTaobaoMirror();
+                this.setMirrorConfig();
               }}
             >
               一键设置
             </div>
           </div>
           <div className="form-item install-packages">
-            <span className="label">自动安装依赖包</span>
+            <div className="label">自动安装依赖包</div>
             <Switch
               onChange={(e: boolean) => {
                 this.installPackages = e;

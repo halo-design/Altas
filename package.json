@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
@@ -82,12 +82,12 @@
     "parcel-bundler": "1.12.3",
     "postcss-modules": "^1.4.1",
     "prettier": "^1.18.2",
-    "rollup": "^1.21.2",
+    "rollup": "^1.21.3",
     "sass": "^1.23.0-module.beta.1",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0",
+    "stylelint": "^11.0.0",
+    "stylelint-config-standard": "^19.0.0",
     "stylelint-scss": "^3.10.1",
-    "ts-node": "^8.3.0",
+    "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0",
@@ -106,8 +106,8 @@
     "decompress-zip": "^0.2.2",
     "electron-better-dialog": "^1.0.6",
     "electron-dl": "^1.14.0",
-    "electron-json-storage": "^4.1.7",
-    "electron-log": "^3.0.7",
+    "electron-json-storage": "^4.1.8",
+    "electron-log": "^3.0.8",
     "electron-window-state": "^5.0.3",
     "event-stream": "^4.0.1",
     "faye-websocket": "^0.11.3",
@@ -149,8 +149,8 @@
     "tslib": "^1.10.0",
     "uuid": "^3.3.3",
     "xterm": "^4.0.1",
-    "xterm-addon-fit": "^0.2.0",
-    "xterm-addon-web-links": "^0.2.0",
+    "xterm-addon-fit": "^0.2.1",
+    "xterm-addon-web-links": "^0.2.1",
     "yaml": "^1.6.0"
   }
 }

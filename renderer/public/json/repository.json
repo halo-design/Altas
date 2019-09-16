@@ -1,0 +1,42 @@
+{
+  "npmPreSettings": [
+    "npm config set @ynet:registry http://flameapp.cn:8081/repository/npm-private/",
+    "npm config set registry https://registry.npm.taobao.org/",
+    "npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass/"
+  ],
+  "defaultProject": ["management-vue-pc", "management-official"],
+  "scaffold": [
+    {
+      "label": "猎豹移动Vue脚手架",
+      "value": "cheetah-vue-mobile",
+      "children": [
+        {
+          "label": "默认基础模板",
+          "value": "cheetah-basic",
+          "link": "http://owlaford.gitee.io/media/demo/vue-basic.zip?v1"
+        },
+        {
+          "label": "猎豹官方模板",
+          "value": "cheetah-official",
+          "link": "http://owlaford.gitee.io/media/demo/vue-basic.zip?v2"
+        }
+      ]
+    },
+    {
+      "label": "管理系统Vue脚手架",
+      "value": "management-vue-pc",
+      "children": [
+        {
+          "label": "默认基础内管模板",
+          "value": "management-basic",
+          "link": "http://owlaford.gitee.io/media/demo/vue-basic.zip?v3"
+        },
+        {
+          "label": "猎豹官方内管模板",
+          "value": "management-official",
+          "link": "http://owlaford.gitee.io/media/demo/vue-basic.zip?v4"
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import { getProjectRunnerConfig } from '../bridge/modules/project';
 import { dataReadSync, dataWrite, dataRemove } from '../utils/dataManage';
 import initEnvData from '../config/envScan';
 import { appVersion } from '../constants/API';
+import { readJsonFileSync } from '../bridge/modules/file';
 
 const merge = require('lodash/merge');
 const defaultProjectConfig = {
@@ -37,6 +38,11 @@ export default class WorkBenchModel {
   };
   @observable public userDefaultProjectPath: string = '';
   @observable public projectRunnerConfig: any = defaultProjectConfig;
+
+  @observable public npmPreSettings: string[] = [];
+  @observable public defaultProject: string[] = [];
+  @observable public scaffold: any[] = [];
+
   public altasAppAudioStatus: string = 'on';
   public altasAppSound: any = new Howl({
     src: ['public/audio/ding.mp3'],
@@ -51,8 +57,20 @@ export default class WorkBenchModel {
     this.detectNetwork();
     this.getLocalUserProjectPath();
     this.getLocalSystemEnvData();
+    this.getRepoSettings();
     this.getLocalSoundConfig();
     this.playAltasAppSound();
+  }
+
+  @action
+  public async getRepoSettings() {
+    const repoData: any = await readJsonFileSync('repository.json');
+    if (repoData) {
+      const { npmPreSettings, defaultProject, scaffold } = repoData;
+      this.npmPreSettings = npmPreSettings;
+      this.defaultProject = defaultProject;
+      this.scaffold = scaffold;
+    }
   }
 
   @action
