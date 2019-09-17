@@ -250,14 +250,14 @@ class CreatehView extends React.Component<any, any> {
             />
           </div>
           <div className="tips">
-            <span>为防止安装失败，请安装前设置镜像源</span>
+            <div className="info">为防止安装失败，请安装前设置镜像源</div>
             <div
               className="btn-default env-set-btn"
               onClick={() => {
                 this.setMirrorConfig();
               }}
             >
-              一键设置
+              手动设置
             </div>
           </div>
           <div className="form-item install-packages">

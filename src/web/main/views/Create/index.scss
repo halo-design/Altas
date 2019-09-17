@@ -18,10 +18,13 @@
   }
 
   .tips {
-    margin: 5px 0;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
 
-    span {
+    .info {
       color: #b1b3c2;
+      flex-grow: 1;
     }
 
     .env-set-btn {
