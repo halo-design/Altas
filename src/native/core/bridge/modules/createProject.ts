@@ -91,7 +91,9 @@ export default (RPC: any) => {
 
         unzipper.extract({
           path: optputDir,
-          filter: (file: any) => file.type !== 'SymbolicLink',
+          filter: (file: any) =>
+            !['SymbolicLink'].includes(file.type) &&
+            !file.path.includes('__MACOSX'),
         });
 
         log.info(optputDir);

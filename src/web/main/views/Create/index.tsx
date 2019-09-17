@@ -50,6 +50,7 @@ class CreatehView extends React.Component<any, any> {
   @observable public projectPath: string = '';
   @observable public projectDir: string = '';
   @observable public installPackages: boolean = true;
+  @observable public setMirror: boolean = true;
   @observable public isYarn: boolean = true;
   @observable public creating: boolean = false;
   @observable public createInfo: string = '';
@@ -66,9 +67,13 @@ class CreatehView extends React.Component<any, any> {
     if (scaffold.length === 0) {
       return;
     }
-    const tpl = scaffold.filter((item: any) => item.value === val[0])[0][
-      'children'
-    ];
+    const matchScaffold = scaffold.filter((item: any) => item.value === val[0]);
+
+    if (matchScaffold.length === 0) {
+      return;
+    }
+
+    const tpl = matchScaffold[0]['children'];
     const link = tpl.filter((item: any) => item.value === val[1])[0]['link'];
     this.scaffoldTemplateLink = link;
   }
@@ -83,7 +88,13 @@ class CreatehView extends React.Component<any, any> {
       onOk: () => {
         const sudo = isMac ? 'sudo ' : '';
         const cmd = this.isYarn ? 'yarn' : 'npm';
-        this.props.shell(`${sudo}${cmd} install`);
+        const install = () => this.props.shell(`${sudo}${cmd} install`);
+
+        if (this.setMirror) {
+          this.setMirrorConfig(install);
+        } else {
+          install();
+        }
         remote.shell.showItemInFolder(this.projectDir);
         remote.getCurrentWindow().focus();
       },
@@ -168,12 +179,16 @@ class CreatehView extends React.Component<any, any> {
     }
   }
 
-  public setMirrorConfig() {
+  public setMirrorConfig(cb?: Function) {
     this.props.npmPreSettings.forEach((cmd: string, index: number) => {
       setTimeout(() => {
         this.props.shell(cmd);
-      }, index * 100);
+      }, index * 60);
     });
+
+    if (cb) {
+      setTimeout(cb, this.props.npmPreSettings.length * 60);
+    }
   }
 
   public componentDidMount() {
@@ -223,6 +238,16 @@ class CreatehView extends React.Component<any, any> {
                 />
               </InputGroup>
             </div>
+          </div>
+          <div className="form-item install-packages">
+            <div className="label">自动设置镜像源</div>
+            <Switch
+              onChange={(e: boolean) => {
+                this.setMirror = e;
+              }}
+              disabled={!this.installPackages}
+              defaultChecked={this.setMirror}
+            />
           </div>
           <div className="tips">
             <span>为防止安装失败，请安装前设置镜像源</span>
