@@ -81,7 +81,7 @@ class SidebarView extends React.Component<any, any> {
               activeClassName="active"
             >
               <Tooltip placement="right" title="工程管理" mouseEnterDelay={1}>
-                &#xe754;
+                &#xe619;
               </Tooltip>
             </NavLink>
             <NavLink to="/store" className="iconfont" activeClassName="active">

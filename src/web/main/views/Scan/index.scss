@@ -32,16 +32,17 @@
     border-radius: 6px;
     box-sizing: border-box;
     min-height: 140px;
-    background: #3563e4 url(./img/bg.png) no-repeat;
+    background: #3A7FF3 url(./img/bg.png) no-repeat;
     background-size: 100% 100%;
     overflow: hidden;
     padding: 10px 14px;
     color: #fff;
     position: relative;
     transition: all .3s;
+    box-shadow: 0 8px 12px -4px rgba(111, 0, 255, 0.34);
 
     &:hover {
-      box-shadow: 0 6px 12px -2px rgba(0, 30, 255, .34);
+      box-shadow: 0 12px 24px -4px rgba(111, 0, 255, 0.3);
     }
 
     .iconfont {
