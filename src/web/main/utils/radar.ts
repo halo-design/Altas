@@ -179,8 +179,8 @@ class Radar {
       0,
       this.offsetHeight
     );
-    grd.addColorStop(0, '#333056');
-    grd.addColorStop(1, '#0a0918');
+    grd.addColorStop(0, '#272540');
+    grd.addColorStop(1, '#090912');
     ctx.fillStyle = grd;
 
     ctx.rect(-2000 * dpr, -2000 * dpr, 4000 * dpr, 4000 * dpr);
