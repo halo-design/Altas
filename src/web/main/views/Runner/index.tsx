@@ -196,11 +196,14 @@ class RunnerView extends React.Component<any, any> {
               <div className="no-result" data-info="暂未找到该项目或命令配置" />
             )}
             {!noProject && !noConfig && (
-              <div className="comand-table">
+              <div className="command-table">
                 {command &&
                   command.map((item: any, index: number) => (
                     <div className="row" key={index}>
-                      <div className="desc">{item.name}</div>
+                      <div className="desc">
+                        <Icon type="code" theme="twoTone" />
+                        <span>{item.name}</span>
+                      </div>
                       <div className="control">
                         {item.needCancel && (
                           <Tooltip placement="left" title="结束进程">
@@ -227,6 +230,24 @@ class RunnerView extends React.Component<any, any> {
                       </div>
                     </div>
                   ))}
+                <div className="row">
+                  <div className="desc">
+                    <Icon type="code" theme="twoTone" />
+                    <span>终止当前目录全部命令</span>
+                  </div>
+                  <div className="control">
+                    <Tooltip placement="left" title="结束进程">
+                      <div
+                        className="btn-default btn-kill"
+                        onClick={() => {
+                          this.killProcess();
+                        }}
+                      >
+                        <i className="iconfont">&#xe716;</i>
+                      </div>
+                    </Tooltip>
+                  </div>
+                </div>
               </div>
             )}
           </div>

@@ -3,7 +3,7 @@
     padding-top: 0;
   }
 
-  .comand-table {
+  .command-table {
     background-color: #fff;
     font-size: 12px;
     border-radius: 8px;
@@ -14,7 +14,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 10px 10px 15px;
+      padding: 8px 10px 8px 15px;
 
       & + .row {
         border-top: 1px solid #e9ebf2;
@@ -22,6 +22,12 @@
 
       .desc {
         color: #484950;
+
+        i {
+          font-size: 16px;
+          vertical-align: middle;
+          margin: -2px 5px 0 0;
+        }
       }
 
       .control {

@@ -1326,10 +1326,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-router@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.npm.taobao.org/@types/react-router/download/@types/react-router-5.0.4.tgz#27398c8898bcf5e3c7d1b04abb178f6c203722cb"
-  integrity sha1-JzmMiJi89ePH0bBKuxePbCA3Iss=
+"@types/react-router@^5.0.5":
+  version "5.0.5"
+  resolved "https://registry.npm.taobao.org/@types/react-router/download/@types/react-router-5.0.5.tgz#f28f5e0b65e2a9870e0f08f57e4f50361f8ad1a6"
+  integrity sha1-8o9eC2XiqYcODwj1fk9QNh+K0aY=
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -3568,10 +3568,10 @@ electron-window-state@^5.0.3:
     jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
-electron@6.0.9:
-  version "6.0.9"
-  resolved "https://registry.npm.taobao.org/electron/download/electron-6.0.9.tgz#fea15e9fec329248db500b33ba6544a26fe025a3"
-  integrity sha1-/qFen+wykkjbUAszumVEom/gJaM=
+electron@6.0.10:
+  version "6.0.10"
+  resolved "https://registry.npm.taobao.org/electron/download/electron-6.0.10.tgz#3468547640c98ed46060711ca70f43d0b2e40818"
+  integrity sha1-NGhUdkDJjtRgYHEcpw9D0LLkCBg=
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
