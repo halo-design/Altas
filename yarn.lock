@@ -2433,10 +2433,10 @@ chokidar@^2.0.3:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.1.0.tgz?cache=0&sync_timestamp=1568660599713&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchokidar%2Fdownload%2Fchokidar-3.1.0.tgz#ff23d077682a90eadd209bfa76eb10ed6d359668"
-  integrity sha1-/yPQd2gqkOrdIJv6dusQ7W01lmg=
+chokidar@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/chokidar/download/chokidar-3.1.1.tgz#27e953f3950336efcc455fd03e240c7299062003"
+  integrity sha1-J+lT85UDNu/MRV/QPiQMcpkGIAM=
   dependencies:
     anymatch "^3.1.0"
     braces "^3.0.2"
@@ -7469,10 +7469,10 @@ q@^1.1.2:
   resolved "https://registry.npmjs.org/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qrcode@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/qrcode/-/qrcode-1.4.1.tgz#2126814985d0dbbd9aee050fc523d319c6a7dc3b"
-  integrity sha512-3JhHQJkKqJL4PfoM6t+B40f0GWv9eNJAJmuNx2X/sHEOLvMyvEPN8GfbdN1qmr19O8N2nLraOzeWjXocHz1S4w==
+qrcode@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.npm.taobao.org/qrcode/download/qrcode-1.4.2.tgz#e7c82a60140916d666541043bd2b0b72ee4e38a6"
+  integrity sha1-58gqYBQJFtZmVBBDvSsLcu5OOKY=
   dependencies:
     dijkstrajs "^1.0.1"
     isarray "^2.0.1"
