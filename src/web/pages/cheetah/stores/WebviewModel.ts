@@ -120,7 +120,6 @@ export default class WebviewModel {
         `${this.rpcOperationType.rpcOperationSessionIDPositionSend} = "${this.sessionID}"`
       );
     }
-    console.log(this.rpcOperationType.rpcOperationSessionIDPositionSend, JSON.parse(JSON.stringify(data)));
 
     cheetahRpc(
       this.rpcOperationType,
