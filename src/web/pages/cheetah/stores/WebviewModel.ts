@@ -113,11 +113,20 @@ export default class WebviewModel {
 
   @action
   public rpc(options: any, bridgeCallback: Function, overwriteBody?: Object) {
+    const data = this.rpcOperationType.rpcData;
+
+    if (this.sessionID) {
+      eval(
+        `${this.rpcOperationType.rpcOperationSessionIDPositionSend} = "${this.sessionID}"`
+      );
+    }
+    console.log(this.rpcOperationType.rpcOperationSessionIDPositionSend, JSON.parse(JSON.stringify(data)));
+
     cheetahRpc(
       this.rpcOperationType,
       options,
       bridgeCallback,
-      this.rpcOperationType.rpcData || {},
+      data,
       overwriteBody,
       (params: any) => this.focusWebviewSender('bench-logger', params)
     );
@@ -152,7 +161,7 @@ export default class WebviewModel {
             Toast.fail(errMsg || '登录失败');
           } else {
             const sessionID = eval(
-              this.rpcOperationType.rpcOperationSessionIDPosition
+              this.rpcOperationType.rpcOperationSessionIDPositionReviece
             );
             this.userInfo = data;
             this.sessionID = sessionID ? sessionID : '';

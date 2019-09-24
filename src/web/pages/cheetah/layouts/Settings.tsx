@@ -42,8 +42,10 @@ class SettingsView extends React.Component<any, any> {
         Toast.fail('请输入登录结果码节点');
       } else if (value.rpcOperationLoginErrorMsgPosition.length === 0) {
         Toast.fail('请输入错误信息节点');
-      } else if (value.rpcOperationSessionIDPosition.length === 0) {
-        Toast.fail('请输入SessionID数据节点');
+      } else if (value.rpcOperationSessionIDPositionReviece.length === 0) {
+        Toast.fail('请输入SessionID返回数据节点');
+      } else if (value.rpcOperationSessionIDPositionSend.length === 0) {
+        Toast.fail('请输入SessionID上送数据节点');
       } else if (value.rpcData.length === 0) {
         Toast.fail('请输入RPC请求报文配置');
       } else if (value.rpcLogin.length === 0) {
@@ -80,7 +82,8 @@ class SettingsView extends React.Component<any, any> {
         rpcOperationLoginSuccessCode,
         rpcOperationLoginErrorCodePosition,
         rpcOperationLoginErrorMsgPosition,
-        rpcOperationSessionIDPosition,
+        rpcOperationSessionIDPositionReviece,
+        rpcOperationSessionIDPositionSend,
         rpcData,
         rpcLogin,
       },
@@ -168,13 +171,23 @@ class SettingsView extends React.Component<any, any> {
                 />
               </div>
               <div className="form-item">
-                <label>SessionID数据节点：</label>
+                <label>SessionID返回数据节点：</label>
                 <input
                   type="text"
-                  {...getFieldProps('rpcOperationSessionIDPosition', {
-                    initialValue: rpcOperationSessionIDPosition,
+                  {...getFieldProps('rpcOperationSessionIDPositionReviece', {
+                    initialValue: rpcOperationSessionIDPositionReviece,
                   })}
-                  placeholder="请输入SessionID数据节点"
+                  placeholder="请输入SessionID返回数据节点"
+                />
+              </div>
+              <div className="form-item">
+                <label>SessionID上送数据节点：</label>
+                <input
+                  type="text"
+                  {...getFieldProps('rpcOperationSessionIDPositionSend', {
+                    initialValue: rpcOperationSessionIDPositionSend,
+                  })}
+                  placeholder="请输入SessionID上送数据节点"
                 />
               </div>
               <div className="form-item">
