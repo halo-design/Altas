@@ -571,7 +571,9 @@ export default class WebviewModel {
     if (!this.testUrl(src)) {
       return;
     }
+    const lastState = this.closeFocusDevtools();
     this.webviewList[this.focusIndex] = this.webviewCreater(src, params);
+    this.inheritDebugWebview(lastState);
     this.setTitle();
   }
 
