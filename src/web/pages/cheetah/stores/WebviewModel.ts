@@ -17,6 +17,7 @@ import {
 } from '../constants/rpc-config-default';
 const options: any = qs.parse(location.hash.substr(1));
 const moment = require('moment');
+const EventEmitter = require('events');
 
 interface IMenu {
   icon?: string;
@@ -283,6 +284,7 @@ export default class WebviewModel {
       ready: false,
       spinner: false,
       regiestEvent: false,
+      emitter: new EventEmitter(),
     };
 
     return webviewItem;
@@ -550,7 +552,7 @@ export default class WebviewModel {
       return;
     }
     this.behavior = 'create';
-    this.closeFocusDevtools();
+    const lastState = this.closeFocusDevtools();
     if (this.focusIndex !== this.maxIndex) {
       this.webviewList.splice(
         this.focusIndex + 1,
@@ -559,6 +561,7 @@ export default class WebviewModel {
     }
     this.webviewList.push(this.webviewCreater(src, params));
     this.focusIndex = this.maxIndex;
+    this.inheritDebugWebview(lastState);
   }
 
   @action
@@ -711,6 +714,7 @@ export default class WebviewModel {
     // );
 
     el.addEventListener('dom-ready', () => {
+      current['emitter'].emit('ready');
       el.insertCSS(scrollbarStyleString);
       // el.setZoomLevel(0.8);
 
@@ -736,8 +740,9 @@ export default class WebviewModel {
   public focusToNextWebview() {
     this.behavior = 'navigate';
     if (this.focusIndex < this.maxIndex) {
-      this.closeFocusDevtools();
+      const lastState = this.closeFocusDevtools();
       this.focusIndex++;
+      this.inheritDebugWebview(lastState);
       this.setTitle();
     }
   }
@@ -751,12 +756,14 @@ export default class WebviewModel {
     if (count < 0) {
       const num = Math.abs(count);
       if (this.focusIndex - num >= 0) {
-        this.closeFocusDevtools();
+        const lastState = this.closeFocusDevtools();
         this.focusIndex = this.focusIndex - num;
+        this.inheritDebugWebview(lastState);
       }
     } else if (this.focusIndex + count <= this.maxIndex) {
-      this.closeFocusDevtools();
+      const lastState = this.closeFocusDevtools();
       this.focusIndex = this.focusIndex + count;
+      this.inheritDebugWebview(lastState);
     }
     this.setTitle();
   }
@@ -769,9 +776,10 @@ export default class WebviewModel {
     this.behavior = 'clear';
     const num = Math.abs(count);
     if (this.focusIndex - num >= 0) {
-      this.closeFocusDevtools();
+      const lastState = this.closeFocusDevtools();
       this.webviewList = this.webviewList.slice(count);
       this.focusIndex = this.maxIndex;
+      this.inheritDebugWebview(lastState);
     }
     this.setTitle();
   }
@@ -780,8 +788,9 @@ export default class WebviewModel {
   public focusToPrevWebview() {
     this.behavior = 'navigate';
     if (this.focusIndex > 0) {
-      this.closeFocusDevtools();
+      const lastState = this.closeFocusDevtools();
       this.focusIndex--;
+      this.inheritDebugWebview(lastState);
       this.setTitle();
     }
   }
@@ -790,10 +799,13 @@ export default class WebviewModel {
   public closeFocusDevtools() {
     const current = this.focusWebview;
     if (current && current.ready) {
+      const lastState = current.devtools;
       const dom = current.dom;
       dom.closeDevTools();
       current.devtools = false;
+      return lastState;
     }
+    return false;
   }
 
   @action
@@ -804,6 +816,19 @@ export default class WebviewModel {
       current.devtools ? dom.closeDevTools() : dom.openDevTools();
       current.devtools = !current.devtools;
     }
+  }
+
+  @action
+  public inheritDebugWebview(prevState: boolean) {
+    const current = this.focusWebview;
+
+    const run = () => {
+      const dom = current.dom;
+      prevState ? dom.openDevTools() : dom.closeDevTools();
+      current.devtools = prevState;
+    };
+
+    current['ready'] ? run() : current['emitter'].on('ready', run);
   }
 
   @action
