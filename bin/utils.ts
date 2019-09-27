@@ -22,15 +22,15 @@ exports.ssh = (auth: object, files: any[]): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     spinner.text = 'Connect to server...';
     await server.connect(auth);
-    spinner.text = 'The files are in transit...';
+    spinner.text = 'Files uploading...';
     server
       .putFiles(files)
       .then(() => {
-        spinner.succeed(`Total ${files.length} files transfers completed!`);
+        spinner.succeed(`Total ${files.length} files uploaded!`);
         resolve();
       })
       .catch((error: any) => {
-        spinner.fail('Files transfers failed!');
+        spinner.fail('Files upload failed!');
         reject(error);
       });
   });

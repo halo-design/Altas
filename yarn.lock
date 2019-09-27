@@ -2698,10 +2698,10 @@ commander@^2.11.0, commander@^2.12.1, commander@^2.19.0, commander@^2.20.0:
   resolved "https://registry.npmjs.org/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
 
-commander@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/commander/-/commander-3.0.1.tgz#4595aec3530525e671fb6f85fb173df8ff8bf57a"
-  integrity sha512-UNgvDd+csKdc9GD4zjtkHKQbT8Aspt2jCBqNSPp53vAS0L1tS9sXB2TCEOPHJ7kt9bN/niWkYj8T3RQSoMXdSQ==
+commander@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.npm.taobao.org/commander/download/commander-3.0.2.tgz#6837c3fb677ad9933d1cfba42dd14d5117d6b39e"
+  integrity sha1-aDfD+2d62ZM9HPukLdFNURfWs54=
 
 component-classes@1.x, component-classes@^1.2.5, component-classes@^1.2.6:
   version "1.2.6"
@@ -6241,10 +6241,10 @@ node-pre-gyp@^0.12.0:
     semver "^5.3.0"
     tar "^4"
 
-node-pty@0.9.0-beta25:
-  version "0.9.0-beta25"
-  resolved "https://registry.npmjs.org/node-pty/-/node-pty-0.9.0-beta25.tgz#9a6f28f9f32e74c73ee8153e6a929d071d984ea3"
-  integrity sha512-oEs1BmGm6erVSqwZRLCl5u46SA23pB7yUpL1H197Yunz5IzDFFLa0C53mxrkI2O/ORIbwMZZwa0LMKaN1u4THw==
+node-pty@0.9.0-beta26:
+  version "0.9.0-beta26"
+  resolved "https://registry.npmjs.org/node-pty/-/node-pty-0.9.0-beta26.tgz#7be9381d7510a51e6030764e5a13105850fac8a2"
+  integrity sha512-xf9JLOGPYPftY5g2sU7YaTXkjRp94uf9SRVBORhRVHfyIIM/C4A8VBQIrWl9a2hfayOsyr9qVOXQ7INAjU6ywg==
   dependencies:
     nan "^2.14.0"
 
@@ -8898,10 +8898,10 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass@^1.23.0-module.beta.1:
-  version "1.23.0-module.beta.1"
-  resolved "https://registry.npm.taobao.org/sass/download/sass-1.23.0-module.beta.1.tgz#9d0f823dcdcd58fc1c1345993ff0306289320963"
-  integrity sha1-nQ+CPc3NWPwcE0WZP/AwYokyCWM=
+sass@1.22.12:
+  version "1.22.12"
+  resolved "https://registry.npmjs.org/sass/-/sass-1.22.12.tgz#5cbdd38720ffd1857da695331faee9f634bcb5d7"
+  integrity sha512-u5Rxn+dKTPCW5/11kMNxtmqKsxCjcpnqj9CaJoru1NqeJ0DOa9rOM00e0HqmseTAatGkKoLY+jaNecMYevu1gg==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 

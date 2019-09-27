@@ -28,7 +28,7 @@ exports.default = async context => {
   if (/(mac|windows)/.test(name)) {
     const local = file.replace('.blockmap', '');
     const basename = path.basename(local);
-    const remote = `www/${basename}`;
+    const remote = `www/flame2.0/mirrors/${basename}`;
     let data = {};
     data[name] = { basename, local, remote, updateInfo };
 
