@@ -7786,10 +7786,23 @@ rc-editor-mention@^1.1.13:
     rc-animate "^2.3.0"
     rc-editor-core "~0.8.3"
 
-rc-form@^2.4.5, rc-form@^2.4.8:
+rc-form@^2.4.5:
   version "2.4.8"
   resolved "https://registry.npmjs.org/rc-form/-/rc-form-2.4.8.tgz#79a1f124d4fa81dff2af2992e94aa3e58cad683c"
   integrity sha512-hlHajcYg51pFQf+B6neAbhy2ZA+8DmxnDxiOYZRAXCLhPN788ZnrtZq5/iADDWcZqjHFnXiThoZE/Fu8syciDQ==
+  dependencies:
+    async-validator "~1.11.3"
+    babel-runtime "6.x"
+    create-react-class "^15.5.3"
+    dom-scroll-into-view "1.x"
+    hoist-non-react-statics "^3.3.0"
+    lodash "^4.17.4"
+    warning "^4.0.3"
+
+rc-form@^2.4.9:
+  version "2.4.9"
+  resolved "https://registry.npm.taobao.org/rc-form/download/rc-form-2.4.9.tgz#6884b06bbd8d6a934e5f2aa27e8730882c70840c"
+  integrity sha1-aISwa72NapNOXyqifocwiCxwhAw=
   dependencies:
     async-validator "~1.11.3"
     babel-runtime "6.x"

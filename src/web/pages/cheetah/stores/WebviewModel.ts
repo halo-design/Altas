@@ -830,7 +830,7 @@ export default class WebviewModel {
       current.devtools = prevState;
     };
 
-    current['ready'] ? run() : current['emitter'].on('ready', run);
+    current['ready'] ? run() : current['emitter'].once('ready', run);
   }
 
   @action
