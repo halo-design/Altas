@@ -1377,10 +1377,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react-router@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/@types/react-router/download/@types/react-router-5.1.0.tgz?cache=0&sync_timestamp=1569411338559&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact-router%2Fdownload%2F%40types%2Freact-router-5.1.0.tgz#ebb47bb7fdc75741286b5fb5a82ba5b4d62518c8"
-  integrity sha1-67R7t/3HV0Eoa1+1qCultNYlGMg=
+"@types/react-router@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/@types/react-router/download/@types/react-router-5.1.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact-router%2Fdownload%2F%40types%2Freact-router-5.1.1.tgz#e0b827556abc70da3473d05daf074c839d6852aa"
+  integrity sha1-4LgnVWq8cNo0c9BdrwdMg51oUqo=
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -6073,10 +6073,10 @@ mobx-react@^6.1.3:
   dependencies:
     mobx-react-lite "1.4.0"
 
-mobx@^5.13.0:
-  version "5.13.0"
-  resolved "https://registry.npmjs.org/mobx/-/mobx-5.13.0.tgz#0fd68f10aa5ff2d146a4ed9e145b53337cfbca59"
-  integrity sha512-eSAntMSMNj0PFL705rgv+aB/z1RjNqDnFEpBe18yQVreXTWiVgIrmBUXzjnJfuba+eo4eAk6zi+/gXQkSUea8A==
+mobx@^5.13.1:
+  version "5.13.1"
+  resolved "https://registry.npm.taobao.org/mobx/download/mobx-5.13.1.tgz?cache=0&sync_timestamp=1569675893045&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmobx%2Fdownload%2Fmobx-5.13.1.tgz#729a3ae3604aaa9751f7f7551dbf7aead86593c7"
+  integrity sha1-cpo642BKqpdR9/dVHb966thlk8c=
 
 modify-filename@^1.1.0:
   version "1.1.0"
@@ -8133,15 +8133,15 @@ rc@^1.1.2, rc@^1.2.1, rc@^1.2.7, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.9.0.tgz#5e65527a5e26f22ae3701131bcccaee9fb0d3962"
-  integrity sha512-YFT2rxO9hM70ewk9jq0y6sQk8cL02xm4+IzYBz75CQGlClQQ1Bxq0nhHF6OtSbit+AIahujJgb/CPRibFkMNJQ==
+react-dom@^16.10.1:
+  version "16.10.1"
+  resolved "https://registry.npm.taobao.org/react-dom/download/react-dom-16.10.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-dom%2Fdownload%2Freact-dom-16.10.1.tgz#479a6511ba34a429273c213cbc2a9ac4d296dac1"
+  integrity sha1-R5plEbo0pCknPCE8vCqaxNKW2sE=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.15.0"
+    scheduler "^0.16.1"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.9.0"
@@ -8172,23 +8172,23 @@ react-native-swipeout@^2.2.2:
     prop-types "^15.5.10"
     react-tween-state "^0.1.5"
 
-react-router-dom@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/react-router-dom/download/react-router-dom-5.1.0.tgz?cache=0&sync_timestamp=1569344072167&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-router-dom%2Fdownload%2Freact-router-dom-5.1.0.tgz#48ad018d71fb7835212587e4c90bd2e3d2417e31"
-  integrity sha1-SK0BjXH7eDUhJYfkyQvS49JBfjE=
+react-router-dom@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/react-router-dom/download/react-router-dom-5.1.1.tgz#53caa089c291f64c1d597a52827b978b54d7c25d"
+  integrity sha1-U8qgicKR9kwdWXpSgnuXi1TXwl0=
   dependencies:
     "@babel/runtime" "^7.1.2"
     history "^4.9.0"
     loose-envify "^1.3.1"
     prop-types "^15.6.2"
-    react-router "5.1.0"
+    react-router "5.1.1"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router@5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npm.taobao.org/react-router/download/react-router-5.1.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-router%2Fdownload%2Freact-router-5.1.0.tgz#739d0f3a57476363374e20d6e33e97f5ce2e00a3"
-  integrity sha1-c50POldHY2M3TiDW4z6X9c4uAKM=
+react-router@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/react-router/download/react-router-5.1.1.tgz#9d65f54795f938c0c5b69eaeef58728134ce7c7c"
+  integrity sha1-nWX1R5X5OMDFtp6u71hygTTOfHw=
   dependencies:
     "@babel/runtime" "^7.1.2"
     history "^4.9.0"
@@ -8220,10 +8220,10 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
-react@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
-  integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==
+react@^16.10.1:
+  version "16.10.1"
+  resolved "https://registry.npm.taobao.org/react/download/react-16.10.1.tgz?cache=0&sync_timestamp=1569695380802&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-16.10.1.tgz#967c1e71a2767dfa699e6ba702a00483e3b0573f"
+  integrity sha1-lnwecaJ2ffppnmunAqAEg+OwVz8=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -8943,10 +8943,10 @@ sb-scandir@^2.0.0:
     p-map "^1.2.0"
     sb-promisify "^2.0.1"
 
-scheduler@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.15.0.tgz#6bfcf80ff850b280fed4aeecc6513bc0b4f17f8e"
-  integrity sha512-xAefmSfN6jqAa7Kuq7LIJY0bwAPG3xlCj0HMEBQk1lxYiDKZscY2xJ5U/61ZTrYbmNQbXa+gc7czPkVo11tnCg==
+scheduler@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.16.1.tgz?cache=0&sync_timestamp=1569695002332&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fscheduler%2Fdownload%2Fscheduler-0.16.1.tgz#a6fb6ddec12dc2119176e6eb54ecfe69a9eba8df"
+  integrity sha1-pvtt3sEtwhGRdubrVOz+aanrqN8=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
