@@ -2,14 +2,17 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { reaction, observable, action } from 'mobx';
+import { readText } from '../../../main/bridge/modules/clipBoard';
+import Toast from 'antd-mobile/lib/toast';
 const QRcode = require('qrcode');
 
 @inject((stores: any) => {
-  const { focusWebviewUrl, showLinkBar } = stores.webview;
+  const { focusWebviewUrl, showLinkBar, testUrl } = stores.webview;
 
   return {
     focusWebviewUrl,
     showLinkBar,
+    testUrl,
     replaceWebview: (url: string) => stores.webview.replaceWebview(url),
   };
 })
@@ -44,6 +47,17 @@ class FooterView extends React.Component<any, any> {
 
   public setCurrentUrl(url: string) {
     this.currentUrl = url;
+  }
+
+  public pasteUrl(e: any) {
+    readText((url: string) => {
+      if (url === this.currentUrl || !this.props.testUrl(url)) {
+        return;
+      }
+      e.target.value = url;
+      this.currentUrl = url;
+      Toast.info('已粘贴文本内容！');
+    });
   }
 
   public componentDidMount() {
@@ -87,6 +101,9 @@ class FooterView extends React.Component<any, any> {
               defaultValue=""
               ref={node => {
                 this.ipt = node;
+              }}
+              onFocus={(e: any) => {
+                this.pasteUrl(e);
               }}
               onChange={(e: any) => {
                 this.setCurrentUrl(e.target.value);

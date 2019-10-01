@@ -218,7 +218,7 @@ export default class WebviewModel {
   @action
   public getTime() {
     const timer = setTimeout(() => {
-      this.curTime = moment().format('A h:mm');
+      this.curTime = moment().format('h:mm A');
       clearTimeout(timer);
       this.getTime();
     }, 10 * 1000);
