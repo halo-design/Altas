@@ -133,8 +133,8 @@ export default class WebviewModel {
   }
 
   @action
-  public submitLogin() {
-    Toast.loading('正在登录...', 8);
+  public submitLogin(isRefresh?: boolean, callback?: Function) {
+    !isRefresh && Toast.loading('正在登录...', 8);
     this.rpc(
       {
         operationType: this.rpcOperationType.rpcOperationLoginInterface,
@@ -158,13 +158,17 @@ export default class WebviewModel {
           if (
             resultCode !== this.rpcOperationType.rpcOperationLoginSuccessCode
           ) {
-            Toast.fail(errMsg || '登录失败');
+            !isRefresh && Toast.fail(errMsg || '登录失败');
           } else {
+            this.userInfo = data;
+            if (isRefresh) {
+              callback && callback(data);
+              return;
+            }
             const sessionID = eval(
               this.rpcOperationType.rpcOperationSessionIDPositionReviece
             );
-            this.userInfo = data;
-            this.sessionID = sessionID ? sessionID : '';
+            this.sessionID = sessionID || '';
             this.createNewWebview(this.afterLoginRedirectUrl);
             this.afterLoginRedirectUrl = '';
             this.setLogintState(false);
@@ -376,8 +380,11 @@ export default class WebviewModel {
     if (
       /createNewWebview|replaceWebview|clearAllThenCreateNewWebview/.test(name)
     ) {
-      const { url, options } = params;
+      const { url, options, data } = params;
       this[name](url, options);
+      if (this.focusWebview) {
+        this.focusWebview.dom.send('resume-page-event', data);
+      }
     } else if (/clearToAnyWebview/.test(name)) {
       const { index, data } = params;
       this[name](index);
@@ -399,8 +406,11 @@ export default class WebviewModel {
     ) {
       this[name]();
     } else if (/clearWebviewByPathName/.test(name)) {
-      const { url } = params;
+      const { url, data } = params;
       this[name](url);
+      if (this.focusWebview) {
+        this.focusWebview.dom.send('resume-page-event', data);
+      }
     } else if (/showDatePicker/.test(name)) {
       const { mode, title, minDate, maxDate, dateFormat, value, uid } = params;
       const fmt = dateFormat;
@@ -492,6 +502,11 @@ export default class WebviewModel {
       const { uid } = params;
       this.focusWebviewSender(uid, {
         userInfo: this.userInfo,
+      });
+    } else if (/updateUserInfo/.test(name)) {
+      const { uid } = params;
+      this.submitLogin(true, (data: any) => {
+        this.focusWebviewSender(uid, data);
       });
     } else if (/cleanUserInfo/.test(name)) {
       this.sessionID = '';
@@ -587,6 +602,7 @@ export default class WebviewModel {
   @action
   public clearCurrentWebview() {
     this.behavior = 'clear';
+    const lastState = this.closeFocusDevtools();
     if (this.focusIndex === 0) {
       this.webviewList = [];
       this.focusIndex = 0;
@@ -594,7 +610,11 @@ export default class WebviewModel {
       this.webviewList = this.webviewList.slice(0, this.focusIndex);
       this.focusIndex--;
     }
+    this.inheritDebugWebview(lastState);
     this.setTitle();
+    if (this.focusWebview) {
+      this.focusWebview.dom.send('resume-page-event', {});
+    }
   }
 
   @action
@@ -603,9 +623,11 @@ export default class WebviewModel {
     if (!this.testUrl(src)) {
       return;
     }
+    const lastState = this.closeFocusDevtools();
     this.clearAllWebviews();
     this.createNewWebview(src, params, true);
     this.setTitle();
+    this.inheritDebugWebview(lastState);
   }
 
   @action
@@ -619,9 +641,11 @@ export default class WebviewModel {
   public clearOtherWebviews() {
     this.behavior = 'clear';
     if (this.focusWebview) {
+      const lastState = this.closeFocusDevtools();
       this.webviewList = [this.focusWebview];
       this.focusIndex = 0;
       this.setTitle();
+      this.inheritDebugWebview(lastState);
     }
   }
 
@@ -636,6 +660,7 @@ export default class WebviewModel {
   @action
   public clearWebviewByPathName(lnks: string[] | string) {
     this.behavior = 'clear';
+    const lastState = this.closeFocusDevtools();
     const urls: string[] = Array.isArray(lnks) ? lnks : [lnks];
     this.webviewList = this.webviewList.filter((view: any) => {
       const originSrc = view.attr.src;
@@ -648,12 +673,14 @@ export default class WebviewModel {
     });
     this.focusIndex = this.maxIndex;
     this.setTitle();
+    this.inheritDebugWebview(lastState);
   }
 
   @action
   public clearToSomeoneWebview(lnk: string) {
     this.behavior = 'clear';
     let targetIndex = null;
+    const lastState = this.closeFocusDevtools();
     const isExistLnk = this.webviewList.some((view: any, index: number) => {
       const originSrc = view.attr.src;
       let curPathName = url.parse(originSrc).pathname;
@@ -666,6 +693,7 @@ export default class WebviewModel {
       this.webviewList = this.webviewList.slice(0, targetIndex + 1);
       this.focusIndex = this.maxIndex;
       this.setTitle();
+      this.inheritDebugWebview(lastState);
     }
   }
 
@@ -746,6 +774,9 @@ export default class WebviewModel {
       this.focusIndex++;
       this.inheritDebugWebview(lastState);
       this.setTitle();
+      if (this.focusWebview) {
+        this.focusWebview.dom.send('resume-page-event', {});
+      }
     }
   }
 
@@ -794,6 +825,9 @@ export default class WebviewModel {
       this.focusIndex--;
       this.inheritDebugWebview(lastState);
       this.setTitle();
+      if (this.focusWebview) {
+        this.focusWebview.dom.send('resume-page-event', {});
+      }
     }
   }
 

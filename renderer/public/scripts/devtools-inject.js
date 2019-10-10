@@ -6,6 +6,12 @@ const { ipcRenderer } = require('electron');
 
 (() => {
   const urlElement = url.parse(location.href);
+
+  Object.defineProperties(window, {
+    'VConsole': {
+      writable: false
+    }
+  });
   
   class IPC {
     constructor() {
@@ -78,7 +84,7 @@ const { ipcRenderer } = require('electron');
       this.remoteRpc = false;
       this.notifyQueue = {};
   
-      this.ipc.once('resume-page-event', (sender, res) => {
+      this.ipc.on('resume-page-event', (sender, res) => {
         this.trigger('resume', res);
       })
 
@@ -625,7 +631,11 @@ const { ipcRenderer } = require('electron');
     }
   
     updateUserInfo(params, callback) {
-      callback(deafultErrorRes);
+      const uid = uuid.v4();
+      this.ipc.emit('updateUserInfo', { uid });
+      this.ipc.once(uid, (sender, res) => {
+        callback(deafultErrorRes);
+      })
     }
   
     rpc(params, callback) {
