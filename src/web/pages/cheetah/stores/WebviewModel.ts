@@ -71,6 +71,7 @@ export default class WebviewModel {
   @observable public sessionID: string = '';
   @observable public afterLoginRedirectUrl: string = '';
   @observable public userInfo: object = {};
+  @observable public isLogined: boolean = false;
 
   constructor() {
     this.focusWebviewSender = this.focusWebviewSender.bind(this);
@@ -159,6 +160,7 @@ export default class WebviewModel {
             resultCode !== this.rpcOperationType.rpcOperationLoginSuccessCode
           ) {
             !isRefresh && Toast.fail(errMsg || '登录失败');
+            this.isLogined = false;
           } else {
             this.userInfo = data;
             if (isRefresh) {
@@ -171,6 +173,7 @@ export default class WebviewModel {
             this.sessionID = sessionID || '';
             this.createNewWebview(this.afterLoginRedirectUrl);
             this.afterLoginRedirectUrl = '';
+            this.isLogined = true;
             this.setLogintState(false);
             this.globalWebviewSender('notify-trigger', {
               name: 'NEBULANOTIFY_loginSuccess',

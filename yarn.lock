@@ -42,15 +42,15 @@
   dependencies:
     "@babel/highlight" "^7.0.0"
 
-"@babel/core@7.6.3":
-  version "7.6.3"
-  resolved "https://registry.npm.taobao.org/@babel/core/download/@babel/core-7.6.3.tgz#44de824e89eaa089bb12da7337bc9bdff2ab68f9"
-  integrity sha1-RN6CTonqoIm7EtpzN7yb3/KraPk=
+"@babel/core@7.6.4":
+  version "7.6.4"
+  resolved "https://registry.npm.taobao.org/@babel/core/download/@babel/core-7.6.4.tgz#6ebd9fe00925f6c3e177bb726a188b5f578088ff"
+  integrity sha1-br2f4Akl9sPhd7tyahiLX1eAiP8=
   dependencies:
     "@babel/code-frame" "^7.5.5"
-    "@babel/generator" "^7.6.3"
+    "@babel/generator" "^7.6.4"
     "@babel/helpers" "^7.6.2"
-    "@babel/parser" "^7.6.3"
+    "@babel/parser" "^7.6.4"
     "@babel/template" "^7.6.0"
     "@babel/traverse" "^7.6.3"
     "@babel/types" "^7.6.3"
@@ -60,7 +60,7 @@
     lodash "^4.17.13"
     resolve "^1.3.2"
     semver "^5.4.1"
-    source-map "^0.6.1"
+    source-map "^0.5.0"
 
 "@babel/core@>=7.2.2":
   version "7.5.5"
@@ -132,6 +132,16 @@
     jsesc "^2.5.1"
     lodash "^4.17.13"
     source-map "^0.6.1"
+
+"@babel/generator@^7.6.4":
+  version "7.6.4"
+  resolved "https://registry.npm.taobao.org/@babel/generator/download/@babel/generator-7.6.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fgenerator%2Fdownload%2F%40babel%2Fgenerator-7.6.4.tgz#a4f8437287bf9671b07f483b76e3bb731bc97671"
+  integrity sha1-pPhDcoe/lnGwf0g7duO7cxvJdnE=
+  dependencies:
+    "@babel/types" "^7.6.3"
+    jsesc "^2.5.1"
+    lodash "^4.17.13"
+    source-map "^0.5.0"
 
 "@babel/helper-annotate-as-pure@^7.0.0":
   version "7.0.0"
@@ -354,6 +364,11 @@
   version "7.6.3"
   resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.6.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.6.3.tgz#9eff8b9c3eeae16a74d8d4ff30da2bd0d6f0487e"
   integrity sha1-nv+LnD7q4Wp02NT/MNor0NbwSH4=
+
+"@babel/parser@^7.6.4":
+  version "7.6.4"
+  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.6.4.tgz?cache=0&sync_timestamp=1570717401366&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.6.4.tgz#cb9b36a7482110282d5cb6dd424ec9262b473d81"
+  integrity sha1-y5s2p0ghECgtXLbdQk7JJitHPYE=
 
 "@babel/plugin-proposal-async-generator-functions@^7.2.0":
   version "7.2.0"
@@ -5443,10 +5458,10 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-known-css-properties@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npm.taobao.org/known-css-properties/download/known-css-properties-0.15.0.tgz#5aa14a98b5a1652448aad44a1c67e867e4e7d88c"
-  integrity sha1-WqFKmLWhZSRIqtRKHGfoZ+Tn2Iw=
+known-css-properties@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.npm.taobao.org/known-css-properties/download/known-css-properties-0.16.0.tgz#3f0597214db11a460df77cd44bcb39e263b9da6c"
+  integrity sha1-PwWXIU2xGkYN93zUS8s54mO52mw=
 
 latest-version@^5.0.0:
   version "5.1.0"
@@ -9532,10 +9547,10 @@ stylelint-scss@^3.11.1:
     postcss-selector-parser "^6.0.2"
     postcss-value-parser "^4.0.2"
 
-stylelint@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.npm.taobao.org/stylelint/download/stylelint-11.0.0.tgz#1458d1e126d4f2fb9f41076197f852aa1fcae91d"
-  integrity sha1-FFjR4SbU8vufQQdhl/hSqh/K6R0=
+stylelint@^11.1.1:
+  version "11.1.1"
+  resolved "https://registry.npm.taobao.org/stylelint/download/stylelint-11.1.1.tgz#6dbbb348036576ac6b033ddfedba72a877c1d6bb"
+  integrity sha1-bbuzSANldqxrAz3f7bpyqHfB1rs=
   dependencies:
     autoprefixer "^9.5.1"
     balanced-match "^1.0.0"
@@ -9552,7 +9567,7 @@ stylelint@^11.0.0:
     ignore "^5.0.6"
     import-lazy "^4.0.0"
     imurmurhash "^0.1.4"
-    known-css-properties "^0.15.0"
+    known-css-properties "^0.16.0"
     leven "^3.1.0"
     lodash "^4.17.14"
     log-symbols "^3.0.0"

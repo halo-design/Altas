@@ -3,9 +3,10 @@ import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 
 @inject((stores: any) => {
-  const { loginShowState } = stores.webview;
+  const { loginShowState, isLogined } = stores.webview;
 
   return {
+    isLogined,
     loginShowState,
     setRpcSettingsVisible: (state: boolean) =>
       stores.webview.setRpcSettingsVisible(state),
@@ -17,6 +18,7 @@ import { inject, observer } from 'mobx-react';
 class LoginView extends React.Component<any, any> {
   public render() {
     const {
+      isLogined,
       loginShowState,
       setLogintState,
       setRpcSettingsVisible,
@@ -36,7 +38,7 @@ class LoginView extends React.Component<any, any> {
               submitLogin();
             }}
           >
-            一键登录
+            {isLogined ? '重新登录' : '一键登录'}
           </button>
         </div>
         <div

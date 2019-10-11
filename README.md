@@ -1,4 +1,4 @@
-# Altas
+# Altas Engine
 
 ## 🚦An Electron Application
 
