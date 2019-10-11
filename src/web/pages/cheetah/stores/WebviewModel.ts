@@ -591,8 +591,8 @@ export default class WebviewModel {
     }
     const lastState = this.closeFocusDevtools();
     this.webviewList[this.focusIndex] = this.webviewCreater(src, params);
-    this.inheritDebugWebview(lastState);
     this.setTitle();
+    this.inheritDebugWebview(lastState);
   }
 
   @action
@@ -613,8 +613,8 @@ export default class WebviewModel {
       this.webviewList = this.webviewList.slice(0, this.focusIndex);
       this.focusIndex--;
     }
-    this.inheritDebugWebview(lastState);
     this.setTitle();
+    this.inheritDebugWebview(lastState);
     if (this.focusWebview) {
       this.focusWebview.dom.send('resume-page-event', {});
     }
