@@ -426,13 +426,13 @@ export default class WebviewModel {
         onChange: (time: any) => {
           this.focusWebviewSender(uid, {
             currentDate: moment(time).format(fmt),
-            actionType: 1,
+            actionType: '1',
           });
         },
         onDismiss: () => {
           this.focusWebviewSender(uid, {
             currentDate: '',
-            actionType: 0,
+            actionType: '0',
           });
         },
       });
@@ -446,13 +446,13 @@ export default class WebviewModel {
         onChange: (val: any) => {
           this.focusWebviewSender(uid, {
             result: val,
-            actionType: 1,
+            actionType: '1',
           });
         },
         onDismiss: () => {
           this.focusWebviewSender(uid, {
             result: [],
-            actionType: 0,
+            actionType: '0',
           });
         },
       });
