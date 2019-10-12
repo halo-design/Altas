@@ -1,5 +1,5 @@
 {
-  "name": "altas-engine",
+  "name": "altas",
   "version": "1.0.0-alpha.9",
   "description": "An Electron Application",
   "main": "renderer/main.js",
