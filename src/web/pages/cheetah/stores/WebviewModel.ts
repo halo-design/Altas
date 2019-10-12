@@ -442,6 +442,7 @@ export default class WebviewModel {
         title,
         data,
         value,
+        cols: (value && value.length) || 1,
         onChange: (val: any) => {
           this.focusWebviewSender(uid, {
             result: val,
