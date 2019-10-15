@@ -203,7 +203,7 @@ html {
   .portal {
     transform: translateY(40px);
     transition: all .3s;
-    
+
     &.show {
       transform: translateY(0);
       box-shadow: 0 -2px 8px #626bb326;
