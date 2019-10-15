@@ -62,5 +62,6 @@ export const rpcSettings = {
   rpcOperationLoginSuccessCode: '0',
   rpcOperationLoginErrorMsgPosition: 'data.header.errorMsg',
   rpcOperationLoginErrorCodePosition: 'data.header.errorCode',
-  rpcOperationSessionIDPosition: 'data.header.mp_sId',
+  rpcOperationSessionIDPositionReviece: 'data.body.mp_sId',
+  rpcOperationSessionIDPositionSend: 'data.header.mp_sId',
 };
