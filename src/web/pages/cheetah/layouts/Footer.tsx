@@ -1,9 +1,11 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
-import { reaction, observable, action } from 'mobx';
+import { reaction, observable, action, computed } from 'mobx';
 import { readText } from '../../../main/bridge/modules/clipBoard';
 import Toast from 'antd-mobile/lib/toast';
+import * as url from 'url';
+
 const QRcode = require('qrcode');
 
 @inject((stores: any) => {
@@ -23,6 +25,11 @@ class FooterView extends React.Component<any, any> {
   public currentUrl: string = '';
   @observable public showQRcode: boolean = false;
 
+  @computed get focusWebviewCleanUrl() {
+    const { host, protocol, pathname } = url.parse(this.props.focusWebviewUrl);
+    return url.format({ host, protocol, pathname });
+  }
+
   @action
   public setQRcodeVisible(state: boolean) {
     this.showQRcode = state;
@@ -34,7 +41,7 @@ class FooterView extends React.Component<any, any> {
     } else if (this.canvas) {
       QRcode.toCanvas(
         this.canvas,
-        this.currentUrl || this.props.focusWebviewUrl,
+        this.currentUrl || this.focusWebviewCleanUrl,
         {
           width: 180,
           margin: 0,
@@ -61,9 +68,9 @@ class FooterView extends React.Component<any, any> {
   }
 
   public componentDidMount() {
-    this.currentUrl = this.props.focusWebviewUrl;
+    this.currentUrl = this.focusWebviewCleanUrl;
     reaction(
-      () => this.props.focusWebviewUrl,
+      () => this.focusWebviewCleanUrl,
       (url: string) => {
         this.setQRcodeVisible(false);
         this.ipt.value = url;
