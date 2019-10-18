@@ -264,7 +264,21 @@ export default class WebviewModel {
 
   @action
   public webviewCreater(lnk: string, params?: object) {
-    const src = params ? lnk + '?' + qs.stringify(params) : lnk;
+    let src = lnk;
+
+    if (params && Object.keys(params).length > 0) {
+      const { host, protocol, pathname, search } = url.parse(lnk);
+      const beforeParams =
+        search && search.length > 1 ? qs.parse(search.substr(1)) : {};
+
+      src = url.format({
+        host,
+        protocol,
+        pathname,
+        search: qs.stringify(Object.assign({}, beforeParams, params)),
+      });
+    }
+
     const {
       preload,
       descriptors: {

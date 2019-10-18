@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
-import { reaction, observable, action, computed } from 'mobx';
+import { reaction, observable, action } from 'mobx';
 import { readText } from '../../../main/bridge/modules/clipBoard';
 import Toast from 'antd-mobile/lib/toast';
 import * as url from 'url';
@@ -25,8 +25,8 @@ class FooterView extends React.Component<any, any> {
   public currentUrl: string = '';
   @observable public showQRcode: boolean = false;
 
-  @computed get focusWebviewCleanUrl() {
-    const { host, protocol, pathname } = url.parse(this.props.focusWebviewUrl);
+  public getCleanUrl(lnk: string) {
+    const { host, protocol, pathname } = url.parse(lnk);
     return url.format({ host, protocol, pathname });
   }
 
@@ -41,7 +41,7 @@ class FooterView extends React.Component<any, any> {
     } else if (this.canvas) {
       QRcode.toCanvas(
         this.canvas,
-        this.currentUrl || this.focusWebviewCleanUrl,
+        this.currentUrl || this.getCleanUrl(this.props.focusWebviewUrl),
         {
           width: 180,
           margin: 0,
@@ -68,12 +68,12 @@ class FooterView extends React.Component<any, any> {
   }
 
   public componentDidMount() {
-    this.currentUrl = this.focusWebviewCleanUrl;
+    this.currentUrl = this.props.focusWebviewUrl;
     reaction(
-      () => this.focusWebviewCleanUrl,
+      () => this.props.focusWebviewUrl,
       (url: string) => {
         this.setQRcodeVisible(false);
-        this.ipt.value = url;
+        this.ipt.value = this.getCleanUrl(url);
       }
     );
   }

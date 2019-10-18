@@ -78,7 +78,7 @@ const { ipcRenderer } = require('electron');
   window['ALTAS_APP_IPC'] = new IPC();
   
   class JSBridge {
-    constructor() {
+    constructor(bridgeReadyArr) {
       this.ipc = window.ALTAS_APP_IPC;
       this.remoteDebug = false;
       this.remoteRpc = false;
@@ -100,6 +100,10 @@ const { ipcRenderer } = require('electron');
         }
         console.log(info);
         console.groupEnd();
+      })
+
+      bridgeReadyArr.forEach(name => {
+        this.trigger(name, {});
       })
     }
   
@@ -671,5 +675,5 @@ const { ipcRenderer } = require('electron');
     }
   }
   
-  window['AlipayJSBridge'] = new JSBridge();
+  window['AlipayJSBridge'] = window['FlameJSBridge'] = new JSBridge(['AlipayJSBridgeReady', 'FlameJSBridgeReady']);
 })()
