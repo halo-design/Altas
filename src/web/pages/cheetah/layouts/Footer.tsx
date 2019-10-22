@@ -36,17 +36,16 @@ class FooterView extends React.Component<any, any> {
   }
 
   public genQrcode() {
+    if (this.ipt.value.length === 0) {
+      return;
+    }
     if (this.showQRcode) {
       this.setQRcodeVisible(false);
     } else if (this.canvas) {
-      QRcode.toCanvas(
-        this.canvas,
-        this.currentUrl || this.getCleanUrl(this.props.focusWebviewUrl),
-        {
-          width: 180,
-          margin: 0,
-        }
-      ).then(() => {
+      QRcode.toCanvas(this.canvas, this.ipt.value, {
+        width: 180,
+        margin: 0,
+      }).then(() => {
         this.setQRcodeVisible(true);
       });
     }
