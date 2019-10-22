@@ -27,7 +27,7 @@ export const appCacheFullPath: string = path.join(
 );
 
 export const appDataFullPath: string = path.join(
-  app.getPath('userData'),
+  app.getPath('appData'),
   'altas_data'
 );
 

@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
+import log from 'electron-log';
 
 const root = path.join(__dirname, '../');
 
@@ -30,6 +31,9 @@ export const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
 export const createDirSync = (dir: string) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
+    log.info(`文件夹“${dir}”已创建.`);
+  } else {
+    log.info(`文件夹“${dir}”已存在.`);
   }
 };
 
