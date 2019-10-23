@@ -30,8 +30,13 @@ export const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
 
 export const createDirSync = (dir: string) => {
   if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-    log.info(`文件夹“${dir}”已创建.`);
+    try {
+      fs.mkdirSync(dir);
+      log.info(`文件夹“${dir}”已创建.`);
+    } catch (error) {
+      log.error(error);
+      log.warn('文件夹创建失败.');
+    }
   } else {
     log.info(`文件夹“${dir}”已存在.`);
   }
