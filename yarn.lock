@@ -8440,10 +8440,10 @@ rmc-trigger@1.x:
     rc-util "4.x"
     rmc-align "~1.0.0"
 
-rollup@^1.25.1:
-  version "1.25.1"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-1.25.1.tgz#905707d686dc8d7218af63dcfb9e37d1f3dc3c34"
-  integrity sha512-K8ytdEzMa6anHSnfTIs2BLB+NXlQ4qmWwdNHBpYQNWCbZAzj+DRVk7+ssbLSgddwpFW1nThr2GElR+jASF2NPA==
+rollup@^1.25.2:
+  version "1.25.2"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.25.2.tgz#739f508bd8f7ece52bb6c1fcda83466af82b7f6d"
+  integrity sha1-c59Qi9j37OUrtsH82oNGavgrf20=
   dependencies:
     "@types/estree" "*"
     "@types/node" "*"
@@ -9187,10 +9187,10 @@ stylelint-config-standard@^19.0.0:
   dependencies:
     stylelint-config-recommended "^3.0.0"
 
-stylelint-scss@^3.11.1:
-  version "3.11.1"
-  resolved "https://registry.npmjs.org/stylelint-scss/-/stylelint-scss-3.11.1.tgz#016a6c1a6e051faed0a186b3698fcf24b0e90b0d"
-  integrity sha512-0FZNSfy5X2Or4VRA3Abwfrw1NHrI6jHT8ji9xSwP8Re2Kno0i90qbHwm8ohPO0kRB1RP9x1vCYBh4Tij+SZjIg==
+stylelint-scss@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.npm.taobao.org/stylelint-scss/download/stylelint-scss-3.12.0.tgz#8b4e4b365eaa90da99d7fd5256fd9092d3344a8c"
+  integrity sha1-i05LNl6qkNqZ1/1SVv2QktM0Sow=
   dependencies:
     lodash "^4.17.15"
     postcss-media-query-parser "^0.2.3"
