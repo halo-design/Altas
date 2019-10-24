@@ -166,7 +166,7 @@ html {
   input {
     width: 100%;
     padding: 8px 0;
-    border-width: 0 0 1px;
+    border-width: 0 0 0.5px;
     border-color: #eee;
     transition: all .3s;
 
@@ -403,7 +403,7 @@ html {
 
   *::-webkit-scrollbar-thumb {
     background-color: #b8b8b8;
-    border-radius: 1px;
+    border-radius: 0.5px;
   }
 
   *::-webkit-scrollbar-track-piece {
@@ -426,7 +426,7 @@ html {
 
     .title {
       text-align: center;
-      border-bottom: 1px solid #eee;
+      border-bottom: 0.5px solid #eee;
       background-color: #f4f4f4;
       padding: 15px;
       font-size: 14px;
@@ -499,7 +499,7 @@ html {
 
         &.close {
           color: #fd5e6c;
-          border-right: 1px solid #eee;
+          border-right: 0.5px solid #eee;
         }
       }
     }

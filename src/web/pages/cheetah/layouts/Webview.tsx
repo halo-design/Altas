@@ -211,7 +211,7 @@ class WebviewView extends React.Component<any, any> {
             style={{
               backgroundColor: argb2rgba(navBarBgColor),
               borderBottom: navBarBottomLineColor
-                ? `1px solid ${argb2rgba(navBarBottomLineColor)}`
+                ? `0.5px solid ${argb2rgba(navBarBottomLineColor)}`
                 : 'none',
             }}
           >
