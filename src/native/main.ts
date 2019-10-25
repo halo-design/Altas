@@ -7,6 +7,8 @@ import { isMac } from './utils/env';
 import inject from './core/bridge/inject';
 import './core/preload';
 
+app.commandLine.appendSwitch('remote-debugging-port', '8315');
+
 class Altas {
   public mainWin: any = null;
   public mainRPC: any = null;
