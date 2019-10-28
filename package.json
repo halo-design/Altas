@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "1.0.0-alpha.13",
+  "version": "1.0.0-alpha.14",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {
@@ -73,7 +73,7 @@
     "commander": "^3.0.2",
     "cross-env": "^6.0.3",
     "devtron": "^1.4.0",
-    "electron": "6.0.12",
+    "electron": "7.0.0",
     "electron-builder": "21.2.0",
     "glob": "^7.1.5",
     "node-sass": "^4.13.0",
