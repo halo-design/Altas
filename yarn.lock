@@ -1016,10 +1016,15 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-12.11.2.tgz#75ba3beda30d690b89a5089ca1c6e8e386150b76"
   integrity sha512-dsfE4BHJkLQW+reOS6b17xhZ/6FB1rB8eRRvO08nn5o+voxf3i74tuyFWNH6djdfgX7Sm5s6LD8t6mJug4dpDw==
 
-"@types/node@^12.0.12", "@types/node@^12.11.7":
+"@types/node@^12.0.12":
   version "12.11.7"
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.11.7.tgz#57682a9771a3f7b09c2497f28129a0462966524a"
   integrity sha1-V2gql3Gj97CcJJfygSmgRilmUko=
+
+"@types/node@^12.12.0":
+  version "12.12.0"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.12.0.tgz#ff3201972d6dc851a9275308a17b9b5094e68057"
+  integrity sha1-/zIBly1tyFGpJ1MIoXubUJTmgFc=
 
 "@types/node@^8.0.24":
   version "8.10.55"

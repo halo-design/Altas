@@ -103,7 +103,7 @@
     bottom: 0;
     right: 0;
     background-color: #fff;
-    border-top: 0.5px solid #eee;
+    border-top: .5px solid #eee;
     display: flex;
     justify-content: flex-end;
     box-sizing: border-box;
@@ -120,7 +120,7 @@
 
     .inner {
       padding: 15px;
-      box-shadow: 0.5px 0 14px -1px #dfe3e7;
+      box-shadow: .5px 0 14px -1px #dfe3e7;
     }
 
     .row {

@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  font-family: Avenir, Tahoma, Arial, PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, "Microsoft Sans Serif", WenQuanYi Micro Hei, Helvetica, "sans-serif";
+  font-family: "SF Pro SC", "HanHei SC", "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 14px;
   background: #f4f4f4 url(./logo.svg) no-repeat center center;
   background-size: 80px;
@@ -27,7 +27,7 @@ body {
   width: 100%;
   height: 40px;
   background: #fdfdfd;
-  border-bottom: 0.5px solid #dedede;
+  border-bottom: .5px solid #dedede;
   display: flex;
   justify-content: flex-end;
 }
@@ -37,7 +37,7 @@ body {
 }
 
 .portal {
-  border-top: 0.5px solid #dedede;
+  border-top: .5px solid #dedede;
   border-bottom: none;
   position: fixed;
   left: 0;
