@@ -93,7 +93,7 @@
     "face-api.js": "^0.20.0",
     "fs-extra": "^8.0.1",
     "ip": "^1.1.5",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.4",
     "mobx-react-devtools": "6.1.1",
