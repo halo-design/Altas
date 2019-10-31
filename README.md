@@ -12,7 +12,6 @@
 [![build](https://www.travis-ci.org/halo-design/Altas.svg?branch=master)](https://github.com/halo-design/Altas)
 
 [![GitHub followers](https://img.shields.io/github/followers/OwlAford.svg?style=social&label=Follow)](https://github.com/OwlAford)
-[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/Aford79872215)
 
 
 ### Building a cross-platform desktop application by Electron
