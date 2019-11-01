@@ -161,29 +161,49 @@ class RunnerView extends React.Component<any, any> {
 
   public createMenu(node: HTMLElement, bundleName: string) {
     if (node) {
+      const {
+        projectRunnerConfig: {
+          configList: {
+            modules,
+            scripts: { dev, build },
+          },
+        },
+      } = this.props;
+
       const opts: any = [
         {
-          click: (e: any) => {
-            const {
-              projectRunnerConfig: {
-                configList: { modules },
-              },
-            } = this.props;
-
+          click: () => {
             if (modules) {
               this.openProjectDir(modules, bundleName);
             }
           },
-          label: '打开文件夹',
+          label: '打开所在文件夹',
+        },
+        {
+          click: () => {
+            if (modules) {
+              this.killProcess();
+            }
+          },
+          label: '终止根目录命令/服务',
         },
         {
           type: 'separator',
         },
         {
           click: (e: any) => {
-            //
+            this.runBundleCmd(build, bundleName);
           },
-          label: '粘贴上传图片',
+          label: '打包构建',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          click: (e: any) => {
+            this.runBundleCmd(dev, bundleName);
+          },
+          label: '本地运行',
         },
       ];
 
@@ -217,15 +237,6 @@ class RunnerView extends React.Component<any, any> {
 
     const runnerBtn = (bundleName: string, index: number) => (
       <div className="project-control">
-        <Tooltip placement="bottom" title="业务包构建">
-          <Icon
-            type="file-zip"
-            onClick={(e: any) => {
-              this.runBundleCmd(build, bundleName);
-              e.stopPropagation();
-            }}
-          />
-        </Tooltip>
         <Tooltip placement="bottom" title="本地开发服务">
           <Icon
             type="play-circle"
@@ -312,7 +323,12 @@ class RunnerView extends React.Component<any, any> {
                             this.createMenu(node, name);
                           }}
                         >
-                          {name}
+                          <span className="dir-name">
+                            <span>{name}</span>
+                            <span className="sub with-color">
+                              {Object.keys(cheetahProject[name]).length}
+                            </span>
+                          </span>
                         </div>
                       }
                       extra={runnerBtn(name, index)}
@@ -418,7 +434,7 @@ class RunnerView extends React.Component<any, any> {
                   <div className="row">
                     <div className="desc">
                       <Icon type="disconnect" />
-                      <span>终止根目录全部命令</span>
+                      <span>终止根目录命令/服务</span>
                     </div>
                     <div className="control">
                       <Tooltip placement="left" title="结束进程">

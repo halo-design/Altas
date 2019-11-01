@@ -19,6 +19,11 @@
           background-color: #dee0ea;
           border-radius: 8px;
           margin-left: 5px;
+
+          &.with-color {
+            color: #fff;
+            background-color: #ccd3ff;
+          }
         }
       }
     }
