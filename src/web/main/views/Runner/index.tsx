@@ -203,7 +203,7 @@ class RunnerView extends React.Component<any, any> {
           click: (e: any) => {
             this.runBundleCmd(dev, bundleName);
           },
-          label: '本地运行',
+          label: '本地服务运行',
         },
       ];
 
@@ -364,6 +364,7 @@ class RunnerView extends React.Component<any, any> {
                                       this.copyAddress([name, dir, page]);
                                     }}
                                   >
+                                    <Icon type="html5" />
                                     <div className="name-title">
                                       {page}.html
                                     </div>

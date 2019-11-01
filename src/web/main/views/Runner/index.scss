@@ -22,7 +22,7 @@
 
           &.with-color {
             color: #fff;
-            background-color: #ccd3ff;
+            background-color: #e0e2f3;
           }
         }
       }
@@ -92,19 +92,21 @@
   }
 
   .page-item {
-    line-height: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     cursor: pointer;
 
     .name-title {
       flex-grow: 1;
-      width: calc(100% - 46px);
+      width: calc(100% - 60px);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       word-break: keep-all;
       font-size: 13px;
+      box-sizing: border-box;
+      padding-left: 4px;
     }
 
     span {
@@ -121,12 +123,11 @@
     font-size: 14px;
 
     label {
-      margin-left: 5px;
+      margin-left: 12px;
     }
 
     i {
       color: #696b75;
-      margin-right: 8px;
 
       &:hover {
         color: #4347ff;
