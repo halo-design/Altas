@@ -1,4 +1,3 @@
-import { remote } from 'electron';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -13,9 +12,6 @@ import { cheetahSimulatorIndex } from '../../constants/API';
 
 import './index.scss';
 
-const { getCurrentWindow } = remote;
-const win = getCurrentWindow();
-
 @inject((stores: any) => {
   const {
     terminal: { deviceConfig },
@@ -27,30 +23,11 @@ const win = getCurrentWindow();
 })
 @observer
 class SidebarView extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-
-    this.state = {
-      isBlur: false,
-    };
-  }
-
-  public setBlur(state: boolean) {
-    this.setState({
-      isBlur: state,
-    });
-  }
-
   public openCheetahDevice() {
     cheetahSimulator({
       target: cheetahSimulatorIndex,
       descriptors: this.props.deviceConfig,
     });
-  }
-
-  public componentDidMount() {
-    win.on('blur', () => this.setBlur(true));
-    win.on('focus', () => this.setBlur(false));
   }
 
   public render() {

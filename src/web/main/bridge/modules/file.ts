@@ -1,6 +1,7 @@
 import { remote } from 'electron';
 import * as path from 'path';
 const { app, dialog, getCurrentWindow } = remote;
+const win = getCurrentWindow();
 
 import RPC from '../rpc';
 const { dispatch } = RPC;
@@ -10,7 +11,7 @@ export const setSaveAs = (
   afterFn: (e: string) => void
 ): void => {
   dialog
-    .showSaveDialog(getCurrentWindow(), {
+    .showSaveDialog(win, {
       defaultPath: path.join(app.getPath('documents'), fileName),
     })
     .then(({ filePath }: any) => {
@@ -25,13 +26,16 @@ export const selectFile = (
   args: object,
   cb: (e: string[] | undefined) => void
 ): void => {
-  dialog.showOpenDialog(
-    {
+  dialog
+    .showOpenDialog(win, {
       defaultPath: app.getPath('documents'),
       ...args,
-    },
-    cb
-  );
+    })
+    .then(({ canceled, filePaths }: any) => {
+      if (!canceled) {
+        cb(filePaths);
+      }
+    });
 };
 
 export const readTxtByLine = (

@@ -257,7 +257,7 @@ class CreatehView extends React.Component<any, any> {
                 this.setMirrorConfig();
               }}
             >
-              手动设置
+              一键设置
             </div>
           </div>
           <div className="form-item install-packages">

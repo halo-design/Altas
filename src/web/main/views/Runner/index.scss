@@ -1,6 +1,27 @@
 .sub-page-runner {
   .form-table {
     padding-top: 0;
+
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+      color: #484950;
+      display: flex;
+
+      .bundle-name {
+        flex-grow: 1;
+      }
+
+      .dir-name {
+        position: relative;
+
+        .sub {
+          font-size: 10px;
+          padding: 1px 10px;
+          background-color: #dee0ea;
+          border-radius: 8px;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 
   .command-table {
@@ -32,21 +53,22 @@
 
       .control {
         padding: 4px;
-        border-radius: 28px;
+        margin: 3px 0;
+        border-radius: 14px;
         background-color: #e9ebf2;
       }
 
       .btn-default {
         padding: 0;
-        border-radius: 100%;
-        width: 24px;
-        height: 24px;
+        border-radius: 10px;
+        width: 28px;
+        height: 20px;
         display: inline-block;
         text-align: center;
-        line-height: 24px;
+        line-height: 20px;
 
         i.iconfont {
-          font-size: 12px;
+          font-size: 10px;
         }
 
         & + .btn-default {
@@ -93,15 +115,16 @@
   .project-control {
     font-size: 14px;
 
+    label {
+      margin-left: 5px;
+    }
+
     i {
       color: #696b75;
+      margin-right: 8px;
 
       &:hover {
         color: #4347ff;
-      }
-
-      & + i {
-        margin-left: 8px;
       }
     }
   }
