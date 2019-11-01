@@ -220,6 +220,7 @@ class RunnerView extends React.Component<any, any> {
 
   public render() {
     const {
+      shell,
       userDefaultProjectPath,
       projectRunnerConfig: {
         configList: {
@@ -432,6 +433,26 @@ class RunnerView extends React.Component<any, any> {
                       </div>
                     </div>,
                   ]}
+                  {isMac && (
+                    <div className="row">
+                      <div className="desc">
+                        <Icon type="safety-certificate" />
+                        <span>工程根目录读写授权</span>
+                      </div>
+                      <div className="control">
+                        <Tooltip placement="left" title="目录授权">
+                          <div
+                            className="btn-default"
+                            onClick={() => {
+                              shell('sudo -s');
+                            }}
+                          >
+                            <i className="iconfont">&#xe603;</i>
+                          </div>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  )}
                   <div className="row">
                     <div className="desc">
                       <Icon type="disconnect" />

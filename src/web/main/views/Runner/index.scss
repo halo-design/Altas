@@ -1,4 +1,9 @@
 .sub-page-runner {
+  .dir-list,
+  .form-table {
+    user-select: none;
+  }
+
   .form-table {
     padding-top: 0;
 
