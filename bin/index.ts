@@ -10,7 +10,7 @@ const nativeEntry = '../src/native/main.ts';
 
 program
   .command('clear')
-  .option('-d --dir', 'Delete the specified directory.')
+  .option('-d --dir <name>', 'Delete the specified directory.')
   .action((cmd: any) => {
     if (cmd.dir) {
       clear(cmd.dir);
