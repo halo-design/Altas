@@ -7,6 +7,22 @@
   .form-table {
     padding-top: 0;
 
+    .ant-collapse-content-box .ant-collapse-content-box {
+      padding: 0;
+    }
+
+    .ant-collapse-content > .ant-collapse-content-box {
+      padding: 12px;
+
+      .ant-collapse-content-box {
+        padding: 0 12px;
+      }
+    }
+
+    .ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header {
+      padding: 10px 14px;
+    }
+
     .ant-collapse > .ant-collapse-item > .ant-collapse-header {
       color: #484950;
       display: flex;
@@ -17,6 +33,7 @@
 
       .dir-name {
         position: relative;
+        font-size: 13px;
 
         .sub {
           font-size: 10px;
@@ -101,6 +118,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    padding: 0;
 
     .name-title {
       flex-grow: 1;
@@ -109,7 +127,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       word-break: keep-all;
-      font-size: 13px;
+      font-size: 12px;
       box-sizing: border-box;
       padding-left: 4px;
     }
