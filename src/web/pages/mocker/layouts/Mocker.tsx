@@ -214,7 +214,7 @@ class MockerView extends React.Component<any, any> {
                       onChange={() => {
                         this.setState({ edited: true });
                       }}
-                      autosize={{ minRows: 3, maxRows: 20 }}
+                      autoSize={{ minRows: 3, maxRows: 20 }}
                     />
                   )}
                 </Form.Item>
@@ -297,7 +297,7 @@ class MockerView extends React.Component<any, any> {
               onChange={(e: any) => {
                 this.setState({ addItemParams: e.target.value });
               }}
-              autosize={{ minRows: 3, maxRows: 10 }}
+              autoSize={{ minRows: 3, maxRows: 10 }}
             />
           </div>
         </Modal>

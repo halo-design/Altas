@@ -134,7 +134,7 @@ class SettingsView extends React.Component<any> {
                 onBlur={(e: any) => {
                   this.props.setCunstomUAString(e.target.value);
                 }}
-                autosize={{ minRows: 3, maxRows: 6 }}
+                autoSize={{ minRows: 3, maxRows: 6 }}
               />
             </div>
           </div>

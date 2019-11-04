@@ -36,7 +36,7 @@ if (!remote.app.isPackaged) {
   configureDevtool({
     graphEnabled: false,
     logEnabled: true,
-    logFilter: ({ type }: any) => /(action|update)/.test(type),
+    logFilter: ({ type }: any) => type === 'action',
     updatesEnabled: false,
   });
 }
