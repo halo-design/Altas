@@ -1,10 +1,8 @@
-os: osx
-osx_image: xcode11.2
+os: windows
 language: node_js
 node_js: '12'
 
 dist: trusty
-sudo: required
 
 env:
   # - ELECTRON_CACHE=$HOME/.cache/electron
@@ -25,9 +23,9 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_eddd6ba770f1_key -iv $encrypted_eddd6ba770f1_iv -in keygen.yml.enc -out keygen.yml -d
 
 script:
-  - npm run lint
-  - npm run pack:win
-  - npm run upload
+  - yarn lint
+  - yarn pack:win
+  - yarn upload
 
 after_script:
   - cd ./packages
