@@ -27,11 +27,13 @@ exports.ssh = (auth: object, files: any[]): Promise<string> => {
       .putFiles(files)
       .then(() => {
         spinner.succeed(`Total ${files.length} files uploaded!`);
-        resolve();
+        resolve && resolve();
+        process.exit(0);
       })
       .catch((error: any) => {
         spinner.fail('Files upload failed!');
-        reject(error);
+        reject && reject(error);
+        process.exit(0);
       });
   });
 };

@@ -116,6 +116,7 @@ export default class WebviewModel {
   @action
   public rpc(options: any, bridgeCallback: Function, overwriteBody?: Object) {
     const data = this.rpcOperationType.rpcData;
+    options.headers = options.headers || {};
 
     if (this.sessionID) {
       eval(

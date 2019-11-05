@@ -24,13 +24,7 @@ if (fs.existsSync(buildInfoFilePath)) {
     uploadArr.push({ local, remote });
   }
 
-  ssh(auth, uploadArr)
-    .then(() => {
-      process.exit(0);
-    })
-    .catch(() => {
-      process.exit(0);
-    });
+  ssh(auth, uploadArr);
 } else {
   log.error('The build information file was not found!');
 }

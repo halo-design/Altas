@@ -2,8 +2,6 @@ os: windows
 language: node_js
 node_js: '12'
 
-dist: trusty
-
 env:
   - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
@@ -21,8 +19,19 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_eddd6ba770f1_key -iv $encrypted_eddd6ba770f1_iv -in keygen.yml.enc -out keygen.yml -d
 
 script:
-  - yarn pack:win
-  - yarn upload:win
+  - npm run lint
+  - npm run pack
+  - npm run upload
+
+after_success:
+  - cd ./packages
+  - git config --global user.name "${GT_USERNAME}"
+  - git config --global user.email "${GT_EMAIL}"
+  - git init
+  - git add .
+  - git commit -m "update app bundles"
+  - git remote add origin https://${GT_USERNAME}:${GT_PASSWORD}@gitee.com/${GT_USERNAME}/altas.git
+  - git push --progress -f origin master
 
 notifications:
   email:
