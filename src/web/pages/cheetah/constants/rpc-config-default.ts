@@ -48,14 +48,14 @@ export const rpcData = {
 
 export const rpcLogin = {
   body: {
-    loginId: '15111111161',
-    loginPassword: 'qwer1234',
-    mobileNo: '15111111161',
+    loginId: '13420133333',
+    loginPassword: 'thf123456',
+    mobileNo: '13420133333',
   },
 };
 
 export const rpcSettings = {
-  rpcRemoteUrl: 'http://flameapp.cn/chee-mpaasService/',
+  rpcRemoteUrl: 'http://111.204.125.243:8085/cmep-mpaasService/',
   rpcOperationTypeReg: '([^.]*).([^.]*).([^.]*)',
   rpcOperationTypeReplaceString: '$3.do',
   rpcOperationLoginInterface: 'com.IFP.UR0010',

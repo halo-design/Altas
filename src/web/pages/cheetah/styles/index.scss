@@ -394,7 +394,7 @@ html {
   width: 100vw;
   height: calc(100vh - 40px);
   background-color: #0000;
-  z-index: 99999;
+  z-index: 99;
   transition: background-color .3s;
 
   *::-webkit-scrollbar {

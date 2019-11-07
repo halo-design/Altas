@@ -560,14 +560,7 @@ const { ipcRenderer } = require('electron');
       })
       this.ipc.once(uid, (sender, res) => {
         const { selectIndex } = res;
-        if (selectIndex > maxIndex) {
-          callback({
-            selectIndex: '',
-            selectItem: '',
-            error: '2000',
-            errorMessage: '',
-          });
-        } else {
+        if (selectIndex <= maxIndex) {
           callback({
             selectItem: items[selectIndex],
             selectIndex: selectIndex,
