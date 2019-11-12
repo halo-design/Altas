@@ -708,7 +708,7 @@ export default class WebviewModel {
       targetIndex = index;
       return hasOne;
     });
-    if (isExistLnk && targetIndex) {
+    if (isExistLnk && targetIndex !== null) {
       this.webviewList = this.webviewList.slice(0, targetIndex + 1);
       this.focusIndex = this.maxIndex;
       this.setTitle();
