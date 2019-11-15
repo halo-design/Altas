@@ -131,9 +131,15 @@ const { ipcRenderer } = require('electron');
       }
     }
   
-    trigger(ev, data) {
-      const event = new CustomEvent(ev, data);
-      document.dispatchEvent(event);
+    trigger(name, data) {
+      const triggerEvent = (name, data) => {
+        const evt = document.createEvent('Event');
+        evt.initEvent(name, false, true);
+        evt.data = data;document.dispatchEvent(evt);
+      }
+      setTimeout(() => {
+        triggerEvent(name, data);
+      }, 1);
     }
   
     remote(fnName, params, callback) {
