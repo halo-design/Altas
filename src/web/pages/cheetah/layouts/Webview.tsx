@@ -154,7 +154,8 @@ class WebviewView extends React.Component<any, any> {
               className={classNames('cell', {
                 disabled:
                   focusOnFisrt &&
-                  (typeof ico === 'string' && ico.indexOf('back_') === 0) &&
+                  typeof ico === 'string' &&
+                  ico.indexOf('back_') === 0 &&
                   !overrideClick,
               })}
               key={index}

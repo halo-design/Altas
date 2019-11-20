@@ -683,8 +683,7 @@ export default class WebviewModel {
     const urls: string[] = Array.isArray(lnks) ? lnks : [lnks];
     this.webviewList = this.webviewList.filter((view: any) => {
       const originSrc = view.attr.src;
-      let curPathName = url.parse(originSrc).pathname;
-      curPathName = curPathName || originSrc;
+      const curPathName = url.parse(originSrc).pathname || originSrc;
       const hasOne = urls.some(
         (lnk: string) => this.removeSlash(lnk) === this.removeSlash(curPathName)
       );
@@ -702,8 +701,7 @@ export default class WebviewModel {
     const lastState = this.closeFocusDevtools();
     const isExistLnk = this.webviewList.some((view: any, index: number) => {
       const originSrc = view.attr.src;
-      let curPathName = url.parse(originSrc).pathname;
-      curPathName = curPathName || originSrc;
+      const curPathName = url.parse(originSrc).pathname || originSrc;
       const hasOne = this.removeSlash(lnk) === this.removeSlash(curPathName);
       targetIndex = index;
       return hasOne;
