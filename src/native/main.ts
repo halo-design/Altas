@@ -8,7 +8,7 @@ import inject from './core/bridge/inject';
 import './core/preload';
 
 app.commandLine.appendSwitch('remote-debugging-port', '8315');
-// app.disableHardwareAcceleration();
+app.disableHardwareAcceleration();
 
 class Altas {
   public mainWin: any = null;

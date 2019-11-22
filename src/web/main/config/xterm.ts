@@ -29,5 +29,6 @@ export default (config: any) => ({
   fontFamily:
     'Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
   theme: defaultTheme,
+  allowTransparency: true,
   ...config,
 });
