@@ -164,14 +164,14 @@ export default class WebviewModel {
             this.isLogined = false;
           } else {
             this.userInfo = data;
-            if (isRefresh) {
-              callback && callback(data);
-              return;
-            }
             const sessionID = eval(
               this.rpcOperationType.rpcOperationSessionIDPositionReviece
             );
             this.sessionID = sessionID || '';
+            if (isRefresh) {
+              callback && callback(data);
+              return;
+            }
             this.createNewWebview(this.afterLoginRedirectUrl);
             this.afterLoginRedirectUrl = '';
             this.isLogined = true;
@@ -817,14 +817,15 @@ export default class WebviewModel {
 
   @action
   public clearToAnyWebview(count: number) {
-    if (isNaN(count) && count > 0) {
+    if (isNaN(count) || count > 0) {
       return;
     }
     this.behavior = 'clear';
     const num = Math.abs(count);
-    if (this.focusIndex - num >= 0) {
+    const backSize = this.focusIndex - num;
+    if (backSize >= 0) {
       const lastState = this.closeFocusDevtools();
-      this.webviewList = this.webviewList.slice(count);
+      this.webviewList = this.webviewList.slice(0, backSize + 1);
       this.focusIndex = this.maxIndex;
       this.inheritDebugWebview(lastState);
     }

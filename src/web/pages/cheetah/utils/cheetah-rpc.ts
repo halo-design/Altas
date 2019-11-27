@@ -57,14 +57,24 @@ export const cheetahRpc = (
     }
 
     logger &&
-      logger({ type: 'req', info: req, time: moment().format('h:mm:ss.SSS') });
+      logger({
+        type: 'req',
+        info: req,
+        time: moment().format('h:mm:ss.SSS'),
+        api: options.operationType,
+      });
     console.log('[REQ]', req);
     return req;
   });
 
   requester.interceptors.response.use((res: any) => {
     logger &&
-      logger({ type: 'res', info: res, time: moment().format('h:mm:ss.SSS') });
+      logger({
+        type: 'res',
+        info: res,
+        time: moment().format('h:mm:ss.SSS'),
+        api: options.operationType,
+      });
     console.log('[RES]', res);
     return res;
   });

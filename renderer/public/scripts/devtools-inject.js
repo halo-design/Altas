@@ -92,11 +92,11 @@ const { ipcRenderer } = require('electron');
         this.trigger(name, data);
       })
 
-      this.ipc.on('bench-logger', (sender, { type, info, time }) => {
+      this.ipc.on('bench-logger', (sender, { type, info, time, api }) => {
         if (type === 'req') {
-          console.groupCollapsed(`%cRPC: [REQUEST]  [${time}]`, 'color:#00bfff; font-weight: bold');
+          console.groupCollapsed(`%cRPC: [${api}][REQUEST]  [${time}]`, 'color:#00bfff; font-weight: bold');
         } else {
-          console.groupCollapsed(`%cRPC: [RESPONSE] [${time}]`, 'color:#0a0; font-weight: bold');
+          console.groupCollapsed(`%cRPC: [${api}][RESPONSE] [${time}]`, 'color:#0a0; font-weight: bold');
         }
         console.log(info);
         console.groupEnd();
