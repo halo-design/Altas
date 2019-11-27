@@ -3,12 +3,15 @@ import winCreater from './utils/winCreater';
 import createAppTray from './utils/tray';
 import createRPC from './core/rpc';
 import { showBetterMessageBox } from 'electron-better-dialog';
-import { isMac } from './utils/env';
+import { isMac, isWin } from './utils/env';
 import inject from './core/bridge/inject';
 import './core/preload';
 
 app.commandLine.appendSwitch('remote-debugging-port', '8315');
-app.disableHardwareAcceleration();
+
+if (isWin) {
+  app.disableHardwareAcceleration();
+}
 
 class Altas {
   public mainWin: any = null;

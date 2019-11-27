@@ -69,13 +69,6 @@ class ScanView extends React.Component<any> {
     message.success('IP地址已复制到剪切板！');
   }
 
-  public componentWillMount() {
-    this.props.getIpAddress();
-    this.props.getDeviceStatus();
-    this.props.setStatsVisible(true);
-    this.loop();
-  }
-
   public componentWillUnmount() {
     this.props.showTerm();
     this.props.radarHide();
@@ -84,6 +77,11 @@ class ScanView extends React.Component<any> {
   }
 
   public componentDidMount() {
+    this.props.getIpAddress();
+    this.props.getDeviceStatus();
+    this.props.setStatsVisible(true);
+    this.loop();
+
     this.props.hideTerm();
     this.props.radarShow();
     this.props.radarSetTarget(scanAppImages);

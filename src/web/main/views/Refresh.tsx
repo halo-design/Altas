@@ -2,7 +2,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 
 class RefreshView extends React.Component<any, any> {
-  public componentWillMount() {
+  public componentDidMount() {
     this.props.history.goBack();
   }
 

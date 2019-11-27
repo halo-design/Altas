@@ -229,7 +229,7 @@ export default class WebviewModel {
       this.curTime = moment().format('h:mm A');
       clearTimeout(timer);
       this.getTime();
-    }, 10 * 1000);
+    }, 60 * 1000);
   }
 
   @action
@@ -398,11 +398,8 @@ export default class WebviewModel {
     if (
       /createNewWebview|replaceWebview|clearAllThenCreateNewWebview/.test(name)
     ) {
-      const { url, options, data } = params;
+      const { url, options } = params;
       this[name](url, options);
-      if (this.focusWebview) {
-        this.focusWebview.dom.send('resume-page-event', data);
-      }
     } else if (/clearToAnyWebview/.test(name)) {
       const { index, data } = params;
       this[name](index);

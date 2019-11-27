@@ -13,7 +13,7 @@ export const cmdIsAvailable = (cmd: string) => {
     const outBuffer = execSync(cmd, { stdio: 'pipe' });
     const outText = outBuffer.toString('utf8').replace(/\n/g, '');
     log.info(outText);
-    return outText;
+    return outText.length > 30 ? false : outText;
   } catch (e) {
     return false;
   }
@@ -24,7 +24,7 @@ export const langIsAvailable = (cmd: string, argArr: string[]) => {
     const out = spawnSync(cmd, argArr, { stdio: 'pipe' });
     const outText = out.stderr.toString('utf8').replace(/\n/g, '');
     log.info(outText);
-    return outText;
+    return outText.length > 30 ? false : outText;
   } catch (e) {
     return false;
   }

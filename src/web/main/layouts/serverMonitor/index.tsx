@@ -57,9 +57,7 @@ class ServerMonitorView extends React.Component<any, any> {
       pozX: this.clientW / 2,
       pozY: this.minDistY + 10,
     });
-  }
 
-  public componentWillMount() {
     this.getClinetSize();
     window.addEventListener('resize', this.getClinetSize, false);
     window.addEventListener('mousemove', this.mouseMoveHandle, false);

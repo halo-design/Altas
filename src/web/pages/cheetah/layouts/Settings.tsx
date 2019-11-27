@@ -105,7 +105,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcRemoteUrl', {
-                    initialValue: rpcRemoteUrl,
+                    initialValue: rpcRemoteUrl || '',
                   })}
                   placeholder="请输入服务器地址"
                 />
@@ -115,7 +115,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationTypeReg', {
-                    initialValue: rpcOperationTypeReg,
+                    initialValue: rpcOperationTypeReg || '',
                   })}
                   placeholder="请输入替换正则"
                 />
@@ -125,7 +125,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationTypeReplaceString', {
-                    initialValue: rpcOperationTypeReplaceString,
+                    initialValue: rpcOperationTypeReplaceString || '',
                   })}
                   placeholder="请输入替换字符串"
                 />
@@ -135,7 +135,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationLoginInterface', {
-                    initialValue: rpcOperationLoginInterface,
+                    initialValue: rpcOperationLoginInterface || '',
                   })}
                   placeholder="请输入登录接口名"
                 />
@@ -145,7 +145,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationLoginSuccessCode', {
-                    initialValue: rpcOperationLoginSuccessCode,
+                    initialValue: rpcOperationLoginSuccessCode || '',
                   })}
                   placeholder="请输入登录成功码"
                 />
@@ -155,7 +155,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationLoginErrorCodePosition', {
-                    initialValue: rpcOperationLoginErrorCodePosition,
+                    initialValue: rpcOperationLoginErrorCodePosition || '',
                   })}
                   placeholder="请输入错误码数据节点"
                 />
@@ -165,7 +165,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationLoginErrorMsgPosition', {
-                    initialValue: rpcOperationLoginErrorMsgPosition,
+                    initialValue: rpcOperationLoginErrorMsgPosition || '',
                   })}
                   placeholder="请输入错误码数据节点"
                 />
@@ -175,7 +175,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationSessionIDPositionReviece', {
-                    initialValue: rpcOperationSessionIDPositionReviece,
+                    initialValue: rpcOperationSessionIDPositionReviece || '',
                   })}
                   placeholder="请输入SessionID返回数据节点"
                 />
@@ -185,7 +185,7 @@ class SettingsView extends React.Component<any, any> {
                 <input
                   type="text"
                   {...getFieldProps('rpcOperationSessionIDPositionSend', {
-                    initialValue: rpcOperationSessionIDPositionSend,
+                    initialValue: rpcOperationSessionIDPositionSend || '',
                   })}
                   placeholder="请输入SessionID上送数据节点"
                 />
