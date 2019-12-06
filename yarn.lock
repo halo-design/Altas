@@ -1766,10 +1766,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@^16.9.14":
-  version "16.9.14"
-  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.14.tgz#7f1158ce450b4b5aa83b1c5e1324fa75f348bdd1"
-  integrity sha1-fxFYzkULS1qoOxxeEyT6dfNIvdE=
+"@types/react@^16.9.15":
+  version "16.9.15"
+  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.15.tgz#aeabb7a50f96c9e31a16079ada20ede9ed602977"
+  integrity sha1-rqu3pQ+WyeMaFgea2iDt6e1gKXc=
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -4081,14 +4081,14 @@ electron-builder@22.1.0:
     update-notifier "^3.0.1"
     yargs "^14.0.0"
 
-electron-dl@^1.14.0:
-  version "1.14.0"
-  resolved "https://registry.npmjs.org/electron-dl/-/electron-dl-1.14.0.tgz#1466f1b945664ca3d784268307c2b935728177bf"
-  integrity sha512-4okyei42a1mLsvLK7hLrIfd20EQzB18nIlLTwBV992aMSmTGLUEFRTmO1MfSslGNrzD8nuPuy1l/VxO8so4lig==
+electron-dl@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/electron-dl/download/electron-dl-2.0.0.tgz#54ffd6850bc1681949405497e0351fde824ba7a6"
+  integrity sha1-VP/WhQvBaBlJQFSX4DUf3oJLp6Y=
   dependencies:
     ext-name "^5.0.0"
-    pupa "^1.0.0"
-    unused-filename "^1.0.0"
+    pupa "^2.0.1"
+    unused-filename "^2.1.0"
 
 electron-download@^3.0.1:
   version "3.3.0"
@@ -4302,6 +4302,11 @@ es6-promise@^4.0.5:
   version "4.2.8"
   resolved "https://registry.npmjs.org/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
   integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
+
+escape-goat@^2.0.0:
+  version "2.1.1"
+  resolved "https://registry.npm.taobao.org/escape-goat/download/escape-goat-2.1.1.tgz#1b2dc77003676c457ec760b2dc68edb648188675"
+  integrity sha1-Gy3HcANnbEV+x2Cy3GjttkgYhnU=
 
 escape-html@~1.0.3:
   version "1.0.3"
@@ -7528,6 +7533,11 @@ path-exists@^3.0.0:
   resolved "https://registry.npmjs.org/path-exists/-/path-exists-3.0.0.tgz#ce0ebeaa5f78cb18925ea7d810d7b59b010fd515"
   integrity sha1-zg6+ql94yxiSXqfYENe1mwEP1RU=
 
+path-exists@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/path-exists/download/path-exists-4.0.0.tgz#513bdbe2d3b95d7762e8c1137efa195c6c61b5b3"
+  integrity sha1-UTvb4tO5XXdi6METfvoZXGxhtbM=
+
 path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
@@ -8247,10 +8257,12 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-pupa@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
-  integrity sha1-mpVopa9+ZXuEYqbp1TKHQ1YM7/Y=
+pupa@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/pupa/download/pupa-2.0.1.tgz#dbdc9ff48ffbea4a26a069b6f9f7abb051008726"
+  integrity sha1-29yf9I/76komoGm2+fersFEAhyY=
+  dependencies:
+    escape-goat "^2.0.0"
 
 q@^1.1.2:
   version "1.5.1"
@@ -10904,10 +10916,10 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.7.2:
-  version "3.7.2"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
-  integrity sha1-J+SJuV+lkJRF6f717kjYFpetGPs=
+typescript@^3.7.3:
+  version "3.7.3"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
+  integrity sha1-s2hAZooWRYpwJbnqv60Rtmq4XGk=
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
@@ -11080,13 +11092,13 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unused-filename@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/unused-filename/-/unused-filename-1.0.0.tgz#d340880f71ae2115ebaa1325bef05cc6684469c6"
-  integrity sha1-00CID3GuIRXrqhMlvvBcxmhEacY=
+unused-filename@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npm.taobao.org/unused-filename/download/unused-filename-2.1.0.tgz#33719c4e8d9644f32d2dec1bc8525c6aaeb4ba51"
+  integrity sha1-M3GcTo2WRPMtLewbyFJcaq60ulE=
   dependencies:
     modify-filename "^1.1.0"
-    path-exists "^3.0.0"
+    path-exists "^4.0.0"
 
 upath@^1.1.1:
   version "1.2.0"
@@ -11483,10 +11495,10 @@ xterm-addon-web-links@^0.2.1:
   resolved "https://registry.npmjs.org/xterm-addon-web-links/-/xterm-addon-web-links-0.2.1.tgz#6d1f2ce613e09870badf17615e7a1170a31542b2"
   integrity sha512-2KnHtiq0IG7hfwv3jw2/jQeH1RBk2d5CH4zvgwQe00rLofSJqSfgnJ7gwowxxpGHrpbPr6Lv4AmH/joaNw2+HQ==
 
-xterm@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.npm.taobao.org/xterm/download/xterm-4.2.0.tgz#b9980b2ae18c64ed31bcc95eace3bcecffebbbd9"
-  integrity sha1-uZgLKuGMZO0xvMlerOO87P/ru9k=
+xterm@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.npm.taobao.org/xterm/download/xterm-4.3.0.tgz#9a302efefe75172d4f7ea3afc20f9bd983f05027"
+  integrity sha1-mjAu/v51Fy1PfqOvwg+b2YPwUCc=
 
 y18n@^3.2.1:
   version "3.2.1"

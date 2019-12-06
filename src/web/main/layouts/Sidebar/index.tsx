@@ -37,7 +37,7 @@ class SidebarView extends React.Component<any, any> {
         <Link
           to={initPath}
           className="app-logo"
-          style={{ margin: `${isWin ? 20 : 30}px auto 0` }}
+          style={{ margin: `${isWin ? 20 : 30}px auto 8px` }}
         />
         <div className="brand-name">ALTAS</div>
         <div className="menu-button-group-wrapper">

@@ -1,4 +1,4 @@
-import DL from 'electron-dl';
+import * as DL from 'electron-dl';
 import log from 'electron-log';
 import * as fs from 'fs-extra';
 import * as path from 'path';

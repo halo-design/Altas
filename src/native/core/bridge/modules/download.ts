@@ -1,4 +1,4 @@
-import DL from 'electron-dl';
+import * as DL from 'electron-dl';
 import log from 'electron-log';
 
 export default (RPC: any) => {

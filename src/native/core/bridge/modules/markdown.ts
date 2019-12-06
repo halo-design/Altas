@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { app, dialog } from 'electron';
 import file from '../../../utils/file';
-import DL from 'electron-dl';
+import * as DL from 'electron-dl';
 import log from 'electron-log';
 import { appCacheFullPath } from '../../../constants/app';
 import { saveFile } from '../../../utils/file';
@@ -11,8 +11,8 @@ export default (RPC: any) => {
   const { dispatch, win } = RPC;
 
   RPC.on('read-local-file', () => {
-    dialog.showOpenDialog(
-      {
+    dialog
+      .showOpenDialog(RPC.win, {
         defaultPath: app.getPath('documents'),
         buttonLabel: '打开',
         properties: ['openFile'],
@@ -23,10 +23,10 @@ export default (RPC: any) => {
           },
         ],
         title: '选择要预览的markdown文件',
-      },
-      (filepath: string[] | undefined) => {
-        if (filepath && filepath[0]) {
-          const fpath = filepath[0];
+      })
+      .then(({ filePaths }) => {
+        if (filePaths && filePaths[0]) {
+          const fpath = filePaths[0];
           const content = file.read(fpath);
           dispatch('get-local-file-content', {
             directory: path.join(fpath, '../'),
@@ -34,8 +34,7 @@ export default (RPC: any) => {
             filepath: fpath,
           });
         }
-      }
-    );
+      });
   });
 
   RPC.on('markdown-save-as-html', ({ title, content, outputPath }: any) => {

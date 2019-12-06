@@ -27,7 +27,7 @@ export default (config: any) => ({
   fontSize: 12,
   scrollback: 1500,
   fontFamily:
-    'Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
+    'Menlo, Monaco, Consolas, Source Code Pro, "DejaVu Sans Mono", "Lucida Console", monospace',
   theme: defaultTheme,
   allowTransparency: true,
   ...config,

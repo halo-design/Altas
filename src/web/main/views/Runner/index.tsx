@@ -417,10 +417,10 @@ class RunnerView extends React.Component<any, any> {
                     <div className="row" key="build">
                       <div className="desc">
                         <Icon type="file-zip" />
-                        <span>打包选中工程目录</span>
+                        <span>构建打包选中目录</span>
                       </div>
                       <div className="control">
-                        <Tooltip placement="left" title="打包选中目录">
+                        <Tooltip placement="left" title="构建打包选中目录">
                           <div
                             className="btn-default"
                             onClick={() => {
