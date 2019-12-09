@@ -1,6 +1,5 @@
 import message from 'antd/lib/message';
 import { Provider } from 'mobx-react';
-import { configureDevtool } from 'mobx-react-devtools';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
@@ -33,7 +32,8 @@ message.config({
 });
 
 if (!remote.app.isPackaged) {
-  configureDevtool({
+  const devTools = require('mobx-react-devtools');
+  devTools.configureDevtool({
     graphEnabled: false,
     logEnabled: true,
     logFilter: ({ type }: any) => type === 'action',

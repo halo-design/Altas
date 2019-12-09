@@ -1,5 +1,5 @@
 import { Provider } from 'mobx-react';
-import { configureDevtool } from 'mobx-react-devtools';
+import { remote } from 'electron';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import createStores from './stores';
@@ -20,10 +20,9 @@ import '../../../../node_modules/xterm/css/xterm.css';
 import '../markdown/index.scss';
 import './styles/index.scss';
 
-const isDev = process.env.NODE_ENV === 'development';
-
-if (isDev) {
-  configureDevtool({
+if (!remote.app.isPackaged) {
+  const devTools = require('mobx-react-devtools');
+  devTools.configureDevtool({
     graphEnabled: false,
     logEnabled: true,
     logFilter: ({ type }: any) => type === 'action',
