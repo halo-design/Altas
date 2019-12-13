@@ -9,7 +9,7 @@ import './core/preload';
 
 app.commandLine.appendSwitch('remote-debugging-port', '8315');
 
-if (isWin) {
+if (isWin()) {
   app.disableHardwareAcceleration();
 }
 
