@@ -3,6 +3,8 @@ import classnames from 'classnames';
 import { inject, observer } from 'mobx-react';
 import { DeviceContext } from '../context';
 import { mockProxyServer } from '../../../main/bridge/modules/createWindow';
+import CreateContextMenu from '../../../main/bridge/modules/CreateContextMenu';
+import win from '../../../main/bridge/win';
 
 @inject((stores: any) => {
   const {
@@ -42,6 +44,39 @@ import { mockProxyServer } from '../../../main/bridge/modules/createWindow';
 @observer
 class HeaderView extends React.Component<any, any> {
   static contextType = DeviceContext;
+  private headerEl: HTMLElement | null = null;
+
+  componentDidMount() {
+    if (this.headerEl) {
+      const opts: any = [
+        {
+          click: (e: any) => {
+            win.minimize();
+          },
+          label: '最小化窗口',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          click: () => {
+            win.setAlwaysOnTop(true);
+          },
+          label: '窗口置顶',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          click: () => {
+            win.setAlwaysOnTop(false);
+          },
+          label: '取消窗口置顶',
+        },
+      ];
+      new CreateContextMenu(this.headerEl, opts);
+    }
+  }
 
   public render() {
     const { currentWindow } = this.context;
@@ -66,7 +101,12 @@ class HeaderView extends React.Component<any, any> {
     } = this.props;
 
     return (
-      <div className="app-header">
+      <div
+        className="app-header"
+        ref={node => {
+          this.headerEl = node;
+        }}
+      >
         <div className="panel">
           <div
             className={classnames('spinner', {

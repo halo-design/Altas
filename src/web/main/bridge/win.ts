@@ -21,6 +21,9 @@ const win: any = {
   unmaximize: () => {
     getCurrentWindow().unmaximize();
   },
+  setAlwaysOnTop: (flag: boolean) => {
+    getCurrentWindow().setAlwaysOnTop(flag);
+  },
 };
 
 export default win;
