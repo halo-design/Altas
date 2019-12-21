@@ -1386,10 +1386,10 @@
     "@babel/plugin-transform-react-jsx-self" "^7.7.4"
     "@babel/plugin-transform-react-jsx-source" "^7.7.4"
 
-"@babel/preset-typescript@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.npm.taobao.org/@babel/preset-typescript/download/@babel/preset-typescript-7.7.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fpreset-typescript%2Fdownload%2F%40babel%2Fpreset-typescript-7.7.4.tgz#780059a78e6fa7f7a4c87f027292a86b31ce080a"
-  integrity sha1-eABZp45vp/ekyH8CcpKoazHOCAo=
+"@babel/preset-typescript@^7.7.7":
+  version "7.7.7"
+  resolved "https://registry.npm.taobao.org/@babel/preset-typescript/download/@babel/preset-typescript-7.7.7.tgz#69ddea54e8b4e491ccbf94147e673b2ac6e11e2e"
+  integrity sha1-ad3qVOi05JHMv5QUfmc7KsbhHi4=
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.7.4"
@@ -1800,10 +1800,10 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/react@^16.9.16":
-  version "16.9.16"
-  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.16.tgz#4f12515707148b1f53a8eaa4341dae5dfefb066d"
-  integrity sha1-TxJRVwcUix9TqOqkNB2uXf77Bm0=
+"@types/react@^16.9.17":
+  version "16.9.17"
+  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.9.17.tgz#58f0cc0e9ec2425d1441dd7b623421a867aa253e"
+  integrity sha1-WPDMDp7CQl0UQd17YjQhqGeqJT4=
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -9779,10 +9779,10 @@ sass-graph@^2.2.4:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass@1.23.7:
-  version "1.23.7"
-  resolved "https://registry.npm.taobao.org/sass/download/sass-1.23.7.tgz#090254e006af1219d442f1bff31e139d5e085dff"
-  integrity sha1-CQJU4AavEhnUQvG/8x4TnV4IXf8=
+sass@1.24.0:
+  version "1.24.0"
+  resolved "https://registry.npm.taobao.org/sass/download/sass-1.24.0.tgz#e8b9931bc5d18a37d271749311ef2edc83102a77"
+  integrity sha1-6LmTG8XRijfScXSTEe8u3IMQKnc=
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
@@ -10943,10 +10943,10 @@ tslib@^1.10.0, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1:
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
-tslint-plugin-prettier@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/tslint-plugin-prettier/-/tslint-plugin-prettier-2.0.1.tgz#95b6a3b766622ffc44375825d7760225c50c3680"
-  integrity sha512-4FX9JIx/1rKHIPJNfMb+ooX1gPk5Vg3vNi7+dyFYpLO+O57F4g+b/fo1+W/G0SUOkBLHB/YKScxjX/P+7ZT/Tw==
+tslint-plugin-prettier@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npm.taobao.org/tslint-plugin-prettier/download/tslint-plugin-prettier-2.1.0.tgz#e2522d273cb9672d93d0e68f2514fe3c19698c3a"
+  integrity sha1-4lItJzy5Zy2T0OaPJRT+PBlpjDo=
   dependencies:
     eslint-plugin-prettier "^2.2.0"
     lines-and-columns "^1.1.6"
@@ -11048,10 +11048,10 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.7.3:
-  version "3.7.3"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
-  integrity sha1-s2hAZooWRYpwJbnqv60Rtmq4XGk=
+typescript@^3.7.4:
+  version "3.7.4"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
+  integrity sha1-F0Ol7F/vah+p8+RwjjPIHHOHbBk=
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
