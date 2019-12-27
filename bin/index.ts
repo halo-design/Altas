@@ -3,9 +3,9 @@ const { clear, createBundle } = require('./utils');
 const { execSync } = require('child_process');
 const glob = require('glob');
 
-const pages = glob.sync('src/web/pages/**/entry.tsx');
+const pages = glob.sync('src/browser/pages/**/entry.tsx');
 
-const mainEntry = '../src/web/main/core/index.tsx';
+const mainEntry = '../src/browser/main/core/index.tsx';
 const nativeEntry = '../src/native/main.ts';
 
 program
