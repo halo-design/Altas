@@ -13,7 +13,6 @@ export const rpcData = {
     },
     srcSystemID: 'MB',
     clientMac: '02:00:00:00:00:00',
-    mp_sId: 'FAGVBNCNCPBMHYAGIRIVDIBIFIDDBYDS',
     netWorkType: '4G',
     deviceId: 'XSPxEIPddioDAOkAe05YBWoa',
     systemVersion: '12.3.1',
@@ -48,14 +47,14 @@ export const rpcData = {
 
 export const rpcLogin = {
   body: {
-    loginId: '13420133333',
-    loginPassword: 'thf123456',
-    mobileNo: '13420133333',
+    loginId: '15111111160',
+    loginPassword: '1234qwer',
+    mobileNo: '15111111160',
   },
 };
 
 export const rpcSettings = {
-  rpcRemoteUrl: 'http://111.204.125.243:8085/cmep-mpaasService/',
+  rpcRemoteUrl: 'http://111.204.125.243:8085/mobileApp-dev/',
   rpcOperationTypeReg: '([^.]*).([^.]*).([^.]*)',
   rpcOperationTypeReplaceString: '$3.do',
   rpcOperationLoginInterface: 'com.IFP.UR0010',
@@ -63,5 +62,5 @@ export const rpcSettings = {
   rpcOperationLoginErrorMsgPosition: 'data.header.errorMsg',
   rpcOperationLoginErrorCodePosition: 'data.header.errorCode',
   rpcOperationSessionIDPositionReviece: 'data.body.mp_sId',
-  rpcOperationSessionIDPositionSend: 'data.header.mp_sId',
+  rpcOperationSessionIDPositionSend: 'options.headers.token',
 };
