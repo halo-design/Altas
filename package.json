@@ -1,6 +1,6 @@
 {
   "name": "altas",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "An Electron Application",
   "main": "renderer/main.js",
   "scripts": {

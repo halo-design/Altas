@@ -2,13 +2,20 @@ const qs = require('qs');
 const url = require('url');
 const uuid = require('uuid');
 const pinyin = require('tiny-pinyin');
-const { ipcRenderer } = require('electron');
+const { remote, ipcRenderer } = require('electron');
 
 (() => {
   const urlElement = url.parse(location.href);
 
+  class Logger {
+    constructor() {
+      console.log(`%c🖥当前猎豹调试器版本：Version ${remote.app.getVersion()}`, 'color:#ff6ac1; font-weight: bold');
+    }
+  }
+
   Object.defineProperties(window, {
     'VConsole': {
+      value: Logger,
       writable: false
     }
   });
