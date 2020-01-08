@@ -61,7 +61,6 @@ export class Server extends EventEmitter {
 
   public destroy() {
     this.removeAllListeners();
-    this.wc && this.wc.removeAllListeners();
     if (this.id) {
       ipcMain.removeListener(this.id, this.ipcListener);
     } else {
