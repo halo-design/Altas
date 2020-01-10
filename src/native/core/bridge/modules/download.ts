@@ -1,4 +1,4 @@
-import * as DL from 'electron-dl';
+import { download } from 'electron-dl';
 import log from 'electron-log';
 
 export default (RPC: any) => {
@@ -24,7 +24,7 @@ export default (RPC: any) => {
       return;
     }
 
-    DL.download(win, url, {
+    download(win, url, {
       onCancel: () => {
         if (timer) {
           clearTimeout(timer);

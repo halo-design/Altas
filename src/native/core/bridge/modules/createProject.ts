@@ -1,4 +1,4 @@
-import * as DL from 'electron-dl';
+import { download } from 'electron-dl';
 import log from 'electron-log';
 import * as fs from 'fs-extra';
 import * as path from 'path';
@@ -14,7 +14,7 @@ export default (RPC: any) => {
     if (!win) {
       return;
     }
-    DL.download(win, url, {
+    download(win, url, {
       directory: appCacheFullPath,
       onProgress: e => {
         dispatch('get-repo', {

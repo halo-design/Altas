@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { app, dialog } from 'electron';
 import file from '../../../utils/file';
-import * as DL from 'electron-dl';
+import { download } from 'electron-dl';
 import log from 'electron-log';
 import { appCacheFullPath } from '../../../constants/app';
 import { saveFile } from '../../../utils/file';
@@ -61,7 +61,7 @@ export default (RPC: any) => {
       }, 3000);
     };
 
-    DL.download(win, url, {
+    download(win, url, {
       directory: appCacheFullPath,
       showBadge: false,
       onCancel: () => {
