@@ -50,7 +50,15 @@ class MockerView extends React.Component<any, any> {
       edited: false,
       addItemModalVisible: false,
       addItemName: '',
-      addItemParams: '',
+      addItemParams: stringifyObject(
+        {
+          error: '0',
+          errorMessage: 'success',
+        },
+        {
+          indent: '  ',
+        }
+      ),
       searchKeywords: '',
     };
   }
