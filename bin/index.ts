@@ -128,8 +128,8 @@ program
 
 program
   .command('pack')
-  .option('--mac', 'Build macOS application.')
-  .option('--win', 'Build windows application.')
+  .option('--mac', 'Build MacOS Application.')
+  .option('--win', 'Build Windows Application.')
   .option('--with-build', 'Build project before pack application.')
   .action((cmd: any) => {
     if (cmd.withBuild) {
