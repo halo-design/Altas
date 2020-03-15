@@ -629,7 +629,7 @@ const { remote, ipcRenderer } = require('electron');
       callback(deafultErrorRes);
     }
   
-    getUserInfo(params, callback) {
+    getUserInfoEx(params, callback) {
       const uid = uuid.v4();
       this.ipc.emit('getUserInfo', { uid });
       this.ipc.once(uid, (sender, res) => {
