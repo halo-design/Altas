@@ -2,7 +2,11 @@ import * as url from 'url';
 import file from './file';
 import winStateKeeper from './winStateKeeper';
 import { BrowserWindow } from 'electron';
-import { isMac } from '../utils/env';
+import { isWin, isMac } from '../utils/env';
+
+const icon = isWin()
+  ? file.path('resources/dock.ico')
+  : file.path('resources/icon.png');
 
 const winCreater = (opts: any, entry: any, isChild?: boolean) => {
   const options: any = {
@@ -10,7 +14,7 @@ const winCreater = (opts: any, entry: any, isChild?: boolean) => {
     center: true,
     frame: false,
     fullscreenable: false,
-    icon: file.path('resources/dock.ico'),
+    icon,
     titleBarStyle: 'hidden',
     transparent: false,
     webPreferences: {
