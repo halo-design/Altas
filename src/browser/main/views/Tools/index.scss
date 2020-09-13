@@ -1,0 +1,57 @@
+.page-tools {
+  position: relative;
+  padding: 20px;
+
+  h1.title {
+    font-size: 18px;
+    border-bottom: .5px solid #eee;
+    padding: 0 10px 10px;
+  }
+
+  .tools-list {
+    display: flex;
+
+    .item {
+      text-align: center;
+      margin: 10px 15px;
+      cursor: pointer;
+
+      i {
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin: 8px auto;
+
+        &.debug {
+          background-image: url(./img/devices.svg);
+        }
+
+        &.markdown {
+          background-image: url(./img/markdown.svg);
+        }
+
+        &.imgupload {
+          background-image: url(./img/imgupload.svg);
+        }
+
+        &.server {
+          background-image: url(./img/server.svg);
+        }
+
+        &.api {
+          background-image: url(./img/api.svg);
+        }
+
+        &.calculator {
+          background-image: url(./img/calculator.svg);
+        }
+
+        &.cheetah {
+          background-image: url(./img/cheetah.svg);
+        }
+      }
+    }
+  }
+}

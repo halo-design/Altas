@@ -1,0 +1,204 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.page-scan {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+
+  .title {
+    padding: 18px 15px 8px;
+    font-size: 15px;
+    font-weight: 500;
+
+    .sub {
+      font-size: 13px;
+      color: #b1b3c2;
+    }
+  }
+
+  .info-content {
+    margin: 0 15px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    min-height: 140px;
+    background: #6f61ed url(./img/bg.png) no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    padding: 10px 14px;
+    color: #fff;
+    position: relative;
+    transition: all .3s;
+    box-shadow: 0 8px 12px -4px rgba(111, 0, 255, .34);
+
+    &:hover {
+      box-shadow: 0 12px 24px -4px rgba(111, 0, 255, .3);
+    }
+
+    .iconfont {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -12px;
+      color: #fff;
+      font-size: 16px;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+    }
+
+    .row {
+      line-height: 24px;
+      position: relative;
+      padding-left: 24px;
+
+      span.label {
+        background-color: #12bdff;
+        padding: 2px 6px;
+        font-size: 10px;
+        border-radius: 4px;
+        margin: 0 6px;
+      }
+
+      .ip {
+        display: flex;
+        cursor: default;
+
+        .host {
+          width: 112px;
+        }
+      }
+
+      .track {
+        width: 160px;
+        height: 4px;
+        background-color: rgba(255, 255, 255, .24);
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        border-radius: 2px;
+
+        .bar {
+          background-color: #75ffcf;
+          height: 100%;
+          width: 0;
+          transition: width .3s;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+
+  .dashboard {
+    padding: 0 15px;
+    margin-bottom: 20px;
+
+    .scan-btn {
+      width: 320px;
+      margin: 25px auto;
+      border-radius: 25px;
+      background-color: #633cff;
+      box-shadow: 0 4px 12px -2px rgba(109, 82, 255, .32);
+
+      &.active,
+      &:hover {
+        background-color: #714efd;
+        box-shadow: 0 6px 12px -2px rgba(85, 65, 255, .44);
+      }
+
+      .showbox {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    .support-list {
+      transition: height .3s;
+      margin-top: 5px;
+
+      .item {
+        background-color: #fff;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 12px 14px;
+        box-shadow: 0 12px 12px -5px rgba(85, 85, 150, .12);
+
+        &:first-child {
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+        }
+
+        &:last-child {
+          border-bottom-left-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
+
+        i {
+          height: 28px;
+          width: 28px;
+          margin-right: 10px;
+          background: url(../../assets/img/node.svg) no-repeat center center;
+          background-size: 100% auto;
+
+          &.env-npm {
+            background-image: url(../../assets/img/npm.svg);
+          }
+
+          &.env-yarn {
+            background-image: url(../../assets/img/yarn.svg);
+          }
+
+          &.env-python {
+            background-image: url(../../assets/img/python.svg);
+          }
+
+          &.env-vue {
+            background-image: url(../../assets/img/vue.svg);
+          }
+        }
+
+        .env-name {
+          width: 100px;
+        }
+
+        .env-version {
+          flex-grow: 1;
+        }
+
+        .env-status {
+          text-align: center;
+          font-size: 12px;
+
+          button {
+            padding: 5px 10px;
+            background-color: #04aa6f;
+            color: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+
+            &.done {
+              cursor: default;
+              background-color: #f0f2f9;
+              color: #9fa1af;
+            }
+          }
+        }
+      }
+    }
+  }
+}

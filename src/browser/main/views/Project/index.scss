@@ -1,0 +1,52 @@
+.page-project {
+  width: 378px;
+
+  .app-switch-wrap-fixed {
+    height: 77px;
+
+    .app-switch {
+      background-color: #fbfbfbde;
+      padding-top: 30px;
+      right: auto;
+      width: 380px;
+      padding-bottom: 10px;
+      z-index: 9;
+    }
+  }
+
+  .form-table {
+    padding: 15px 20px;
+  }
+
+  .form-item {
+    font-size: 14px;
+    margin-bottom: 15px;
+
+    .label {
+      color: #b3b5c3;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+
+      .name {
+        flex-grow: 1;
+      }
+
+      .extra {
+        font-weight: normal;
+        color: #767879;
+        cursor: pointer;
+
+        & + .extra {
+          margin-left: 8px;
+        }
+
+        i {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}

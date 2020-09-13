@@ -1,0 +1,164 @@
+$font: "SF Pro SC","HanHei SC","SF Pro Text","Myriad Set Pro","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+
+html {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.main-content {
+  position: absolute;
+  left: 0;
+  top: 34px;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  padding: 30px 15px 15px 15px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: rgb(220, 220, 220);
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('../../main/assets/font/iconfont.ttf') format('truetype');
+}
+
+.control {
+  height: 34px;
+  font-size: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  -webkit-app-region: drag;
+  display: flex;
+  justify-content: space-between;
+  font-family: $font;
+
+  .tit {
+    height: 34px;
+    line-height: 34px;
+    color: #424050;
+    font-size: 12px;
+    padding: 0 15px;
+    flex-grow: 0;
+
+    &:before {
+      content: '';
+      height: 16px;
+      width: 16px;
+      display: inline-block;
+      background: url(./img/folder-thumb.svg) no-repeat;
+      background-size: 100% auto;
+      vertical-align: middle;
+      margin: -2px 5px 0 0;
+    }
+  }
+
+  .file-name {
+    text-align: center;
+    width: 460px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    font-size: 13px;
+    line-height: 34px;
+    color: #424050;
+  }
+
+  .win {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  button {
+    height: 34px;
+    width: 40px;
+    line-height: 34px;
+    text-align: center;
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
+    color: #424050;
+    font-family: 'iconfont' !important;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-app-region: no-drag;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, .2);
+    }
+
+    &.min:after {
+      content: '\e607';
+    }
+
+    &.toogle:after {
+      content: '\e604';
+    }
+
+    &.toogle.back:after {
+      content: '\e625';
+    }
+
+    &.close:after {
+      content: '\e762';
+    }
+
+    &.close:hover {
+      background-color: #e73e28;
+      color: #fff;
+    }
+
+    &.file:after {
+      content: '\e754';
+      font-size: 14px;
+    }
+  }
+}
+
+.readBtn {
+  position: fixed;
+  left: 50%;
+  top: 200px;
+  width: 240px;
+  margin-left: -120px;
+  background: url(./img/folder.svg) no-repeat center top;
+  background-size: 100px auto;
+  padding-top: 100px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+
+  .txt {
+    color: #727272;
+    font-family: $font;
+    font-size: 13px;
+    display: inline-block;
+    padding: 5px 20px;
+    background-color: #f5f5f5;
+    border-radius: 18px;
+    box-shadow: 0 2px 5px -2px #e4e4e4 inset;
+  }
+}
+
+.markdown-body {
+  margin: 0 auto;
+  max-width: 1200px;
+}

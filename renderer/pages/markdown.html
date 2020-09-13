@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN" xml:lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Markdown Preview</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../node_modules/github-markdown-css/github-markdown.css">
+    <link rel="stylesheet" href="../../node_modules/highlight.js/styles/github.css">
+    <link href="../static/pages/markdown/entry.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="control">
+      <div class="tit">MD文件阅读器</div>
+      <div class="file-name" id="fileName"></div>
+      <div class="win">
+        <button class="min" id="minBtn"></button>
+        <button class="toogle" id="toogleBtn"></button>
+        <button class="close" id="closeBtn"></button>
+      </div>
+    </div>
+    <div class="main-content">
+      <article class="markdown-body" id="content">
+        <div class="readBtn" id="readBtn">
+          <div class="txt">点击打开本地Markdown文件</div>
+        </div>
+      </article>
+    </div>
+    <script>
+      require('../static/pages/markdown/entry.js')
+    </script>
+  </body>
+</html>

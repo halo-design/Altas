@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN" xml:lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>模拟器接管调试程序</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, shrink-to-fit=no">
+    <link href="/static/css/normalize.min.css" rel="stylesheet">
+    <style>
+      @keyframes wave {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        100% {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+      
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        background: #fff url(/static/images/disconnect.png) no-repeat center center;
+        background-size: 280px auto;
+      }
+
+      body.online {
+        background-image: url(/static/images/connecting.jpg);
+      }
+
+      .status {
+        position: absolute;
+        height: 80px;
+        width: 80px;
+        border-radius: 100%;
+        left: 50%;
+        margin-left: -40px;
+        top: 50px;
+        background-color: rgb(210, 186, 250);
+      }
+      
+      .status.connected {
+        background-color: rgb(116, 10, 253);
+      }
+
+      .status:after,
+      .status:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        left: 0;
+        bottom: 0;
+        position: absolute;
+        display: block;
+        border-radius: 100%;
+      }
+      
+      .status:after {
+        content: "等待连接";
+        font-size: 14px;
+        color: #fff;
+        line-height: 60px;
+        text-align: center;
+        background: url(/static/images/connect.svg) no-repeat center 44px;
+        background-size: 22px auto;
+      }
+
+      .status.connected:after {
+        content: "已连接";
+      }
+
+      .status.connected:before {
+        background-color: rgba(116, 10, 253, 0.3);
+        animation: wave 3s infinite;
+      }
+
+      #refBtn {
+        border: none;
+        outline: none;
+        display: block;
+        position: fixed;
+        left: 50%;
+        bottom: 60px;
+        margin-left: -100px;
+        width: 200px;
+        height: 46px;
+        border-radius: 24px;
+        font-size: 16px;
+        color: #fff;
+        text-align: center;
+        line-height: 46px;
+        background-image: -webkit-linear-gradient(135deg, #e60244, #ff20c2);
+        box-shadow: 0 20px 50px -10px rgba(255, 32, 135, 0.75);
+        transition: all .3s;
+      }
+
+    </style>
+    <script src="/static/scripts/jquery.min.js"></script>
+    <script src="/static/scripts/fastclick.min.js"></script>
+  </head>
+  <body>
+    <div class="status"></div>
+    <button id="refBtn">重新连接</button>
+    <script>
+      $(document).ready(() => {
+        const $status = $('.status');
+        const $refBtn = $('#refBtn');
+
+        $refBtn.on('click', () => {
+          window.location.reload();
+        })
+
+        if (!('AlipayJSBridge' in window)) {
+          alert('请在猎豹移动App打开此页面！');
+          return;
+        }
+
+        const wsUrl = window.location.href.replace('http', 'ws');
+        const ws = new WebSocket(wsUrl);
+
+        ws.onopen = () => {
+          $('body').addClass('online');
+          $status.addClass('connected');
+          ws.send(JSON.stringify(({ resCode: 200, data: 'Client Connected.' })));
+          AlipayJSBridge.call('showToast', {
+            message: '接管程序已连接.'
+          }, function(data) {});
+        }
+
+        ws.onclose = () => {
+          $status.removeClass('connected');
+          $('body').removeClass('online');
+          ws.send(JSON.stringify(({ resCode: 400, data: 'Client Disconnected.' })));
+          AlipayJSBridge.call('showToast', {
+            message: '接管程序断开连接.'
+          }, function(data) {});
+        }
+  
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          const { resCode, data: { fnName, params }, uid } = data;
+  
+          if (resCode === 200) {
+            console.log('Server Connected.');
+          } else if (resCode === 201) {
+            AlipayJSBridge.call(fnName, params, function (data) {
+              ws.send(JSON.stringify({ uid, fnName, data, resCode: 201 }))
+            });
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

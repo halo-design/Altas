@@ -12,7 +12,8 @@ rules:
 
 linterOptions:
   exclude:
-    - build/**/*.js
-    - renderer/**/*.js
+    - build/**/*.*
+    - renderer/**/*.*
     - node_modules/**/*.*
-    - coverage/lcov-report/*.js
+    - packages/**/*.*
+    - coverage/**/*.*

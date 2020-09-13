@@ -20,15 +20,6 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Lanch Build Main",
-      "args": ["${workspaceRoot}/bin/bundle.ts", "--mode", "main"],
-			"runtimeArgs": ["-r", "ts-node/register"],
-			"cwd": "${workspaceRoot}",
-			"protocol": "inspector"
-    },
-    {
-      "type": "node",
-      "request": "launch",
       "name": "Lanch Pack Win",
       "args": ["${workspaceRoot}/node_modules/.bin/electron-builder", "--win"],
       "cwd": "${workspaceRoot}",

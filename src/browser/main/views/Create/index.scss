@@ -1,0 +1,39 @@
+.sub-page-create {
+  .create-btn {
+    margin: 30px 0;
+  }
+
+  .form-item.install-packages {
+    display: flex;
+    padding: 10px;
+    margin: 10px 0;
+    align-items: center;
+    background-color: #f1f4f7;
+    border-radius: 6px;
+
+    .label {
+      margin: 0 10px 0 0;
+      flex-grow: 1;
+    }
+  }
+
+  .tips {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+
+    .info {
+      color: #b1b3c2;
+      flex-grow: 1;
+    }
+
+    .env-set-btn {
+      margin-left: 10px;
+      background-color: #1aca89;
+
+      &:hover {
+        box-shadow: 0 2px 8px -1px rgba(33, 228, 130, .432);
+      }
+    }
+  }
+}

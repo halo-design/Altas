@@ -22,34 +22,33 @@ exports.ssh = (auth: object, files: any[]): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     spinner.text = 'Connect to server...';
     await server.connect(auth);
-    spinner.text = 'The files are in transit...';
+    spinner.text = 'Files uploading...';
     server
       .putFiles(files)
       .then(() => {
-        spinner.succeed(`Total ${files.length} files transfers completed!`);
-        resolve();
+        spinner.succeed(`Total ${files.length} files uploaded!`);
+        resolve && resolve();
+        process.exit(0);
       })
       .catch((error: any) => {
-        spinner.fail('Files transfers failed!');
-        reject(error);
+        spinner.fail('Files upload failed!');
+        reject && reject(error);
+        process.exit(0);
       });
   });
 };
 
-exports.createBundle = (file: string, opts: object) => {
+exports.createBundle = (file: string | string[], opts: object) => {
   const baseOpts = {
     cache: true,
-    cacheDir: '.cache/build',
-    detailedReport: false,
+    detailedReport: true,
     hmrHostname: '',
     hmrPort: 0,
     https: false,
     logLevel: 3,
-    minify: false,
     outDir: './renderer/static',
     outFile: 'index.js',
     publicUrl: './',
-    sourceMaps: true,
     target: 'electron',
     watch: true,
   };
@@ -60,5 +59,14 @@ exports.createBundle = (file: string, opts: object) => {
     options = _.merge(baseOpts, opts);
   }
 
-  return new Bundler(file, options);
+  if (Array.isArray(file)) {
+    options = _.merge(options, {
+      outDir: './renderer/static/pages',
+      publicUrl: '../../pages',
+      outFile: '',
+    });
+    return new Bundler(file, options);
+  } else {
+    return new Bundler(path.join(__dirname, file), options);
+  }
 };

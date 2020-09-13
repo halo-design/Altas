@@ -1,0 +1,323 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+body {
+  background-color: #1d2028;
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.control {
+  height: 35px;
+  background-color: #181b22;
+  box-shadow: 0 -1px 0 0 #ffffff1a inset;
+  user-select: none;
+
+  .tit {
+    color: #fff;
+
+    &:before {
+      height: 20px;
+      width: 20px;
+      background-image: url(./setup.svg);
+    }
+  }
+
+  .tabs {
+    width: 320px;
+    display: flex;
+
+    .item {
+      flex-grow: 1;
+      -webkit-app-region: no-drag;
+      cursor: pointer;
+      border: .5px solid transparent;
+      color: #fff;
+
+      &.active {
+        background-color: #1d2028;
+        border-color: transparent #ffffff1a;
+      }
+    }
+  }
+
+  button {
+    color: #fff;
+  }
+}
+
+.app-monitor,
+.app-mocker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 35px;
+  overflow: hidden;
+  background-color: #1d2028;
+
+  *::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #3a3f4d;
+    border-radius: 2px;
+  }
+
+  *::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+
+  &.hide {
+    display: none;
+  }
+}
+
+.app-mocker {
+  .search-bar {
+    padding: 10px 50px;
+
+    input {
+      color: #fff;
+      background-color: #252831;
+      border-color: #15171d;
+
+      &::-webkit-input-placeholder {
+        color: #626569;
+      }
+    }
+  }
+
+  .mock-list {
+    width: 100%;
+    height: calc(100% - 52px);
+    overflow: auto;
+    color: #fff;
+    box-sizing: border-box;
+    padding: 20px;
+
+    .ant-row {
+      label {
+        font-size: 13px;
+        color: #949dad;
+      }
+    }
+
+    .ant-form-item-control {
+      textarea {
+        color: #fff;
+        background-color: #252831;
+        border-color: #15171d;
+        font-size: 12px;
+        font-family: Monaco, Consolas, Source Code Pro, Menlo, "DejaVu Sans Mono", "Lucida Console", monospace;
+      }
+    }
+
+    .ant-btn {
+      margin: 0 20px;
+      padding: 0 25px;
+      font-size: 14px;
+    }
+  }
+
+  .nofound {
+    width: 220px;
+    padding-top: 220px;
+    margin: 0 auto;
+    background: url(./noFound.svg) no-repeat center top;
+    background-size: 100% auto;
+    text-align: center;
+
+    &:after {
+      content: "没有查询到符合要求的配置参数";
+      line-height: 3;
+      color: #6c6d77;
+    }
+  }
+
+  .reset-btn {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    height: 40px;
+    width: 40px;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+    border-radius: 100%;
+    background-color: #173eee;
+    cursor: pointer;
+    opacity: .6;
+    transition: all .3s;
+
+    &:hover {
+      background-color: #ff660e;
+      opacity: 1;
+      box-shadow: 0 10px 20px -2px rgba(255, 187, 0, .3);
+    }
+  }
+}
+
+.app-logger {
+  .app-terminal {
+    position: fixed;
+    top: 35px;
+    left: 0;
+    right: 0;
+    bottom: 28px;
+    padding: 15px;
+
+    .terminal {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.app-status-bar {
+  width: 100%;
+  box-sizing: border-box;
+  height: 28px;
+  line-height: 28px;
+  display: flex;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: #fff;
+  font-size: 12px;
+  background-color: #333744;
+  transition: background-color .3s;
+
+  &.active {
+    background-color: #1753f8;
+  }
+
+  .clear-log {
+    cursor: pointer;
+    padding: 0 10px;
+
+    &:hover {
+      background-color: rgb(255, 187, 0);
+    }
+  }
+
+  .light {
+    display: inline-block;
+    vertical-align: middle;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+    background-color: #ffb100;
+    margin: -2px 4px 0 0;
+
+    &.active {
+      background-color: #04ff00;
+    }
+  }
+
+  i.iconfont {
+    font-size: 13px;
+    vertical-align: middle;
+    margin: -2px 5px 0 0;
+    display: inline-block;
+  }
+
+  > div + div {
+    margin-left: 15px;
+  }
+
+  .host {
+    flex-grow: 1;
+  }
+
+  .start-proxy-server-btn {
+    padding: 0 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(232, 83, 83);
+    }
+  }
+}
+
+.app-link-qrcode {
+  position: fixed;
+  top: 35px;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  background-color: #000000bf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.hide {
+    display: none;
+  }
+
+  .qrcode-wrapper {
+    width: 240px;
+    height: 240px;
+    background-color: #fff;
+    padding: 15px;
+    position: relative;
+    box-sizing: content-box;
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .notice {
+      font-size: 14px;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      top: 275px;
+      color: #fff;
+    }
+  }
+
+  &.fadeInUp {
+    .qrcode-wrapper {
+      animation: fadeInUp .3s;
+    }
+  }
+}
+
+.add-mock-data-params-modal {
+  .ant-modal-header,
+  .ant-modal-footer {
+    border: none;
+  }
+
+  .ant-modal-body {
+    padding: 24px 50px;
+
+    input {
+      font-size: 14px;
+    }
+
+    .data-wrapper {
+      padding-top: 20px;
+    }
+  }
+}

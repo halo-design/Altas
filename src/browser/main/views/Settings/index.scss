@@ -1,0 +1,33 @@
+.page-settings {
+  padding: 30px;
+  position: relative;
+
+  h1.title {
+    font-size: 18px;
+    border-bottom: .5px solid #eee;
+    padding: 0 10px 10px;
+  }
+
+  .form-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+
+    .label {
+      width: 200px;
+      flex-grow: 0;
+      padding: 10px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .item {
+      padding: 10px 15px;
+      font-size: 13px;
+
+      textarea {
+        font-size: 12px;
+      }
+    }
+  }
+}

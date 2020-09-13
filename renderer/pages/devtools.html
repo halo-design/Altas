@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN" xml:lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Debug Devtools</title>
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,viewport-fit=cover" />
+    <link href="../static/pages/devtools/entry.css" rel="stylesheet">
+    <script src="../public/scripts/fastclick.min.js"></script>
+  </head>
+  <body>
+    <div class="panel">
+      <div class="spinner hide" id="spinner">
+        <svg class="circular" viewBox="25 25 50 50">
+          <circle
+            class="path"
+            cx="50"
+            cy="50"
+            r="20"
+            fill="none"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+          />
+        </svg>
+      </div>
+      <div class="btn" id="backBtn">&#xe7ef;</div>
+      <div class="btn" id="nextBtn">&#xe7ee;</div>
+      <div class="btn" id="reloadBtn">&#xe788;</div>
+      <div class="btn" id="debugBtn">&#xe8e8;</div>
+      <div class="btn" id="closeBtn">&#xe7fc;</div>
+    </div>
+    <webview id="view"></webview>
+    <div class="portal">
+      <div class="btn" id="qrBtn">&#xe7dd;</div>
+      <div class="ipt">
+        <input type="text" value="" id="tarIpt">
+      </div>
+      <div class="btn" id="porBtn">&#xe7ee;</div>
+    </div>
+    <div class="qrcode" id="qrcode"><canvas width="180" height="180"></canvas></div>
+    <div class="mask" id="mask"></div>
+    <script>
+      require('../static/pages/devtools/entry.js')
+    </script>
+  </body>
+</html>

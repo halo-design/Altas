@@ -1,0 +1,38 @@
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  -webkit-app-region: drag;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-family: "SF Pro SC", "HanHei SC", "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-app-region: no-drag;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  background: none;
+}
+
+*::-webkit-scrollbar {
+  width: 2px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(220, 225, 233);
+  border-radius: 1px;
+}
+
+*::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}

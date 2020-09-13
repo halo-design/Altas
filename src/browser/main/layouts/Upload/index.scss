@@ -1,0 +1,240 @@
+.drawer-upload {
+  padding: 24px;
+  position: absolute;
+  top: 55px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+.app-upload {
+  button.btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    color: #fff;
+    cursor: pointer;
+    background-color: #1bca8f;
+    border-radius: 2px;
+    font-size: 14px;
+    position: relative;
+
+    input,
+    span {
+      cursor: pointer;
+    }
+
+    &.blue {
+      background-color: #4d8afb;
+    }
+
+    &.yellow {
+      background-color: #fdb00a;
+    }
+
+    &.red {
+      background-color: #e64c4c;
+    }
+
+    &.disabled {
+      cursor: default;
+      background-color: #dcdde8;
+
+      input,
+      span {
+        cursor: default;
+      }
+    }
+
+    .txt {
+      margin-left: 4px;
+      font-size: 13px;
+    }
+  }
+
+  .upload-section,
+  .history-section {
+    position: absolute;
+    left: 24px;
+    right: 0;
+    top: 134px;
+    bottom: 48px;
+    padding-right: 24px;
+    overflow: auto;
+  }
+
+  input[type=file] {
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .upload-area {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    right: 44px;
+    bottom: 20px;
+  }
+
+  .upload-btn {
+    width: 100%;
+    height: 100%;
+    background: url(./img/upload.svg) no-repeat center calc(50% - 80px);
+    padding-top: calc(50% - 10px);
+    box-sizing: border-box;
+    background-size: 80px auto;
+    position: relative;
+    text-align: center;
+
+    span.tit {
+      color: rgb(86, 85, 90);
+    }
+  }
+
+  .control-panel {
+    position: fixed;
+    width: 500px;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    border-top: .5px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+  .card-item {
+    background-color: #f8fafc;
+    padding-right: 45px;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto 10px;
+
+    .inner {
+      padding: 15px;
+      box-shadow: .5px 0 14px -1px #dfe3e7;
+    }
+
+    .row {
+      display: flex;
+
+      .col {
+        flex-grow: 1;
+      }
+    }
+
+    .filename {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: keep-all;
+      width: 200px;
+      font-size: 13px;
+    }
+
+    .progress {
+      text-align: right;
+      font-size: 12px;
+
+      .percent {
+        font-weight: 700;
+      }
+    }
+
+    .surplus {
+      color: #999;
+      font-size: 10px;
+      padding-bottom: 5px;
+      line-height: 1.8;
+    }
+
+    .status {
+      font-size: 12px;
+
+      .info {
+        color: #4d8afb;
+      }
+
+      .error {
+        color: #e64c4c;
+      }
+
+      .done {
+        color: #1bca8f;
+      }
+    }
+
+    .thumb {
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
+      overflow: hidden;
+      border-radius: 3px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .copyBtn {
+      color: #666;
+      cursor: pointer;
+      font-size: 13px;
+
+      .txt {
+        margin-left: 4px;
+      }
+    }
+
+    .delBtn {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      margin-top: -8px;
+      font-size: 16px;
+      color: #4a4a4a;
+      cursor: pointer;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background-color: #eeeded;
+      border-radius: 2px;
+      overflow: hidden;
+
+      .bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #99aafc, #cbadfc);
+      }
+    }
+
+    .history-section {
+      .filename {
+        width: 100%;
+      }
+    }
+  }
+
+  .upload-section {
+    .card-item {
+      padding-left: 90px;
+
+      .thumb {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+      }
+    }
+  }
+}

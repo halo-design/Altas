@@ -1,0 +1,169 @@
+html {
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "SF Pro SC", "HanHei SC", "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 14px;
+  background: #f4f4f4 url(./logo.svg) no-repeat center center;
+  background-size: 80px;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('./iconfont.ttf') format('truetype');
+}
+
+.panel,
+.portal {
+  width: 100%;
+  height: 40px;
+  background: #fdfdfd;
+  border-bottom: .5px solid #dedede;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel {
+  -webkit-app-region: drag;
+}
+
+.portal {
+  border-top: .5px solid #dedede;
+  border-bottom: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+
+  .ipt {
+    flex-grow: 1;
+    padding: 5px 0;
+    font-size: 12px;
+
+    input {
+      height: 29px;
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      background-color: #f1f3f4;
+      outline: none;
+      display: block;
+      padding: 0 10px;
+    }
+  }
+}
+
+.btn {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-family: "iconfont" !important;
+  font-size: 18px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #666;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+
+  &.active {
+    color: #ff8350;
+  }
+
+  &.disabled {
+    color: #ccc;
+    cursor: default;
+  }
+
+  &:not(.active):not(.disabled):hover {
+    color: #222;
+  }
+}
+
+.mask {
+  top: 40px;
+  bottom: 40px;
+}
+
+.spinner {
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  transition: opacity .3s;
+
+  &.hide {
+    opacity: 0;
+  }
+
+  .circular {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
+  }
+
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+    stroke: #000;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
+  }
+}
+
+.qrcode {
+  width: 200px;
+  height: 200px;
+  position: fixed;
+  left: 50%;
+  bottom: 60px;
+  margin-left: -100px;
+  background: #fdfdfd;
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, .22);
+  box-sizing: border-box;
+  padding: 10px;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
