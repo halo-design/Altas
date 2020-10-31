@@ -121,7 +121,7 @@ program
     if (cmd.withBuild) {
       execSync('npm run build', { stdio: 'inherit' });
     }
-    execSync('NODE_ENV=development electron ./renderer/main.js', {
+    execSync('cross-env NODE_ENV=development electron ./renderer/main.js', {
       stdio: 'inherit',
     });
   });
