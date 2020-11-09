@@ -6131,27 +6131,27 @@ mobx-react-devtools@^6.1.1:
   resolved "https://registry.npm.taobao.org/mobx-react-devtools/download/mobx-react-devtools-6.1.1.tgz#a462b944085cf11ff96fc937d12bf31dab4c8984"
   integrity sha1-pGK5RAhc8R/5b8k30SvzHatMiYQ=
 
-mobx-react-lite@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.1.2.tgz#3daafee46594960f8157e59721160f934b312b16"
-  integrity sha512-LirzhgeImYDLWdlXq8ZHvJt1GAXufZgCOTcaIWvUh4Mp3SFtYb0g68LQiJM8d0vzSRU+lri7Kx1gMVDstNgcKA==
+mobx-react-lite@^2.2.0:
+  version "2.2.2"
+  resolved "http://pripub.hljnbw.cn:8019/mobx-react-lite/-/mobx-react-lite-2.2.2.tgz#87c217dc72b4e47b22493daf155daf3759f868a6"
+  integrity sha512-2SlXALHIkyUPDsV4VTKVR9DW7K3Ksh1aaIv3NrNJygTbhXe2A9GrcKHZ2ovIiOp/BXilOcTYemfHHZubP431dg==
 
 mobx-react-router@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npm.taobao.org/mobx-react-router/download/mobx-react-router-4.1.0.tgz#de014848207d8aa32f6a4e67ed861bd2cb6516e5"
   integrity sha1-3gFISCB9iqMvak5n7YYb0stlFuU=
 
-mobx-react@^7.0.2:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-7.0.2.tgz#cb7d31026bfc700640f906bba13c283837a99d62"
-  integrity sha512-hjOoz26GNSRKp5A3H51zJip4k0YaOsluc1dOU5kQDZeBG6I6z1a3VaDlSGEtVWyUrwVLqjWk/q0bLZeB2tVmog==
+mobx-react@6.3.1:
+  version "6.3.1"
+  resolved "http://pripub.hljnbw.cn:8019/mobx-react/-/mobx-react-6.3.1.tgz#204f9756e42e19d91cb6598837063b7e7de87c52"
+  integrity sha512-IOxdJGnRSNSJrL2uGpWO5w9JH5q5HoxEqwOF4gye1gmZYdjoYkkMzSGMDnRCUpN/BNzZcFoMdHXrjvkwO7KgaQ==
   dependencies:
-    mobx-react-lite "^3.1.2"
+    mobx-react-lite "^2.2.0"
 
-mobx@^6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.0.3.tgz#cec784bb41acf9eb87b449f1181c9dd8c77ccc0b"
-  integrity sha512-DBMd0NXsMn25HJMUAWBndgJ2wRjOJPbpn6wdzUvZW0PVsyTnrw028XwQfzsjnxnKG+bAXGVNb38rvd+1o0G9uQ==
+mobx@5.15.7:
+  version "5.15.7"
+  resolved "http://pripub.hljnbw.cn:8019/mobx/-/mobx-5.15.7.tgz#b9a5f2b6251f5d96980d13c78e9b5d8d4ce22665"
+  integrity sha512-wyM3FghTkhmC+hQjyPGGFdpehrcX1KOXsDuERhfK2YbJemkUhEB+6wzEN639T21onxlfYBmriA1PFnvxTUhcKw==
 
 modify-filename@^1.1.0:
   version "1.1.0"
@@ -9786,10 +9786,10 @@ symbol-tree@^3.2.2:
   resolved "https://registry.npm.taobao.org/symbol-tree/download/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha1-QwY30ki6d+B4iDlR+5qg7tfGP6I=
 
-systeminformation@4.28.1:
-  version "4.28.1"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.28.1.tgz#937fc72ba84ae16d006b4719b73ff49a64d86e19"
-  integrity sha512-g9WQy+Igsf0efbbTlXzDkV7iYeUerFJeqI/zh07F9sWHxclejmXn5hrGdgHf2ok+1DuRmC9t4mEh7XS0b8Zk9w==
+systeminformation@4.29.2:
+  version "4.29.2"
+  resolved "https://registry.npm.taobao.org/systeminformation/download/systeminformation-4.29.2.tgz#1e551cc249fa7b6c4f7dcf31f4765f2307cc76e8"
+  integrity sha1-HlUcwkn6e2xPfc8x9HZfIwfMdug=
 
 table@^6.0.1:
   version "6.0.3"
