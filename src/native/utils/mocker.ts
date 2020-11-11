@@ -7,7 +7,7 @@ const mockKey = 'user-custom-chetach-simulator-mock-data';
 
 export const readDefaultMockData = () => file.file2JSON(defaultMockPath);
 
-export const writeCustomMockData = (data: object, fn?: Function) => {
+export const writeCustomMockData = (data: any, fn?: (e: any) => void) => {
   storage.set(mockKey, data, (err: any) => {
     if (err) {
       log.error(err);
@@ -18,7 +18,7 @@ export const writeCustomMockData = (data: object, fn?: Function) => {
   });
 };
 
-export const readCustomMockData = (fn: Function) => {
+export const readCustomMockData = (fn: (e: any) => void) => {
   storage.get(mockKey, (err, data) => {
     if (err) {
       log.error(err);
@@ -38,20 +38,20 @@ export const readCustomMockData = (fn: Function) => {
 };
 
 export const readCustomMockDataSync = () =>
-  new Promise((resolve, reject) => {
-    readCustomMockData((args: object) => {
+  new Promise((resolve) => {
+    readCustomMockData((args: any) => {
       resolve(args);
     });
   });
 
-export const resetCustomMockData = (fn?: Function) => {
+export const resetCustomMockData = (fn?: (e: any) => void) => {
   const defaultData = readDefaultMockData();
   log.info('重置并写入默认mock参数.');
   writeCustomMockData(defaultData, fn);
 };
 
-export const removeCustomMockData = (fn?: Function) => {
-  storage.remove(mockKey, err => {
+export const removeCustomMockData = (fn?: (e: any) => void) => {
+  storage.remove(mockKey, (err) => {
     if (err) {
       log.error(err);
     } else {

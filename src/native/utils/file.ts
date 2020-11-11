@@ -19,7 +19,7 @@ export const saveFile = (filePath: string, fileDataBuffer: Buffer) => {
       }
       wstream.end();
     });
-    wstream.on('error', err => {
+    wstream.on('error', (err) => {
       reject(err);
     });
     wstream.on('finish', () => {
@@ -44,7 +44,7 @@ export const createDirSync = (dir: string) => {
 
 export default {
   read: (filename: string) => fs.readFileSync(filename, 'utf-8'),
-  JSON2File: (fileName: string, data: object) => {
+  JSON2File: (fileName: string, data: any) => {
     const buf = Buffer.from(JSON.stringify(data, null, 2), 'utf8');
     saveFile(fileName, buf);
   },
@@ -55,7 +55,7 @@ export default {
   },
   exist: (filename: string): boolean =>
     fs.existsSync(path.join(root, filename)),
-  file2JSON: (filePath: string): object =>
+  file2JSON: (filePath: string): any =>
     JSON.parse(fs.readFileSync(path.join(root, filePath), 'utf-8')),
   path: (p: string): string => path.join(root, p),
   root,

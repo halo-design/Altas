@@ -12,9 +12,14 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: ['prettier', 'plugin:prettier/recommended'],
+  extends: [
+    'plugin:prettier/recommended',
+    'prettier/flowtype',
+    'prettier/react',
+    'prettier/standard',
+  ],
   rules: {
-    'prettier/prettier': 'warn',
+    'prettier/prettier': ['error', { singleQuote: true, parser: 'flow' }],
   },
   overrides: [
     {
@@ -27,6 +32,9 @@ module.exports = {
       plugins: ['eslint-plugin-react', '@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/recommended'],
       rules: {
+        '@typescript-eslint/no-inferrable-types': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         'no-console': 'off',
         'react/jsx-boolean-value': 'off',
