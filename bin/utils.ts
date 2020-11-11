@@ -15,7 +15,7 @@ exports.buildInfoFilePath = path.join(
   `build-info.json`
 );
 
-exports.ssh = (auth: object, files: any[]): Promise<string> => {
+exports.ssh = (auth: any, files: any[]): Promise<string> => {
   const spinner = ora('Ready to upload...\n').start();
 
   const server = new NODE_SSH();
@@ -38,7 +38,7 @@ exports.ssh = (auth: object, files: any[]): Promise<string> => {
   });
 };
 
-exports.createBundle = (file: string | string[], opts: object) => {
+exports.createBundle = (file: string | string[], opts: any) => {
   const baseOpts = {
     cache: true,
     detailedReport: true,

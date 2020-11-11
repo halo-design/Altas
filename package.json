@@ -35,7 +35,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "yarn build"
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint:fix",
+      "git add"
+    ]
   },
   "keywords": [
     "React",
