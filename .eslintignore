@@ -1,0 +1,6 @@
+.vscode
+doc
+resources
+node_modules
+renderer
+packages

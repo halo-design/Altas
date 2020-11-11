@@ -30,7 +30,7 @@ module.exports = (val, opts, pad) => {
       };
     }
 
-    const expandWhiteSpace = string => {
+    const expandWhiteSpace = (string) => {
       if (opts.inlineCharacterLimit === undefined) {
         return string;
       }
@@ -108,7 +108,7 @@ module.exports = (val, opts, pad) => {
       let objKeys = Object.keys(val).concat(getOwnEnumPropSymbols(val));
 
       if (opts.filter) {
-        objKeys = objKeys.filter(el => opts.filter(val, el));
+        objKeys = objKeys.filter((el) => opts.filter(val, el));
       }
 
       if (objKeys.length === 0) {
@@ -144,7 +144,7 @@ module.exports = (val, opts, pad) => {
       return expandWhiteSpace(ret);
     }
 
-    val = String(val).replace(/[\r\n]/g, x => (x === '\n' ? '\\n' : '\\r'));
+    val = String(val).replace(/[\r\n]/g, (x) => (x === '\n' ? '\\n' : '\\r'));
 
     if (opts.singleQuotes === false) {
       val = val.replace(/"/g, '\\"');

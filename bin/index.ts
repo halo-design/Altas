@@ -152,20 +152,14 @@ program
   .option('--fix', 'Automatically fixes code syntax problems.')
   .action((cmd: any) => {
     if (cmd.fix) {
-      execSync(`tslint -c tslint.yml '**/*.ts?(x)' --fix`, {
-        stdio: 'inherit',
-      });
-      execSync(`prettier -c '**/*.js' --write`, {
+      execSync(`eslint . --fix`, {
         stdio: 'inherit',
       });
       execSync(`stylelint '**/*.scss' --fix`, {
         stdio: 'inherit',
       });
     } else {
-      execSync(`tslint -c tslint.yml '**/*.ts?(x)'`, {
-        stdio: 'inherit',
-      });
-      execSync(`prettier -c '**/*.js'`, {
+      execSync(`eslint .`, {
         stdio: 'inherit',
       });
       execSync(`stylelint '**/*.scss'`, {
