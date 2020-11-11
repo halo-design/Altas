@@ -72,7 +72,7 @@ export default (RPC: any) => {
         dlItem = e;
         createTimer();
       },
-      onProgress: (e: any) => {
+      onProgress: () => {
         timer && clearTimeout(timer);
         createTimer();
       },
@@ -96,7 +96,7 @@ export default (RPC: any) => {
       });
   });
 
-  win.on('closed', (e: Event) => {
+  win.on('closed', () => {
     timer && clearTimeout(timer);
     dlItem && dlItem.getState() === 'progressing' && dlItem.cancel();
     win.removeAllListeners();

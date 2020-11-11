@@ -93,7 +93,7 @@ const renderDoc = (filepath: string, content: string) => {
 
 RPC.on('ready', () => {
   bindClick($readBtn, () => {
-    readLocalFileSync().then(({ content, directory, filepath }: any) => {
+    readLocalFileSync().then(({ content, filepath }: any) => {
       renderDoc(filepath, content);
     });
   });

@@ -10,7 +10,7 @@ export const disposeMockProxyServer = () => {
 };
 
 export const addMockProxyServerListener = (
-  callback: (connectStatus: boolean, params: object) => void
+  callback: (connectStatus: boolean, params: any) => void
 ) => {
   RPC.on('mock-proxy-server-connect', (args: any) => {
     callback(true, args);
@@ -21,7 +21,7 @@ export const addMockProxyServerListener = (
 };
 
 export const addMockProxyWsListener = (
-  callback: (connectStatus: boolean, params: object) => void
+  callback: (connectStatus: boolean, params: any) => void
 ) => {
   RPC.on('mock-proxy-ws-connect', (args: any) => {
     callback(true, args);
@@ -31,15 +31,15 @@ export const addMockProxyWsListener = (
   });
 };
 
-export const addClientWsListener = (callback: Function) => {
+export const addClientWsListener = (callback: (e: any) => void) => {
   RPC.mockProxyWsRecieveGlobal(callback);
 };
 
-export const sendWsToClient = (params: object) => {
+export const sendWsToClient = (params: any) => {
   RPC.mockProxyWsBrodcastGlobal(params);
 };
 
-export const mockProxyWsSendGlobal = (callback: Function) => {
+export const mockProxyWsSendGlobal = (callback: (e: any) => void) => {
   RPC.on('mock-proxy-ws-send-global', (args: any) => {
     callback(args);
   });

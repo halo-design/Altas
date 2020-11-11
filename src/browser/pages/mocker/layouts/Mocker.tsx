@@ -74,7 +74,7 @@ class MockerView extends React.Component<any, any> {
   public initEvent(dom: any, name: string, index: number) {
     const itemEvent = new CreateContextMenu(dom, [
       {
-        click: (e: any) => {
+        click: () => {
           confirm({
             title: '删除参数',
             content: `确定删除参数“${name}”？`,

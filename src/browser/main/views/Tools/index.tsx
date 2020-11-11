@@ -71,7 +71,7 @@ class ToolsView extends React.Component<any> {
         <div className="tools-list">
           <div
             className="item"
-            onClick={e => {
+            onClick={() => {
               this.openCheetahDevice();
             }}
           >
@@ -80,7 +80,7 @@ class ToolsView extends React.Component<any> {
           </div>
           <div
             className="item"
-            onClick={e => {
+            onClick={() => {
               mockProxyServer();
             }}
           >
@@ -89,7 +89,7 @@ class ToolsView extends React.Component<any> {
           </div>
           <div
             className="item"
-            onClick={e => {
+            onClick={() => {
               this.openDeviceSimulator();
             }}
           >
@@ -98,7 +98,7 @@ class ToolsView extends React.Component<any> {
           </div>
           <div
             className="item"
-            onClick={e => {
+            onClick={() => {
               markdownViewer();
             }}
           >
@@ -107,7 +107,7 @@ class ToolsView extends React.Component<any> {
           </div>
           <div
             className="item"
-            onClick={e => {
+            onClick={() => {
               this.handleUploadDrawerVisible(true);
             }}
           >
@@ -116,7 +116,7 @@ class ToolsView extends React.Component<any> {
           </div>
           <div
             className="item"
-            onClick={e => {
+            onClick={() => {
               this.props.setCreateServerDrawerVisible(true);
             }}
           >

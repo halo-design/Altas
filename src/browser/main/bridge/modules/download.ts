@@ -40,7 +40,7 @@ export class MultiDownload {
 
   constructor(options: IMultiDownloadOptions) {
     this.opts = options;
-    this.saveFolder().then(res => {
+    this.saveFolder().then(() => {
       this.loopDownload();
     });
   }

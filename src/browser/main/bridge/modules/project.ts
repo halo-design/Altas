@@ -1,7 +1,11 @@
 import RPC from '../rpc';
 const { dispatch } = RPC;
 
-export const create = (data: object, cb: Function, errFn?: Function): void => {
+export const create = (
+  data: any,
+  cb: (e: any) => void,
+  errFn?: (e: any) => void
+): void => {
   dispatch('create-project', data);
 
   const handle = (data: any) => {
@@ -22,11 +26,11 @@ export const create = (data: object, cb: Function, errFn?: Function): void => {
 
 export const getProjectRunnerConfig = (
   projectPath: string,
-  cb: Function
+  cb: (e: any) => void
 ): void => {
   dispatch('detect-runner-config', { projectPath });
 
-  RPC.once('get-runner-config', (data: object) => {
+  RPC.once('get-runner-config', (data: any) => {
     cb(data);
   });
 };

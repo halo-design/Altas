@@ -27,7 +27,7 @@ const moment = require('moment');
 const cardinal = require('cardinal');
 const stringifyObject = require('./stringify-object');
 
-const resultFormat = (data: object) =>
+const resultFormat = (data: any) =>
   cardinal.highlight(stringifyObject(data, { indent: '  ' }));
 
 const lnBr = process.platform === 'win32' ? '\r\n' : '\n';
@@ -53,8 +53,8 @@ export default class MonitorlModel {
   @observable public port: number = 2323;
   @observable public mockerVisible: boolean = false;
   @observable public autoSave: boolean = false;
-  @observable public mockData: object = {};
-  @observable public filterMockData: object = {};
+  @observable public mockData: any = {};
+  @observable public filterMockData: any = {};
 
   @computed get qrCodeVisible() {
     return this.serverOnline && !this.websocketOnline && this.host.length > 0;
@@ -86,7 +86,7 @@ export default class MonitorlModel {
       }
     });
 
-    addMockProxyWsListener((status: any, args: any) => {
+    addMockProxyWsListener((status: any) => {
       this.setWebsocketOnline(status);
     });
 
@@ -100,7 +100,7 @@ export default class MonitorlModel {
   }
 
   @action
-  public addNewMockDataItem(name: string, params: object) {
+  public addNewMockDataItem(name: string, params: any) {
     this.mockData = {
       ...this.mockData,
       [name]: params,
@@ -135,7 +135,7 @@ export default class MonitorlModel {
   }
 
   @action
-  public setMockData(data: object, settings: object) {
+  public setMockData(data: any, settings: any) {
     saveMockData(
       {
         data: merge(this.mockData, data),

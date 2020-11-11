@@ -98,7 +98,7 @@ class SidebarView extends React.Component<any, any> {
             </a>
             <a
               className="iconfont"
-              onClick={e => {
+              onClick={() => {
                 mockProxyServer();
               }}
             >

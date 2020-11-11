@@ -52,7 +52,7 @@ export default class CreateServerModel {
   @observable public localHostName: string = 'localhost';
   @observable public localHostPort: string = '8080';
   @observable public debugTool: string = 'none';
-  @observable public proxyTables: object[] = [];
+  @observable public proxyTables: any[] = [];
   @observable public useDebugDevice: string = 'iPhone 8';
   @observable public customUAState: boolean = false;
   @observable public customUAString: string = '';
@@ -82,7 +82,7 @@ export default class CreateServerModel {
   @action
   private async initData() {
     dataRead('create_server_settings', (data: any) => {
-      for (let key in data) {
+      for (const key in data) {
         if (key === 'proxyTables') {
           const originArr = data[key];
           this[key] = Object.keys(originArr).map(

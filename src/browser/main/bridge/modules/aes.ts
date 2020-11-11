@@ -24,14 +24,14 @@ export const decode = (
 };
 
 export const encodeSync = (data: string, pswd: string) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     encode(data, pswd, (params: string) => {
       resolve(params);
     });
   });
 
 export const decodeSync = (data: string, pswd: string) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     decode(data, pswd, (params: string) => {
       resolve(params);
     });

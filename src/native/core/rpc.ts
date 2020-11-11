@@ -49,7 +49,7 @@ export class Server extends EventEmitter {
   }
 
   private ipcListener(event?: any, params?: any): void {
-    const { ev, data }: { ev: string; data: object } = params;
+    const { ev, data }: { ev: string; data: any } = params;
     super.emit(ev, data);
   }
 

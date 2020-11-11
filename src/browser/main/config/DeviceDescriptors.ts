@@ -898,7 +898,7 @@ const allDevices: any[] = [
   // },
 ];
 
-let devicesTmp = {};
+const devicesTmp = {};
 for (const device of allDevices) {
   devicesTmp[device.name] = device;
 }

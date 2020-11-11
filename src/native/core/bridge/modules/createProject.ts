@@ -16,7 +16,7 @@ export default (RPC: any) => {
     }
     download(win, url, {
       directory: appCacheFullPath,
-      onProgress: e => {
+      onProgress: (e) => {
         dispatch('get-repo', {
           step: 'download',
           status: 'running',

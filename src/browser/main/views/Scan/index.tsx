@@ -246,7 +246,7 @@ class ScanView extends React.Component<any> {
             className={classNames('btn-large', 'scan-btn', {
               active: isFreeze,
             })}
-            onClick={e => {
+            onClick={() => {
               this.envScanHandle();
             }}
           >

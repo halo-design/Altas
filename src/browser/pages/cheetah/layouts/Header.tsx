@@ -50,7 +50,7 @@ class HeaderView extends React.Component<any, any> {
     if (this.headerEl) {
       const opts: any = [
         {
-          click: (e: any) => {
+          click: () => {
             win.minimize();
           },
           label: '最小化窗口',

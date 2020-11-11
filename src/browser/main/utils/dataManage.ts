@@ -2,7 +2,7 @@ import * as storage from '../bridge/modules/storage';
 
 const dataBuff: any = {};
 
-export const dataRead = (key: string, cb: Function) => {
+export const dataRead = (key: string, cb: (e: any) => void) => {
   if (dataBuff[key]) {
     cb(dataBuff[key]);
     return;
@@ -18,8 +18,8 @@ export const dataRead = (key: string, cb: Function) => {
 };
 
 export const dataReadSync = (key: string) =>
-  new Promise((resolve, reject) => {
-    dataRead(key, (args: object) => {
+  new Promise((resolve) => {
+    dataRead(key, (args: any) => {
       resolve(args);
     });
   });

@@ -5,10 +5,10 @@ const { dispatch } = RPC;
 
 export const createWindow = (
   winId: string,
-  entry: object | string,
-  options: object,
+  entry: any | string,
+  options: any,
   injectBridges?: string[],
-  callback?: Function
+  callback?: (e: any) => void
 ): void => {
   dispatch('create-window', { entry, options, injectBridges, winId });
   RPC.once('get-window-id', (params: { winId: string }) => {
@@ -23,16 +23,16 @@ export const closeWindow = (uid: string): void => {
 interface Idebug {
   target: string;
   descriptors?: {
-    name: string;
-    userAgent: string;
+    name: string,
+    userAgent: string,
     viewport: {
-      width: number;
-      height: number;
-      deviceScaleFactor: number;
-      isMobile: boolean;
-      hasTouch: boolean;
-      isLandscape: boolean;
-    };
+      width: number,
+      height: number,
+      deviceScaleFactor: number,
+      isMobile: boolean,
+      hasTouch: boolean,
+      isLandscape: boolean,
+    },
   };
   preload?: string;
   insertCSS?: string;
@@ -43,7 +43,7 @@ export const deviceDevtools = (
   entryPath: string,
   options: Idebug,
   inject?: string[],
-  callback?: Function
+  callback?: (e: any) => void
 ) => {
   let { descriptors }: any = options;
   if (!descriptors) {
@@ -72,7 +72,10 @@ export const deviceDevtools = (
   );
 };
 
-export const deviceSimulator = (options: Idebug, callback?: Function) => {
+export const deviceSimulator = (
+  options: Idebug,
+  callback?: (e: any) => void
+) => {
   deviceDevtools(
     'deviceSimulator',
     'renderer/pages/devtools.html',
@@ -82,7 +85,10 @@ export const deviceSimulator = (options: Idebug, callback?: Function) => {
   );
 };
 
-export const cheetahSimulator = (options: Idebug, callback?: Function) => {
+export const cheetahSimulator = (
+  options: Idebug,
+  callback?: (e: any) => void
+) => {
   deviceDevtools(
     'cheetahSimulator',
     'renderer/pages/cheetah.html',

@@ -28,7 +28,7 @@ export default (projectPath: string) => {
     if (isConfigExists) {
       const config = readYaml.sync(configPath);
 
-      const cheetahDirNames: object = {};
+      const cheetahDirNames: any = {};
       const cheetahRootDir: string = path.join(
         projectPath,
         config['modules'] || 'src/modules'
@@ -36,7 +36,7 @@ export default (projectPath: string) => {
       const ischeetahRootDirExists = fs.existsSync(cheetahRootDir);
 
       if (config.type === 'cheetah' && ischeetahRootDirExists) {
-        const deepReadDir = (filepath: string, injecter: Object) => {
+        const deepReadDir = (filepath: string, injecter: any) => {
           const files = fs.readdirSync(filepath);
 
           files.forEach((filename: string) => {

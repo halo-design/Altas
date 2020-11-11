@@ -9,7 +9,10 @@ interface ICreateImageCache {
   height: number;
 }
 
-export const createCache = (params: ICreateImageCache, cb?: Function): void => {
+export const createCache = (
+  params: ICreateImageCache,
+  cb?: (e: any) => void
+): void => {
   dispatch('create-image-cache', params);
   RPC.once('image-cache-created', (args: any) => {
     cb && cb(args);

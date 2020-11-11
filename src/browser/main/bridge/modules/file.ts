@@ -23,7 +23,7 @@ export const setSaveAs = (
 };
 
 export const selectFile = (
-  args: object,
+  args: any,
   cb: (e: string[] | undefined) => void
 ): void => {
   dialog
@@ -38,15 +38,12 @@ export const selectFile = (
     });
 };
 
-export const readTxtByLine = (
-  filePath: string,
-  readFn: (e: object) => void
-) => {
+export const readTxtByLine = (filePath: string, readFn: (e: any) => void) => {
   dispatch('read-text', filePath);
   RPC.on('get-text-line', (params: any) => {
     readFn(params);
     if (params.status === 'done') {
-      RPC.removeListener('get-text-line', () => {});
+      RPC.removeListener('get-text-line', () => void 0);
     }
   });
 };
@@ -55,30 +52,30 @@ export const removeFile = (filePath: string) => {
   dispatch('remove-file', filePath);
 };
 
-export const cleanAppCache = (cb?: Function) => {
+export const cleanAppCache = (cb?: (e: any) => void) => {
   dispatch('clean-app-cache', {});
   RPC.once('clean-app-cache-done', (args: any) => {
     cb && cb(args);
   });
 };
 
-export const cleanAppData = (cb?: Function) => {
+export const cleanAppData = (cb?: (e: any) => void) => {
   dispatch('clean-app-data', {});
   RPC.once('clean-app-data-done', (args: any) => {
     cb && cb(args);
   });
 };
 
-export const readJsonFile = (key: string, cb: (args: object) => void): void => {
+export const readJsonFile = (key: string, cb: (args: any) => void): void => {
   dispatch('read-local-json', key);
-  RPC.once('read-local-json-done', (data: object) => {
+  RPC.once('read-local-json-done', (data: any) => {
     cb(data);
   });
 };
 
 export const readJsonFileSync = (key: string) =>
-  new Promise((resolve, reject) => {
-    readJsonFile(key, (args: object) => {
+  new Promise((resolve) => {
+    readJsonFile(key, (args: any) => {
       resolve(args);
     });
   });

@@ -3,8 +3,8 @@ const { dispatch } = RPC;
 
 export const createServer = (
   options: any,
-  successFn?: Function,
-  errorFn?: Function
+  successFn?: (e: any) => void,
+  errorFn?: (e: any) => void
 ) => {
   dispatch('create-server', {
     options,
@@ -19,13 +19,13 @@ export const createServer = (
   });
 };
 
-export const serverMonitor = (cb: Function) => {
+export const serverMonitor = (cb: (e: any) => void) => {
   RPC.on('server-logger', (args: any) => {
     cb(args);
   });
 };
 
-export const disposeServer = (cb?: Function) => {
+export const disposeServer = (cb?: () => void) => {
   dispatch('close-server', {});
   RPC.once('server-closed', () => {
     cb && cb();

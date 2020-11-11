@@ -191,7 +191,7 @@ class RunnerView extends React.Component<any, any> {
           type: 'separator',
         },
         {
-          click: (e: any) => {
+          click: () => {
             this.runBundleCmd(build, bundleName);
           },
           label: '打包构建',
@@ -200,7 +200,7 @@ class RunnerView extends React.Component<any, any> {
           type: 'separator',
         },
         {
-          click: (e: any) => {
+          click: () => {
             this.runBundleCmd(dev, bundleName);
           },
           label: '本地服务运行',
@@ -269,7 +269,7 @@ class RunnerView extends React.Component<any, any> {
                 placeholder="点击选择工程目录"
                 readOnly={true}
                 value={userDefaultProjectPath}
-                onClick={(e: any) => {
+                onClick={() => {
                   this.handleSelectDir();
                 }}
                 suffix={<Icon type="project" />}
@@ -361,7 +361,7 @@ class RunnerView extends React.Component<any, any> {
                                   <div
                                     key={idx}
                                     className="page-item"
-                                    onClick={(e: any) => {
+                                    onClick={() => {
                                       this.copyAddress([name, dir, page]);
                                     }}
                                   >

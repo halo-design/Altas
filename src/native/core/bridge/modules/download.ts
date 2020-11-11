@@ -5,7 +5,7 @@ export default (RPC: any) => {
   const { dispatch, win } = RPC;
 
   let dlItem: any;
-  RPC.on('file-download', ({ url, args }: { url: string; args: any }) => {
+  RPC.on('file-download', ({ url, args }: { url: string, args: any }) => {
     let timer: any;
 
     const createTimer = () => {

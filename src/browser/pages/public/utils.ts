@@ -1,12 +1,12 @@
 export const getEl = (id: string) => document.getElementById(id);
 
-export const bindClick = (el: HTMLElement | null, fn: Function) => {
+export const bindClick = (el: HTMLElement | null, fn: () => void) => {
   if (!el) {
     return;
   }
   el.addEventListener(
     'click',
-    e => {
+    (e) => {
       fn();
       e.stopPropagation();
     },

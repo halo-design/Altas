@@ -110,7 +110,7 @@ class ServerMonitorView extends React.Component<any, any> {
     }
   }
 
-  public mouseUpHandle(e: any) {
+  public mouseUpHandle() {
     this.moveable = false;
     this.startPozX = 0;
     this.startPozY = 0;

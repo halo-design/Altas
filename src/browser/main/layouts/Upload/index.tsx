@@ -143,7 +143,7 @@ class UploadView extends React.Component<any> {
       const opts: any = [
         {
           // checked: true,
-          click: (e: any) => {
+          click: () => {
             this.props.clearUploadHistory();
             message.success('清除成功！');
           },
@@ -153,7 +153,7 @@ class UploadView extends React.Component<any> {
           type: 'separator',
         },
         {
-          click: (e: any) => {
+          click: () => {
             this.saveClipboardImage();
           },
           label: '粘贴上传图片',
@@ -335,7 +335,7 @@ class UploadView extends React.Component<any> {
                           <div
                             key="copy"
                             className="copyBtn"
-                            onClick={e => {
+                            onClick={() => {
                               this.saveClipboard(remote.url);
                             }}
                           >
@@ -356,7 +356,7 @@ class UploadView extends React.Component<any> {
                       </div>
                       <div
                         className="delBtn"
-                        onClick={e => {
+                        onClick={() => {
                           deleteUploadListStatusItem(uid, file.addIndex);
                         }}
                       >
@@ -420,7 +420,7 @@ class UploadView extends React.Component<any> {
                             </div>
                             <div
                               className="delBtn"
-                              onClick={e => {
+                              onClick={() => {
                                 deleteHistoryItem(
                                   uploadHistoryList.length - 1 - index
                                 );

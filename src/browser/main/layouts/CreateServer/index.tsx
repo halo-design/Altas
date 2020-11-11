@@ -227,7 +227,7 @@ class CreateServerView extends React.Component<any> {
                     >
                       <Icon
                         type="link"
-                        onClick={e => {
+                        onClick={() => {
                           copyAddress();
                         }}
                       />
@@ -304,7 +304,7 @@ class CreateServerView extends React.Component<any> {
                         <Tooltip placement="right" title="点击删除">
                           <Icon
                             type="delete"
-                            onClick={e => {
+                            onClick={() => {
                               deleteItemFromProxyTables(index);
                             }}
                           />

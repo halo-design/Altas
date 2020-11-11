@@ -42,7 +42,7 @@ const staticServer = (root: string) => {
       log.error(e);
     }
   }
-  return (req: any, res: any, next: Function) => {
+  return (req: any, res: any, next: (e?: any) => void) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       return next();
     }
@@ -128,13 +128,16 @@ const staticServer = (root: string) => {
   };
 };
 
-const entryPoint = (staticHandler: Function, file: any) => {
+const entryPoint = (
+  staticHandler: (req: any, res: any, next: any) => void,
+  file: any
+) => {
   if (!file)
-    return (req: any, res: any, next: Function) => {
+    return (req: any, res: any, next: () => void) => {
       next();
     };
 
-  return (req: any, res: any, next: Function) => {
+  return (req: any, res: any, next: () => void) => {
     req.url = '/' + file;
     staticHandler(req, res, next);
   };
@@ -164,7 +167,7 @@ interface IServer {
   root: string;
   watch: string[];
   ignore: string[];
-  ignorePattern: object;
+  ignorePattern: any;
   noCssInject: boolean;
   open: boolean;
   mount: any[];
@@ -184,8 +187,8 @@ interface IServer {
 
 LiveServer.start = (
   options: IServer,
-  successFn?: Function,
-  errorFn?: Function
+  successFn?: (e: any, url: string[]) => void,
+  errorFn?: (e: any) => void
 ) => {
   options = options || {};
   const host = options.host || '0.0.0.0';
@@ -338,7 +341,7 @@ LiveServer.start = (
 
     let serveURLs = [serveURL];
     if (LiveServer.logLevel > 2 && address.address === '0.0.0.0') {
-      const ifaces = os.networkInterfaces();
+      const ifaces: any = os.networkInterfaces();
       serveURLs = Object.keys(ifaces)
         .map((iface: any) => ifaces[iface])
         .reduce((data, addresses) => {
@@ -389,10 +392,12 @@ LiveServer.start = (
     };
 
     if (wait > 0) {
+      // eslint-disable-next-line prettier/prettier
       (function() {
         const wssend = ws.send;
         let waitTimeout: any;
         ws.send = () => {
+          // eslint-disable-next-line prefer-rest-params
           const args = arguments;
           if (waitTimeout) clearTimeout(waitTimeout);
           waitTimeout = setTimeout(() => {

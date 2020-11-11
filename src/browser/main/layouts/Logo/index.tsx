@@ -5,7 +5,7 @@ import './index.scss';
 
 interface ILogoProp {
   size: number;
-  style: object;
+  style: any;
   run: boolean;
   initPath: string;
 }

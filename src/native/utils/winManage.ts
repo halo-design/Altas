@@ -8,7 +8,7 @@ export const traversalAllWindows = (
   });
 };
 
-export const sendToAllWindows = (key: string, data: object) => {
+export const sendToAllWindows = (key: string, data: any) => {
   traversalAllWindows((win: Electron.BrowserWindow) => {
     win.webContents.send(key, data);
   });

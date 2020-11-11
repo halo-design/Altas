@@ -1,9 +1,9 @@
 import RPC from '../rpc';
 const { dispatch } = RPC;
 
-export const readLocalFile = (cb: (args: object) => void): void => {
+export const readLocalFile = (cb: (args: any) => void): void => {
   dispatch('read-local-file', '');
-  RPC.once('get-local-file-content', (args: object) => {
+  RPC.once('get-local-file-content', (args: any) => {
     cb(args);
   });
 };
@@ -12,7 +12,7 @@ export const mdSaveAsHtml = (
   title: string,
   content: string,
   outputPath: string,
-  callback?: Function
+  callback?: (e: any) => void
 ) => {
   dispatch('markdown-save-as-html', {
     title,
@@ -26,14 +26,14 @@ export const mdSaveAsHtml = (
 
 export const downloadPreviewFile = (
   url: string,
-  success: Function,
-  faild?: Function
+  success: (e: any) => void,
+  faild?: () => void
 ) => {
   dispatch('download-preview-file', { url });
   RPC.once('download-preview-file-result', (params: any) => {
     const { result } = params;
     if (/(completed|cancelled|interrupted|timeout)/.test(result)) {
-      RPC.removeListener('download-preview-file-result', () => {});
+      RPC.removeListener('download-preview-file-result', () => void 0);
       faild && faild();
     }
     success(params);
@@ -41,8 +41,8 @@ export const downloadPreviewFile = (
 };
 
 export const readLocalFileSync = () =>
-  new Promise((resolve, reject) => {
-    readLocalFile((args: object) => {
+  new Promise((resolve) => {
+    readLocalFile((args: any) => {
       resolve(args);
     });
   });

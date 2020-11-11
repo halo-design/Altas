@@ -12,51 +12,51 @@ export const setTrayTitle = (title: string): void => {
   dispatch('set-tray-title', title);
 };
 
-export const getAppDir = (cb: (args: object) => void): void => {
+export const getAppDir = (cb: (args: any) => void): void => {
   dispatch('get-appdir', '');
-  RPC.once('appdir', (args: object) => {
+  RPC.once('appdir', (args: any) => {
     cb(args);
   });
 };
 
 export const getAppDirSync = () =>
-  new Promise((resolve, reject) => {
-    getAppDir((params: object) => {
+  new Promise((resolve) => {
+    getAppDir((params: any) => {
       resolve(params);
     });
   });
 
-export const getIpAddress = (cb: (args: object) => void): void => {
+export const getIpAddress = (cb: (args: any) => void): void => {
   dispatch('get-ip-address', '');
-  RPC.once('ip-address', (args: object) => {
+  RPC.once('ip-address', (args: any) => {
     cb(args);
   });
 };
 
 export const getIpAddressSync = () =>
-  new Promise((resolve, reject) => {
-    getIpAddress((params: object) => {
+  new Promise((resolve) => {
+    getIpAddress((params: any) => {
       resolve(params);
     });
   });
 
-export const getDeviceOS = (cb: (args: object) => void): void => {
+export const getDeviceOS = (cb: (args: any) => void): void => {
   dispatch('get-device-os', '');
-  RPC.once('device-os', (args: object) => {
+  RPC.once('device-os', (args: any) => {
     cb(args);
   });
 };
 
-export const getDeviceStatus = (cb: (args: object) => void): void => {
+export const getDeviceStatus = (cb: (args: any) => void): void => {
   dispatch('get-device-status', '');
-  RPC.once('device-status', (args: object) => {
+  RPC.once('device-status', (args: any) => {
     cb(args);
   });
 };
 
 export const getDeviceOSSync = () =>
-  new Promise((resolve, reject) => {
-    getDeviceOS((params: object) => {
+  new Promise((resolve) => {
+    getDeviceOS((params: any) => {
       resolve(params);
     });
   });
@@ -67,10 +67,10 @@ export const openLink = (url: string): void => {
 
 export const getProcessPid = (
   dirname: string,
-  cb: (args: object) => void
+  cb: (args: any) => void
 ): void => {
   dispatch('detect-process-pid', { dirname });
-  RPC.once('get-process-pid', (args: object) => {
+  RPC.once('get-process-pid', (args: any) => {
     cb(args);
   });
 };

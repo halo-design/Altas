@@ -13,7 +13,7 @@ export default (
   });
 
   let i = 1;
-  rl.on('line', line => {
+  rl.on('line', (line) => {
     cb(i, line);
     i++;
   });

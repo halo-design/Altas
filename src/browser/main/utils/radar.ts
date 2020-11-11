@@ -14,7 +14,7 @@ class Radar {
   public animateRaf: any = null;
   public isPause: boolean = true;
   public isDestory: boolean = false;
-  public detectFn: null | Function = null;
+  public detectFn: null | ((e: any) => void) = null;
   public tarArr: any[] = [];
   protected resizeControl: any = null;
   protected ctx: any = null;
@@ -22,7 +22,7 @@ class Radar {
   protected target: any[] = [];
   protected afterReady: any = null;
 
-  constructor(el?: HTMLElement, tarArr?: any[], detectFn?: Function) {
+  constructor(el?: HTMLElement, tarArr?: any[], detectFn?: any) {
     this.init = this.init.bind(this);
     this.drawFrame = this.drawFrame.bind(this);
 
@@ -47,7 +47,7 @@ class Radar {
     this.initTarget();
   }
 
-  public setDetectFn(fn: Function) {
+  public setDetectFn(fn: (e: any) => void) {
     this.detectFn = fn;
   }
 
@@ -71,7 +71,7 @@ class Radar {
   public initDOM(
     el: HTMLElement,
     tarArr: any[] | undefined,
-    detectFn: Function | undefined
+    detectFn: (e: any) => void | undefined
   ) {
     this.containerEl = el;
     if (tarArr) {
@@ -239,7 +239,8 @@ class Radar {
     }
 
     this.target.forEach((obj: any, index: number) => {
-      let { opacity, r, deg, lnk, loaded, img, color } = obj;
+      const { opacity, deg, loaded, img, lnk, color } = obj;
+      // let { opacity, r, deg, lnk, loaded, img, color } = obj;
       const { x, y } = this.point(r, deg);
 
       // ctx.fillStyle = this.colorRed(opacity);

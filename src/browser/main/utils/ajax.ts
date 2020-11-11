@@ -36,7 +36,7 @@ export interface IUpload {
   filename: string;
   file: any;
   withCredentials?: boolean;
-  headers?: object;
+  headers?: any;
 }
 
 export const upload = (option: IUpload): XMLHttpRequest => {

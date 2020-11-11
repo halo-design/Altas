@@ -4,7 +4,7 @@ import * as https from 'https';
 export default {
   getJSON(url: string) {
     return new Promise((resolve, reject) => {
-      https.get(url, res => {
+      https.get(url, (res) => {
         const { statusCode } = res;
         if (statusCode !== 200) {
           log.error('文件请求失败！');
@@ -14,7 +14,7 @@ export default {
           res.setEncoding('utf8');
 
           let rawData = '';
-          res.on('data', chunk => {
+          res.on('data', (chunk) => {
             rawData += chunk;
           });
 
@@ -22,7 +22,7 @@ export default {
             .on('end', () => {
               resolve(JSON.parse(rawData));
             })
-            .on('error', e => {
+            .on('error', (e) => {
               reject(e);
             });
         }

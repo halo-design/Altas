@@ -9,27 +9,27 @@ import { sendToAllWindows } from '../../../utils/winManage';
 export default (RPC: any) => {
   const { dispatch } = RPC;
 
-  RPC.on('read-mock-data', (args: any) => {
-    readCustomMockData((data: object) => {
+  RPC.on('read-mock-data', () => {
+    readCustomMockData((data: any) => {
       dispatch('get-mock-data', data);
     });
   });
 
-  RPC.on('save-mock-data', (args: object) => {
-    writeCustomMockData(args, (data: object) => {
+  RPC.on('save-mock-data', (args: any) => {
+    writeCustomMockData(args, (data: any) => {
       dispatch('get-mock-data-done', data);
       sendToAllWindows('update-mock-date', data);
     });
   });
 
-  RPC.on('reset-mock-data', (args: any) => {
-    resetCustomMockData((data: object) => {
+  RPC.on('reset-mock-data', () => {
+    resetCustomMockData((data: any) => {
       dispatch('reset-mock-data-done', data);
       sendToAllWindows('update-mock-date', data);
     });
   });
 
-  RPC.on('remove-mock-data', (args: any) => {
+  RPC.on('remove-mock-data', () => {
     removeCustomMockData((err: any) => {
       dispatch('remove-mock-data-done', err);
     });

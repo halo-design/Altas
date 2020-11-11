@@ -14,7 +14,7 @@ export default (RPC: any) => {
     log.info(`读取数据JSON文件${filename}.`);
   });
 
-  RPC.on('write-storage', ({ key, data }: { key: string; data: object }) => {
+  RPC.on('write-storage', ({ key, data }: { key: string, data: any }) => {
     storage.set(key, data, (err: any) => {
       if (err) {
         log.error(err);
@@ -37,7 +37,7 @@ export default (RPC: any) => {
   });
 
   RPC.on('remove-storage', (key: string) => {
-    storage.remove(key, err => {
+    storage.remove(key, (err) => {
       if (err) {
         log.error(err);
       } else {

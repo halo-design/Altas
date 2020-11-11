@@ -13,7 +13,7 @@ export default (RPC: any) => {
     dispatch('appdir', { root: file.root });
   });
 
-  RPC.on('detect-support-env', (args: any) => {
+  RPC.on('detect-support-env', () => {
     const es = [
       {
         name: 'Node.js',
