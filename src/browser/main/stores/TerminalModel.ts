@@ -195,7 +195,7 @@ export default class TerminalModel {
     }
   }
 
-  private initPty(cwd?: string, cb?: Function) {
+  private initPty(cwd?: string, cb?: () => void) {
     let curCwd = null;
 
     if (this.ptyProcess) {

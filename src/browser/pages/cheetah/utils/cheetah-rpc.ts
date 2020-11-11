@@ -12,14 +12,14 @@ export const cheetahRpc = (
   config: IRpcConfig,
   options: {
     operationType: string;
-    requestData: Object[];
-    headers?: Object;
+    requestData: any[];
+    headers?: any;
     timeout?: any;
   },
-  bridgeCallback: Function,
-  overwriteData?: Object,
-  overwriteReq?: Object,
-  logger?: Function
+  bridgeCallback: (e: any) => any,
+  overwriteData?: any,
+  overwriteReq?: any,
+  logger?: (e: any) => any
 ) => {
   const {
     rpcRemoteUrl,

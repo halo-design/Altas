@@ -85,7 +85,7 @@ class UploadView extends React.Component<any> {
       onOk: () => {
         this.props.resetData();
       },
-      onCancel: () => {},
+      onCancel: () => void 0,
     });
   }
 
@@ -102,7 +102,7 @@ class UploadView extends React.Component<any> {
       onOk: () => {
         this.props.deleteAllHistory();
       },
-      onCancel: () => {},
+      onCancel: () => void 0,
     });
   }
 
@@ -403,7 +403,7 @@ class UploadView extends React.Component<any> {
                                   <div
                                     key="copy"
                                     className="copyBtn"
-                                    onClick={e => {
+                                    onClick={() => {
                                       this.saveClipboard(item.url);
                                     }}
                                   >

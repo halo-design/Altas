@@ -7,14 +7,14 @@ const { dispatch } = RPC;
 
 export const download = (
   url: string,
-  cb: (args: object) => void,
-  args?: object
+  cb: (args: any) => void,
+  args?: any
 ): void => {
   dispatch('file-download', { url, args: args || {} });
   RPC.on('on-download-state', (params: any) => {
     const { status } = params;
     if (/(cancel|finished|error)/.test(status)) {
-      RPC.removeListener('on-download-state', () => {});
+      RPC.removeListener('on-download-state', () => void 0);
     }
     cb(params);
   });
@@ -26,8 +26,8 @@ export const cancelDownloadTask = (): void => {
 
 export interface IMultiDownloadOptions {
   urls: string[];
-  onProgess?: (e: object) => void;
-  callback?: (e: object) => void;
+  onProgess?: (e: any) => void;
+  callback?: (e: any) => void;
   timeout?: number;
 }
 
@@ -121,7 +121,7 @@ export class MultiDownload {
           if (this.opts.callback) {
             this.opts.callback(state);
           }
-          RPC.removeListener('on-download-state', () => {});
+          RPC.removeListener('on-download-state', () => void 0);
           this.isDone = true;
         }
       } else {

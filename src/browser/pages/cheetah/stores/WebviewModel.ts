@@ -35,7 +35,7 @@ interface ITitle {
 
 export default class WebviewModel {
   @observable public webviewList: any[] = [];
-  @observable public directive: object = {};
+  @observable public directive: any = {};
   @observable public focusIndex: number = 0;
   @observable public showLinkBar: boolean = false;
   @observable public behavior: string = 'none';
@@ -70,7 +70,7 @@ export default class WebviewModel {
   @observable public rpcOperationType: any = {};
   @observable public sessionID: string = '';
   @observable public afterLoginRedirectUrl: string = '';
-  @observable public userInfo: object = {};
+  @observable public userInfo: any = {};
   @observable public isLogined: boolean = false;
 
   constructor() {
@@ -114,7 +114,7 @@ export default class WebviewModel {
   }
 
   @action
-  public rpc(options: any, bridgeCallback: Function, overwriteBody?: Object) {
+  public rpc(options: any, bridgeCallback: (e: any) => void, overwriteBody?: any) {
     const data = this.rpcOperationType.rpcData;
     options.headers = options.headers || {};
 
@@ -135,7 +135,7 @@ export default class WebviewModel {
   }
 
   @action
-  public submitLogin(isRefresh?: boolean, callback?: Function) {
+  public submitLogin(isRefresh?: boolean, callback?: (e: any) => void) {
     !isRefresh && Toast.loading('正在登录...', 8);
     this.rpc(
       {
@@ -264,7 +264,7 @@ export default class WebviewModel {
   }
 
   @action
-  public webviewCreater(lnk: string, params?: object) {
+  public webviewCreater(lnk: string, params?: any) {
     let src = lnk;
 
     if (params && Object.keys(params).length > 0) {
@@ -377,7 +377,7 @@ export default class WebviewModel {
   }
 
   @action
-  public globalWebviewSender(name: string, params: object) {
+  public globalWebviewSender(name: string, params: any) {
     this.webviewList.map((curWebview: any) => {
       if (curWebview) {
         curWebview.dom.send(name, params);
@@ -386,7 +386,7 @@ export default class WebviewModel {
   }
 
   @action
-  public focusWebviewSender(name: string, params: object) {
+  public focusWebviewSender(name: string, params: any) {
     if (this.focusWebview) {
       this.focusWebview.dom.send(name, params);
     }
@@ -577,7 +577,7 @@ export default class WebviewModel {
   }
 
   @action
-  public createNewWebview(lnk: string, params?: object, force?: boolean) {
+  public createNewWebview(lnk: string, params?: any, force?: boolean) {
     const src = this.formatUrl(lnk);
     if (!this.testUrl(src) && !force) {
       return;
@@ -596,7 +596,7 @@ export default class WebviewModel {
   }
 
   @action
-  public replaceWebview(lnk: string, params?: object) {
+  public replaceWebview(lnk: string, params?: any) {
     this.behavior = 'replace';
     const src = this.formatUrl(lnk);
     if (!this.testUrl(src)) {
@@ -634,7 +634,7 @@ export default class WebviewModel {
   }
 
   @action
-  public clearAllThenCreateNewWebview(lnk: string, params?: object) {
+  public clearAllThenCreateNewWebview(lnk: string, params?: any) {
     const src = this.formatUrl(lnk);
     if (!this.testUrl(src)) {
       return;

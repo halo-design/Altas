@@ -2,7 +2,7 @@ import * as qs from 'qs';
 const QRcode = require('qrcode');
 import { getEl, bindClick } from '../public/utils';
 const win = require('electron').remote.getCurrentWindow();
-const options = qs.parse(location.hash.substr(1));
+const options: any = qs.parse(location.hash.substr(1));
 const {
   target,
   descriptors: {
@@ -56,7 +56,7 @@ const setSize = (w: number, h: number) => {
   webview.style.cssText = `width: ${w}px; height: ${h - 80}px`;
 };
 
-const webviewBind = (event: any, fn: Function) => {
+const webviewBind = (event: any, fn: any) => {
   webview.addEventListener(event, fn);
 };
 

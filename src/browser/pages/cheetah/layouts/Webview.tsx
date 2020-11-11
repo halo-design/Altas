@@ -54,7 +54,7 @@ import argb2rgba from '../utils/argb2rgba';
     offsetTop,
     curTime,
     focusOnFisrt,
-    createNewWebview: (url: string, params: object) =>
+    createNewWebview: (url: string, params: any) =>
       stores.webview.createNewWebview(url, params),
     getWebviewDOM: (index: number, el: any) =>
       stores.webview.getWebviewDOM(index, el),
@@ -62,7 +62,7 @@ import argb2rgba from '../utils/argb2rgba';
     initDatePicker: (el: any) => stores.webview.initDatePicker(el),
     initPicker: (el: any) => stores.webview.initPicker(el),
     focusToPrevWebview: () => stores.webview.focusToPrevWebview(),
-    focusWebviewSender: (name: string, params: object) =>
+    focusWebviewSender: (name: string, params: any) =>
       stores.webview.focusWebviewSender(name, params),
   };
 })
@@ -133,7 +133,7 @@ class WebviewView extends React.Component<any, any> {
       top: offsetTop + 'px',
     };
 
-    let trans: any = {
+    const trans: any = {
       width: `${(webviewCount + 1) * 100}vw`,
       height: wvSize.height,
       transform: `translateX(-${(webviewCount === 0 ? 0 : focusIndex + 1) *

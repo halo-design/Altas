@@ -143,8 +143,8 @@ class ServerMonitorView extends React.Component<any, any> {
           onMouseDown={(e: any) => {
             this.mouseDownHandle(e);
           }}
-          onMouseUp={(e: any) => {
-            this.mouseUpHandle(e);
+          onMouseUp={() => {
+            this.mouseUpHandle();
           }}
         />
         <i

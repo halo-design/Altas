@@ -10,7 +10,7 @@ const prompt = Modal.prompt;
 export default (
   command: string,
   params: any,
-  sender: Function,
+  sender: any,
   server: boolean,
   ws: boolean,
   mockData: any
@@ -18,7 +18,7 @@ export default (
   switch (command) {
     case 'showToastWithLoading': {
       const { content, duration, mask } = params;
-      Toast.loading(content, duration, () => {}, mask);
+      Toast.loading(content, duration, () => void 0, mask);
       break;
     }
 
@@ -185,14 +185,14 @@ export default (
           ? Toast.info(
               `"${params.data.fnName}"方法被接管程序接管.`,
               3,
-              () => {},
+              () => void 0,
               false
             )
-          : Toast.fail('请连接接管程序.', 3, () => {}, false);
+          : Toast.fail('请连接接管程序.', 3, () => void 0, false);
 
         RPC.mockProxyWsRecieveGlobal(({ resCode, data, uid }: any) => {
           if (resCode === 200) {
-            Toast.info('已进入接管模式！', 3, () => {}, false);
+            Toast.info('已进入接管模式！', 3, () => void 0, false);
           }
           if (uid) {
             sender(uid, data);
@@ -206,10 +206,10 @@ export default (
         if (fnName in mockData) {
           if (uid) {
             sender(uid, mockData[fnName]);
-            Toast.info(`"${fnName}"方法返回缓存mock参数.`, 3, () => {}, false);
+            Toast.info(`"${fnName}"方法返回缓存mock参数.`, 3, () => void 0, false);
           }
         } else {
-          Toast.fail(`"${fnName}"方法无mock参数返回.`, 3, () => {}, false);
+          Toast.fail(`"${fnName}"方法无mock参数返回.`, 3, () => void 0, false);
         }
       }
 

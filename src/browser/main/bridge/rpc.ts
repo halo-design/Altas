@@ -31,24 +31,24 @@ export class Client {
     }
   }
 
-  private ipcListener(event: any, { ch, data }: { ch: string; data: object }) {
+  private ipcListener(event: any, { ch, data }: { ch: string; data: any }) {
     this.emitter.emit(ch, data);
   }
 
-  public mockProxyWsRecieveGlobal(callback: Function) {
-    this.ipc.on('mock-proxy-ws-recieve-global', (ev: any, args: object) => {
+  public mockProxyWsRecieveGlobal(callback: (e: any) => void) {
+    this.ipc.on('mock-proxy-ws-recieve-global', (ev: any, args: any) => {
       callback(args);
     });
   }
 
-  public mockProxyDataUpdateGlobal(callback: Function) {
-    this.ipc.on('update-mock-date', (ev: any, args: object) => {
+  public mockProxyDataUpdateGlobal(callback: (e: any) => void) {
+    this.ipc.on('update-mock-date', (ev: any, args: any) => {
       callback(args);
     });
   }
 
-  public mockProxyServerConnectStatusGlobal(callback: Function) {
-    this.ipc.on('mock-proxy-server-connect-global', (ev: any, args: object) => {
+  public mockProxyServerConnectStatusGlobal(callback: (e: any) => void) {
+    this.ipc.on('mock-proxy-server-connect-global', (ev: any, args: any) => {
       callback({
         connect: true,
         ...args,
@@ -66,8 +66,8 @@ export class Client {
     );
   }
 
-  public mockProxyWsConnectStatusGlobal(callback: Function) {
-    this.ipc.on('mock-proxy-ws-connect-global', (ev: any, args: object) => {
+  public mockProxyWsConnectStatusGlobal(callback: (e: any) => void) {
+    this.ipc.on('mock-proxy-ws-connect-global', (ev: any, args: any) => {
       callback({
         connect: true,
         ...args,
@@ -82,26 +82,26 @@ export class Client {
     });
   }
 
-  public mockProxyWsBrodcastGlobal(args: object) {
+  public mockProxyWsBrodcastGlobal(args: any) {
     this.ipc.send('mock-proxy-ws-send-global', args);
   }
 
-  public on(ev: string, fn: Function) {
+  public on(ev: string, fn: (e: any) => void) {
     this.emitter.on(ev, fn);
   }
 
-  public once(ev: string, fn: Function) {
+  public once(ev: string, fn: (e: any) => void) {
     this.emitter.once(ev, fn);
   }
 
-  public dispatch(ev: string, data: object | string) {
+  public dispatch(ev: string, data: any | string) {
     if (!this.id) {
       throw new Error('Not ready');
     }
     this.ipc.send(this.id, { ev, data });
   }
 
-  public removeListener(ev: string, fn: Function) {
+  public removeListener(ev: string, fn: (e: any) => void) {
     this.emitter.removeListener(ev, fn);
   }
 

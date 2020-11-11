@@ -32,9 +32,9 @@ message.config({
       stores.monitor.mockDataFilterHandle(keyword),
     getMockData: () => stores.monitor.getMockData(),
     setAutoSave: (state: boolean) => stores.monitor.setAutoSave(state),
-    setMockData: (data: object, settings: object) =>
+    setMockData: (data: any, settings: any) =>
       stores.monitor.setMockData(data, settings),
-    addNewMockDataItem: (name: string, params: object) =>
+    addNewMockDataItem: (name: string, params: any) =>
       stores.monitor.addNewMockDataItem(name, params),
     resetMockData: () => stores.monitor.resetMockData(),
   };
@@ -86,7 +86,7 @@ class MockerView extends React.Component<any, any> {
               this.props.delMockDataItemByName(name);
               message.success('删除成功！');
             },
-            onCancel: () => {},
+            onCancel: () => void 0,
           });
         },
         label: '删除该条参数',

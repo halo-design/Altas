@@ -15,7 +15,7 @@ import {
 import { url } from '../../main/constants/Reg';
 const markdownItAttrs = require('markdown-it-attrs');
 const options = qs.parse(location.hash.substr(1));
-const { remoteUrl } = options;
+const { remoteUrl }: any = options;
 
 import '../public/loading.scss';
 import './index.scss';

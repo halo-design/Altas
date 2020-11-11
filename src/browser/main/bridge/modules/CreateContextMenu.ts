@@ -5,10 +5,10 @@ export default class CreateContextMenu {
   public menu: any = null;
   public target: Window | HTMLElement = window;
 
-  constructor(target: Window | HTMLElement, settings: Array<{}>) {
+  constructor(target: Window | HTMLElement, settings: Array<any>) {
     this.init = this.init.bind(this);
     const menu = new Menu();
-    settings.forEach((item: object) => {
+    settings.forEach((item: any) => {
       menu.append(new MenuItem(item));
     });
 

@@ -126,7 +126,7 @@ export default class WorkBenchView extends React.Component<any> {
           />
         </div>
         {isFreeze && (
-          <div className="app-freeze-mask" onClick={e => this.notice()} />
+          <div className="app-freeze-mask" onClick={() => this.notice()} />
         )}
         <div className="app-header-wrap" />
       </div>

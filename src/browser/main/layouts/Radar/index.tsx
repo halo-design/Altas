@@ -4,7 +4,7 @@ import './index.scss';
 
 @inject((stores: any) => {
   return {
-    initDOM: (el: HTMLElement, images: any[], fn?: Function) =>
+    initDOM: (el: HTMLElement, images: any[], fn?: (e: any) => void) =>
       stores.radar.initDOM(el, images, fn),
     start: () => stores.radar.start(),
     dispose: () => stores.radar.dispose(),

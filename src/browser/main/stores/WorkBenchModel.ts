@@ -32,8 +32,8 @@ export default class WorkBenchModel {
   @observable public isFreeze: boolean = false;
   @observable public showStats: boolean = true;
   @observable public stateBarStatus: number = 0; // -1: running 1: sucess; 0: normal; 2: warn; 3: error;
-  @observable public systemEnv: object[] = initEnvData;
-  @observable public appInfo: object = {
+  @observable public systemEnv: any[] = initEnvData;
+  @observable public appInfo: any = {
     version: appVersion,
   };
   @observable public userDefaultProjectPath: string = '';
@@ -148,8 +148,8 @@ export default class WorkBenchModel {
   }
 
   @action
-  public refreshPorjectConfig(cb?: Function) {
-    getProjectRunnerConfig(this.userDefaultProjectPath, (data: object) => {
+  public refreshPorjectConfig(cb?: (e: any) => void) {
+    getProjectRunnerConfig(this.userDefaultProjectPath, (data: any) => {
       this.projectRunnerConfig = merge({}, defaultProjectConfig, data);
       cb && cb(data);
     });
@@ -199,7 +199,7 @@ export default class WorkBenchModel {
   }
 
   @action
-  public getEnvSupport(cb: Function) {
+  public getEnvSupport(cb: (args: any) => void) {
     detectSupportEnv((param: any) => {
       this.systemEnv = param.env_support;
       dataWrite('system_support_environment', param.env_support);

@@ -11,7 +11,7 @@ import './index.scss';
 
 const prettyBytes = (num: number) => {
   const unit = Math.pow(2, 10);
-  let size = ~~(num / unit / unit);
+  const size = ~~(num / unit / unit);
   if (size < unit) {
     return ` ${size}MB `;
   } else {
@@ -40,13 +40,13 @@ const prettyBytes = (num: number) => {
     resetStateBar: () => stores.workBench.resetStateBar(),
     setStateBar: (str: string, code: number) =>
       stores.workBench.setStateBar(str, code),
-    getEnvSupport: (cb: Function) => stores.workBench.getEnvSupport(cb),
+    getEnvSupport: (cb: (args: any) => void) => stores.workBench.getEnvSupport(cb),
     resetEnvData: () => stores.workBench.resetEnvData(),
     playAltasNoticeSound: () => stores.workBench.playAltasNoticeSound(),
     setFreeze: (status: boolean) => stores.workBench.setFreeze(status),
     setStatsVisible: (status: boolean) =>
       stores.workBench.setStatsVisible(status),
-    getIpAddress: (cb?: (data: object) => void) =>
+    getIpAddress: (cb?: (data: any) => void) =>
       stores.device.getIpAddress(cb),
   };
 })

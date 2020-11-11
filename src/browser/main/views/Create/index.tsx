@@ -179,7 +179,7 @@ class CreatehView extends React.Component<any, any> {
     }
   }
 
-  public setMirrorConfig(cb?: Function) {
+  public setMirrorConfig(cb?: (e: any) => void) {
     this.props.npmPreSettings.forEach((cmd: string, index: number) => {
       setTimeout(() => {
         this.props.shell(cmd);

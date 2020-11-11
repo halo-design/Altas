@@ -4,24 +4,27 @@ module.exports = {
     es6: true,
     node: true,
   },
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  extends: [
-    'plugin:prettier/recommended',
-    'prettier/flowtype',
-    'prettier/react',
-    'prettier/standard',
-  ],
-  rules: {
-    'prettier/prettier': ['error', { singleQuote: true, parser: 'flow' }],
-  },
   overrides: [
+    {
+      files: ['*.js', '*.jsx'],
+      parser: 'babel-eslint',
+      parserOptions: {
+        ecmaVersion: 6,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      extends: [
+        'plugin:prettier/recommended',
+        'prettier/flowtype',
+        'prettier/react',
+        'prettier/standard',
+      ],
+      rules: {
+        'prettier/prettier': ['error', { singleQuote: true, parser: 'flow' }],
+      },
+    },
     {
       files: ['*.ts', '*.tsx'],
       parser: '@typescript-eslint/parser',
@@ -30,7 +33,11 @@ module.exports = {
         sourceType: 'module',
       },
       plugins: ['eslint-plugin-react', '@typescript-eslint'],
-      extends: ['plugin:@typescript-eslint/recommended'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'prettier/@typescript-eslint',
+        'plugin:import/typescript',
+      ],
       rules: {
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',

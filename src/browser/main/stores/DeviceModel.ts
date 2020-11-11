@@ -5,7 +5,7 @@ import { getDeviceOS, getDeviceStatus, getIpAddress } from '../bridge/system';
 
 export default class DeviceModel {
   @observable public ipAddress: any = {};
-  @observable public os: object = {
+  @observable public os: any = {
     cpu: {
       brand: '未知型号',
       speed: 0,
@@ -45,7 +45,7 @@ export default class DeviceModel {
   }
 
   @action
-  public getIpAddress(cb?: (data: object) => void) {
+  public getIpAddress(cb?: (data: any) => void) {
     if (this.ipAddress.cip) {
       return;
     }

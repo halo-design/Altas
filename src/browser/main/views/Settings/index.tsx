@@ -70,7 +70,7 @@ class SettingsView extends React.Component<any> {
           message.info('缓存清理完成！');
         });
       },
-      onCancel: () => {},
+      onCancel: () => void 0,
     });
   }
 

@@ -34,7 +34,7 @@ import './index.scss';
     shell: (str: string) => stores.terminal.shell(str),
     setUserDefaultProjerctPath: (str: string) =>
       stores.workBench.setUserDefaultProjerctPath(str),
-    refreshPorjectConfig: (cb: Function) =>
+    refreshPorjectConfig: (cb: (args: any) => void) =>
       stores.workBench.refreshPorjectConfig(cb),
     resetStateBar: () => stores.workBench.resetStateBar(),
     setStateBar: (str: string, code: number) =>

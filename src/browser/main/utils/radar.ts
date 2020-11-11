@@ -157,7 +157,7 @@ class Radar {
 
     ctx.beginPath();
     for (let i = 0; i <= 360; i++) {
-      var point = this.point(r, i);
+      const point = this.point(r, i);
       if (condFn(i)) {
         ctx.lineTo(point.x, point.y);
       } else {

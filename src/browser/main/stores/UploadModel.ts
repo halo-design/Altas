@@ -11,8 +11,8 @@ import * as path from 'path';
 
 export default class UploadModel {
   @observable public postFiles: any[] = [];
-  @observable public xhrQueue: object = {};
-  @observable public uploadListStatus: object = {};
+  @observable public xhrQueue: any = {};
+  @observable public uploadListStatus: any = {};
   @observable public uploadHistoryList: any[] = [];
   public readLocal: boolean = false;
 
@@ -165,7 +165,7 @@ export default class UploadModel {
 
   public deleteRemoteImage(
     token: string,
-    onSuccess: (e: object) => void,
+    onSuccess: (e: any) => void,
     onError: (e: any) => void
   ) {
     getData(token)
@@ -236,7 +236,7 @@ export default class UploadModel {
               ? uid + '.png'
               : uid + path.basename(url);
 
-            let remote = data;
+            const remote = data;
             remote.uid = uid;
             remote.localThumb = path.join(appDataFullPath, thumbName);
             itemStatus.remote = remote;
