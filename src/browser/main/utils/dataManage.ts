@@ -8,9 +8,9 @@ export const dataRead = (key: string, cb: (e: any) => void) => {
     return;
   }
   storage.read(key, (data: any) => {
-    if (data[key]) {
-      dataBuff[key] = data[key];
-      cb(data[key]);
+    if (data) {
+      dataBuff[key] = data;
+      cb(data);
     } else {
       cb(null);
     }
@@ -25,9 +25,7 @@ export const dataReadSync = (key: string) =>
   });
 
 export const dataWrite = (key: string, data: any) => {
-  storage.write(key, {
-    [key]: data,
-  });
+  storage.write(key, data);
   dataBuff[key] = data;
 };
 
