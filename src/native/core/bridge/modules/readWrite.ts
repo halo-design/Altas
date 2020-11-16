@@ -1,9 +1,11 @@
 import log from 'electron-log';
 const fs = require('fs-extra');
-import * as storage from 'electron-json-storage';
+const Store = require('electron-store');
 import readTxtByLine from '../../../utils/readTxtByLine';
 import file from '../../../utils/file';
 import { appCacheFullPath, appDataFullPath } from '../../../constants/app';
+
+const store = new Store();
 
 export default (RPC: any) => {
   const { dispatch } = RPC;
@@ -15,35 +17,19 @@ export default (RPC: any) => {
   });
 
   RPC.on('write-storage', ({ key, data }: { key: string, data: any }) => {
-    storage.set(key, data, (err: any) => {
-      if (err) {
-        log.error(err);
-      } else {
-        log.info(data);
-        log.info(`[${key}]：写入数据.`);
-      }
-    });
+    store.set(key, data);
+    log.info(`[${key}]：写入数据.`);
   });
 
   RPC.on('read-storage', (key: string) => {
-    storage.get(key, (err, data) => {
-      if (err) {
-        log.error(err);
-      } else {
-        log.info(`[${key}]：读取数据.`);
-        dispatch('get-storage' + key, data);
-      }
-    });
+    const data = store.get(key)
+    log.info(`[${key}]：读取数据.`);
+    dispatch('get-storage' + key, data);
   });
 
   RPC.on('remove-storage', (key: string) => {
-    storage.remove(key, (err) => {
-      if (err) {
-        log.error(err);
-      } else {
-        log.info(`[${key}]：删除数据.`);
-      }
-    });
+    store.delete(key)
+    log.info(`[${key}]：删除数据.`);
   });
 
   RPC.on('remove-file', (url: string) => {
