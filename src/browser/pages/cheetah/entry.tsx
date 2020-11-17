@@ -11,7 +11,7 @@ import { DeviceContext } from './context';
 const { getCurrentWindow } = remote;
 const currentWindow = getCurrentWindow();
 
-const options = qs.parse(location.hash.substr(1));
+const options: any = qs.parse(location.hash.substr(1));
 options.currentWindow = currentWindow;
 
 import '../devtools/index.scss';

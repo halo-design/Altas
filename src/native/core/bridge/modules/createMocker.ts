@@ -30,8 +30,8 @@ export default (RPC: any) => {
   });
 
   RPC.on('remove-mock-data', () => {
-    removeCustomMockData((err: any) => {
-      dispatch('remove-mock-data-done', err);
+    removeCustomMockData(() => {
+      dispatch('remove-mock-data-done', '');
     });
   });
 };

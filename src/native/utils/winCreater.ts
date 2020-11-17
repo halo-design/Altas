@@ -21,6 +21,7 @@ const winCreater = (opts: any, entry: any, isChild?: boolean) => {
       nodeIntegration: true,
       scrollBounce: true,
       webviewTag: true,
+      enableRemoteModule: true,
     },
     show: false,
     resizable: true,

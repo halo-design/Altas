@@ -4,7 +4,7 @@ const { dispatch } = RPC;
 export const readMockData = (fn: (e: any) => void) => {
   dispatch('read-mock-data', {});
   RPC.once('get-mock-data', (args: any) => {
-    fn(args);
+    fn(args || {});
   });
 };
 
@@ -18,20 +18,20 @@ export const readMockSync = () =>
 export const saveMockData = (data: any, fn?: (e: any) => void) => {
   dispatch('save-mock-data', data);
   RPC.once('get-mock-data-done', (args: any) => {
-    fn && fn(args);
+    fn && fn(args || {});
   });
 };
 
 export const resetMockData = (fn?: (e: any) => void) => {
   dispatch('reset-mock-data', {});
   RPC.once('reset-mock-data-done', (args: any) => {
-    fn && fn(args);
+    fn && fn(args || {});
   });
 };
 
 export const removeMockData = (fn?: (e: any) => void) => {
   dispatch('remove-mock-data', {});
   RPC.once('remove-mock-data-done', (args: any) => {
-    fn && fn(args);
+    fn && fn(args || {});
   });
 };

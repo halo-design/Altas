@@ -42,9 +42,9 @@ class Altas {
     this.onClose();
     this.onUnresponsive();
 
-    if (!app.isPackaged) {
-      require('devtron').install();
-    }
+    // if (!app.isPackaged) {
+    //   require('devtron').install();
+    // }
   }
 
   public initBridge() {
