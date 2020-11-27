@@ -10310,10 +10310,10 @@ symbol-tree@^3.2.2:
   resolved "https://registry.npm.taobao.org/symbol-tree/download/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha1-QwY30ki6d+B4iDlR+5qg7tfGP6I=
 
-systeminformation@4.30.1:
-  version "4.30.1"
-  resolved "https://registry.npm.taobao.org/systeminformation/download/systeminformation-4.30.1.tgz?cache=0&sync_timestamp=1605250225397&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsysteminformation%2Fdownload%2Fsysteminformation-4.30.1.tgz#9fc517472de50885a455f96af5e3c418dfb3ee21"
-  integrity sha1-n8UXRy3lCIWkVflq9ePEGN+z7iE=
+systeminformation@4.30.5:
+  version "4.30.5"
+  resolved "https://registry.npm.taobao.org/systeminformation/download/systeminformation-4.30.5.tgz#2219c305c8be56a2cfa527a5519c45bc81d4916c"
+  integrity sha1-IhnDBci+VqLPpSelUZxFvIHUkWw=
 
 table@^5.2.3:
   version "5.4.6"
