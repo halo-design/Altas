@@ -117,7 +117,7 @@
     "@babel/runtime": "^7.12.5",
     "antd": "3.26.11",
     "antd-mobile": "^2.3.4",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "cardinal": "^2.1.1",
     "chokidar": "^3.4.3",
     "classnames": "^2.2.6",
