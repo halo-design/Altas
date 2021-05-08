@@ -139,7 +139,7 @@
     "http-proxy-middleware": "^1.0.6",
     "ip": "^1.1.5",
     "is-regexp": "^2.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "markdown-it": "^12.0.2",
     "markdown-it-attrs": "^3.0.2",
     "mobx": "5.15.7",
